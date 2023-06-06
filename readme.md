@@ -2,6 +2,6 @@
 
 ## This is Develop!
 
-### Nicole's Branch
-
 ## This is Dan!
+
+### Nicole's Branch
