@@ -22,7 +22,7 @@ app.use(express.json());
 // Allowing the app to use cors
 app.use(cors());
 
-db.once("open")
+db.once("open", () => {console.log("connected to database")})
 
 app.use(express.static(`${__dirname}/public`));
 console.log('pathway: ', __dirname);
