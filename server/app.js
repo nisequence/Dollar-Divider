@@ -4,7 +4,10 @@ const app = express();
 const PORT = process.env.PORT;
 
 //* Requiring in Controllers
-const authController = require('./controller/auth.controller');
+const userController = require('./controller/user.controller');
+
+//* Middleware
+//!const validation = require("./helpers/validate-session")
 
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -14,7 +17,7 @@ mongoose.connect(`${MONGO}/dollarDivider`);
 const db = mongoose.connection;
 
 // Use the above variable to trigger event listener to check connection
-db.once("open", () => log(`Connected: ${MONGO}`));
+db.once("open", () => console.log(`Connected: ${MONGO}`));
 
 // Added to allow us to accept JSON data from the body of our client
 app.use(express.json());
@@ -22,13 +25,8 @@ app.use(express.json());
 // Allowing the app to use cors
 app.use(cors());
 
-db.once("open")
-
-app.use(express.static(`${__dirname}/public`));
-console.log('pathway: ', __dirname);
-
 //* Routes
-app.use("/auth", authController);
+app.use("/user", userController);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);

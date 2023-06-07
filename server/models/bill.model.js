@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
-const TransactionSchema = new mongoose.Schema({
-    date: {
-        type: Date,
+const BillSchema = new mongoose.Schema({
+    title: {
+        type: String,
         required: true,
     },
-    desc: {
+    notes: {
         type: String,
         required: false,
     },
@@ -17,18 +17,22 @@ const TransactionSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    checkNum: {
-        type: Number,
-        required: false,
+    password: {
+        type: String,
+        required: true,
     },
-    manualEntry: {
+    active: {
         type: Boolean,
         required: true,
     },
-    source: {
-        type: String,
+    nextDate: {
+        type: Date,
+        required: false,
+    },
+    recurring: {
+        type: Boolean,
         required: true,
     }
 })
 
-module.exports = mongoose.model("Transaction", TransactionSchema);
+module.exports = mongoose.model("Bill", BillSchema);
