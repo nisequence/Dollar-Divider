@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const BudgetSchema = new mongoose.BudgetSchema({
+const BudgetSchema = new mongoose.Schema({
     budgetName: {
         type: String,
         required: true,

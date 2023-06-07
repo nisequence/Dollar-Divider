@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const HouseholdSchema = new mongoose.HouseholdSchema({
+const HouseholdSchema = new mongoose.Schema({
     participantIDs: {
         type: Array,
         required: false,
