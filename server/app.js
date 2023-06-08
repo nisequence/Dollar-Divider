@@ -5,6 +5,7 @@ const PORT = process.env.PORT;
 
 //* Requiring in Controllers
 const userController = require('./controller/user.controller');
+const householdController = require('./controller/household.controller');
 
 //* Middleware
 //!const validation = require("./helpers/validate-session")
@@ -27,6 +28,7 @@ app.use(cors());
 
 //* Routes
 app.use("/user", userController);
+app.use("/household", householdController);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
