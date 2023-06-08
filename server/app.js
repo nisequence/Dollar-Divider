@@ -14,7 +14,7 @@ mongoose.connect(`${MONGO}/dollarDivider`);
 const db = mongoose.connection;
 
 // Use the above variable to trigger event listener to check connection
-db.once("open", () => log(`Connected: ${MONGO}`));
+db.once("open", () => console.log(`Connected: ${MONGO}`));
 
 // Added to allow us to accept JSON data from the body of our client
 app.use(express.json());

@@ -6,6 +6,11 @@ export default function Dashboard(props) {
     <>
       <Container>
         <Row>
+            <div>
+                Upcoming Bills
+            </div>
+        </Row>
+        <Row>
           <Col>
             Test R1C1
           </Col>
