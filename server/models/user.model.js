@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.UserSchema({
+const UserSchema = new mongoose.Schema({
     firstName: {
         type: String, // What datatype this is expecting
         required: true, // default is false

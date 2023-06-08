@@ -4,7 +4,11 @@ const app = express();
 const PORT = process.env.PORT;
 
 //* Requiring in Controllers
-const authController = require('./controller/auth.controller');
+const userController = require('./controller/user.controller');
+const householdController = require('./controller/household.controller');
+
+//* Middleware
+//!const validation = require("./helpers/validate-session")
 
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -22,13 +26,14 @@ app.use(express.json());
 // Allowing the app to use cors
 app.use(cors());
 
-db.once("open", () => {console.log("connected to database")})
+// db.once("open", () => {console.log("connected to database")})
 
 app.use(express.static(`${__dirname}/public`));
 console.log('pathway: ', __dirname);
 
 //* Routes
-app.use("/auth", authController);
+app.use("/user", userController);
+app.use("/household", householdController);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);

@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
-const HouseholdSchema = new mongoose.HouseholdSchema({
+const HouseholdSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
     participantIDs: {
         type: Array,
         required: false,
@@ -9,7 +13,11 @@ const HouseholdSchema = new mongoose.HouseholdSchema({
         type: Number,
         required: true,
     },
-    ownerID: {
+    bannedUsers: {
+        type: Array,
+        required: false,
+    },
+    admin_id: {
         type: String,
         required: true,
     }
