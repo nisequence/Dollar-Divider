@@ -13,6 +13,10 @@ const HouseholdSchema = new mongoose.Schema({
         type: Array,
         required: true,
     },
+    participantPercents: {
+        type: Array,
+        required: true,
+    },
     participantMaxNum: {
         type: Number,
         required: true,
