@@ -33,6 +33,73 @@ router.post("/new", async (req, res) => {
   }
 });
 
+//? GET Route for Admin
+router.get("/admin/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        //* Locating the specific household item by ID
+        const getHousehold = await Household.findOne({_id: id});
+
+        //* First, eliminate the possibility that we couldn't find the HH
+        if (getHousehold === undefined || getHousehold === null) {
+            res.status(404).json({
+                message: "No household found."
+            })
+        //* Second, check if user has access
+        } else if (getHousehold.admin_id != req.user._id) {
+            res.status(401).json({
+                message: "You are not the admin!"
+            })
+        //* If HH exists and user is admin, then we should have a successful request
+        } else {
+            res.status(200).json({
+                msg: `Household was found!`,
+                getHousehold
+            })
+        }
+
+    } catch (err) {
+        errorResponse(res, err);
+    }
+});
+
+//? GET Route for User that Belongs
+router.get("/find/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userID = req.user._id;
+
+        //* Locating the specific household item by ID
+        const getHousehold = await Household.findOne({_id: id});
+
+        //* First, eliminate the possibility that we couldn't find the HH
+        if (getHousehold === undefined || getHousehold === null) {
+            res.status(404).json({
+                message: "No household found."
+            })
+        //* Second, check if user has access
+        } else if (getHousehold.participantIDs.includes(userID)) {
+            let { name, participantIDs, participantNames } = getHousehold;
+
+            res.status(200).json({
+                msg: `Household was found!`,
+                name,
+                participantIDs,
+                participantNames
+            })
+        //* If HH exists and user does not belong, then we should deny access
+        } else {
+            res.status(401).json({
+                message: "You are not in this household!"
+            })
+        }
+
+    } catch (err) {
+        errorResponse(res, err);
+    }
+});
+
 //? PATCH Route for Joining
 router.patch("/join/:id", async (req, res) => {
   try {
@@ -108,11 +175,6 @@ router.patch("/join/:id", async (req, res) => {
   } catch (err) {
     serverError(res, err);
   }
-});
-
-//? GET Route for Testing
-router.get("/hello-world", (req, res) => {
-  res.send("Hello world");
 });
 
 module.exports = router;
