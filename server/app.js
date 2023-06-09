@@ -8,7 +8,7 @@ const userController = require('./controller/user.controller');
 const householdController = require('./controller/household.controller');
 
 //* Middleware
-//!const validation = require("./helpers/validate-session")
+const requireValidation = require("./middleware/validate-session")
 
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -26,15 +26,15 @@ app.use(express.json());
 // Allowing the app to use cors
 app.use(cors());
 
-// db.once("open", () => {console.log("connected to database")})
-
-app.use(express.static(`${__dirname}/public`));
-console.log('pathway: ', __dirname);
-
 //* Routes
 app.use("/user", userController);
+
+// Require jwt validation for all controllers below this point
+app.use(requireValidation);
+
 app.use("/household", householdController);
 
+//* App Listening
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
 })

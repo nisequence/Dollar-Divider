@@ -7,7 +7,11 @@ const HouseholdSchema = new mongoose.Schema({
     },
     participantIDs: {
         type: Array,
-        required: false,
+        required: true,
+    },
+    participantNames: {
+        type: Array,
+        required: true,
     },
     participantMaxNum: {
         type: Number,
