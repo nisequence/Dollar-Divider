@@ -17,6 +17,7 @@ router.post("/new", async (req, res) => {
       name: householdName,
       participantIDs: [`${req.user._id}`],
       participantNames: [`${req.user.firstName}`],
+      participantPercents: ["100"],
       participantMaxNum: maxNum,
       bannedUsers: [],
       admin_id: req.user._id,
@@ -35,69 +36,68 @@ router.post("/new", async (req, res) => {
 
 //? GET Route for Admin
 router.get("/admin/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-        //* Locating the specific household item by ID
-        const getHousehold = await Household.findOne({_id: id});
+    //* Locating the specific household item by ID
+    const getHousehold = await Household.findOne({ _id: id });
 
-        //* First, eliminate the possibility that we couldn't find the HH
-        if (getHousehold === undefined || getHousehold === null) {
-            res.status(404).json({
-                message: "No household found."
-            })
-        //* Second, check if user has access
-        } else if (getHousehold.admin_id != req.user._id) {
-            res.status(401).json({
-                message: "You are not the admin!"
-            })
-        //* If HH exists and user is admin, then we should have a successful request
-        } else {
-            res.status(200).json({
-                msg: `Household was found!`,
-                getHousehold
-            })
-        }
-
-    } catch (err) {
-        errorResponse(res, err);
+    //* First, eliminate the possibility that we couldn't find the HH
+    if (getHousehold === undefined || getHousehold === null) {
+      res.status(404).json({
+        message: "No household found.",
+      });
+      //* Second, check if user has access
+    } else if (getHousehold.admin_id != req.user._id) {
+      res.status(401).json({
+        message: "You are not the admin!",
+      });
+      //* If HH exists and user is admin, then we should have a successful request
+    } else {
+      res.status(200).json({
+        msg: `Household was found!`,
+        getHousehold,
+      });
     }
+  } catch (err) {
+    errorResponse(res, err);
+  }
 });
 
 //? GET Route for User that Belongs
 router.get("/find/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const userID = req.user._id;
+  try {
+    const { id } = req.params;
+    const userID = req.user._id;
 
-        //* Locating the specific household item by ID
-        const getHousehold = await Household.findOne({_id: id});
+    //* Locating the specific household item by ID
+    const getHousehold = await Household.findOne({ _id: id });
 
-        //* First, eliminate the possibility that we couldn't find the HH
-        if (getHousehold === undefined || getHousehold === null) {
-            res.status(404).json({
-                message: "No household found."
-            })
-        //* Second, check if user has access
-        } else if (getHousehold.participantIDs.includes(userID)) {
-            let { name, participantIDs, participantNames } = getHousehold;
+    //* First, eliminate the possibility that we couldn't find the HH
+    if (getHousehold === undefined || getHousehold === null) {
+      res.status(404).json({
+        message: "No household found.",
+      });
+      //* Second, check if user has access
+    } else if (getHousehold.participantIDs.includes(userID)) {
+      let { name, participantIDs, participantNames } = getHousehold;
 
-            res.status(200).json({
-                msg: `Household was found!`,
-                name,
-                participantIDs,
-                participantNames
-            })
-        //* If HH exists and user does not belong, then we should deny access
-        } else {
-            res.status(401).json({
-                message: "You are not in this household!"
-            })
-        }
-
-    } catch (err) {
-        errorResponse(res, err);
+      res.status(200).json({
+        msg: `Household was found!`,
+        name,
+        participantIDs,
+        participantNames,
+        participantPercents,
+      });
+      //* If HH exists and user does not belong, then we should deny access
+    } else {
+      res.status(401).json({
+        message: "You are not in this household!",
+      });
     }
+  } catch (err) {
+    errorResponse(res, err);
+  }
 });
 
 //? PATCH Route for Joining
@@ -132,11 +132,9 @@ router.patch("/join/:id", async (req, res) => {
     let updateNames = findHousehold.participantNames;
 
     if (updateArray.includes(userID)) {
-      return (
-          res.status(406).json({
-              message: "Sorry, you're already here!",
-          })
-      )
+      return res.status(406).json({
+        message: "Sorry, you're already here!",
+      });
     } else if (updateArray.length >= findHousehold.participantMaxNum) {
       // if the max number is reached or exceeded, send error
       return res.status(409).json({
@@ -148,7 +146,41 @@ router.patch("/join/:id", async (req, res) => {
       updateNames.push(req.user.firstName);
     }
 
-    let newInfo = {participantIDs: updateArray, participantNames: updateNames}
+    //* Track how many users are now in the household
+    let numOfUsers = updateArray.length;
+
+    //* Split 100% of costs between users, then round that number to the nearest whole
+    let breakdownPercent = 100 / numOfUsers;
+    breakdownPercent = Math.round(breakdownPercent);
+
+    //* In the event that these numbers will now not = 100 when added, determine an amount that one user (admin) will take to even things out
+    let disparity = 100 - breakdownPercent * numOfUsers;
+    disparity = disparity + breakdownPercent;
+
+    //* Use an array to track the percentage inputs in the order that the user IDs are listed
+    let breakdownArray = [];
+
+    //* In the case that disparity is not needed (numbers are completely even)
+    if (disparity === 0) {
+      for (x = 0; x < numOfUsers; x++) {
+        // every user will pay exactly the same
+        breakdownArray.push(breakdownPercent);
+      }
+    //* In the case that disparity IS needed...
+    } else {
+      //push the disparity to the admin
+      breakdownArray.push(disparity);
+      for (x = 1; x < numOfUsers; x++) {
+        // starting with one should skip the admin?
+        breakdownArray.push(breakdownPercent);
+      }
+    }
+
+    let newInfo = {
+      participantIDs: updateArray,
+      participantNames: updateNames,
+      participantPercents: breakdownArray
+    };
 
     //* Only allow the db item to be changed if the info is new
     // (not sure why it wouldn't be by this point in the try)
