@@ -100,14 +100,87 @@ router.get("/find/:id", async (req, res) => {
   }
 });
 
+//? PATCH Route for Admin to update percentages
+router.patch("/tweak/:id", async (req, res) => {
+  try {
+    //* object destructuring the HH id and the req.user._id
+    const { id } = req.params;
+    const userID = req.user._id;
+    let { newBreakdown } = req.body;
+
+    //* attempt to find the HH based on given ID
+    const findHousehold = await Household.findOne({ _id: id });
+
+    if (!findHousehold) {
+      //* if household cannot be found with the input token (id)
+      return res.status(400).json({
+        message: "Household not found!",
+      });
+    } else if (userID != findHousehold.admin_id) {
+      //* if user is not the admin
+      return res.status(401).json({
+        message: "Sorry, you're not the admin!",
+      });
+    } else if (newBreakdown.length !== findHousehold.participantIDs.length) {
+      //* if the user does not have %'s to match the # of participants
+      return res.status(411).json({
+        message: "Lengths do not match!",
+      });
+    }
+
+    //* Now to determine if the % breakdown is valid
+    let total = 0;
+    let each;
+    for (x = 0; x < newBreakdown.length; x++) {
+      // add each one to the total
+      each = Number(newBreakdown[x]);
+      total = total + each;
+    }
+
+    //* Confirm that the total strictly equals 100
+    if (total !== 100) {
+      return res.status(422).json({
+        message: "Semantic error, %'s do not add to 100 or letters/symbols were included.",
+      });
+    }
+
+    //* We have proven that the ID can find the household, so save this as our filter
+    const filter = { _id: id };
+
+    //* Format the array so the db knows how to accept it
+    let newInfo = { participantPercents: newBreakdown };
+
+    //* Confirm we are only sending new info through
+    const returnOption = { new: true };
+
+    //* findOneAndUpdate(query/filter, document, options)
+    const updatedHousehold = await Household.findOneAndUpdate(
+      filter,
+      newInfo,
+      returnOption
+    );
+
+    //* Respond to client based on successful update
+    updatedHousehold
+      ? res.status(200).json({
+          message: `Household percents were successfully updated!`,
+          updatedHousehold,
+        })
+      : res.status(404).json({
+          message: `No household found.`,
+        });
+  } catch (err) {
+    errorResponse(res, err);
+  }
+});
+
 //? PATCH Route for Admin to update name / participantMaxNum & ban users
 router.patch("/edit/:id", async (req, res) => {
   try {
-    //* object destructuring the HH token and the req.user._id
+    //* object destructuring the HH id and the req.user._id
     const { id } = req.params;
-    const householdToken = { id };
     const userID = req.user._id;
-    const {householdName, maxNum, banUser } = req.body;
+    const { householdName, maxNum, banUser } = req.body;
 
     //* attempt to find the HH based on given ID
     const findHousehold = await Household.findOne({ _id: id });
@@ -139,7 +212,7 @@ router.patch("/edit/:id", async (req, res) => {
       //* Regardless of whether banned user lives in HH or not, as long as value is not null or undefined and isn't already in the array, add to banned array
       findHousehold.bannedUsers.push(banUser);
     }
-    
+
     //* We have proven that the ID can find the household, so save this as our filter
     const filter = { _id: id };
 
@@ -175,19 +248,18 @@ router.patch("/edit/:id", async (req, res) => {
 
     //* Track any possible new info we are updating to send to the database
     let newInfo = {
-        name: householdName,
-        participantIDs: findHousehold.participantIDs,
-        participantNames: findHousehold.participantNames,
-        participantPercents: breakdownArray,
-        participantMaxNum: maxNum,
-        bannedUsers: findHousehold.bannedUsers,
-      };
+      name: householdName,
+      participantIDs: findHousehold.participantIDs,
+      participantNames: findHousehold.participantNames,
+      participantPercents: breakdownArray,
+      participantMaxNum: maxNum,
+      bannedUsers: findHousehold.bannedUsers,
+    };
 
     //* Confirm we are only sending new info through
     const returnOption = { new: true };
 
     //* findOneAndUpdate(query/filter, document, options)
-    // returnOptions allows us to view the updated document
     const updatedHousehold = await Household.findOneAndUpdate(
       filter,
       newInfo,
@@ -211,9 +283,8 @@ router.patch("/edit/:id", async (req, res) => {
 //? PATCH Route for Joining
 router.patch("/join/:id", async (req, res) => {
   try {
-    //* object destructuring the HH token and the req.user._id
+    //* object destructuring the HH id and the req.user._id
     const { id } = req.params;
-    const householdToken = { id };
     const userID = req.user._id;
 
     //* attempt to find the HH based on given ID
