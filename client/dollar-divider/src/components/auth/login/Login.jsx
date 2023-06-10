@@ -37,7 +37,7 @@ export default function Login({ updateToken }) {
       // If the server send a success message we can update token and route to room, if not we will get an alert
       if (data.message === "Login successful!") {
         updateToken(data.token);
-        navigate("/"); //TODO Update this with the appropriate path to the dashboard
+        navigate("/dashboard");
       } else {
         alert(data.message);
       }
