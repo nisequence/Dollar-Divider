@@ -33,6 +33,7 @@ router.post("/add/:id", async (req, res) => {
       const budget = new Budget({
         budgetCat: category,
         budgetAmt: amount,
+        remainingAmt: amount,
         budgetBase: req.user._id,
         ownerID: req.user._id,
       });
@@ -63,6 +64,7 @@ router.post("/add/:id", async (req, res) => {
       const budget = new Budget({
         budgetCat: category,
         budgetAmt: amount,
+        remainingAmt: amount,
         budgetBase: id,
         ownerID: req.user._id,
       });
