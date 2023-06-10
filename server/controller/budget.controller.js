@@ -33,6 +33,7 @@ router.post("/add/:id", async (req, res) => {
       const budget = new Budget({
         budgetCat: category,
         budgetAmt: amount,
+        remainingAmt: amount,
         budgetBase: req.user._id,
         ownerID: req.user._id,
       });
@@ -63,6 +64,7 @@ router.post("/add/:id", async (req, res) => {
       const budget = new Budget({
         budgetCat: category,
         budgetAmt: amount,
+        remainingAmt: amount,
         budgetBase: id,
         ownerID: req.user._id,
       });
@@ -166,5 +168,25 @@ router.patch("/edit/:id", async (req, res) => {
 });
 
 //? DELETE Route to delete budget if admin
+router.delete("/:id", async (req, res) => {
+  try {
+    //* Pull budget id from params
+    const { id } = req.params;
+    const userID = req.user._id;
+
+    //* Find and confirm the user has access to the budget
+    const deleteBudget = await Budget.deleteOne({ _id: id, ownerID: userID });
+
+    deleteBudget.deletedCount === 1
+      ? res.status(200).json({
+          message: "Budget was successfully deleted!",
+        })
+      : res.status(404).json({
+          message: "Access to or existence of this budget was not located",
+        });
+  } catch (err) {
+    serverError(res, err);
+  }
+});
 
 module.exports = router;

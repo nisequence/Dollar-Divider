@@ -327,7 +327,7 @@ router.patch("/join/:id", async (req, res) => {
       });
     } else {
       // as long as the user is not banned, is not already in the household, and there is room in the household, we can push the user to the participant array
-      updateArray.push(userID);
+      updateArray.push(req.user._id);
       updateNames.push(req.user.firstName);
     }
 
