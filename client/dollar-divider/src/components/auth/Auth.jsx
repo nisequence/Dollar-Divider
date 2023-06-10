@@ -6,13 +6,12 @@ import Login from "./login/Login";
 // https://getbootstrap.com/docs/5.3/layout/grid/ (change class to className in jsx)
 import { Col, Container, Row } from "reactstrap";
 
-export default function Auth(props) {
+  export default function Auth(props) {
   return (
     <>
       <Container>
         <Row>
           <Col md="6">
-            {/* <Signup updateToken = {props.updateToken}/> */}
             <Register updateToken = {props.updateToken}/>
           </Col>
           <Col md="6">
