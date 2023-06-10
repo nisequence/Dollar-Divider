@@ -100,6 +100,114 @@ router.get("/find/:id", async (req, res) => {
   }
 });
 
+//? PATCH Route for Admin to update name / participantMaxNum & ban users
+router.patch("/edit/:id", async (req, res) => {
+  try {
+    //* object destructuring the HH token and the req.user._id
+    const { id } = req.params;
+    const householdToken = { id };
+    const userID = req.user._id;
+    const {householdName, maxNum, banUser } = req.body;
+
+    //* attempt to find the HH based on given ID
+    const findHousehold = await Household.findOne({ _id: id });
+
+    if (!findHousehold) {
+      //* if household cannot be found with the input token (id)
+      return res.status(400).json({
+        message: "Household not found!",
+      });
+    } else if (userID != findHousehold.admin_id) {
+      //* if user is not the admin
+      return res.status(401).json({
+        message: "Sorry, you're not the admin!",
+      });
+    } else if (findHousehold.bannedUsers.includes(banUser)) {
+      //* if admin has already banned this user
+      return res.status(410).json({
+        message: "You have already banned this user!",
+      });
+    } else if (banUser !== null || banUser !== undefined) {
+      //* if the admin is sending a user to ban
+      for (x = 0; x < findHousehold.participantIDs.length; x++) {
+        // look for the user in the participants and kick him out of the ID and Names arrays
+        if (banUser == findHousehold.participantIDs[x]) {
+          findHousehold.participantIDs.splice(x, 1);
+          findHousehold.participantNames.splice(x, 1);
+        }
+      }
+      //* Regardless of whether banned user lives in HH or not, as long as value is not null or undefined and isn't already in the array, add to banned array
+      findHousehold.bannedUsers.push(banUser);
+    }
+    
+    //* We have proven that the ID can find the household, so save this as our filter
+    const filter = { _id: id };
+
+    //* Track how many users are now in the household
+    let numOfUsers = findHousehold.participantIDs.length;
+
+    //* Split 100% of costs between users, then round that number to the nearest whole
+    let breakdownPercent = 100 / numOfUsers;
+    breakdownPercent = Math.round(breakdownPercent);
+
+    //* In the event that these numbers will now not = 100 when added, determine an amount that one user (admin) will take to even things out
+    let disparity = 100 - breakdownPercent * numOfUsers;
+    disparity = disparity + breakdownPercent;
+
+    //* Use an array to track the percentage inputs in the order that the user IDs are listed
+    let breakdownArray = [];
+
+    //* In the case that disparity is not needed (numbers are completely even)
+    if (disparity === 0) {
+      for (x = 0; x < numOfUsers; x++) {
+        // every user will pay exactly the same
+        breakdownArray.push(breakdownPercent);
+      }
+      //* In the case that disparity IS needed...
+    } else {
+      //push the disparity to the admin
+      breakdownArray.push(disparity);
+      for (x = 1; x < numOfUsers; x++) {
+        // starting with one should skip the admin?
+        breakdownArray.push(breakdownPercent);
+      }
+    }
+
+    //* Track any possible new info we are updating to send to the database
+    let newInfo = {
+        name: householdName,
+        participantIDs: findHousehold.participantIDs,
+        participantNames: findHousehold.participantNames,
+        participantPercents: breakdownArray,
+        participantMaxNum: maxNum,
+        bannedUsers: findHousehold.bannedUsers,
+      };
+
+    //* Confirm we are only sending new info through
+    const returnOption = { new: true };
+
+    //* findOneAndUpdate(query/filter, document, options)
+    // returnOptions allows us to view the updated document
+    const updatedHousehold = await Household.findOneAndUpdate(
+      filter,
+      newInfo,
+      returnOption
+    );
+
+    //* Respond to client based on successful update
+    updatedHousehold
+      ? res.status(200).json({
+          message: `Household info was successfully updated!`,
+          updatedHousehold,
+        })
+      : res.status(404).json({
+          message: `No household found.`,
+        });
+  } catch (err) {
+    serverError(res, err);
+  }
+});
+
 //? PATCH Route for Joining
 router.patch("/join/:id", async (req, res) => {
   try {
@@ -108,6 +216,7 @@ router.patch("/join/:id", async (req, res) => {
     const householdToken = { id };
     const userID = req.user._id;
 
+    //* attempt to find the HH based on given ID
     const findHousehold = await Household.findOne({ _id: id });
 
     if (!findHousehold) {
@@ -166,7 +275,7 @@ router.patch("/join/:id", async (req, res) => {
         // every user will pay exactly the same
         breakdownArray.push(breakdownPercent);
       }
-    //* In the case that disparity IS needed...
+      //* In the case that disparity IS needed...
     } else {
       //push the disparity to the admin
       breakdownArray.push(disparity);
@@ -179,7 +288,7 @@ router.patch("/join/:id", async (req, res) => {
     let newInfo = {
       participantIDs: updateArray,
       participantNames: updateNames,
-      participantPercents: breakdownArray
+      participantPercents: breakdownArray,
     };
 
     //* Only allow the db item to be changed if the info is new
