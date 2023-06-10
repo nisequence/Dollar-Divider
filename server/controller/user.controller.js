@@ -4,6 +4,13 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const SECRET = process.env.JWT;
 
+const serverError = (res, error) => {
+  console.log("Server-side error");
+  return res.status(500).json({
+    Error: error.message,
+  });
+};
+
 //? POST Route for Register
 router.post("/register", async (req, res) => {     
     try {
@@ -19,15 +26,13 @@ router.post("/register", async (req, res) => {
             expiresIn: "3 days",
         });
 
-        res.status(200).json({
+        return res.status(200).json({
             user: newUser,
             message: "New user created!",
             token,
         });
     } catch (err) {
-        res.status(500).json({
-            ERROR: err.message,
-        });
+        serverError(res, err);
     }
 });
 
@@ -48,15 +53,13 @@ router.post("/login", async (req, res) => {
         const token = jwt.sign({id: user._id}, SECRET, {expiresIn: "3 days"});
 
         //5. response status returned
-        res.status(200).json({
+        return res.status(200).json({
             message: "Login successful!",
             user,
             token
         })
     } catch (err) {
-        res.status(500).json({
-            msg: err.message
-        })
+        serverError(res, err);
     }
 })
 

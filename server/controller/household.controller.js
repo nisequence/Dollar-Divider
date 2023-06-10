@@ -28,7 +28,7 @@ router.post("/new", async (req, res) => {
 
     const newHousehold = await household.save();
 
-    res.status(200).json({
+    return res.status(200).json({
       message: `You are now the admin of a household!`,
       newHousehold,
     });
@@ -47,17 +47,17 @@ router.get("/admin/:id", async (req, res) => {
 
     //* First, eliminate the possibility that we couldn't find the HH
     if (getHousehold === undefined || getHousehold === null) {
-      res.status(404).json({
+      return res.status(404).json({
         message: "No household found.",
       });
       //* Second, check if user has access
     } else if (getHousehold.admin_id != req.user._id) {
-      res.status(401).json({
+      return res.status(401).json({
         message: "You are not the admin!",
       });
       //* If HH exists and user is admin, then we should have a successful request
     } else {
-      res.status(200).json({
+      return res.status(200).json({
         msg: `Household was found!`,
         getHousehold,
       });
@@ -78,14 +78,14 @@ router.get("/find/:id", async (req, res) => {
 
     //* First, eliminate the possibility that we couldn't find the HH
     if (getHousehold === undefined || getHousehold === null) {
-      res.status(404).json({
+      return res.status(404).json({
         message: "No household found.",
       });
       //* Second, check if user has access
     } else if (getHousehold.participantIDs.includes(userID)) {
       let { name, participantIDs, participantNames } = getHousehold;
 
-      res.status(200).json({
+      return res.status(200).json({
         msg: `Household was found!`,
         name,
         participantIDs,
@@ -94,7 +94,7 @@ router.get("/find/:id", async (req, res) => {
       });
       //* If HH exists and user does not belong, then we should deny access
     } else {
-      res.status(401).json({
+      return res.status(401).json({
         message: "You are not in this household!",
       });
     }
