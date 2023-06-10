@@ -1,14 +1,15 @@
 require("dotenv").config();
-const express = require('express');
+const express = require("express");
 const app = express();
 const PORT = process.env.PORT;
 
 //* Requiring in Controllers
-const userController = require('./controller/user.controller');
-const householdController = require('./controller/household.controller');
+const userController = require("./controller/user.controller");
+const householdController = require("./controller/household.controller");
+const budgetController = require("./controller/budget.controller");
 
 //* Middleware
-const requireValidation = require("./middleware/validate-session")
+const requireValidation = require("./middleware/validate-session");
 
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -33,8 +34,11 @@ app.use("/user", userController);
 app.use(requireValidation);
 
 app.use("/household", householdController);
+4;
+
+app.use("/budget", budgetController);
 
 //* App Listening
 app.listen(PORT, () => {
-    console.log(`Server is running on port: ${PORT}`);
-})
+  console.log(`Server is running on port: ${PORT}`);
+});

@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Household = require("../models/household.model");
+const User = require("../models/user.model");
 
 const serverError = (res, error) => {
   console.log("Server-side error");
@@ -12,6 +13,8 @@ const serverError = (res, error) => {
 router.post("/new", async (req, res) => {
   try {
     const { householdName, maxNum } = req.body;
+    
+    //! I'd like to add in a confirmation that the user doesn't already have a household first
 
     const household = new Household({
       name: householdName,
@@ -286,6 +289,8 @@ router.patch("/join/:id", async (req, res) => {
     //* object destructuring the HH id and the req.user._id
     const { id } = req.params;
     const userID = req.user._id;
+
+    //! I'd like to add in a confirmation that the user doesn't already have a household first
 
     //* attempt to find the HH based on given ID
     const findHousehold = await Household.findOne({ _id: id });
