@@ -152,7 +152,7 @@ router.patch("/tweak/:id", async (req, res) => {
     } else if (newBreakdown.length !== findHousehold.participantIDs.length) {
       //* if the user does not have %'s to match the # of participants
       return res.status(411).json({
-        message: "Lengths do not match!",
+        message: "Lengths do not match! Must have the same number of percentages as user. If you do not want a user to contribute, please use '0'.",
       });
     }
 
