@@ -9,6 +9,29 @@ const serverError = (res, error) => {
   });
 };
 
+async function addUserToHousehold(userID, HhID) {
+  try {
+    console.log("User ID", userID);
+    console.log("Household ID", HhID);
+
+    const filter = {_id: userID};
+    const newInfo = {householdID: HhID};
+    const returnOption = {new: true};
+    
+    const updateUserProfile = await User.findOneAndUpdate(
+      filter,
+      newInfo,
+      returnOption
+    )
+
+    if (!updateUserProfile) return res.status(520).json({
+      message: "Unable to update user profile. Please try again later.",
+    })
+  } catch (err) {
+    serverError(res, err)
+  }
+}
+
 //? POST Route for Creation
 router.post("/new", async (req, res) => {
   try {
@@ -27,6 +50,8 @@ router.post("/new", async (req, res) => {
     });
 
     const newHousehold = await household.save();
+
+    addUserToHousehold(req.user._id, newHousehold._id);
 
     return res.status(200).json({
       message: `You are now the admin of a household!`,
@@ -290,7 +315,18 @@ router.patch("/join/:id", async (req, res) => {
     const { id } = req.params;
     const userID = req.user._id;
 
-    //! I'd like to add in a confirmation that the user doesn't already have a household first
+    //* Confirm that the user doesn't already have a household first - start by finding the user
+    const user = await User.findOne({_id: userID});
+    if (!user) throw new Error("Invalid token!");
+
+    if (user.householdID != null) {
+      // the user already has a householdID
+      return res.status(403).json({
+        message: "Sorry, you must leave your current household before joining a new one!",
+      });
+    } else if (!user.householdID) {
+
+    }
 
     //* attempt to find the HH based on given ID
     const findHousehold = await Household.findOne({ _id: id });
@@ -377,6 +413,8 @@ router.patch("/join/:id", async (req, res) => {
       newInfo,
       returnOption
     );
+
+    if (updatedHousehold) addUserToHousehold(userID, id);
 
     //* Check if this was successful and send response accordingly
     updatedHousehold
