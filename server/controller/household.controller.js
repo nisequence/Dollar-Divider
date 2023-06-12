@@ -14,21 +14,22 @@ async function addUserToHousehold(userID, HhID) {
     console.log("User ID", userID);
     console.log("Household ID", HhID);
 
-    const filter = {_id: userID};
-    const newInfo = {householdID: HhID};
-    const returnOption = {new: true};
-    
+    const filter = { _id: userID };
+    const newInfo = { householdID: HhID };
+    const returnOption = { new: true };
+
     const updateUserProfile = await User.findOneAndUpdate(
       filter,
       newInfo,
       returnOption
-    )
+    );
 
-    if (!updateUserProfile) return res.status(520).json({
-      message: "Unable to update user profile. Please try again later.",
-    })
+    if (!updateUserProfile)
+      return res.status(520).json({
+        message: "Unable to update user profile. Please try again later.",
+      });
   } catch (err) {
-    serverError(res, err)
+    serverError(res, err);
   }
 }
 
@@ -36,7 +37,7 @@ async function addUserToHousehold(userID, HhID) {
 router.post("/new", async (req, res) => {
   try {
     const { householdName, maxNum } = req.body;
-    
+
     //! I'd like to add in a confirmation that the user doesn't already have a household first
 
     const household = new Household({
@@ -62,7 +63,39 @@ router.post("/new", async (req, res) => {
   }
 });
 
-//? GET Route for Admin
+//? GET Route for Admin True/False
+router.get("/role", async (req, res) => {
+  try {
+    //* Pulling the household and user IDs via request validation
+    const id = req.user.householdID;
+    const userID = req.user._id;
+
+    //* Find a household using the household ID
+    const findHousehold = await Household.findOne({ _id: id });
+
+    //* Check the user's status
+    if (!findHousehold) {
+      // The user may not have a valid household ID. That is OK. We will call them a "solo" user.
+      return res.status(200).json({
+        message: "Solo",
+      });
+    } else if (findHousehold.admin_id == userID) {
+      // The user may be the admin. We will return the message "Admin" to the client.
+      return res.status(200).json({
+        message: "Admin",
+      });
+    } else {
+      // The user may have a valid household, but not be the admin. We will call them a "member" user.
+      return res.status(200).json({
+        message: "Member",
+      });
+    }
+  } catch (err) {
+    serverError(res, err);
+  }
+});
+
+//? GET Route for Household Info - Admin
 router.get("/admin/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -92,7 +125,7 @@ router.get("/admin/:id", async (req, res) => {
   }
 });
 
-//? GET Route for User that Belongs
+//? GET Route for Household Info - User that Belongs
 router.get("/find/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -152,7 +185,8 @@ router.patch("/tweak/:id", async (req, res) => {
     } else if (newBreakdown.length !== findHousehold.participantIDs.length) {
       //* if the user does not have %'s to match the # of participants
       return res.status(411).json({
-        message: "Lengths do not match! Must have the same number of percentages as user. If you do not want a user to contribute, please use '0'.",
+        message:
+          "Lengths do not match! Must have the same number of percentages as user. If you do not want a user to contribute, please use '0'.",
       });
     }
 
@@ -168,7 +202,8 @@ router.patch("/tweak/:id", async (req, res) => {
     //* Confirm that the total strictly equals 100
     if (total !== 100) {
       return res.status(422).json({
-        message: "Semantic error, %'s do not add to 100 or letters/symbols were included.",
+        message:
+          "Semantic error, %'s do not add to 100 or letters/symbols were included.",
       });
     }
 
@@ -316,16 +351,16 @@ router.patch("/join/:id", async (req, res) => {
     const userID = req.user._id;
 
     //* Confirm that the user doesn't already have a household first - start by finding the user
-    const user = await User.findOne({_id: userID});
+    const user = await User.findOne({ _id: userID });
     if (!user) throw new Error("Invalid token!");
 
     if (user.householdID != null) {
       // the user already has a householdID
       return res.status(403).json({
-        message: "Sorry, you must leave your current household before joining a new one!",
+        message:
+          "Sorry, you must leave your current household before joining a new one!",
       });
     } else if (!user.householdID) {
-
     }
 
     //* attempt to find the HH based on given ID
