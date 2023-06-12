@@ -9,6 +9,29 @@ const serverError = (res, error) => {
   });
 };
 
+async function addUserToHousehold(userID, HhID) {
+  try {
+    console.log("User ID", userID);
+    console.log("Household ID", HhID);
+
+    const filter = {_id: userID};
+    const newInfo = {householdID: HhID};
+    const returnOption = {new: true};
+    
+    const updateUserProfile = await User.findOneAndUpdate(
+      filter,
+      newInfo,
+      returnOption
+    )
+
+    if (!updateUserProfile) return res.status(520).json({
+      message: "Unable to update user profile. Please try again later.",
+    })
+  } catch (err) {
+    serverError(res, err)
+  }
+}
+
 //? POST Route for Creation
 router.post("/new", async (req, res) => {
   try {
@@ -28,7 +51,9 @@ router.post("/new", async (req, res) => {
 
     const newHousehold = await household.save();
 
-    res.status(200).json({
+    addUserToHousehold(req.user._id, newHousehold._id);
+
+    return res.status(200).json({
       message: `You are now the admin of a household!`,
       newHousehold,
     });
@@ -47,17 +72,17 @@ router.get("/admin/:id", async (req, res) => {
 
     //* First, eliminate the possibility that we couldn't find the HH
     if (getHousehold === undefined || getHousehold === null) {
-      res.status(404).json({
+      return res.status(404).json({
         message: "No household found.",
       });
       //* Second, check if user has access
     } else if (getHousehold.admin_id != req.user._id) {
-      res.status(401).json({
+      return res.status(401).json({
         message: "You are not the admin!",
       });
       //* If HH exists and user is admin, then we should have a successful request
     } else {
-      res.status(200).json({
+      return res.status(200).json({
         msg: `Household was found!`,
         getHousehold,
       });
@@ -78,14 +103,14 @@ router.get("/find/:id", async (req, res) => {
 
     //* First, eliminate the possibility that we couldn't find the HH
     if (getHousehold === undefined || getHousehold === null) {
-      res.status(404).json({
+      return res.status(404).json({
         message: "No household found.",
       });
       //* Second, check if user has access
     } else if (getHousehold.participantIDs.includes(userID)) {
       let { name, participantIDs, participantNames } = getHousehold;
 
-      res.status(200).json({
+      return res.status(200).json({
         msg: `Household was found!`,
         name,
         participantIDs,
@@ -94,7 +119,7 @@ router.get("/find/:id", async (req, res) => {
       });
       //* If HH exists and user does not belong, then we should deny access
     } else {
-      res.status(401).json({
+      return res.status(401).json({
         message: "You are not in this household!",
       });
     }
@@ -290,7 +315,18 @@ router.patch("/join/:id", async (req, res) => {
     const { id } = req.params;
     const userID = req.user._id;
 
-    //! I'd like to add in a confirmation that the user doesn't already have a household first
+    //* Confirm that the user doesn't already have a household first - start by finding the user
+    const user = await User.findOne({_id: userID});
+    if (!user) throw new Error("Invalid token!");
+
+    if (user.householdID != null) {
+      // the user already has a householdID
+      return res.status(403).json({
+        message: "Sorry, you must leave your current household before joining a new one!",
+      });
+    } else if (!user.householdID) {
+
+    }
 
     //* attempt to find the HH based on given ID
     const findHousehold = await Household.findOne({ _id: id });
@@ -327,7 +363,7 @@ router.patch("/join/:id", async (req, res) => {
       });
     } else {
       // as long as the user is not banned, is not already in the household, and there is room in the household, we can push the user to the participant array
-      updateArray.push(userID);
+      updateArray.push(req.user._id);
       updateNames.push(req.user.firstName);
     }
 
@@ -377,6 +413,8 @@ router.patch("/join/:id", async (req, res) => {
       newInfo,
       returnOption
     );
+
+    if (updatedHousehold) addUserToHousehold(userID, id);
 
     //* Check if this was successful and send response accordingly
     updatedHousehold
