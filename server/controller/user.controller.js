@@ -3,6 +3,7 @@ const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const SECRET = process.env.JWT;
+const requireValidation = require("../middleware/validate-session");
 
 const serverError = (res, error) => {
   console.log("Server-side error");
@@ -70,9 +71,20 @@ router.post("/login", async (req, res) => {
   }
 });
 
-//? GET Route for Testing
-router.get("/hello-world", (req, res) => {
-  res.send("Hello world");
-});
+//? GET Route for Own Info
+router.get("/find", requireValidation, async (req, res) => {
+    const id = req.user._id;
+
+    const findUser = await User.findOne({_id: id})
+
+    findUser?
+    res.status(200).json({
+        message: "Found!",
+        findUser
+    })
+    : res.status(404).json({
+        message: "Not found!"
+    })
+})
 
 module.exports = router;
