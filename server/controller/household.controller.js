@@ -60,7 +60,7 @@ router.post("/new", async (req, res) => {
   }
 });
 
-//? GET Route for Admin True/False
+//? GET Route for User Status (admin / member / solo user)
 router.get("/role", async (req, res) => {
   try {
     //* Pulling the household and user IDs via request validation
@@ -93,9 +93,9 @@ router.get("/role", async (req, res) => {
 });
 
 //? GET Route for Household Info - Admin
-router.get("/admin/:id", async (req, res) => {
+router.get("/admin", async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = req.user.householdID;
 
     //* Locating the specific household item by ID
     const getHousehold = await Household.findOne({ _id: id });
@@ -118,14 +118,14 @@ router.get("/admin/:id", async (req, res) => {
       });
     }
   } catch (err) {
-    errorResponse(res, err);
+    serverError(res, err);
   }
 });
 
-//? GET Route for Household Info - User that Belongs
-router.get("/find/:id", async (req, res) => {
+//? GET Route for Household Info - Member
+router.get("/member", async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = req.user.householdID;
     const userID = req.user._id;
 
     //* Locating the specific household item by ID
@@ -138,7 +138,7 @@ router.get("/find/:id", async (req, res) => {
       });
       //* Second, check if user has access
     } else if (getHousehold.participantIDs.includes(userID)) {
-      let { name, participantIDs, participantNames } = getHousehold;
+      let { name, participantIDs, participantNames, participantPercents } = getHousehold;
 
       return res.status(200).json({
         msg: `Household was found!`,
@@ -154,7 +154,7 @@ router.get("/find/:id", async (req, res) => {
       });
     }
   } catch (err) {
-    errorResponse(res, err);
+    serverError(res, err);
   }
 });
 
@@ -230,11 +230,11 @@ router.patch("/tweak", async (req, res) => {
           message: `No household found.`,
         });
   } catch (err) {
-    errorResponse(res, err);
+    serverError(res, err);
   }
 });
 
-//? PATCH Route for Admin to update name / participantMaxNum & ban users
+//? PATCH Route for Admin to update name / change participantMaxNum / ban users
 router.patch("/edit", async (req, res) => {
   try {
     //* object destructuring the HH id and the req.user._id
@@ -464,6 +464,7 @@ router.patch("/join/:id", async (req, res) => {
   }
 });
 
+//? DELETE Route for Admin to Remove Household
 router.delete("/admin/remove", async (req, res) => {
   try {
     //* Pull user and household IDs
