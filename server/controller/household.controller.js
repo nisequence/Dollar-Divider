@@ -467,4 +467,28 @@ router.patch("/join/:id", async (req, res) => {
   }
 });
 
+router.delete("/admin/remove", async (req, res) => {
+  try {
+    //* Pull user and household IDs
+    const userID = req.user._id;
+    const id = req.user.householdID;
+
+    //* Delete the household if the id's both match (user is admin)
+    const deleteHousehold = await Household.deleteOne({
+      _id: id,
+      admin_id: userID,
+    });
+
+    deleteHousehold.deletedCount === 1
+      ? res.status(200).json({
+          message: "Household deleted.",
+        })
+      : res.status(404).json({
+          message: "Deletion unsuccessful.",
+        });
+  } catch (err) {
+    serverError(res, err);
+  }
+});
+
 module.exports = router;
