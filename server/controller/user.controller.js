@@ -73,6 +73,7 @@ router.post("/login", async (req, res) => {
 
 //? GET Route for Own Info
 router.get("/find", requireValidation, async (req, res) => {
+  try {
     const id = req.user._id;
 
     const findUser = await User.findOne({_id: id})
@@ -85,6 +86,9 @@ router.get("/find", requireValidation, async (req, res) => {
     : res.status(404).json({
         message: "Not found!"
     })
+  } catch (err) {
+    serverError(res, err);
+  }
 })
 
 module.exports = router;
