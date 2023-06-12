@@ -11,9 +11,6 @@ const serverError = (res, error) => {
 
 async function addUserToHousehold(userID, HhID) {
   try {
-    console.log("User ID", userID);
-    console.log("Household ID", HhID);
-
     const filter = { _id: userID };
     const newInfo = { householdID: HhID };
     const returnOption = { new: true };
@@ -162,10 +159,10 @@ router.get("/find/:id", async (req, res) => {
 });
 
 //? PATCH Route for Admin to update percentages
-router.patch("/tweak/:id", async (req, res) => {
+router.patch("/tweak", async (req, res) => {
   try {
     //* object destructuring the HH id and the req.user._id
-    const { id } = req.params;
+    const id = req.user.householdID;
     const userID = req.user._id;
     let { newBreakdown } = req.body;
 
@@ -238,10 +235,10 @@ router.patch("/tweak/:id", async (req, res) => {
 });
 
 //? PATCH Route for Admin to update name / participantMaxNum & ban users
-router.patch("/edit/:id", async (req, res) => {
+router.patch("/edit", async (req, res) => {
   try {
     //* object destructuring the HH id and the req.user._id
-    const { id } = req.params;
+    const id = req.user.householdID;
     const userID = req.user._id;
     const { householdName, maxNum, banUser } = req.body;
 
