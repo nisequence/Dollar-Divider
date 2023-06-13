@@ -263,7 +263,7 @@ router.patch("/edit", async (req, res) => {
     } else if (banUser !== null || banUser !== undefined) {
       //* if the admin is sending a user to ban
       for (x = 0; x < findHousehold.participantIDs.length; x++) {
-        // look for the user in the participants and kick him out of the ID and Names arrays
+        // look for the user in the participants and remove them from the ID and Names arrays
         if (banUser == findHousehold.participantIDs[x]) {
           findHousehold.participantIDs.splice(x, 1);
           findHousehold.participantNames.splice(x, 1);
