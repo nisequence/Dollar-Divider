@@ -3,6 +3,7 @@ const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const SECRET = process.env.JWT;
+const requireValidation = require("../middleware/validate-session");
 
 const serverError = (res, error) => {
   console.log("Server-side error");
@@ -70,9 +71,95 @@ router.post("/login", async (req, res) => {
   }
 });
 
-//? GET Route for Testing
-router.get("/hello-world", (req, res) => {
-  res.send("Hello world");
-});
+//? GET Route for Own Info
+router.get("/find", requireValidation, async (req, res) => {
+  try {
+    const id = req.user._id;
+
+    const findUser = await User.findOne({_id: id})
+
+    findUser?
+    res.status(200).json({
+        message: "Found!",
+        findUser
+    })
+    : res.status(404).json({
+        message: "Not found!"
+    })
+  } catch (err) {
+    serverError(res, err);
+  }
+})
+
+//? PATCH Route to Leave Household
+router.get("/abandon", requireValidation, async (req, res) => {
+  try {
+    const id = req.user._id
+    const filter = {_id: id}
+
+    const newInfo = {householdID: null}
+
+    const returnOption = {new: true};
+
+    //! Not finished
+
+  } catch (err) {
+    serverError(res, err);
+  }
+})
+
+//? PATCH Route to Edit Profile
+router.get("/adjust", requireValidation, async (req, res) => {
+  try {
+    //* Save the user's id and create the filter
+    const id = req.user._id
+    const filter = {_id: id}
+
+    //* Pull update-able info from the req.body
+    const {firstName, lastName, email, password} = req.body;
+    const newInfo = {firstName, lastName, email, password};
+
+    const returnOption = {new: true};
+
+    //* Attempt to update the corresponding user item in the database
+    const updateUser = await User.findOneAndUpdate(filter, newInfo, returnOption);
+
+    if (!updateUser) {
+      //* Unable to update user in the database
+      return res.status(404).json({
+        message: "Error in updating user profile. Please log out & back in.",
+      })
+    }
+
+    //* Locate the household that the user is part of to update their name there
+    const findHousehold = await Household.findOne({_id: req.user.householdID});
+
+    if (!findHousehold) {
+      //* User does not have a household to update
+      return res.status(200).json({
+        message: "Profile successfully updated!",
+      })
+    }
+
+    //* Need to correct user's first name in the household
+    for (x = 0; x < findHousehold.participantIDs.length; x++) {
+      if (id == findHousehold.participantIDs[x]) {
+        // Splice will locate the name at the same index where this user's id was found, remove that single name, and replace it in the same position with the user's new firstName
+        findHousehold.participantNames.splice(x, 1, firstName);
+
+        return res.status(200).json({
+          message: "Profile and household successfully updated!",
+        })
+      } else {
+        return res.status(404).json({
+          message: "User not found within household...",
+        })
+      }
+    }
+
+  } catch (err) {
+    serverError(res, err);
+  }
+})
 
 module.exports = router;
