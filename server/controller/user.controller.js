@@ -93,7 +93,6 @@ router.get("/find", requireValidation, async (req, res) => {
 });
 
 //? PATCH Route to Leave Household
-//! Currently debugging
 router.patch("/abandon", requireValidation, async (req, res) => {
   try {
     //* Pull the user's info from the req
@@ -127,21 +126,25 @@ router.patch("/abandon", requireValidation, async (req, res) => {
     let updateNames = findHousehold.participantNames;
     let removal = false;
 
-    for (x = 0; x < updateIDs.length; x++) {
-      // look for the user in the participants and remove them from the ID and Names arrays
-      if (id == updateIDs[x]) {
-        updateIDs.splice(x, 1);
-        updateNames.splice(x, 1);
-        removal = true;
-      }
-    }
+    updateIDs.splice(updateIDs.indexOf(id), 1); 
+    updateNames.splice(updateIDs.indexOf(id), 1);
 
-    if ((removal = false)) {
-      return res.status(400).json({
-        message: "Unable to remove user from household",
-      });
-    }
+    // for (x = 0; x < updateIDs.length; x++) {
+      // look for the user in the participants and remove them from the ID and Names arrays
+    //   if (id == updateIDs[x]) {
+    //     updateIDs.splice(x, 1);
+    //     updateNames.splice(x, 1);
+    //     removal = true;
+    //   }
+    // }
+
+    // if ((removal = false)) {
+    //   return res.status(400).json({
+    //     message: "Unable to remove user from household",
+    //   });
+    // }
     //* Track how many users are now in the household
+
     let numOfUsers = updateIDs.length;
 
     //* Split 100% of costs between users, then round that number to the nearest whole
@@ -214,24 +217,24 @@ router.patch("/abandon", requireValidation, async (req, res) => {
   }
 });
 
-//! Currently debugging
 //? PATCH Route to Edit Profile
 router.patch("/adjust", requireValidation, async (req, res) => {
   try {
     //* Save the user's id and create the filter
     const id = req.user._id;
-    const filter = { _id: id };
+    const userFilter = { _id: id };
+    const householdFilter = { _id: req.user.householdID };
 
     //* Pull update-able info from the req.body
     const { firstName, lastName, email, password } = req.body;
-    const newInfo = { firstName, lastName, email, password };
+    const userNewInfo = { firstName, lastName, email, password };
 
     const returnOption = { new: true };
 
     //* Attempt to update the corresponding user item in the database
     const updateUser = await User.findOneAndUpdate(
-      filter,
-      newInfo,
+      userFilter,
+      userNewInfo,
       returnOption
     );
 
@@ -255,21 +258,39 @@ router.patch("/adjust", requireValidation, async (req, res) => {
       _id: req.user.householdID,
     });
 
-    //* Need to correct user's first name in the household
-    for (x = 0; x <= findHousehold.participantIDs.length; x++) {
-      if (id == findHousehold.participantIDs[x]) {
-        // Splice will locate the name at the same index where this user's id was found, remove that single name, and replace it in the same position with the user's new firstName
-        findHousehold.participantNames.splice(x, 1, firstName);
-
-        return res.status(200).json({
-          message: "Profile and household successfully updated!",
-        });
-      } else {
-        return res.status(404).json({
-          message: "User not found within household...",
-        });
-      }
+    //* Confirm that the user is a part of the household found
+    if (findHousehold.participantIDs.includes(id)) {
+      // if the user is found, replace their old first name with their new first name in the correct spot
+      findHousehold.participantNames.splice(findHousehold.participantIDs.indexOf(id), 1, firstName);
+    } else {      
+      // if the user is not found
+      return res.status(404).json({
+        message: "User not found within household...",
+      });
     }
+    
+    //* Save the new array in a constant to send to the database
+    const householdNewInfo = {
+      participantNames: findHousehold.participantNames 
+    }
+
+    //* Update the household in the database with the new info
+    const updateHousehold = await Household.findOneAndUpdate(
+      householdFilter,
+      householdNewInfo,
+      returnOption
+    )
+
+    //* Send response based on success/failure to update
+    updateHousehold
+    ? res.status(200).json({
+        message: `User data successfully updated!`,
+        updateHousehold
+      })
+    : res.status(404).json({
+        message: `User data unable to be updated.`,
+      });
+
   } catch (err) {
     serverError(res, err);
   }
