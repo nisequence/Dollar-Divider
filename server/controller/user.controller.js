@@ -124,27 +124,11 @@ router.patch("/abandon", requireValidation, async (req, res) => {
 
     let updateIDs = findHousehold.participantIDs;
     let updateNames = findHousehold.participantNames;
-    let removal = false;
 
     updateIDs.splice(updateIDs.indexOf(id), 1); 
     updateNames.splice(updateIDs.indexOf(id), 1);
 
-    // for (x = 0; x < updateIDs.length; x++) {
-      // look for the user in the participants and remove them from the ID and Names arrays
-    //   if (id == updateIDs[x]) {
-    //     updateIDs.splice(x, 1);
-    //     updateNames.splice(x, 1);
-    //     removal = true;
-    //   }
-    // }
-
-    // if ((removal = false)) {
-    //   return res.status(400).json({
-    //     message: "Unable to remove user from household",
-    //   });
-    // }
     //* Track how many users are now in the household
-
     let numOfUsers = updateIDs.length;
 
     //* Split 100% of costs between users, then round that number to the nearest whole
@@ -180,7 +164,6 @@ router.patch("/abandon", requireValidation, async (req, res) => {
       participantNames: updateNames,
       participantPercents: breakdownArray,
     };
-    console.log(householdNewInfo);
 
     //* findOneAndUpdate(query/filter, document, options)
     const updatedHousehold = await Household.findOneAndUpdate(
@@ -188,7 +171,6 @@ router.patch("/abandon", requireValidation, async (req, res) => {
       householdNewInfo,
       returnOption
     );
-    console.log(updatedHousehold);
 
     if (updatedHousehold == false) {
       return res.status(400).json({
@@ -295,5 +277,105 @@ router.patch("/adjust", requireValidation, async (req, res) => {
     serverError(res, err);
   }
 });
+
+//? DELETE Route for Own Account Removals
+router.delete("/quit", requireValidation, async (req, res) => {
+  try {
+    //* Pull the user's info from the req
+    const id = req.user._id;
+    const householdID = req.user.householdID;
+
+    //* Constants to update both the User and Household objects in the db
+    const userFilter = { _id: id };
+    const householdFilter = { _id: householdID };
+    const returnOption = { new: true };
+
+    //* Check if the user has a household
+    if (householdID != null) {
+      
+      //* Attempt to find the HH based on given ID
+      const findHousehold = await Household.findOne({ _id: householdID });
+  
+      //* Confirm that the household is findable
+      if (!findHousehold) {
+        return res.status(404).json({
+          message: "Household not found in database!",
+        });
+      }
+  
+      let updateIDs = findHousehold.participantIDs;
+      let updateNames = findHousehold.participantNames;
+  
+      updateIDs.splice(updateIDs.indexOf(id), 1); 
+      updateNames.splice(updateIDs.indexOf(id), 1);
+  
+      //* Track how many users are now in the household
+      let numOfUsers = updateIDs.length;
+  
+      //* Split 100% of costs between users, then round that number to the nearest whole
+      let breakdownPercent = 100 / numOfUsers;
+      breakdownPercent = Math.round(breakdownPercent);
+  
+      //* In the event that these numbers will now not = 100 when added, determine an amount that one user (admin) will take to even things out
+      let disparity = 100 - breakdownPercent * numOfUsers;
+      disparity = disparity + breakdownPercent;
+  
+      //* Use an array to track the percentage inputs in the order that the user IDs are listed
+      let breakdownArray = [];
+  
+      //* In the case that disparity is not needed (numbers are completely even)
+      if (disparity === 0) {
+        for (x = 0; x < numOfUsers; x++) {
+          // every user will pay exactly the same
+          breakdownArray.push(breakdownPercent);
+        }
+        //* In the case that disparity IS needed...
+      } else {
+        //push the disparity to the admin
+        breakdownArray.push(disparity);
+        for (x = 1; x < numOfUsers; x++) {
+          // starting with one should skip the admin?
+          breakdownArray.push(breakdownPercent);
+        }
+      }
+  
+      //*Update HH
+      const householdNewInfo = {
+        participantIDs: updateIDs,
+        participantNames: updateNames,
+        participantPercents: breakdownArray,
+      };
+  
+      //* findOneAndUpdate(query/filter, document, options)
+      const updatedHousehold = await Household.findOneAndUpdate(
+        householdFilter,
+        householdNewInfo,
+        returnOption
+      );
+  
+      if (updatedHousehold == false) {
+        return res.status(400).json({
+          message:
+            "Something went wrong when trying to remove you from the household!",
+        });
+      }
+    }
+
+    //* Remove user profile
+    const deleteUser = await User.deleteOne(
+      userFilter,
+    );
+
+    deleteUser.deletedCount === 1
+      ? res.status(200).json({
+          message: `User was successfully removed from the household and deleted!`,
+        })
+      : res.status(404).json({
+          message: `User data unable to be deleted.`,
+        });
+  } catch (err) {
+    serverError(res, err);
+  }
+})
 
 module.exports = router;
