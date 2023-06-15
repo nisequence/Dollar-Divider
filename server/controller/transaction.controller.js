@@ -119,7 +119,26 @@ router.get("/mine/:id", async (req, res) => {
     errorResponse(res, err);
   }
 });
+//? GET BY DATE ROUTE "/date/:date"
+//* Successful in postman
 
+router.get("/date/:date", async (req, res) => {
+  try {
+    const { date } = req.params;
+
+    const getDate = await Transaction.find({ date: date });
+
+    getDate.length > 0
+      ? res.status(200).json({
+          getDate,
+        })
+      : res.status(404).json({
+          message: "No transactions found for this date.",
+        });
+  } catch (err) {
+    errorResponse(res, err);
+  }
+});
 //? GET BY CATEGORY ROUTE "/category/:category"
 //* Successful on Postman
 
