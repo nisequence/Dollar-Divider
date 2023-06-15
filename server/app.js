@@ -15,7 +15,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const MONGO = process.env.MONGODB;
 
-mongoose.connect(`${MONGO}/dollarDivider`);
+// mongoose.connect(`${MONGO}/dollarDivider`);
+mongoose.connect(`${MONGO}`);
 const db = mongoose.connection;
 
 // Use the above variable to trigger event listener to check connection

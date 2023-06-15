@@ -10,10 +10,25 @@ export default function Dashboard(props) {
   return (
     <>
       <div className="DashBody">
-        <Sidebar />
-        <UpcomingBills />
-        <CurrentBudgetStatus />
-        <RecentTransactions />
+        <Col>
+          <Sidebar />
+        </Col>
+        <Container>
+          <Row>
+            <Col className="bg-light border">
+              {/* .col */}
+              <UpcomingBills />
+            </Col>
+            <Col className="bg-light border">
+              {/* .col */}
+              <CurrentBudgetStatus />
+            </Col>
+            <Col className="bg-light border">
+              {/* .col */}
+              <RecentTransactions />
+            </Col>
+          </Row>
+        </Container>
       </div>
     </>
   );
