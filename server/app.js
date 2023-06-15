@@ -7,6 +7,7 @@ const PORT = process.env.PORT;
 const userController = require("./controller/user.controller");
 const householdController = require("./controller/household.controller");
 const budgetController = require("./controller/budget.controller");
+const transactionController = require("./controller/transaction.controller");
 
 //* Middleware
 const requireValidation = require("./middleware/validate-session");
@@ -15,7 +16,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const MONGO = process.env.MONGODB;
 
-mongoose.connect(`${MONGO}/dollarDivider`);
+mongoose.connect(`${MONGO}`);
 const db = mongoose.connection;
 
 // Use the above variable to trigger event listener to check connection
@@ -29,6 +30,7 @@ app.use(cors());
 
 //* Routes
 app.use("/user", userController);
+app.use("/transaction", transactionController);
 
 // Require jwt validation for all controllers below this point
 app.use(requireValidation);

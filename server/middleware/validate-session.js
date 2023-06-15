@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
 
-const validateSession = async (req, res, next) => {
+const requireValidation = async (req, res, next) => {
   try {
     // pull token from whoever the request comes from
     const token = req.headers.authorization;
@@ -25,4 +25,4 @@ const validateSession = async (req, res, next) => {
 };
 
 // Export the function
-module.exports = validateSession;
+module.exports = requireValidation;

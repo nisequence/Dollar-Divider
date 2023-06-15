@@ -12,10 +12,8 @@ const serverError = (res, error) => {
 
 //? POST Route for Creation
 // (id in URL refers to either personal or household id; dependant on base var)
-router.post("/add/:id", async (req, res) => {
+router.post("/add", async (req, res) => {
   try {
-    const { id } = req.params;
-    console.log(id, "vs", req.user._id);
     const { category, amount, base } = req.body;
 
     if (base == "personal") {
@@ -46,7 +44,7 @@ router.post("/add/:id", async (req, res) => {
       });
     } else if (base == "household") {
       //* Attempt to find the HH based on given ID
-      const findHousehold = await Household.findOne({ _id: id });
+      const findHousehold = await Household.findOne({ _id: req.user.householdID});
 
       if (!findHousehold) {
         // if household cannot be found with the input token (id)
@@ -65,7 +63,7 @@ router.post("/add/:id", async (req, res) => {
         budgetCat: category,
         budgetAmt: amount,
         remainingAmt: amount,
-        budgetBase: id,
+        budgetBase: req.user.householdID,
         ownerID: req.user._id,
       });
 
