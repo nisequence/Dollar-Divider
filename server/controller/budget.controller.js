@@ -97,8 +97,10 @@ router.get("/household", async (req, res) => {
     //* Search for budgets matching this filter
     const allBudgets = await Budget.find({ budgetBase: id });
 
+    //* Confirm that at least one was found
     allBudgets.length > 0
       ? res.status(200).json({
+          message: "Budget(s) found!",
           allBudgets,
         })
       : res.status(404).json({
@@ -118,12 +120,37 @@ router.get("/mine", async (req, res) => {
     //* Search for budgets matching this filter
     const allBudgets = await Budget.find({ budgetBase: id });
 
+    //* Confirm that at least one was found
     allBudgets.length > 0
       ? res.status(200).json({
+          message: "Budget(s) found!",
           allBudgets,
         })
       : res.status(404).json({
           message: `No personal budgets found.`,
+        });
+  } catch (err) {
+    serverError(res, err);
+  }
+});
+
+//? GET Budget By ID
+router.get("/:id", async (req, res) => {
+  try {
+    //* Pull budget's id from params
+    const { id } = req.params;
+
+    //* Locating specific budget from database
+    const getBudget = await Budget.findOne({ _id: id });
+
+    //* Confirm that it was found
+    getBudget
+      ? res.status(200).json({
+          message: `Budget was found!`,
+          getBudget,
+        })
+      : res.status(404).json({
+          message: "No budget found.",
         });
   } catch (err) {
     serverError(res, err);
