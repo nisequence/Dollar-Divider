@@ -10,6 +10,9 @@ const serverError = (res, error) => {
   });
 };
 
+//! Concept Notes
+// Budgets remain static; next month or last month buttons switch which set of transactions are being evaluated
+
 //? POST Route for Creation
 // (id in URL refers to either personal or household id; dependant on base var)
 router.post("/add", async (req, res) => {
@@ -44,7 +47,9 @@ router.post("/add", async (req, res) => {
       });
     } else if (base == "household") {
       //* Attempt to find the HH based on given ID
-      const findHousehold = await Household.findOne({ _id: req.user.householdID});
+      const findHousehold = await Household.findOne({
+        _id: req.user.householdID,
+      });
 
       if (!findHousehold) {
         // if household cannot be found with the input token (id)
@@ -83,8 +88,50 @@ router.post("/add", async (req, res) => {
   }
 });
 
+//? GET All Household Budgets
+router.get("/household", async (req, res) => {
+  try {
+    //* This is what we will use to filter through the budget items
+    const id = req.user.householdID;
+
+    //* Search for budgets matching this filter
+    const allBudgets = await Budget.find({ budgetBase: id });
+
+    allBudgets.length > 0
+      ? res.status(200).json({
+          allBudgets,
+        })
+      : res.status(404).json({
+          message: `No household budgets found.`,
+        });
+  } catch (err) {
+    serverError(res, err);
+  }
+});
+
+//? GET All Personal Budgets
+router.get("/mine", async (req, res) => {
+  try {
+    //* This is what we will use to filter through the budget items
+    const id = req.user._id;
+
+    //* Search for budgets matching this filter
+    const allBudgets = await Budget.find({ budgetBase: id });
+
+    allBudgets.length > 0
+      ? res.status(200).json({
+          allBudgets,
+        })
+      : res.status(404).json({
+          message: `No personal budgets found.`,
+        });
+  } catch (err) {
+    serverError(res, err);
+  }
+});
+
 //? PATCH Route for household budgets only (changing assigned user)
-router.patch("/edit/:id", async (req, res) => {
+router.patch("/assign/:id", async (req, res) => {
   try {
     //* Destructuring the budget ID from params, also grab user & body info
     const { id } = req.params;
