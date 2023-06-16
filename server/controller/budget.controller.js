@@ -34,7 +34,7 @@ router.post("/add", async (req, res) => {
       const budget = new Budget({
         budgetCat: category,
         budgetAmt: amount,
-        remainingAmt: amount,
+        //remainingAmt: amount,
         budgetBase: req.user._id,
         ownerID: req.user._id,
       });
@@ -167,6 +167,7 @@ router.patch("/assign/:id", async (req, res) => {
 
     //* First check the database for the budget
     const findBudget = await Budget.findOne({ _id: id });
+
     //* Second we will check if the assigneeID pertains to a correct user
     //! Bug info below
     /* 
@@ -234,6 +235,57 @@ router.patch("/assign/:id", async (req, res) => {
           "Sorry, the user you selected doesn't belong to this household yet!",
       });
     }
+  } catch (err) {
+    serverError(res, err);
+  }
+});
+
+//? PATCH Route for all budgets
+router.patch("/edit/:id", async (req, res) => {
+  try {
+    //* Destructuring the budget ID, user ID, and req. body
+    const { id } = req.params;
+    const userID = req.user._id;
+    const { category, amount } = req.body
+
+    //* First, check the database for the budget
+    const findBudget = await Budget.findOne({ _id: id });
+
+    if (!findBudget) {
+      // If budget is not findable
+      return res.status(404).json({
+        message: "Budget not found!",
+      });
+    }
+
+    //* Second, we will check if the user has the ability to change the budget
+    // (either by being the budget owner, or by being the assigned user if it is a household budget)
+    if (findBudget.ownerID != userID && findBudget.assignedUser != userID) {
+      return res.status(401).json({
+        message: "Sorry, you're not authorized!",
+      });
+    }
+
+    //* Success! The user can edit
+    const filter = { _id: id };
+    const newInfo = { budgetCat: category, budgetAmt: amount };
+    const returnOption = { new: true };
+
+    // communicate with the database about what we are updating
+    const updatedBudget = await Budget.findOneAndUpdate(
+      filter,
+      newInfo,
+      returnOption
+    );
+
+    //* Send response to client based on successful update
+    updatedBudget
+      ? res.status(200).json({
+          message: "Successfully updated budget!",
+        })
+      : res.status(520).json({
+          message: "Unable to update budget.",
+        });
   } catch (err) {
     serverError(res, err);
   }
