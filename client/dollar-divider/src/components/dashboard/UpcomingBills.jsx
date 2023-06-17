@@ -2,7 +2,7 @@ import React from "react";
 import Bills from "./Bills";
 import Next from "./Next";
 import Previous from "./Previous";
-import CurrentBudgetStatus from "./CurrentBudgetStatus";
+// import CurrentBudgetStatus from "./CurrentBudgetStatus";
 export default function UpcomingBills() {
   return (
     <>
