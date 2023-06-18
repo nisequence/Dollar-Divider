@@ -19,7 +19,7 @@ function Sidebar(props) {
       sidebar.style.width = "0";
     } else {
       sidebar.style.height = "100vh";
-      sidebar.style.width = "12em";
+      sidebar.style.width = "17em";
       sidebar.style.borderRight = "solid rgb(46, 46, 46) 2px";
       sidebar.style.borderBottom = "solid rgb(46, 46, 46) 2px";
       sidebar.style.borderTop = "solid rgb(144, 144, 144) 2px";

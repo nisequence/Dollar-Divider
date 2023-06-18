@@ -1,6 +1,7 @@
 .App {
   text-align: center;
   background-color: rgba(0, 57, 122, 0.932);
+  background-image: url("./media/PieChartPlaceholder.png");
   color: white;
 }
 
@@ -63,6 +64,7 @@
   width: 100%;
   font-family: "serif";
   font-size: xxx-large;
+  /* opacity: .5; */
 } 
 
 .Prev {
@@ -80,14 +82,16 @@
 .UpcomingBills {
   height: "fit-content"; 
   padding: 1em;
+  /* opacity: .5; */
 }
 
 .CurrentBudgetStatus {
   /* height: 60vh; */
   /* width: 33rem; */
-  background-color: turquoise;
+  background-color: gray;
   color: black;
   font-size: xx-large;
+  /* opacity: .5; */
 }
 
 .RecentTransactions {
