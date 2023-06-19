@@ -1,12 +1,12 @@
 .App {
   text-align: center;
   background-color: rgba(0, 57, 122, 0.932);
-  background-image: url("./media/PieChartPlaceholder.png");
   color: white;
 }
 
 .DashBody {
   background-color: #00517C;
+  background-image: url("./media/benjamins.jpg");
 }
 
 .stdBox {
@@ -20,7 +20,8 @@
   position: fixed;
   z-index: 2;
   height: 3.5em;
-  /* width: 12em; */
+  border-right:"solid rgb(46, 46, 46) 2px";
+  /* sidebar.style.borderRight = "solid rgb(46, 46, 46) 2px"; */
   width: 0;
   transition: width .20s;
   background-color: gray;
@@ -88,7 +89,7 @@
 .CurrentBudgetStatus {
   /* height: 60vh; */
   /* width: 33rem; */
-  background-color: gray;
+  background-color: rgb(178, 178, 178);
   color: black;
   font-size: xx-large;
   /* opacity: .5; */
