@@ -22,6 +22,7 @@ export const chartData = {
 
 export default function CurrentBudgetStatus(props) {
   const { id } = useParams();
+  console.log(props.getBudgets)
 
   // Headers
   let myHeaders = new Headers();
@@ -72,13 +73,13 @@ export default function CurrentBudgetStatus(props) {
         />
         
         <Button
-          id="toggleBtn"
+          id="expandBtn"
           // onClick={ () => { ModalFullscreenExample ()}}
 
           onClick={() => {
             let window = document.getElementById("currentbudgetstatus");
-            let toggle = document.getElementById(`toggleBtn`);
-            if ((toggle.textContent = "Expand")) {
+            let expandBtn = document.getElementById(`expandBtn`);
+            if ((expandBtn.textContent = "Expand")) {
               // CurrentBudgetStatus.style.position = ("fixed");
               window.style.position = "fixed";
               window.style.top = "10%";
@@ -86,10 +87,11 @@ export default function CurrentBudgetStatus(props) {
               window.style.width = "80vw";
               window.style.height = "80vh";
               window.style.margin = ".5rem solid black";
-              toggle.innerText = "Collapse";
+
+              expandBtn.innerText = "Collapse";
             } else {
               // toggle.addEventListener("click", () => {
-              toggle.onclick=("click", () => {
+              expandBtn.onclick=("click", () => {
                 
                 window.style.position = "initial";
                 window.style.position = "initial";
@@ -98,7 +100,7 @@ export default function CurrentBudgetStatus(props) {
                 window.style.width = "initial";
                 window.style.height = "initial";
                 window.style.margin = "initial";
-                toggle.innerText = "Expand";
+                expandBtn.innerText = "Expand";
               });
             }
           }}
