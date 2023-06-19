@@ -23,8 +23,7 @@ export default function Dashboard(props) {
             </Col>
             <Col className="bg-light border">
               {/* .col */}
-              <Budgets />
-              {/* <CurrentBudgetStatus /> */}
+              <Budgets token={localStorage.getItem("token")} />
             </Col>
             <Col className="bg-light border">
               {/* .col */}
