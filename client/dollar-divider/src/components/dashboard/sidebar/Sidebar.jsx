@@ -15,11 +15,12 @@ function Sidebar(props) {
   const toggleNavbar = () => {
     setCollapsed(!collapsed);
     const sidebar = document.getElementById("sidebar");
-    if (sidebar.style.width === "12em") {
+    const openSidebarWidth = "17em"
+    if (sidebar.style.width === openSidebarWidth) {
       sidebar.style.width = "0";
     } else {
       sidebar.style.height = "100vh";
-      sidebar.style.width = "17em";
+      sidebar.style.width = openSidebarWidth;
       sidebar.style.borderRight = "solid rgb(46, 46, 46) 2px";
       sidebar.style.borderBottom = "solid rgb(46, 46, 46) 2px";
       sidebar.style.borderTop = "solid rgb(144, 144, 144) 2px";
