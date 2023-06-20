@@ -11,7 +11,7 @@ const TransactionSchema = new mongoose.Schema({
     },
     merchant: {
         type: String,
-        required: true,
+        required: false,
     },
     amount: {
         type: Number,
@@ -23,17 +23,17 @@ const TransactionSchema = new mongoose.Schema({
     },
     manualEntry: {
         type: Boolean,
-        required: true,
+        required: false,
     },
     source: {
         type: String,
-        required: true,
+        required: false,
     },
     category: {
         type: String,
         required: true,
     },
-    Base: {
+    base: {
         type: String,
         required: true,
     }

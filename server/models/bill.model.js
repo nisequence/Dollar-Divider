@@ -5,7 +5,7 @@ const BillSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    notes: {
+    desc: {
         type: String,
         required: false,
     },
@@ -17,22 +17,35 @@ const BillSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    password: {
-        type: String,
-        required: true,
-    },
+    // Paid/ Unpaid
     active: {
         type: Boolean,
         required: true,
     },
+    // Due Date of bill
+    dueDate: {
+        type: Date,
+        required: true
+    },
+    
+    recurring: {
+        type: Boolean,
+        required: true,
+    },
+    category: {
+        type: String,
+        required: true
+    },
+    //! Can only a admin post bill?
+    password: {
+        type: String,
+        required: false,
+    },
+    //! What does this mean?
     nextDate: {
         type: Date,
         required: false,
     },
-    recurring: {
-        type: Boolean,
-        required: true,
-    }
 })
 
 module.exports = mongoose.model("Bill", BillSchema);
