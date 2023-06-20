@@ -40,6 +40,7 @@ export default function Budgets(props) {
     <>
       <CurrentBudgetStatus
         budgets={budgets}
+        transactions = {props.transactions} 
       />
     </>
   );

@@ -1,11 +1,20 @@
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Pie, Doughnut } from "react-chartjs-2";
+// import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Pie, Doughnut, PolarArea } from "react-chartjs-2";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useParams } from "react-router-dom";
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 // import React, { useRef } from "react";
 // import React, {useState} from "react";
 // import ModalFullscreenExample from "../../../../utils/modalExample";
 // import { Form, FormGroup, Input, Label, Button } from "reactstrap";
+ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function CurrentBudgetStatus(props) {
@@ -37,7 +46,8 @@ export default function CurrentBudgetStatus(props) {
     let newBudgetCost = [i][0].budgetAmt;
     chartData.datasets[0].data.push(newBudgetCost);
   });
-
+console.log("props.transactions:",props.transactions)
+console.log("props.budgets:",props.budgets)
   const { id } = useParams();
 
   // Headers
@@ -55,9 +65,10 @@ export default function CurrentBudgetStatus(props) {
   return (
     <>
       <div className="CurrentBudgetStatus" id="currentbudgetstatus">
-        Current Budget Status
+        Remaining Monthly Percentages
         {/* <Doughnut */}
-        <Pie
+        <PolarArea
+        // <Pie
           data={chartData}
           // onElementsClick={(elems) => {
           //   // if required to build the URL, you can

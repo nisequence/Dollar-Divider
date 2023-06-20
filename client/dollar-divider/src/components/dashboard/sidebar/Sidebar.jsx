@@ -31,7 +31,7 @@ function Sidebar(props) {
   //! ------------------------- Populate sidebarArray with Menu items -------------------
   function addIDs () {
     let navs = document.getElementsByClassName("nav-item")
-    console.log(navs)
+    // console.log(navs)
       {
       for (let i = 0; i < navs.length; i++)
       navs[i].setAttribute("id",`sidebarItem_${i}`)
