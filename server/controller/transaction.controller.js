@@ -17,7 +17,7 @@ const serverError = (res, error) => {
 router.post("/add", async (req, res) => {
   try {
     //const {id} = req.params;
-    const { date, category, amount, base } = req.body;
+    const { date, desc, merchant, amount, checkNum, manualEntry, source, category, base } = req.body;
 
     if (base == "personal") {
       // make sure ID is correct & findable
@@ -33,8 +33,13 @@ router.post("/add", async (req, res) => {
 
       const transaction = new Transaction({
         date: date,
-        category: category,
+        desc: desc,
+        merchant: merchant,
         amount: amount,
+        checkNum: checkNum,
+        manualEntry: true, 
+        source: source,
+        category: category,
         base: req.user._id,
       });
 
@@ -59,10 +64,15 @@ router.post("/add", async (req, res) => {
 
       // if works add new transaction to household
       const transaction = new Transaction({
-        //! Do you want desc to be the same as category? MR
+
         date: date,
-        category: category,
+        desc: desc,
+        merchant: merchant,
         amount: amount,
+        checkNum: checkNum,
+        manualEntry: true, 
+        source: source,
+        category: category,
         base: req.user.householdID,
       });
 
@@ -83,9 +93,12 @@ router.post("/add", async (req, res) => {
 });
 //? GET ALL HOUSEHOLD ROUTE "/household/:id"
 
-router.get("/household/:id", async (req, res) => {
+router.get("/household", async (req, res) => {
   try {
-    getAllHouseholdTrans = await Transaction.find({_id: req.householdID._id});
+
+    const id = req.user._id;
+
+    getAllHouseholdTrans = await Transaction.find({base: id});
 
     getAllHouseholdTrans
       ? res.status(200).json({
@@ -103,9 +116,11 @@ router.get("/household/:id", async (req, res) => {
 //? GET ALL PERSONAL ROUTE "/mine/:id"
 //* Successful on Postman
 
-router.get("/mine/:id", async (req, res) => {
+router.get("/mine", async (req, res) => {
   try {
-    getAllUserTrans = await Transaction.find({_id: req.user._id});
+    const id = req.user._id;
+
+    getAllUserTrans = await Transaction.find({base: id});
 
     getAllUserTrans
       ? res.status(200).json({
