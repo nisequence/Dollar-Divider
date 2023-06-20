@@ -5,7 +5,7 @@
 }
 
 .DashBody {
-  background-color: #00517C;
+  background-color: #00517c;
   background-image: url("./media/benjamins.jpg");
 }
 
@@ -20,10 +20,10 @@
   position: fixed;
   z-index: 2;
   height: 3.5em;
-  border-right:"solid rgb(46, 46, 46) 2px";
+  border-right: "solid rgb(46, 46, 46) 2px";
   /* sidebar.style.borderRight = "solid rgb(46, 46, 46) 2px"; */
   width: 0;
-  transition: width .20s;
+  transition: width 0.2s;
   background-color: gray;
 }
 
@@ -52,9 +52,37 @@
   box-shadow: 0 0 0 0 !important;
 }
 
+/* #sidebarItems {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
+  margin-left: auto;
+} */
+
+/* #sidebarItems:hover {
+  color: black;
+  position: fixed;
+  bottom: 0;
+} */
+
+.nav-item {
+  margin-left: auto;
+}
+
+.nav-item:hover {
+  color: black;
+}
+
+#logout {
+  color: white;
+}
+#logout:hover {
+  color: black;
+}
+
 .UpcomingBillsContainer {
   background-color: darkblue;
-  border: solid gray .25em;
+  border: solid gray 0.25em;
   width: 40rem;
   height: fit-content;
 }
@@ -66,7 +94,7 @@
   font-family: "serif";
   font-size: xxx-large;
   /* opacity: .5; */
-} 
+}
 
 .Prev {
   margin-right: auto;
@@ -81,7 +109,7 @@
 }
 
 .UpcomingBills {
-  height: "fit-content"; 
+  height: "fit-content";
   padding: 1em;
   /* opacity: .5; */
 }
