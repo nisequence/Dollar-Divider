@@ -41,11 +41,14 @@ export default function CurrentBudgetStatus(props) {
     ],
   };
   //! -------------------------- Can't easily display dollar formatting --------------------
+  // todo filter through the transactions array to find the transaction categories that match the budget category names, add all those that match (maybe add misc category later), subtract transaction sum from total budget amount and display in the chart
   props.budgets.map((i) => {
     chartData.labels.push(i.budgetCat);
-    let newBudgetCost = [i][0].budgetAmt;
-    chartData.datasets[0].data.push(newBudgetCost);
+    let budgetCategoryTotal = [i][0].budgetAmt;
+    // budgetCategoryTotal / 100 * 
+    chartData.datasets[0].data.push(budgetCategoryTotal);
   });
+
 console.log("props.transactions:",props.transactions)
 console.log("props.budgets:",props.budgets)
   const { id } = useParams();
