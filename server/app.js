@@ -36,7 +36,6 @@ app.use("/transaction", transactionController);
 app.use(requireValidation);
 
 app.use("/household", householdController);
-4;
 
 app.use("/budget", budgetController);
 
