@@ -17,7 +17,7 @@ const serverError = (res, error) => {
 router.post("/add", async (req, res) => {
   try {
     //const {id} = req.params;
-    const { date, category, amount, base } = req.body;
+    const { date, category, amount, base, merchant, source, manualEntry } = req.body;
 
     if (base == "personal") {
       // make sure ID is correct & findable
@@ -36,6 +36,9 @@ router.post("/add", async (req, res) => {
         category: category,
         amount: amount,
         base: req.user._id,
+        source: source,
+        merchant: merchant,
+        manualEntry: true
       });
 
       const newTransaction = await transaction.save();
