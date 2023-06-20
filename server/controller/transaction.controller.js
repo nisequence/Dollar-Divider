@@ -85,7 +85,7 @@ router.post("/add", async (req, res) => {
 
 router.get("/household/:id", async (req, res) => {
   try {
-    getAllHouseholdTrans = await Transaction.find();
+    getAllHouseholdTrans = await Transaction.find({_id: req.householdID._id});
 
     getAllHouseholdTrans
       ? res.status(200).json({
@@ -105,7 +105,7 @@ router.get("/household/:id", async (req, res) => {
 
 router.get("/mine/:id", async (req, res) => {
   try {
-    getAllUserTrans = await Transaction.find();
+    getAllUserTrans = await Transaction.find({_id: req.user._id});
 
     getAllUserTrans
       ? res.status(200).json({
@@ -159,6 +159,27 @@ router.get("/category/:category", async (req, res) => {
     errorResponse(res, err);
   }
 });
+
+//? GET BY DATE AND CATEGORY ROUTER ("/dateAndCategory/:date/:category")
+
+router.get("/dateAndCategory/:date/:category", async (req, res) => {
+  try {
+    const { date, category } = req.params;
+
+    const getDateAndCategory = await Transaction.find({date:date}, { category: category });
+
+    getDateAndCategory.length > 0
+      ? res.status(200).json({
+          getDateAndCategory,
+        })
+      : res.status(404).json({
+          message: "No Date under Category found.",
+        });
+  } catch (err) {
+    errorResponse(res, err);
+  }
+});
+
 
 //? GET ONE ROUTE "/find/:id"
 //* Successful on Postman
