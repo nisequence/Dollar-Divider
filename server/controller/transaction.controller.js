@@ -83,9 +83,11 @@ router.post("/add", async (req, res) => {
 });
 //? GET ALL HOUSEHOLD ROUTE "/household/:id"
 
-router.get("/household/:id", async (req, res) => {
+router.get("/household", async (req, res) => {
   try {
-    getAllHouseholdTrans = await Transaction.find({_id: req.householdID._id});
+    const id = req.user.householdID;
+
+    const getAllHouseholdTrans = await Transaction.find({base: id});
 
     getAllHouseholdTrans
       ? res.status(200).json({
@@ -103,9 +105,11 @@ router.get("/household/:id", async (req, res) => {
 //? GET ALL PERSONAL ROUTE "/mine/:id"
 //* Successful on Postman
 
-router.get("/mine/:id", async (req, res) => {
+router.get("/mine", async (req, res) => {
   try {
-    getAllUserTrans = await Transaction.find({_id: req.user._id});
+    const id = req.user._id;
+
+    const getAllUserTrans = await Transaction.find({base: id});
 
     getAllUserTrans
       ? res.status(200).json({

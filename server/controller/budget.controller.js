@@ -10,6 +10,9 @@ const serverError = (res, error) => {
   });
 };
 
+//! Concept Notes
+// Budgets remain static; next month or last month buttons switch which set of transactions are being evaluated
+
 //? POST Route for Creation
 // (id in URL refers to either personal or household id; dependant on base var)
 router.post("/add", async (req, res) => {
@@ -31,7 +34,7 @@ router.post("/add", async (req, res) => {
       const budget = new Budget({
         budgetCat: category,
         budgetAmt: amount,
-        remainingAmt: amount,
+        //remainingAmt: amount,
         budgetBase: req.user._id,
         ownerID: req.user._id,
       });
@@ -44,7 +47,9 @@ router.post("/add", async (req, res) => {
       });
     } else if (base == "household") {
       //* Attempt to find the HH based on given ID
-      const findHousehold = await Household.findOne({ _id: req.user.householdID});
+      const findHousehold = await Household.findOne({
+        _id: req.user.householdID,
+      });
 
       if (!findHousehold) {
         // if household cannot be found with the input token (id)
@@ -83,8 +88,77 @@ router.post("/add", async (req, res) => {
   }
 });
 
+//? GET All Household Budgets
+router.get("/household", async (req, res) => {
+  try {
+    //* This is what we will use to filter through the budget items
+    const id = req.user.householdID;
+
+    //* Search for budgets matching this filter
+    const allBudgets = await Budget.find({ budgetBase: id });
+
+    //* Confirm that at least one was found
+    allBudgets.length > 0
+      ? res.status(200).json({
+          message: "Budget(s) found!",
+          allBudgets,
+        })
+      : res.status(404).json({
+          message: `No household budgets found.`,
+        });
+  } catch (err) {
+    serverError(res, err);
+  }
+});
+
+//? GET All Personal Budgets
+router.get("/mine", async (req, res) => {
+  try {
+    //* This is what we will use to filter through the budget items
+    const id = req.user._id;
+
+    //* Search for budgets matching this filter
+    const allBudgets = await Budget.find({ budgetBase: id });
+
+    //* Confirm that at least one was found
+    allBudgets.length > 0
+      ? res.status(200).json({
+          message: "Budget(s) found!",
+          allBudgets,
+        })
+      : res.status(404).json({
+          message: `No personal budgets found.`,
+        });
+  } catch (err) {
+    serverError(res, err);
+  }
+});
+
+//? GET Budget By ID
+router.get("/:id", async (req, res) => {
+  try {
+    //* Pull budget's id from params
+    const { id } = req.params;
+
+    //* Locating specific budget from database
+    const getBudget = await Budget.findOne({ _id: id });
+
+    //* Confirm that it was found
+    getBudget
+      ? res.status(200).json({
+          message: `Budget was found!`,
+          getBudget,
+        })
+      : res.status(404).json({
+          message: "No budget found.",
+        });
+  } catch (err) {
+    serverError(res, err);
+  }
+});
+
 //? PATCH Route for household budgets only (changing assigned user)
-router.patch("/edit/:id", async (req, res) => {
+router.patch("/assign/:id", async (req, res) => {
   try {
     //* Destructuring the budget ID from params, also grab user & body info
     const { id } = req.params;
@@ -93,6 +167,7 @@ router.patch("/edit/:id", async (req, res) => {
 
     //* First check the database for the budget
     const findBudget = await Budget.findOne({ _id: id });
+
     //* Second we will check if the assigneeID pertains to a correct user
     //! Bug info below
     /* 
@@ -160,6 +235,57 @@ router.patch("/edit/:id", async (req, res) => {
           "Sorry, the user you selected doesn't belong to this household yet!",
       });
     }
+  } catch (err) {
+    serverError(res, err);
+  }
+});
+
+//? PATCH Route for all budgets
+router.patch("/edit/:id", async (req, res) => {
+  try {
+    //* Destructuring the budget ID, user ID, and req. body
+    const { id } = req.params;
+    const userID = req.user._id;
+    const { category, amount } = req.body
+
+    //* First, check the database for the budget
+    const findBudget = await Budget.findOne({ _id: id });
+
+    if (!findBudget) {
+      // If budget is not findable
+      return res.status(404).json({
+        message: "Budget not found!",
+      });
+    }
+
+    //* Second, we will check if the user has the ability to change the budget
+    // (either by being the budget owner, or by being the assigned user if it is a household budget)
+    if (findBudget.ownerID != userID && findBudget.assignedUser != userID) {
+      return res.status(401).json({
+        message: "Sorry, you're not authorized!",
+      });
+    }
+
+    //* Success! The user can edit
+    const filter = { _id: id };
+    const newInfo = { budgetCat: category, budgetAmt: amount };
+    const returnOption = { new: true };
+
+    // communicate with the database about what we are updating
+    const updatedBudget = await Budget.findOneAndUpdate(
+      filter,
+      newInfo,
+      returnOption
+    );
+
+    //* Send response to client based on successful update
+    updatedBudget
+      ? res.status(200).json({
+          message: "Successfully updated budget!",
+        })
+      : res.status(520).json({
+          message: "Unable to update budget.",
+        });
   } catch (err) {
     serverError(res, err);
   }
