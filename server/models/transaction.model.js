@@ -33,7 +33,7 @@ const TransactionSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    Base: {
+    base: {
         type: String,
         required: true,
     }
