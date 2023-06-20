@@ -30,14 +30,13 @@ app.use(cors());
 
 //* Routes
 app.use("/user", userController);
-app.use("/transaction", transactionController);
 
 // Require jwt validation for all controllers below this point
 app.use(requireValidation);
 
 app.use("/household", householdController);
-
 app.use("/budget", budgetController);
+app.use("/transaction", transactionController);
 
 //* App Listening
 app.listen(PORT, () => {
