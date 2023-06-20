@@ -11,23 +11,25 @@ import RecentTransactions from "./transactions/recentTransactions/RecentTransact
 import { useState, useEffect } from "react";
 
 export default function Dashboard(props) {
+  const token=localStorage.getItem("token");
   const [transactions, setTransactions] = useState([]);
   const getPersonalTransactions = async () => {
 
     //! Change the ID to a path parameter
-    let url = "localhost:4000/transaction/mine/648f64ba57f975e3cfe03f3a";
+    let url = "http://localhost:4000/transaction/mine";
 
     const reqOptions = {
       method: "GET",
       headers: new Headers({
-        Authorization: props.token,
+        Authorization: token,
       }),
     };
 
     try {
+      console.log("trying")
       const res = await fetch(url, reqOptions);
       const data = await res.json();
-
+      console.log("data",data)
       // If the server does not provide a failure message
       if (data.message !== "No transactions found.") {
 
@@ -41,10 +43,10 @@ export default function Dashboard(props) {
   };
 
   useEffect(() => {
-    if (props.token) {
+    if (token) {
       getPersonalTransactions();
     }
-  }, [props.token]);
+  }, [token]);
 
 
   return (
@@ -61,7 +63,7 @@ export default function Dashboard(props) {
             </Col>
             <Col className="bg-light border">
               {/* .col */}
-              <Budgets token={localStorage.getItem("token")} transactions = {transactions} />
+              <Budgets token={token} transactions = {transactions} />
             </Col>
             <Col className="bg-light border">
               {/* .col */}
