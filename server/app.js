@@ -38,6 +38,7 @@ app.use("/household", householdController);
 app.use("/budget", budgetController);
 app.use("/transaction", transactionController);
 
+app.use("/transaction", transactionController);
 //* App Listening
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
