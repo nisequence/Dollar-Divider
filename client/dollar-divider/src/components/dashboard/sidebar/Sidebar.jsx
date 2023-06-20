@@ -1,5 +1,12 @@
 import React, { useState } from "react";
 import {
+  // Col,
+  // Container,
+  // Row,
+  Form,
+  FormGroup,
+  Label,
+  Input,
   Collapse,
   Navbar,
   NavbarToggler,
@@ -8,6 +15,7 @@ import {
   NavItem,
   NavLink,
 } from "reactstrap";
+import EditBudgets from "../budgets/EditBudgets";
 
 function Sidebar(props) {
   const [collapsed, setCollapsed] = useState(true);
@@ -29,27 +37,26 @@ function Sidebar(props) {
   };
 
   //! ------------------------- Populate sidebarArray with Menu items -------------------
-  function addIDs () {
-    let navs = document.getElementsByClassName("nav-item")
+  function addIDs() {
+    let navs = document.getElementsByClassName("nav-item");
     // console.log(navs)
-      {
+    {
       for (let i = 0; i < navs.length; i++)
-      navs[i].setAttribute("id",`sidebarItem_${i}`)
+        navs[i].setAttribute("id", `sidebarItem_${i}`);
       // navs[i].setAttribute("style",``)
     }
   }
-  
-    // }
-    // }
-  let sidebarArray = ["Menu Item 1", "Menu Item 2", "Menu Item 3", 
+
+  // }
+  // }
+  let sidebarArray = ["Menu Item 1", "Menu Item 2"];
+
+  // Create a button that opens an edit budget menu.
   // [
-  
-  //   import React, { useState } from 'react';
-  // import { Form, FormGroup, Label, Input } from 'reactstrap';
-  
+
   // function Example(props) {
   //   const [state, setState] = useState(true);
-  
+
   //   return (
   //     <Form>
   //       <FormGroup switch>
@@ -77,13 +84,11 @@ function Sidebar(props) {
   //     </Form>
   //   );
   // }]
-];
+
   const sidebarItems = sidebarArray.map((i) => {
-        return (
-      <NavItem>{i}</NavItem>
-     );
+    return <NavItem>{i}</NavItem>;
   });
-  const logout = "http://www.google.com"
+  const logout = "http://www.google.com";
   return (
     <div className="Sidebar" id="sidebar">
       <Navbar style={{ width: "10rem" }} color="faded" light>
@@ -96,13 +101,19 @@ function Sidebar(props) {
           <Nav navbar>
             {sidebarItems}
             {/* <NavLink href="/components/">Components</NavLink> */}
-            <NavItem><NavLink id="logout" href={logout}>Logout</NavLink></NavItem>
+            <NavItem>
+              {/* <EditBudgets /> */}
+            </NavItem>
+            <NavItem>
+              <NavLink id="logout" href={logout}>
+                Logout
+              </NavLink>
+            </NavItem>
           </Nav>
         </Collapse>
       </Navbar>
       {addIDs()}
     </div>
-    
   );
 }
 

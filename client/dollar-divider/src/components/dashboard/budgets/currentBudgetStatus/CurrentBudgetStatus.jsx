@@ -30,9 +30,9 @@ export default function CurrentBudgetStatus(props) {
           "purple",
           "blue",
           "green",
-          "seagreen",
           "darkorange",
           "sienna",
+          "seagreen",
           "mediumpurple",
           "powderblue",
         ],
@@ -45,12 +45,12 @@ export default function CurrentBudgetStatus(props) {
   props.budgets.map((i) => {
     chartData.labels.push(i.budgetCat);
     let budgetCategoryTotal = [i][0].budgetAmt;
-    // budgetCategoryTotal / 100 * 
-    chartData.datasets[0].data.push(budgetCategoryTotal);
+    let amountSpent = 0;//todo edit this to reflect the transactions for each category
+    chartData.datasets[0].data.push(budgetCategoryTotal - amountSpent);
   });
 
-console.log("props.transactions:",props.transactions)
-console.log("props.budgets:",props.budgets)
+// console.log("props.transactions:",props.transactions)
+// console.log("props.budgets:",props.budgets)
   const { id } = useParams();
 
   // Headers
@@ -68,7 +68,7 @@ console.log("props.budgets:",props.budgets)
   return (
     <>
       <div className="CurrentBudgetStatus" id="currentbudgetstatus">
-        Remaining Monthly Percentages
+        Remaining Monthly Amounts
         {/* <Doughnut */}
         <PolarArea
         // <Pie

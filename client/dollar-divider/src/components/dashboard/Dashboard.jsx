@@ -26,10 +26,10 @@ export default function Dashboard(props) {
     };
 
     try {
-      console.log("trying")
+      // console.log("trying")
       const res = await fetch(url, reqOptions);
       const data = await res.json();
-      console.log("data",data)
+      // console.log("data",data)
       // If the server does not provide a failure message
       if (data.message !== "No transactions found.") {
 
@@ -67,7 +67,7 @@ export default function Dashboard(props) {
             </Col>
             <Col className="bg-light border">
               {/* .col */}
-              <RecentTransactions />
+              <RecentTransactions transactions = {transactions} />
             </Col>
           </Row>
         </Container>

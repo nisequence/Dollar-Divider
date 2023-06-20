@@ -27,6 +27,10 @@
   background-color: gray;
 }
 
+#editBudgetsMenu {
+  /* display: none; */
+  background-color: rgb(170, 170, 170);
+}
 /* .Sidebar > header {
   margin-left: 1rem;
   position: fixed;
@@ -124,7 +128,8 @@
 }
 
 .RecentTransactions {
+  margin: auto;
   height: 38vh;
-  width: 33rem;
-  background-color: turquoise;
+  width: 65vw;
+  /* width: 33rem; */
 }
