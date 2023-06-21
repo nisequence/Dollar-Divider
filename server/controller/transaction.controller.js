@@ -3,6 +3,7 @@ const Transaction = require("../models/transaction.model");
 const User = require("../models/user.model");
 const Household = require("../models/household.model");
 const Budget = require("../models/budget.model");
+const Bills = require("../models/bill.model")
 
 const serverError = (res, error) => {
   console.log("Server-side error");
@@ -17,7 +18,7 @@ const serverError = (res, error) => {
 router.post("/add", async (req, res) => {
   try {
     //const {id} = req.params;
-    const { date, desc, merchant, amount, checkNum, manualEntry, source, category, base } = req.body;
+    const { date, desc, merchant, amount, checkNum, finAccount, category, base } = req.body;
 
     if (base == "personal") {
       // make sure ID is correct & findable
@@ -37,8 +38,7 @@ router.post("/add", async (req, res) => {
         merchant: merchant,
         amount: amount,
         checkNum: checkNum,
-        manualEntry: true, 
-        source: source,
+        finAccount: finAccount,
         category: category,
         base: req.user._id,
       });
@@ -70,8 +70,7 @@ router.post("/add", async (req, res) => {
         merchant: merchant,
         amount: amount,
         checkNum: checkNum,
-        manualEntry: true, 
-        source: source,
+        finAccount: finAccount,
         category: category,
         base: req.user.householdID,
       });

@@ -5,6 +5,7 @@ const BillSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    // Extra notes about transaction
     desc: {
         type: String,
         required: false,
@@ -32,11 +33,16 @@ const BillSchema = new mongoose.Schema({
         type: Boolean,
         required: true,
     },
+    autoPay: {
+        type: Boolean,
+        required: true
+    },
     category: {
         type: String,
         required: true
     },
     //! Can only a admin post bill?
+    //! How to write this for required for household not personal
     password: {
         type: String,
         required: false,

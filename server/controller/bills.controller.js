@@ -3,6 +3,7 @@ const Bill = require("../models/bill.model");
 const User = require("../models/user.model");
 const Household = require("../models/household.model");
 const Budget = require("../models/budget.model");
+const Transaction = require("../models/transaction.model");
 
 
 //? POST BILL ("/add")
@@ -30,7 +31,6 @@ router.post("/add", async (req, res) => {
         active: active,
         dueDate: dueDate,
         recurring: recurring,
-        // Not sure if category needs to be required yet.
         category: category,
         base: req.user._id,
       });

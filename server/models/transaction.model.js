@@ -25,7 +25,8 @@ const TransactionSchema = new mongoose.Schema({
         type: Boolean,
         required: true,
     },
-    source: {
+    // checking/savings
+    finAccount: {
         type: String,
         required: true,
     },
