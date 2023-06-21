@@ -1,0 +1,17 @@
+{
+    "data": [
+        {
+            "title": "sample bill",
+            "desc": "",
+            "merchant": "",
+            "amount": 900,
+            "active": true,
+            "dueDate": "2023-05-15T04:00:00.000Z",
+            "recurring": true,
+            "autoPay": true,
+            "category": "sample",
+            "password": "password123",
+            "nextDate": "2023-05-15T04:00:00.000Z"
+        }
+    ]
+}
