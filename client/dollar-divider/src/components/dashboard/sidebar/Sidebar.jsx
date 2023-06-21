@@ -16,6 +16,7 @@ import {
   NavLink,
 } from "reactstrap";
 import EditBudgets from "../budgets/EditBudgets";
+import Logout from "../../auth/logout/Logout";
 
 function Sidebar(props) {
   const [collapsed, setCollapsed] = useState(true);
@@ -101,12 +102,15 @@ function Sidebar(props) {
           <Nav navbar>
             {sidebarItems}
             {/* <NavLink href="/components/">Components</NavLink> */}
+            <NavItem>{/* <EditBudgets /> */}</NavItem>
             <NavItem>
-              {/* <EditBudgets /> */}
+              <NavLink id="household settings" href="/dashboard/household">
+                Household Settings
+              </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink id="logout" href={logout}>
-                Logout
+              <NavLink id="logout">
+                <Logout setToken={props.setToken} />
               </NavLink>
             </NavItem>
           </Nav>
