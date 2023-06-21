@@ -58,7 +58,9 @@ function Sidebar(props) {
   // }
   //! -------------------------------- Navbar Links ----------------------------
   const logout = "http://www.google.com";
-  const householdSettings = <NavLink href="/householdSettings">Household Settings</NavLink>
+  const householdSettings = (
+    <NavLink href="/dashboard/household">Household Settings</NavLink>
+  );
   // }
   // }
   let sidebarArray = ["Menu Item 1", "Menu Item 2", householdSettings];
@@ -68,7 +70,6 @@ function Sidebar(props) {
   const sidebarItems = sidebarArray.map((i) => {
     return <NavItem>{i}</NavItem>;
   });
-
 
   return (
     <div className="Sidebar" id="sidebar">
@@ -82,15 +83,14 @@ function Sidebar(props) {
           <Nav navbar>
             <br></br>
             <NavItem>
-              <Toggle />
+              <Toggle setView={props.setView} view={props.view} />
             </NavItem>
             <br></br>
             {sidebarItems}
             {/* <NavLink href="/components/">Components</NavLink> */}
-            <NavItem >{/* <EditBudgets /> */}</NavItem>
+            <NavItem>{/* <EditBudgets /> */}</NavItem>
             <br></br>
             <NavItem>
-              
               {/* <HouseholdSettings /> */}
               {/* need to pass token here!!! */}
             </NavItem>
