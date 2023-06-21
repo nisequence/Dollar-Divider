@@ -10,7 +10,14 @@ const Transaction = require("../models/transaction.model");
 router.post("/add", async (req, res) => {
   try {
     //const {id} = req.params;
-    const { title, merchant, amount, active,  dueDate, recurring, category, base} = req.body;
+    const { title, merchant, amount, active,  dueDate, autoPay,  recurring, category, base} = req.body;
+
+    const serverError = (res, error) => {
+      console.log("Server-side error");
+      return res.status(500).json({
+        Error:error.message
+      });
+    }
 
     if (base == "personal") {
       // make sure ID is correct & findable
@@ -30,6 +37,7 @@ router.post("/add", async (req, res) => {
         amount: amount,
         active: active,
         dueDate: dueDate,
+        autoPay: true,
         recurring: recurring,
         category: category,
         base: req.user._id,
@@ -61,6 +69,7 @@ router.post("/add", async (req, res) => {
         amount: amount,
         active: active,
         dueDate: dueDate,
+        autoPay: true,
         recurring: recurring,
         // Not sure if category needs to be required yet.
         category: category,
@@ -101,10 +110,12 @@ router.get("/find/:id", async (req, res) => {
     errorResponse(res, err);
   }
 });
-//? GET ALL PERSONAL ROUTER ("/mine/:id")
-router.get("/mine/:id", async (req, res) => {
+//? GET ALL PERSONAL ROUTER ("/mine")
+router.get("/mine", async (req, res) => {
   try {
-    getAllUserBills = await Bill.find();
+    const id = req.user._id;
+
+    const getAllUserBills = await Bill.find({base: id});
 
     getAllUserBills
       ? res.status(200).json({
@@ -118,10 +129,12 @@ router.get("/mine/:id", async (req, res) => {
     errorResponse(res, err);
   }
 });
-//? GET ALL HOUSEHOLD BILLS ROUTE ("/household/:id")
-router.get("/household/:id", async (req, res) => {
+//? GET ALL HOUSEHOLD BILLS ROUTE ("/household")
+router.get("/household", async (req, res) => {
   try {
-    getAllHouseholdBills = await Bill.find();
+    const id = req.user.householdID;
+
+    const getAllHouseholdBills = await Bill.find({base: id});
 
     getAllHouseholdBills
       ? res.status(200).json({
@@ -139,9 +152,9 @@ router.get("/household/:id", async (req, res) => {
 
 router.get("/dueDate/:dueDate", async (req, res) => {
   try {
-    const { date } = req.params;
+    const { dueDate } = req.params;
 
-    const getDate = await Transaction.find({ date: date });
+    const getDate = await Transaction.find({ dueDate: dueDate });
 
     getDate.length > 0
       ? res.status(200).json({
@@ -154,7 +167,45 @@ router.get("/dueDate/:dueDate", async (req, res) => {
     errorResponse(res, err);
   }
 });
-//? GET BILL BY CATEGORY ROUTE ("")
+
+//? GET BILL BY DATE AND CATEGORY ROUTER ("/dateAndCategory/:date/:category")
+
+router.get("/dateAndCategory/:date/:category", async (req, res) => {
+  try {
+    const { dueDate, category } = req.params;
+
+    const getDueDateAndCategory = await Bill.find({dueDate:dueDate}, { category: category });
+
+    getDueDateAndCategory.length > 0
+      ? res.status(200).json({
+          getDueDateAndCategory,
+        })
+      : res.status(404).json({
+          message: "No Due Date under Category found.",
+        });
+  } catch (err) {
+    errorResponse(res, err);
+  }
+});
+//? GET BILL BY CATEGORY ROUTE "/category/:category"
+
+router.get("/category/:category", async (req, res) => {
+  try {
+    const { category } = req.params;
+
+    const getBillCategory = await Bill.find({ category: category });
+
+    getBillCategory.length > 0
+      ? res.status(200).json({
+          getBillCategory,
+        })
+      : res.status(404).json({
+          message: "No category found.",
+        });
+  } catch (err) {
+    errorResponse(res, err);
+  }
+});
 
 //? EDIT BILL ROUTE ("/edit/:id")
 router.patch("/edit/:id", async (req, res) => {
