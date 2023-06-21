@@ -109,8 +109,8 @@ function Sidebar(props) {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink setToken={props.setToken} id="logout">
-                <Logout />
+              <NavLink id="logout">
+                <Logout setToken={props.setToken} />
               </NavLink>
             </NavItem>
           </Nav>
