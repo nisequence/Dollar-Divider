@@ -16,7 +16,9 @@ import {
   NavLink,
 } from "reactstrap";
 import EditBudgets from "../budgets/EditBudgets";
+import Toggle from "../sidebar/Toggle/Toggle";
 import Logout from "../../auth/logout/Logout";
+import HouseholdSettings from "./householdSettings/HouseholdSettings";
 
 function Sidebar(props) {
   const [collapsed, setCollapsed] = useState(true);
@@ -53,38 +55,6 @@ function Sidebar(props) {
   let sidebarArray = ["Menu Item 1", "Menu Item 2"];
 
   // Create a button that opens an edit budget menu.
-  // [
-
-  // function Example(props) {
-  //   const [state, setState] = useState(true);
-
-  //   return (
-  //     <Form>
-  //       <FormGroup switch>
-  //         <Input type="switch" role="switch" />
-  //         <Label check>Default switch checkbox input</Label>
-  //       </FormGroup>
-  //       <FormGroup switch>
-  //         <Input
-  //           type="switch"
-  //           checked={state}
-  //           onClick={() => {
-  //             setState(!state);
-  //           }}
-  //         />
-  //         <Label check>Checked switch checkbox input</Label>
-  //       </FormGroup>
-  //       <FormGroup switch disabled>
-  //         <Input type="switch" disabled />
-  //         <Label check>Disabled switch checkbox input</Label>
-  //       </FormGroup>
-  //       <FormGroup switch disabled>
-  //         <Input type="switch" checked disabled />
-  //         <Label check>Default switch checkbox input</Label>
-  //       </FormGroup>
-  //     </Form>
-  //   );
-  // }]
 
   const sidebarItems = sidebarArray.map((i) => {
     return <NavItem>{i}</NavItem>;
@@ -100,18 +70,22 @@ function Sidebar(props) {
         />
         <Collapse isOpen={!collapsed} navbar>
           <Nav navbar>
+            <br></br>
+            <NavItem>
+              <Toggle />
+            </NavItem>
+            <br></br>
             {sidebarItems}
             {/* <NavLink href="/components/">Components</NavLink> */}
             <NavItem>{/* <EditBudgets /> */}</NavItem>
+            <br></br>
             <NavItem>
-              <NavLink id="household settings" href="/dashboard/household">
-                Household Settings
-              </NavLink>
+              <HouseholdSettings />
+              {/* need to pass token here!!! */}
             </NavItem>
+            <br></br>
             <NavItem>
-              <NavLink id="logout">
-                <Logout setToken={props.setToken} />
-              </NavLink>
+              <Logout setToken={props.setToken} />
             </NavItem>
           </Nav>
         </Collapse>
