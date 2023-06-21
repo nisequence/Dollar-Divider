@@ -39,6 +39,7 @@ router.post("/add", async (req, res) => {
         amount: amount,
         checkNum: checkNum,
         finAccount: finAccount,
+        manualEntry: true, 
         category: category,
         base: req.user._id,
       });
@@ -71,6 +72,7 @@ router.post("/add", async (req, res) => {
         amount: amount,
         checkNum: checkNum,
         finAccount: finAccount,
+        manualEntry: true, 
         category: category,
         base: req.user.householdID,
       });
@@ -94,10 +96,9 @@ router.post("/add", async (req, res) => {
 
 router.get("/household", async (req, res) => {
   try {
+    const id = req.user.householdID;
 
-    const id = req.user._id;
-
-    getAllHouseholdTrans = await Transaction.find({base: id});
+    const getAllHouseholdTrans = await Transaction.find({base: id});
 
     getAllHouseholdTrans
       ? res.status(200).json({
@@ -119,7 +120,7 @@ router.get("/mine", async (req, res) => {
   try {
     const id = req.user._id;
 
-    getAllUserTrans = await Transaction.find({base: id});
+    const getAllUserTrans = await Transaction.find({base: id});
 
     getAllUserTrans
       ? res.status(200).json({
