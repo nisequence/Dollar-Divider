@@ -48,7 +48,7 @@ export default function Dashboard(props) {
     }
   }, [token]);
 
-
+//todo Incorporate useEffect to dynamically refresh sections on new information
   return (
     <>
       <div className="DashBody" id="dashbody">
