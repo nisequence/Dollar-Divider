@@ -94,7 +94,7 @@ router.post("/add", async (req, res) => {
     serverError(res, err);
   }
 });
-//? GET ALL HOUSEHOLD ROUTE "/household/:id"
+//? GET ALL HOUSEHOLD ROUTE "/household"
 
 router.get("/household", async (req, res) => {
   try {
