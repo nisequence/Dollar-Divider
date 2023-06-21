@@ -1,19 +1,51 @@
 import React from 'react'
 import { Table } from 'reactstrap'
 export default function RecentTransactions(props) {
-console.log("props",props)
+// console.log("props.transacations",props.transactions)
 
 const recentTransactions = [];
+const tempTransactions = [];
+let colorAssignment = 0;
+let tempColor;
+props.transactions.map((i) => {
+  tempTransactions.push(i);
+});
 
-// props.transactions.map((i) => {
-//   const tempArray = [];
-//   let transactionInstance = i.
-//   tempArray.push(i.budgetCat);
-//   let budgetCategoryTotal = [i][0].budgetAmt;
-//   // budgetCategoryTotal / 100 * 
-//   chartData.datasets[0].data.push(budgetCategoryTotal);
-// });
+tempTransactions.map((transaction) => {
 
+  if (colorAssignment === 0) {
+    tempColor = "table-success"
+    colorAssignment = 1;
+  } else {
+    tempColor = "table-secondary"
+    colorAssignment = 0;
+  };
+  return (
+    recentTransactions.push(
+    <tr className={tempColor}>
+    <td>
+      {transaction.date}
+    </td>
+    <td>
+    {transaction.merchant}
+    </td>
+    <td>
+    ${transaction.amount}
+    </td>
+    <td>
+    {transaction.manualEntry}
+    </td>
+    <td>
+    {transaction.source}
+    </td>
+    <td>
+    {transaction.category}
+    </td>
+  </tr>)
+
+)
+
+})
   return (
     <div className='RecentTransactions'>
       <Table>
@@ -44,177 +76,7 @@ const recentTransactions = [];
     </tr>
   </thead>
   <tbody>
-    <tr className="table-primary">
-      <td>
-        primary
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      {/* <td>
-        Cell
-      </td> */}
-    </tr>
-    <tr className="table-secondary">
-      <td>
-        secondary
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      {/* <td>
-        Cell
-      </td> */}
-    </tr>
-    <tr className="table-success">
-      <td>
-        success
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      {/* <td>
-        Cell
-      </td> */}
-    </tr>
-    <tr className="table-danger">
-      <td>
-        danger
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      {/* <td>
-        Cell
-      </td> */}
-    </tr>
-    <tr className="table-warning">
-      <td>
-        warning
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      {/* <td>
-        Cell
-      </td> */}
-    </tr>
-    <tr className="table-info">
-      <td>
-        info
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      {/* <td>
-        Cell
-      </td> */}
-    </tr>
-    <tr className="table-light">
-      <td>
-        light
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-      {/* <td>
-        Cell
-      </td> */}
-    </tr>
-    {/* <tr className="table-dark">
-      <td>
-        dark
-      </td>
-      <td>
-        Cell
-      </td>
-      <td>
-        Cell
-      </td>
-    </tr> */}
+    {recentTransactions}
   </tbody>
 </Table>
     </div>
