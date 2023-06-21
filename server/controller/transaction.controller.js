@@ -3,6 +3,7 @@ const Transaction = require("../models/transaction.model");
 const User = require("../models/user.model");
 const Household = require("../models/household.model");
 const Budget = require("../models/budget.model");
+const Bills = require("../models/bill.model")
 
 const serverError = (res, error) => {
   console.log("Server-side error");
@@ -17,7 +18,9 @@ const serverError = (res, error) => {
 router.post("/add", async (req, res) => {
   try {
     //const {id} = req.params;
-    const { date, category, amount, base } = req.body;
+
+    const { date, desc, merchant, amount, checkNum, finAccount, category, base } = req.body;
+
 
     if (base == "personal") {
       // make sure ID is correct & findable
@@ -33,8 +36,13 @@ router.post("/add", async (req, res) => {
 
       const transaction = new Transaction({
         date: date,
-        category: category,
+        desc: desc,
+        merchant: merchant,
         amount: amount,
+        checkNum: checkNum,
+        finAccount: finAccount,
+        manualEntry: true, 
+        category: category,
         base: req.user._id,
       });
 
@@ -59,10 +67,15 @@ router.post("/add", async (req, res) => {
 
       // if works add new transaction to household
       const transaction = new Transaction({
-        //! Do you want desc to be the same as category? MR
+
         date: date,
-        category: category,
+        desc: desc,
+        merchant: merchant,
         amount: amount,
+        checkNum: checkNum,
+        finAccount: finAccount,
+        manualEntry: true, 
+        category: category,
         base: req.user.householdID,
       });
 
@@ -83,9 +96,11 @@ router.post("/add", async (req, res) => {
 });
 //? GET ALL HOUSEHOLD ROUTE "/household/:id"
 
-router.get("/household/:id", async (req, res) => {
+router.get("/household", async (req, res) => {
   try {
-    getAllHouseholdTrans = await Transaction.find();
+    const id = req.user.householdID;
+
+    const getAllHouseholdTrans = await Transaction.find({base: id});
 
     getAllHouseholdTrans
       ? res.status(200).json({
@@ -103,9 +118,11 @@ router.get("/household/:id", async (req, res) => {
 //? GET ALL PERSONAL ROUTE "/mine/:id"
 //* Successful on Postman
 
-router.get("/mine/:id", async (req, res) => {
+router.get("/mine", async (req, res) => {
   try {
-    getAllUserTrans = await Transaction.find();
+    const id = req.user._id;
+
+    const getAllUserTrans = await Transaction.find({base: id});
 
     getAllUserTrans
       ? res.status(200).json({
@@ -119,7 +136,26 @@ router.get("/mine/:id", async (req, res) => {
     errorResponse(res, err);
   }
 });
+//? GET BY DATE ROUTE "/date/:date"
+//* Successful in postman
 
+router.get("/date/:date", async (req, res) => {
+  try {
+    const { date } = req.params;
+
+    const getDate = await Transaction.find({ date: date });
+
+    getDate.length > 0
+      ? res.status(200).json({
+          getDate,
+        })
+      : res.status(404).json({
+          message: "No transactions found for this date.",
+        });
+  } catch (err) {
+    errorResponse(res, err);
+  }
+});
 //? GET BY CATEGORY ROUTE "/category/:category"
 //* Successful on Postman
 
@@ -140,6 +176,27 @@ router.get("/category/:category", async (req, res) => {
     errorResponse(res, err);
   }
 });
+
+//? GET BY DATE AND CATEGORY ROUTER ("/dateAndCategory/:date/:category")
+
+router.get("/dateAndCategory/:date/:category", async (req, res) => {
+  try {
+    const { date, category } = req.params;
+
+    const getDateAndCategory = await Transaction.find({date:date}, { category: category });
+
+    getDateAndCategory.length > 0
+      ? res.status(200).json({
+          getDateAndCategory,
+        })
+      : res.status(404).json({
+          message: "No Date under Category found.",
+        });
+  } catch (err) {
+    errorResponse(res, err);
+  }
+});
+
 
 //? GET ONE ROUTE "/find/:id"
 //* Successful on Postman

@@ -8,6 +8,7 @@ const userController = require("./controller/user.controller");
 const householdController = require("./controller/household.controller");
 const budgetController = require("./controller/budget.controller");
 const transactionController = require("./controller/transaction.controller");
+const billsController = require("./controller/bills.controller");
 
 //* Middleware
 const requireValidation = require("./middleware/validate-session");
@@ -30,15 +31,14 @@ app.use(cors());
 
 //* Routes
 app.use("/user", userController);
-app.use("/transaction", transactionController);
 
 // Require jwt validation for all controllers below this point
 app.use(requireValidation);
 
 app.use("/household", householdController);
-4;
-
 app.use("/budget", budgetController);
+app.use("/transaction", transactionController);
+app.use("/bills", billsController);
 
 //* App Listening
 app.listen(PORT, () => {

@@ -9,6 +9,36 @@ const serverError = (res, error) => {
   });
 };
 
+function breakdownPercents(totalUsers) {
+  //* Split 100% of costs between users, then round that number to the nearest whole
+  let breakdownPercent = 100 / totalUsers;
+  breakdownPercent = Math.round(breakdownPercent);
+
+  //* In the event that these numbers will now not = 100 when added, determine an amount that one user (admin) will take to even things out
+  let disparity = 100 - breakdownPercent * totalUsers;
+  disparity = disparity + breakdownPercent;
+
+  //* Use an array to track the percentage inputs in the order that the user IDs are listed
+  let breakdownArray = [];
+
+  //* In the case that disparity is not needed (numbers are completely even)
+  if (disparity === 0) {
+    for (x = 0; x < totalUsers; x++) {
+      // every user will pay exactly the same
+      breakdownArray.push(breakdownPercent);
+    }
+    //* In the case that disparity IS needed...
+  } else {
+    //push the disparity to the admin
+    breakdownArray.push(disparity);
+    for (x = 1; x < totalUsers; x++) {
+      // starting with one should skip the admin
+      breakdownArray.push(breakdownPercent);
+    }
+  }
+  return breakdownArray;
+}
+
 async function addUserToHousehold(userID, HhID) {
   try {
     const filter = { _id: userID };
@@ -279,32 +309,8 @@ router.patch("/edit", async (req, res) => {
     //* Track how many users are now in the household
     let numOfUsers = findHousehold.participantIDs.length;
 
-    //* Split 100% of costs between users, then round that number to the nearest whole
-    let breakdownPercent = 100 / numOfUsers;
-    breakdownPercent = Math.round(breakdownPercent);
-
-    //* In the event that these numbers will now not = 100 when added, determine an amount that one user (admin) will take to even things out
-    let disparity = 100 - breakdownPercent * numOfUsers;
-    disparity = disparity + breakdownPercent;
-
-    //* Use an array to track the percentage inputs in the order that the user IDs are listed
-    let breakdownArray = [];
-
-    //* In the case that disparity is not needed (numbers are completely even)
-    if (disparity === 0) {
-      for (x = 0; x < numOfUsers; x++) {
-        // every user will pay exactly the same
-        breakdownArray.push(breakdownPercent);
-      }
-      //* In the case that disparity IS needed...
-    } else {
-      //push the disparity to the admin
-      breakdownArray.push(disparity);
-      for (x = 1; x < numOfUsers; x++) {
-        // starting with one should skip the admin?
-        breakdownArray.push(breakdownPercent);
-      }
-    }
+    //* Update the percentages based on how many users there are
+    let breakdownArray = breakdownPercents(numOfUsers);
 
     //* Track any possible new info we are updating to send to the database
     let newInfo = {
@@ -402,32 +408,8 @@ router.patch("/join/:id", async (req, res) => {
     //* Track how many users are now in the household
     let numOfUsers = updateArray.length;
 
-    //* Split 100% of costs between users, then round that number to the nearest whole
-    let breakdownPercent = 100 / numOfUsers;
-    breakdownPercent = Math.round(breakdownPercent);
-
-    //* In the event that these numbers will now not = 100 when added, determine an amount that one user (admin) will take to even things out
-    let disparity = 100 - breakdownPercent * numOfUsers;
-    disparity = disparity + breakdownPercent;
-
-    //* Use an array to track the percentage inputs in the order that the user IDs are listed
-    let breakdownArray = [];
-
-    //* In the case that disparity is not needed (numbers are completely even)
-    if (disparity === 0) {
-      for (x = 0; x < numOfUsers; x++) {
-        // every user will pay exactly the same
-        breakdownArray.push(breakdownPercent);
-      }
-      //* In the case that disparity IS needed...
-    } else {
-      //push the disparity to the admin
-      breakdownArray.push(disparity);
-      for (x = 1; x < numOfUsers; x++) {
-        // starting with one should skip the admin?
-        breakdownArray.push(breakdownPercent);
-      }
-    }
+    //* Update the percentages based on how many users there are
+    let breakdownArray = breakdownPercents(numOfUsers);
 
     let newInfo = {
       participantIDs: updateArray,

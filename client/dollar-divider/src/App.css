@@ -5,34 +5,88 @@
 }
 
 .DashBody {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: auto;
-  grid-template-areas: 
-  "sidebar upcomingbillscontainer . currentbudgetstatus"
-  /* "sidebar . . ." */
-  "sidebar . . recenttransactions"
-  ;
+  background-color: #00517c;
+  /* background-image: url("./media/benjamins.jpg"); */
+}
+
+.stdBox {
+  border-right: solid rgb(46, 46, 46) 2px;
+  border-bottom: solid rgb(46, 46, 46) 2px;
+  border-top: solid rgb(144, 144, 144) 2px;
+  border-left: solid rgb(144, 144, 144) 2px;
 }
 
 .Sidebar {
-  grid-area: sidebar;
-  height: 100vh;
-  width: 15rem;
-  background-color: rgb(0, 71, 0);
-  border-right: .5em solid #5e5e5e;
+  position: fixed;
+  z-index: 2;
+  height: 3.5em;
+  border-right: "solid rgb(46, 46, 46) 2px";
+  /* sidebar.style.borderRight = "solid rgb(46, 46, 46) 2px"; */
+  width: 0;
+  transition: width 0.2s;
+  background-color: gray;
 }
 
-.Sidebar > header {
+#editBudgetsMenu {
+  /* display: none; */
+  background-color: rgb(170, 170, 170);
+}
+/* .Sidebar > header {
+  margin-left: 1rem;
+  position: fixed;
   margin-top: 1em;
   font-size: x-large;
+} */
+
+#sidebarBtn {
+  /* outline: none; */
+
+  user-select: none;
+  margin-top: 0;
+  padding-top: 0;
+  background-color: gray;
+  border-radius: 0;
+  border-right: solid rgb(46, 46, 46) 2px;
+  border-bottom: solid rgb(46, 46, 46) 2px;
+  border-top: solid rgb(144, 144, 144) 2px;
+  border-left: solid rgb(144, 144, 144) 2px;
 }
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 0 !important;
+}
+
+/* #sidebarItems {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
+  margin-left: auto;
+} */
+
+/* #sidebarItems:hover {
+  color: black;
+  position: fixed;
+  bottom: 0;
+} */
+
+.nav-item {
+  margin-left: auto;
+}
+
+.nav-item:hover {
+  color: black;
+}
+
+#logout {
+  color: white;
+}
+#logout:hover {
+  color: black;
+}
+
 .UpcomingBillsContainer {
-  grid-area: upcomingbillscontainer;
   background-color: darkblue;
-  /* margin-left: 1.5em; */
-  border: solid gray 1em;
-  /* width: 30vw; */
+  border: solid gray 0.25em;
   width: 40rem;
   height: fit-content;
 }
@@ -41,10 +95,10 @@
   display: flex;
   align-items: center;
   width: 100%;
-  /* margin-top: .5em; */
   font-family: "serif";
   font-size: xxx-large;
-} 
+  /* opacity: .5; */
+}
 
 .Prev {
   margin-right: auto;
@@ -59,20 +113,23 @@
 }
 
 .UpcomingBills {
-  height: "fit-content"; 
+  height: "fit-content";
   padding: 1em;
+  /* opacity: .5; */
 }
 
 .CurrentBudgetStatus {
-  grid-area: currentbudgetstatus;
-  height: 60vh;
-  width: 33rem;
-  background-color: turquoise;
+  /* height: 60vh; */
+  /* width: 33rem; */
+  background-color: rgb(178, 178, 178);
+  color: black;
+  font-size: xx-large;
+  /* opacity: .5; */
 }
 
 .RecentTransactions {
-  grid-area: recenttransactions;
+  margin: auto;
   height: 38vh;
-  width: 33rem;
-  background-color: turquoise;
+  width: 65vw;
+  /* width: 33rem; */
 }
