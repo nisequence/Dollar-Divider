@@ -47,27 +47,40 @@ export default function Dashboard(props) {
     }
   }, [token]);
 
+  console.log(props.view);
+
   //todo Incorporate useEffect to dynamically refresh sections on new information
   return (
     <>
       <div className="DashBody" id="dashbody">
         <Col>
-          <Sidebar setToken={props.setToken} />
+          <Sidebar
+            setToken={props.setToken}
+            setView={props.setView}
+            view={props.view}
+          />
         </Col>
         <Container>
           <Row>
             <Col className="bg-light border">
               {/* .col */}
               {/* <UpcomingBills /> */}
-              <Bills />
+              <Bills view={props.view} />
             </Col>
             <Col className="bg-light border">
               {/* .col */}
-              <Budgets token={token} transactions={transactions} />
+              <Budgets
+                view={props.view}
+                token={token}
+                transactions={transactions}
+              />
             </Col>
             <Col className="bg-light border">
               {/* .col */}
-              <RecentTransactions transactions={transactions} />
+              <RecentTransactions
+                view={props.view}
+                transactions={transactions}
+              />
             </Col>
           </Row>
         </Container>

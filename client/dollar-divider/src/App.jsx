@@ -14,6 +14,14 @@ function App() {
     setSessionToken(newToken);
   };
 
+  //* UseState to determine whether the user will see household or personal view (false = personal, true = household)
+  const [viewSetting, setViewSetting] = useState(false);
+  const updateSetting = (newView) => {
+    localStorage.setItem("View", newView);
+    // ^ .setItem(key, value)
+    setViewSetting(newView);
+  };
+
   return (
     <div className="App">
       <Routes>
@@ -24,7 +32,12 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            <Dashboard updateToken={updateToken} setToken={setSessionToken} />
+            <Dashboard
+              updateToken={updateToken}
+              setToken={setSessionToken}
+              view={viewSetting}
+              setView={updateSetting}
+            />
           }
         />
         <Route
