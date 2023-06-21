@@ -18,9 +18,16 @@ function App() {
       <Routes>
         {/* Login Page */}
         <Route path="/" element={<Auth updateToken={updateToken} />} />
-        
+
         {/* Main Dashboard */}
-        <Route path ="/dashboard" element={<Dashboard updateToken={updateToken} />}/>
+        <Route
+          path="/dashboard"
+          element={<Dashboard updateToken={updateToken} />}
+        />
+        <Route
+          path="/dashboard/household"
+          element={<HouseholdSettings token={sessionToken} />}
+        />
       </Routes>
     </div>
   );
