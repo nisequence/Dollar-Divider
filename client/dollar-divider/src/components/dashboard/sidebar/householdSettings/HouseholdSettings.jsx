@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function HouseholdSettings() {
-  return <div>HouseholdSettings</div>;
+  return <div>Household Settings</div>;
 }
