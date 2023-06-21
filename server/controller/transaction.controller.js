@@ -18,7 +18,9 @@ const serverError = (res, error) => {
 router.post("/add", async (req, res) => {
   try {
     //const {id} = req.params;
+
     const { date, desc, merchant, amount, checkNum, finAccount, category, base } = req.body;
+
 
     if (base == "personal") {
       // make sure ID is correct & findable

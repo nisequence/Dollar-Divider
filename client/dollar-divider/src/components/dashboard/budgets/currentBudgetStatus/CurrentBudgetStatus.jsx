@@ -1,11 +1,20 @@
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Pie, Doughnut } from "react-chartjs-2";
+// import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Pie, Doughnut, PolarArea } from "react-chartjs-2";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useParams } from "react-router-dom";
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 // import React, { useRef } from "react";
 // import React, {useState} from "react";
 // import ModalFullscreenExample from "../../../../utils/modalExample";
 // import { Form, FormGroup, Input, Label, Button } from "reactstrap";
+ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function CurrentBudgetStatus(props) {
@@ -21,9 +30,9 @@ export default function CurrentBudgetStatus(props) {
           "purple",
           "blue",
           "green",
-          "seagreen",
           "darkorange",
           "sienna",
+          "seagreen",
           "mediumpurple",
           "powderblue",
         ],
@@ -32,12 +41,16 @@ export default function CurrentBudgetStatus(props) {
     ],
   };
   //! -------------------------- Can't easily display dollar formatting --------------------
+  // todo filter through the transactions array to find the transaction categories that match the budget category names, add all those that match (maybe add misc category later), subtract transaction sum from total budget amount and display in the chart
   props.budgets.map((i) => {
     chartData.labels.push(i.budgetCat);
-    let newBudgetCost = [i][0].budgetAmt;
-    chartData.datasets[0].data.push(newBudgetCost);
+    let budgetCategoryTotal = [i][0].budgetAmt;
+    let amountSpent = 0;//todo edit this to reflect the transactions for each category
+    chartData.datasets[0].data.push(budgetCategoryTotal - amountSpent);
   });
 
+// console.log("props.transactions:",props.transactions)
+// console.log("props.budgets:",props.budgets)
   const { id } = useParams();
 
   // Headers
@@ -55,9 +68,10 @@ export default function CurrentBudgetStatus(props) {
   return (
     <>
       <div className="CurrentBudgetStatus" id="currentbudgetstatus">
-        Current Budget Status
+        Remaining Monthly Amounts
         {/* <Doughnut */}
-        <Pie
+        <PolarArea
+        // <Pie
           data={chartData}
           // onElementsClick={(elems) => {
           //   // if required to build the URL, you can
