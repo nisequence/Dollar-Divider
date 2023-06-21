@@ -3,6 +3,7 @@ const Transaction = require("../models/transaction.model");
 const User = require("../models/user.model");
 const Household = require("../models/household.model");
 const Budget = require("../models/budget.model");
+const Bills = require("../models/bill.model")
 
 const serverError = (res, error) => {
   console.log("Server-side error");
@@ -17,7 +18,9 @@ const serverError = (res, error) => {
 router.post("/add", async (req, res) => {
   try {
     //const {id} = req.params;
-    const { date, category, amount, base, merchant, source, manualEntry } = req.body;
+
+    const { date, desc, merchant, amount, checkNum, finAccount, category, base } = req.body;
+
 
     if (base == "personal") {
       // make sure ID is correct & findable
@@ -33,12 +36,14 @@ router.post("/add", async (req, res) => {
 
       const transaction = new Transaction({
         date: date,
-        category: category,
-        amount: amount,
-        base: req.user._id,
-        source: source,
+        desc: desc,
         merchant: merchant,
-        manualEntry: true
+        amount: amount,
+        checkNum: checkNum,
+        finAccount: finAccount,
+        manualEntry: true, 
+        category: category,
+        base: req.user._id,
       });
 
       const newTransaction = await transaction.save();
@@ -62,10 +67,15 @@ router.post("/add", async (req, res) => {
 
       // if works add new transaction to household
       const transaction = new Transaction({
-        //! Do you want desc to be the same as category? MR
+
         date: date,
-        category: category,
+        desc: desc,
+        merchant: merchant,
         amount: amount,
+        checkNum: checkNum,
+        finAccount: finAccount,
+        manualEntry: true, 
+        category: category,
         base: req.user.householdID,
       });
 
