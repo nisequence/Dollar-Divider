@@ -8,6 +8,19 @@
   background-color: #00517c;
 }
 
+RemainingMonthlyAmountsChartColors {
+  background-color: rgba(255, 255, 0, 0.5);
+  background-color: rgba(255, 0, 0, 0.5);
+  background-color: rgba(128, 0, 128, 0.5);
+  background-color: rgba(0, 0, 255, 0.5);
+  background-color: rgba(0, 128, 0, 0.5);
+  background-color: rgba(255, 140, 0, 0.5);
+  background-color: rgba(46, 139, 86, 0.5);
+  background-color: rgba(176, 224, 230, 0.5);
+  background-color: rgba(160, 81, 45, 0.5);
+  background-color: rgba(147, 112, 216, 0.5);
+}
+
 .stdBox {
   border-right: solid rgb(46, 46, 46) 2px;
   border-bottom: solid rgb(46, 46, 46) 2px;
