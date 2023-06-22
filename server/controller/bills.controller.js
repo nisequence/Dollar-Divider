@@ -4,8 +4,12 @@ const User = require("../models/user.model");
 const Household = require("../models/household.model");
 const Budget = require("../models/budget.model");
 const Transaction = require("../models/transaction.model");
-
-
+const serverError = (res, error) => {
+  console.log("Server-side error");
+  return res.status(500).json({
+    Error: error.message,
+  });
+};
 //? POST BILL ("/add")
 router.post("/add", async (req, res) => {
   try {
@@ -41,6 +45,7 @@ router.post("/add", async (req, res) => {
         recurring: recurring,
         category: category,
         base: req.user._id,
+        autoPay: autoPay
       });
 
       const newBill = await bill.save();

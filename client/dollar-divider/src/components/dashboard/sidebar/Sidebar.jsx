@@ -16,6 +16,9 @@ import {
   NavLink,
 } from "reactstrap";
 import EditBudgets from "../budgets/EditBudgets";
+import Toggle from "../sidebar/Toggle/Toggle";
+import Logout from "../../auth/logout/Logout";
+import HouseholdSettings from "./householdSettings/HouseholdSettings";
 
 function Sidebar(props) {
   const [collapsed, setCollapsed] = useState(true);
@@ -37,58 +40,37 @@ function Sidebar(props) {
   };
 
   //! ------------------------- Populate sidebarArray with Menu items -------------------
-  function addIDs() {
-    let navs = document.getElementsByClassName("nav-item");
-    // console.log(navs)
-    {
-      for (let i = 0; i < navs.length; i++)
-        navs[i].setAttribute("id", `sidebarItem_${i}`);
-      // navs[i].setAttribute("style",``)
-    }
-  }
-
+  // function addIDs() {
+  //   let navs = document.getElementsByClassName("nav-item");
+  //   // console.log(navs)
+  //   {
+  //     for (let i = 0; i < navs.length; i++)
+  //       navs[i].setAttribute("id", `sidebarItem_${i}`);
+  //     // navs[i].setAttribute("style",``)
+  //   }
+  // }
+  // function addLinkAttributes() {
+  //   let navLinks = document.getElementsByClassName("nav-link")
+  //   for (let i = 0; i < navLinks.length; i++) {
+  //     navLinks[i].setAttribute("id", `navLink_${i}`)
+  //     // navLinks[i].setAttribute("style", `color: red`)
+  //   }
+  // }
+  //! -------------------------------- Navbar Links ----------------------------
+  const logout = "http://www.google.com";
+  const householdSettings = (
+    <NavLink href="/dashboard/household">Household Settings</NavLink>
+  );
   // }
   // }
-  let sidebarArray = ["Menu Item 1", "Menu Item 2"];
+  let sidebarArray = ["Menu Item 1", "Menu Item 2", householdSettings];
 
   // Create a button that opens an edit budget menu.
-  // [
-
-  // function Example(props) {
-  //   const [state, setState] = useState(true);
-
-  //   return (
-  //     <Form>
-  //       <FormGroup switch>
-  //         <Input type="switch" role="switch" />
-  //         <Label check>Default switch checkbox input</Label>
-  //       </FormGroup>
-  //       <FormGroup switch>
-  //         <Input
-  //           type="switch"
-  //           checked={state}
-  //           onClick={() => {
-  //             setState(!state);
-  //           }}
-  //         />
-  //         <Label check>Checked switch checkbox input</Label>
-  //       </FormGroup>
-  //       <FormGroup switch disabled>
-  //         <Input type="switch" disabled />
-  //         <Label check>Disabled switch checkbox input</Label>
-  //       </FormGroup>
-  //       <FormGroup switch disabled>
-  //         <Input type="switch" checked disabled />
-  //         <Label check>Default switch checkbox input</Label>
-  //       </FormGroup>
-  //     </Form>
-  //   );
-  // }]
 
   const sidebarItems = sidebarArray.map((i) => {
     return <NavItem>{i}</NavItem>;
   });
-  const logout = "http://www.google.com";
+
   return (
     <div className="Sidebar" id="sidebar">
       <Navbar style={{ width: "10rem" }} color="faded" light>
@@ -99,20 +81,28 @@ function Sidebar(props) {
         />
         <Collapse isOpen={!collapsed} navbar>
           <Nav navbar>
+            <br></br>
+            <NavItem>
+              <Toggle setView={props.setView} view={props.view} />
+            </NavItem>
+            <br></br>
             {sidebarItems}
             {/* <NavLink href="/components/">Components</NavLink> */}
+            <NavItem>{/* <EditBudgets /> */}</NavItem>
+            <br></br>
             <NavItem>
-              {/* <EditBudgets /> */}
+              {/* <HouseholdSettings /> */}
+              {/* need to pass token here!!! */}
             </NavItem>
+            <br></br>
             <NavItem>
-              <NavLink id="logout" href={logout}>
-                Logout
-              </NavLink>
+              <Logout setToken={props.setToken} />
             </NavItem>
           </Nav>
         </Collapse>
       </Navbar>
-      {addIDs()}
+      {/* {addIDs()} */}
+      {/* {addLinkAttributes()} */}
     </div>
   );
 }
