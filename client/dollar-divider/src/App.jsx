@@ -34,16 +34,12 @@ function App() {
           element={
             <Dashboard
               updateToken={updateToken}
-              setToken={setSessionToken}
               view={viewSetting}
               setView={updateSetting}
             />
           }
         />
-        <Route
-          path="/dashboard/household"
-          element={<HouseholdSettings token={sessionToken} />}
-        />
+        <Route path="/dashboard/household" element={<HouseholdSettings />} />
       </Routes>
     </div>
   );
