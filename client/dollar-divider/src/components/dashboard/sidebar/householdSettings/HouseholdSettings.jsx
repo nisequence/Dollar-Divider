@@ -62,9 +62,9 @@ export default function HouseholdSettings() {
     }
   };
   return (
-    <>
+    <div id="rightSideMenu">
       <div>Household Settings</div>
       {returnView()}
-    </>
+    </div>
   );
 }
