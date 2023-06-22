@@ -43,6 +43,7 @@ export default function CurrentBudgetStatus(props) {
   //! -------------------------- Can't easily display dollar formatting --------------------
   // todo filter through the transactions array to find the transaction categories that match the budget category names, add all those that match (maybe add misc category later), subtract transaction sum from total budget amount and display in the chart
 
+  
   if (props.budgets === undefined) {
     chartData.labels.push("Household Budget is Empty");
     let budgetCategoryTotal = 0;
