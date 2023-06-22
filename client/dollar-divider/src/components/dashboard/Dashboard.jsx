@@ -3,7 +3,6 @@ import { Col, Container, Row } from "reactstrap";
 // import dashboardImage from "../../media/Dashboard_Layout.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Sidebar from "./sidebar/Sidebar";
-import CurrentBudgetStatus from "./budgets/currentBudgetStatus/CurrentBudgetStatus";
 import Budgets from "./budgets/Budgets";
 // import CurrentBudgetStatus from "./budgets/currentBudgetStatus/CurrentBudgetStatus";
 import RecentTransactions from "./transactions/recentTransactions/RecentTransactions";
@@ -47,17 +46,17 @@ export default function Dashboard(props) {
     }
   }, [token]);
 
-  console.log(props.view);
-
   //todo Incorporate useEffect to dynamically refresh sections on new information
   return (
     <>
       <div className="DashBody" id="dashbody">
         <Col>
           <Sidebar
-            setToken={props.setToken}
+            updateToken={props.updateToken}
             setView={props.setView}
             view={props.view}
+            token={token}
+            status={props.status}
           />
         </Col>
         <Container>

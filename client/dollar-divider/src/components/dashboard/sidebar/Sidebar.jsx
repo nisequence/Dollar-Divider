@@ -89,8 +89,13 @@ function Sidebar(props) {
   //! ------------------------- Populate sidebarArray with Menu items -------------------
 
   //! -------------------------------- Navbar Links ----------------------------
+
   let budgetSettings = (
-    <NavItem>
+    <NavItem
+      // token={props.token}
+      // status={props.status}
+      // href="/dashboard/household"    
+    >
       <button onClick={toggleRightSidebar} id="budgetSettings">
         Household Settings
       </button>
@@ -124,7 +129,7 @@ function Sidebar(props) {
             <NavItem>{/* <EditBudgets /> */}</NavItem>
             <br></br>
             <NavItem>
-              <Logout setToken={props.setToken} />
+              <Logout updateToken={props.updateToken} />
             </NavItem>
 
             <HouseholdSettings token={props.token} />
