@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import Admin from "./views/admin/Admin";
 import Member from "./views/member/Member";
 import Solo from "./views/solo/Solo";
-
 export default function HouseholdSettings() {
   const token = localStorage.getItem("token");
 
