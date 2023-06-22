@@ -25,16 +25,16 @@ export default function CurrentBudgetStatus(props) {
         label: "Personal Spending",
         data: [], // Dollar amounts for each category.
         backgroundColor: [
-          "yellow",
-          "red",
-          "purple",
-          "blue",
-          "green",
-          "darkorange",
-          "sienna",
-          "seagreen",
-          "mediumpurple",
-          "powderblue",
+          'rgba(255, 255, 0, 0.5)',
+          'rgba(255, 0, 0, 0.5)',
+          'rgba(128, 0, 128, 0.5)',
+          'rgba(0, 0, 255, 0.5)',
+          'rgba(0, 128, 0, 0.5)',
+          'rgba(255, 140, 0, 0.5)',
+          'rgba(46, 139, 86, 0.5)',
+          'rgba(176, 224, 230, 0.5)',
+          'rgba(160, 81, 45, 0.5)',
+          'rgba(147, 112, 216, 0.5)'
         ],
 
       },
