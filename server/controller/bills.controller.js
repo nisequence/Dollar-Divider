@@ -4,6 +4,7 @@ const User = require("../models/user.model");
 const Household = require("../models/household.model");
 const Budget = require("../models/budget.model");
 const Transaction = require("../models/transaction.model");
+
 const serverError = (res, error) => {
   console.log("Server-side error");
   return res.status(500).json({
@@ -249,6 +250,7 @@ router.delete("/delete/:id", async (req, res) => {
   
       res.status(200).json({
         message: "Bill was successfully deleted!",
+        deletedBill
       });
       res.status(404).json({
         message: "Bill was not located",

@@ -3,16 +3,16 @@ import { Col, Container, Row } from "reactstrap";
 // import dashboardImage from "../../media/Dashboard_Layout.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Sidebar from "./sidebar/Sidebar";
-import UpcomingBills from "./bills/UpcomingBills";
-import CurrentBudgetStatus from "./budgets/currentBudgetStatus/CurrentBudgetStatus";
 import Budgets from "./budgets/Budgets";
 // import CurrentBudgetStatus from "./budgets/currentBudgetStatus/CurrentBudgetStatus";
 import RecentTransactions from "./transactions/recentTransactions/RecentTransactions";
 import { useState, useEffect } from "react";
+import Bills from "./bills/Bills";
 
 export default function Dashboard(props) {
   const token = localStorage.getItem("token");
   const [transactions, setTransactions] = useState([]);
+
   const getPersonalTransactions = async () => {
     //! Change the ID to a path parameter
     let url = "http://localhost:4000/transaction/mine";
@@ -51,21 +51,35 @@ export default function Dashboard(props) {
     <>
       <div className="DashBody" id="dashbody">
         <Col>
-          <Sidebar setToken={props.setToken} />
+          <Sidebar
+            updateToken={props.updateToken}
+            setView={props.setView}
+            view={props.view}
+            token={token}
+            status={props.status}
+          />
         </Col>
         <Container>
           <Row>
             <Col className="bg-light border">
               {/* .col */}
-              <UpcomingBills />
+              {/* <UpcomingBills /> */}
+              <Bills view={props.view} />
             </Col>
             <Col className="bg-light border">
               {/* .col */}
-              <Budgets token={token} transactions={transactions} />
+              <Budgets
+                view={props.view}
+                token={token}
+                transactions={transactions}
+              />
             </Col>
             <Col className="bg-light border">
               {/* .col */}
-              <RecentTransactions transactions={transactions} />
+              <RecentTransactions
+                view={props.view}
+                transactions={transactions}
+              />
             </Col>
           </Row>
         </Container>

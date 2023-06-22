@@ -22,20 +22,20 @@ router.post("/add", async (req, res) => {
   
       const { name, balance, minBalance, allocations, available, ownerID } = req.body;
 
-        const transaction = new Transaction({
+        const finAccount = new FinAccount({
           name: name,
           balance: balance,
           minBalance: minBalance,
           allocations: allocations,
           available: available,
-          ownerID: ownerID
+          ownerID: ownerID,
         });
   
-        const newTransaction = await transaction.save();
+        const newFinAccount = await finAccount.save();
   
         return res.status(200).json({
-          message: `You have created a new transaction!`,
-          newTransaction,
+          message: `You have created a new financial account!`,
+          newFinAccount,
         });
      
     } catch (err) {

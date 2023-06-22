@@ -3,7 +3,7 @@ const Transaction = require("../models/transaction.model");
 const User = require("../models/user.model");
 const Household = require("../models/household.model");
 const Budget = require("../models/budget.model");
-const Bills = require("../models/bill.model")
+const Bills = require("../models/bill.model");
 
 const serverError = (res, error) => {
   console.log("Server-side error");
@@ -115,7 +115,7 @@ router.get("/household", async (req, res) => {
   }
 });
 
-//? GET ALL PERSONAL ROUTE "/mine/:id"
+//? GET ALL PERSONAL ROUTE "/mine"
 //* Successful on Postman
 
 router.get("/mine", async (req, res) => {
@@ -259,7 +259,7 @@ router.delete("/delete/:id", async (req, res) => {
     const deletedTransaction = await Transaction.findOneAndDelete({ _id: id });
 
     res.status(200).json({
-      message: "Transaction was successfully deleted!",
+      message: "Transaction was successfully deleted!", deletedTransaction
     });
     res.status(404).json({
       message: "Access to or existence of this transaction was not located",

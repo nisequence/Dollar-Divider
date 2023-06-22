@@ -25,16 +25,16 @@ export default function CurrentBudgetStatus(props) {
         label: "Personal Spending",
         data: [], // Dollar amounts for each category.
         backgroundColor: [
-          "yellow",
-          "red",
-          "purple",
-          "blue",
-          "green",
-          "darkorange",
-          "sienna",
-          "seagreen",
-          "mediumpurple",
-          "powderblue",
+          'rgba(255, 255, 0, 0.5)',
+          'rgba(255, 0, 0, 0.5)',
+          'rgba(128, 0, 128, 0.5)',
+          'rgba(0, 0, 255, 0.5)',
+          'rgba(0, 128, 0, 0.5)',
+          'rgba(255, 140, 0, 0.5)',
+          'rgba(46, 139, 86, 0.5)',
+          'rgba(176, 224, 230, 0.5)',
+          'rgba(160, 81, 45, 0.5)',
+          'rgba(147, 112, 216, 0.5)'
         ],
 
       },
@@ -42,12 +42,23 @@ export default function CurrentBudgetStatus(props) {
   };
   //! -------------------------- Can't easily display dollar formatting --------------------
   // todo filter through the transactions array to find the transaction categories that match the budget category names, add all those that match (maybe add misc category later), subtract transaction sum from total budget amount and display in the chart
+
+
+  if (props.budgets === undefined) {
+    chartData.labels.push("Budget is Empty");
+    let budgetCategoryTotal = 0;
+    let amountSpent = 0;//todo edit this to reflect the transactions for each category
+    chartData.datasets[0].data.push(budgetCategoryTotal - amountSpent)
+    chartData.datasets[0].backgroundColor[0] = ""
+    } else {
   props.budgets.map((i) => {
     chartData.labels.push(i.budgetCat);
     let budgetCategoryTotal = [i][0].budgetAmt;
     let amountSpent = 0;//todo edit this to reflect the transactions for each category
     chartData.datasets[0].data.push(budgetCategoryTotal - amountSpent);
-  });
+  })
+}
+  ;
 
 // console.log("props.transactions:",props.transactions)
 // console.log("props.budgets:",props.budgets)

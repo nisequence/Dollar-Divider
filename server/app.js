@@ -9,6 +9,7 @@ const householdController = require("./controller/household.controller");
 const budgetController = require("./controller/budget.controller");
 const transactionController = require("./controller/transaction.controller");
 const billsController = require("./controller/bills.controller");
+const finAccountController = require("./controller/finAccount.controller");
 
 //* Middleware
 const requireValidation = require("./middleware/validate-session");
@@ -39,6 +40,7 @@ app.use("/household", householdController);
 app.use("/budget", budgetController);
 app.use("/transaction", transactionController);
 app.use("/bills", billsController);
+app.use("/finAccount", finAccountController);
 
 //* App Listening
 app.listen(PORT, () => {
