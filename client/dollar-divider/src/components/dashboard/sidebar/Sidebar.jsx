@@ -59,7 +59,13 @@ function Sidebar(props) {
   //! -------------------------------- Navbar Links ----------------------------
   const logout = "http://www.google.com";
   const householdSettings = (
-    <NavLink href="/dashboard/household">Household Settings</NavLink>
+    <NavLink
+      token={props.token}
+      status={props.status}
+      href="/dashboard/household"
+    >
+      Household Settings
+    </NavLink>
   );
   // }
   // }
@@ -96,7 +102,7 @@ function Sidebar(props) {
             </NavItem>
             <br></br>
             <NavItem>
-              <Logout setToken={props.setToken} />
+              <Logout updateToken={props.updateToken} />
             </NavItem>
           </Nav>
         </Collapse>
