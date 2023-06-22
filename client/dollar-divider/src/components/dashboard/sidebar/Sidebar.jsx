@@ -3,35 +3,42 @@ import {
   // Col,
   // Container,
   // Row,
-  Form,
-  FormGroup,
-  Label,
-  Input,
+  // Form,
+  // FormGroup,
+  // Label,
+  // Input,
   Collapse,
   Navbar,
   NavbarToggler,
   // NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
+  // NavLink,
 } from "reactstrap";
-import EditBudgets from "../budgets/EditBudgets";
+// import GetAll from "../accounts/getAll/GetAll";
+// import EditBudgets from "../budgets/EditBudgets";
 import Toggle from "../sidebar/Toggle/Toggle";
 import Logout from "../../auth/logout/Logout";
 import HouseholdSettings from "./householdSettings/HouseholdSettings";
 
+// --------------------------------- Toggle Left Sidebar -------------------------------------
 function Sidebar(props) {
   const [collapsed, setCollapsed] = useState(true);
 
-  const toggleNavbar = () => {
+  const toggleSidebar = () => {
     setCollapsed(!collapsed);
     const sidebar = document.getElementById("sidebar");
-    const openSidebarWidth = "17em";
-    if (sidebar.style.width === openSidebarWidth) {
+    const openSidebarWidth = "14vw";
+    if (!collapsed) {
       sidebar.style.width = "0";
+      
+      sidebar.style.minWidth = "";
+      // sidebar.style.opacity = "1";
+
     } else {
       sidebar.style.height = "100vh";
       sidebar.style.width = openSidebarWidth;
+      // sidebar.style.minWidth = "fit-content";
       sidebar.style.borderRight = "solid rgb(46, 46, 46) 2px";
       sidebar.style.borderBottom = "solid rgb(46, 46, 46) 2px";
       sidebar.style.borderTop = "solid rgb(144, 144, 144) 2px";
@@ -39,47 +46,74 @@ function Sidebar(props) {
     }
   };
 
-  //! ------------------------- Populate sidebarArray with Menu items -------------------
-  // function addIDs() {
-  //   let navs = document.getElementsByClassName("nav-item");
-  //   // console.log(navs)
-  //   {
-  //     for (let i = 0; i < navs.length; i++)
-  //       navs[i].setAttribute("id", `sidebarItem_${i}`);
-  //     // navs[i].setAttribute("style",``)
-  //   }
-  // }
-  // function addLinkAttributes() {
-  //   let navLinks = document.getElementsByClassName("nav-link")
-  //   for (let i = 0; i < navLinks.length; i++) {
-  //     navLinks[i].setAttribute("id", `navLink_${i}`)
-  //     // navLinks[i].setAttribute("style", `color: red`)
-  //   }
-  // }
-  //! -------------------------------- Navbar Links ----------------------------
-  const logout = "http://www.google.com";
-  const householdSettings = (
-    <NavLink href="/dashboard/household">Household Settings</NavLink>
-  );
-  // }
-  // }
-  let sidebarArray = ["Menu Item 1", "Menu Item 2", householdSettings];
+  const [rightSideCollapsed, setRightSideCollapsed] = useState(true);
+  const toggleRightSidebar = () => {
+    setRightSideCollapsed(!rightSideCollapsed);
+    const rightSideMenu = document.getElementById("rightSideMenu");
+    // const openRightSidebarWidth = "72vw";
+    const openRightSidebarWidth = "95em";
+    if (!rightSideCollapsed) {
+      rightSideMenu.style.width = "0";
+      // rightSideMenu.style.color = "rgba(0,0,0,0)";
+      // rightSideMenu.style.minWidth = "fitContent";
+      
+    } else {
+      rightSideMenu.style.height = "100vh";
+      rightSideMenu.style.width = openRightSidebarWidth;
+      // rightSideMenu.style.maxWidth = "95em";
 
-  // Create a button that opens an edit budget menu.
+      // Get the current width of the left menu to base the max width of the right menu, to prevent overlap.
+      let temp = "";
+      let result = [];
+      let W = (document.getElementById("sidebar").style.width)
+      for (let item of W) {
+        if (temp.length < 2) {
+          temp += item;
+          result.push(+temp)
+        }
+      }
+      console.log(typeof result[1])
+      // let maxRightWidth = (80-result[1])+"vw";
+      // console.log(maxRightWidth)
+      // console.log(leftSideWidth, +leftSideWidth)
+      // rightSideMenu.style.maxWidth = `${maxRightWidth}vw`;
+
+      // This should take into account the width of the left menu.
+      rightSideMenu.style.borderRight = "solid rgb(46, 46, 46) 2px";
+      rightSideMenu.style.borderBottom = "solid rgb(46, 46, 46) 2px";
+      rightSideMenu.style.borderTop = "solid rgb(144, 144, 144) 2px";
+      rightSideMenu.style.borderLeft = "solid rgb(144, 144, 144) 2px";
+    }
+  };
+
+  //! ------------------------- Populate sidebarArray with Menu items -------------------
+
+  //! -------------------------------- Navbar Links ----------------------------
+  let budgetSettings = (
+    <NavItem>
+      <button onClick={toggleRightSidebar} id="budgetSettings">
+        Household Settings
+      </button>
+    </NavItem>
+  );
+  let br = (<br></br>)
+  let sidebarArray = ["Menu Item 1", "Menu Item 2", budgetSettings];
 
   const sidebarItems = sidebarArray.map((i) => {
-    return <NavItem>{i}</NavItem>;
+    return (
+    br,
+    <NavItem>{i}</NavItem>)
   });
 
   return (
     <div className="Sidebar" id="sidebar">
       <Navbar style={{ width: "10rem" }} color="faded" light>
         <NavbarToggler
-          onClick={toggleNavbar}
+          onClick={toggleSidebar}
           className="me-2"
           id="sidebarBtn"
         />
-        <Collapse isOpen={!collapsed} navbar>
+        <Collapse horizontal isOpen={!collapsed} navbar>
           <Nav navbar>
             <br></br>
             <NavItem>
@@ -87,22 +121,16 @@ function Sidebar(props) {
             </NavItem>
             <br></br>
             {sidebarItems}
-            {/* <NavLink href="/components/">Components</NavLink> */}
             <NavItem>{/* <EditBudgets /> */}</NavItem>
-            <br></br>
-            <NavItem>
-              {/* <HouseholdSettings /> */}
-              {/* need to pass token here!!! */}
-            </NavItem>
             <br></br>
             <NavItem>
               <Logout setToken={props.setToken} />
             </NavItem>
+
+            <HouseholdSettings token={props.token} />
           </Nav>
         </Collapse>
       </Navbar>
-      {/* {addIDs()} */}
-      {/* {addLinkAttributes()} */}
     </div>
   );
 }
