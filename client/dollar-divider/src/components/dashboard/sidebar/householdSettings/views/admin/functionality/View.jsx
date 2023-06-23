@@ -11,7 +11,7 @@ export default function View({ token }) {
   const [householdInfo, setHouseholdInfo] = useState([]);
 
   const getHousehold = async () => {
-    let url = "http://localhost:4000/household/member";
+    let url = "http://localhost:4000/household/admin";
 
     const reqOptions = {
       method: "GET",
