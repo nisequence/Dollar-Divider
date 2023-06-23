@@ -14,7 +14,7 @@ export default function Logout({ updateToken }) {
 
   return (
     <>
-      <Button onClick={logout} color="danger">
+      <Button id="logout" onClick={logout} color="danger">
         Logout
       </Button>
     </>
