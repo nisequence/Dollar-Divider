@@ -27,8 +27,6 @@ export default function HouseholdSettings() {
       const res = await fetch(url, reqOptions);
       const data = await res.json();
 
-      console.log(data);
-
       // If the server does not provide a failure message
       if (data.message === "Admin") {
         updateStatus(data.message);
@@ -52,20 +50,18 @@ export default function HouseholdSettings() {
 
   const returnView = () => {
     if (userStatus === "Admin") {
-      console.log("Confirmed");
-      <Admin />;
+      return <Admin token={token} />;
     } else if (userStatus === "Member") {
-      console.log("Confirmed");
-      <Member />;
+      return <Member token={token} />;
     } else if (userStatus === "Solo") {
-      console.log("Confirmed");
-      <Solo />;
+      return <Solo token={token} />;
     }
   };
   return (
-    <>
-      <div>Household Settings</div>
+    <div id="rightSideMenu">
+      <br></br>
+      <h3>Household Settings</h3>
       {returnView()}
-    </>
+    </div>
   );
 }
