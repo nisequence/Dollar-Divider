@@ -29,7 +29,6 @@ export default function View({ token }) {
       if (data.message === "Household was found!") {
         setHouseholdInfo(data.getHousehold);
         console.log(householdInfo);
-        console.log("working!");
       }
     } catch (err) {
       console.error(err);
@@ -42,15 +41,15 @@ export default function View({ token }) {
     }
   }, [token]);
 
-  const listNames = householdInfo.participantNames.map((name) => {
+  const listNames = householdInfo.participantNames?.map((name) => {
     return <li>{name}</li>;
   });
 
-  const listIDs = householdInfo.participantIDs.map((id) => {
+  const listIDs = householdInfo.participantIDs?.map((id) => {
     return <li>{id}</li>;
   });
 
-  const listPercents = householdInfo.participantPercents.map((percent) => {
+  const listPercents = householdInfo.participantPercents?.map((percent) => {
     return <li>{percent}</li>;
   });
 

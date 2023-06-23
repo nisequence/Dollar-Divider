@@ -27,7 +27,7 @@ export default function Budgets(props) {
       if (data.message !== "No personal budgets found.") {
         setBudgets(data.allBudgets);
       } else {
-        //! Send to 404 page
+        setBudgets(null);
       }
     } catch (err) {
       console.error(err);
