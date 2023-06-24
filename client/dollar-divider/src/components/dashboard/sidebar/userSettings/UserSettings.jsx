@@ -1,8 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import Admin from "./views/admin/Admin";
-import Member from "./views/member/Member";
-import Solo from "./views/solo/Solo";
+import ProfileSettings from "./views/profileSettings/ProfileSettings";
 export default function UserSettings() {
   const token = localStorage.getItem("token");
 
@@ -49,22 +47,10 @@ export default function UserSettings() {
     }
   }, [token, userStatus]);
 
-  const returnView = () => {
-    if (userStatus === "Admin") {
-      console.log("Admin Confirmed");
-      return <Admin />;
-    } else if (userStatus === "Member") {
-      console.log("Member Confirmed");
-      return <Member />;
-    } else if (userStatus === "Solo") {
-      console.log("Solo Confirmed");
-      return <Solo />;
-    }
-  };
   return (
     <div id="rightSideMenu">
       <h1>User Settings</h1>
-      {returnView()}
+      <ProfileSettings/>
     </div>
   );
 }
