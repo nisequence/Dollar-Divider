@@ -162,3 +162,8 @@ Button:hover {
   border-top: solid rgb(144, 144, 144) 2px;
   border-left: solid rgb(144, 144, 144) 2px;
 }
+
+#formgroup{
+  width: 25rem;
+  margin: auto;
+}
