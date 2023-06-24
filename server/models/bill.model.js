@@ -45,7 +45,6 @@ const BillSchema = new mongoose.Schema({
     base: {
         type: String,
         required: true
-
     }
 })
 

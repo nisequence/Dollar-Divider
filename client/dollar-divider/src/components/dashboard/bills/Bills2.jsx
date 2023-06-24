@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Calendar from "./Calendar/Calendar";
+import AddBill from "./AddBill/AddBill";
 
 export default function Bills2(props) {
   let url;
@@ -20,7 +21,6 @@ export default function Bills2(props) {
     try {
       const res = await fetch(url, reqOptions);
       const data = await res.json();
-      console.log("Bill data:", data);
 
       // If the server does not provide a failure message
       if (data.message !== "No bills found.") {
@@ -40,7 +40,7 @@ export default function Bills2(props) {
   }, [props.token, props.view]);
   return (
     <>
-      <Calendar bills={bills} />
+      <Calendar bills={bills} token={props.token} view={props.view} />
     </>
   );
 }

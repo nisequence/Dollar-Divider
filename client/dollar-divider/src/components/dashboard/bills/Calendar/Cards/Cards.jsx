@@ -64,7 +64,7 @@ export default function Cards(props) {
                 <CardText>Budget</CardText>
               </Col>
               <Col>
-                <CardText>See More</CardText>
+                <CardText>More</CardText>
               </Col>
             </Row>
           </CardBody>
@@ -100,7 +100,7 @@ export default function Cards(props) {
                     </Col>
                     <Col>
                       <CardText>
-                        {each.date} {each.day}
+                        {each.dueMonth} {each.dueDay}
                       </CardText>
                     </Col>
                     {/* <Col>
