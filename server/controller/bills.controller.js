@@ -11,6 +11,34 @@ const serverError = (res, error) => {
     Error: error.message,
   });
 };
+
+const nextMonth = (currentMonth) => {
+  if (currentMonth == "January") {
+    return "February";
+  } else if (currentMonth == "February") {
+    return "March";
+  } else if (currentMonth == "March") {
+    return "April";
+  } else if (currentMonth == "April") {
+    return "May";
+  } else if (currentMonth == "May") {
+    return "June";
+  } else if (currentMonth == "June") {
+    return "July";
+  } else if (currentMonth == "July") {
+    return "August";
+  } else if (currentMonth == "August") {
+    return "September";
+  } else if (currentMonth == "September") {
+    return "October";
+  } else if (currentMonth == "October") {
+    return "November";
+  } else if (currentMonth == "November") {
+    return "December";
+  } else if (currentMonth == "December") {
+    return "January";
+  }
+};
 //? POST BILL ("/add")
 router.post("/add", async (req, res) => {
   try {
@@ -253,12 +281,12 @@ router.patch("/pay/:id", async (req, res) => {
     console.log(updatedBill);
 
     if (findBill.recurring === true && paid == true) {
-      //* If this bill is supposed to happen again
+      //* If this bill is supposed to happen again, create a new one for the next month
       const newBill = new Bill({
         title: updatedBill.title,
         amount: updatedBill.amount,
         paid: false,
-        dueMonth: `Month after ${updatedBill.dueMonth}`,
+        dueMonth: nextMonth(updatedBill.dueMonth),
         dueDay: updatedBill.dueDay,
         autoPay: updatedBill.autoPay,
         recurring: updatedBill.recurring,
