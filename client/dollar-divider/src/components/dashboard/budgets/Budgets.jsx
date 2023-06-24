@@ -3,7 +3,6 @@ import CurrentBudgetStatus from "./currentBudgetStatus/CurrentBudgetStatus";
 import { useState, useEffect } from "react";
 
 export default function Budgets(props) {
-  //* State to house room data
   let url;
   const [budgets, setBudgets] = useState([]);
   const getBudgets = async (viewValue) => {
@@ -27,7 +26,7 @@ export default function Budgets(props) {
       if (data.message !== "No personal budgets found.") {
         setBudgets(data.allBudgets);
       } else {
-        //! Send to 404 page
+        setBudgets(null);
       }
     } catch (err) {
       console.error(err);
