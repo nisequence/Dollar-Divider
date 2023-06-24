@@ -15,14 +15,7 @@ const serverError = (res, error) => {
 router.post("/add", async (req, res) => {
   try {
     //const {id} = req.params;
-    const { title, merchant, amount, active,  dueDate, autoPay,  recurring, category, base} = req.body;
-
-    const serverError = (res, error) => {
-      console.log("Server-side error");
-      return res.status(500).json({
-        Error:error.message
-      });
-    }
+    const { title, merchant, amount, dueDate, autoPay,  recurring, category, base} = req.body;
 
     if (base == "personal") {
       // make sure ID is correct & findable
@@ -40,13 +33,11 @@ router.post("/add", async (req, res) => {
         title: title,
         merchant: merchant,
         amount: amount,
-        active: active,
         dueDate: dueDate,
-        autoPay: true,
+        autoPay: autoPay,
         recurring: recurring,
         category: category,
         base: req.user._id,
-        autoPay: autoPay
       });
 
       const newBill = await bill.save();
@@ -66,20 +57,23 @@ router.post("/add", async (req, res) => {
         return res.status(404).json({
           message: "Household not found!",
         });
-      }
+      } else if (req.user._id != findHousehold.admin_id) {
+      // if user is not the admin
+      return res.status(401).json({
+        message: "Sorry, you're not the admin!",
+      });
+    }
 
       // if works add new transaction to household
       const bill = new Bill({
         title: title,
         merchant: merchant,
         amount: amount,
-        active: active,
         dueDate: dueDate,
-        autoPay: true,
+        autoPay: autoPay,
         recurring: recurring,
-        // Not sure if category needs to be required yet.
         category: category,
-        base: req.user._id,
+        base: req.user.householdID,
       });
 
       const newBill = await bill.save();
@@ -160,23 +154,24 @@ router.get("/dueDate/:dueDate", async (req, res) => {
   try {
     const { dueDate } = req.params;
 
-    const getDate = await Transaction.find({ dueDate: dueDate });
+    const getDueDate = await Bill.find({ dueDate: dueDate, base: req.user._id });
 
-    getDate.length > 0
+    getDueDate.length > 0
       ? res.status(200).json({
-          getDate,
+        message: "Here is your bill",
+        getDueDate
         })
       : res.status(404).json({
-          message: "No transactions found for this date.",
+          message: "No bills found for this date.", 
         });
   } catch (err) {
     errorResponse(res, err);
   }
 });
 
-//? GET BILL BY DATE AND CATEGORY ROUTER ("/dateAndCategory/:date/:category")
+//? GET BILL BY DATE AND CATEGORY ROUTER ("/dateAndCategory/:dueDate/:category")
 
-router.get("/dateAndCategory/:date/:category", async (req, res) => {
+router.get("/dateAndCategory/:dueDate/:category", async (req, res) => {
   try {
     const { dueDate, category } = req.params;
 
@@ -224,15 +219,15 @@ router.patch("/edit/:id", async (req, res) => {
     const returnOption = { new: true };
 
     //* findOneAndUpdate(query/filter, document, options)
-    const UpdateBill = await Bills.findOneAndUpdate(
+    const UpdatedBill = await Bill.findOneAndUpdate(
       { _id: id },
       info,
       returnOption
     );
 
     res.status(200).json({
-      message: `${UpdateBill.category} transaction has been updated successfully`,
-      UpdateBill,
+      message: `${UpdatedBill.title} bill has been updated successfully`,
+      UpdatedBill,
     });
   } catch (err) {
     errorResponse(res, err);
@@ -246,7 +241,7 @@ router.delete("/delete/:id", async (req, res) => {
       const { id } = req.params;
   
       //* Find and confirm the user has access to the transaction
-      const deletedBill = await Bills.findOneAndDelete({ _id: id });
+      const deletedBill = await Bill.findOneAndDelete({ _id: id });
   
       res.status(200).json({
         message: "Bill was successfully deleted!",
