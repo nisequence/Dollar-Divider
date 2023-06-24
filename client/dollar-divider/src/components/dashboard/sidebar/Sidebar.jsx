@@ -32,10 +32,9 @@ function Sidebar(props) {
     const openSidebarWidth = "14vw";
     if (!collapsed) {
       sidebar.style.width = "0";
-      
+
       sidebar.style.minWidth = "";
       // sidebar.style.opacity = "1";
-
     } else {
       sidebar.style.height = "100vh";
       sidebar.style.width = openSidebarWidth;
@@ -57,7 +56,6 @@ function Sidebar(props) {
       rightSideMenu.style.width = "0";
       // rightSideMenu.style.color = "rgba(0,0,0,0)";
       // rightSideMenu.style.minWidth = "fitContent";
-      
     } else {
       rightSideMenu.style.height = "100vh";
       rightSideMenu.style.width = openRightSidebarWidth;
@@ -66,11 +64,11 @@ function Sidebar(props) {
       // Get the current width of the left menu to base the max width of the right menu, to prevent overlap.
       let temp = "";
       let result = [];
-      let W = (document.getElementById("sidebar").style.width)
+      let W = document.getElementById("sidebar").style.width;
       for (let item of W) {
         if (temp.length < 2) {
           temp += item;
-          result.push(+temp)
+          result.push(+temp);
         }
       }
       // console.log(typeof result[1])
@@ -93,9 +91,9 @@ function Sidebar(props) {
 
   let householdSettings = (
     <NavItem
-      // token={props.token}
-      // status={props.status}
-      // href="/dashboard/household"    
+    // token={props.token}
+    // status={props.status}
+    // href="/dashboard/household"
     >
       <button onClick={toggleRightSidebar} id="householdSettings">
         Household Settings
@@ -117,9 +115,7 @@ function Sidebar(props) {
   let sidebarArray = ["Menu Item 1", "Menu Item 2", userSettings];
 
   const sidebarItems = sidebarArray.map((i) => {
-    return (
-    br,
-    <NavItem>{i}</NavItem>)
+    return br, (<NavItem>{i}</NavItem>);
   });
 
   return (

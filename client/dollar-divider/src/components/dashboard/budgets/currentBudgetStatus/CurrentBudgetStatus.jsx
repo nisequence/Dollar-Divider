@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import AddBudget from "./AddBudget/AddBudget";
 // import React, { useRef } from "react";
 // import React, {useState} from "react";
 // import ModalFullscreenExample from "../../../../utils/modalExample";
@@ -76,8 +77,10 @@ export default function CurrentBudgetStatus(props) {
     <>
       <div className="CurrentBudgetStatus" id="currentbudgetstatus">
         Remaining Monthly Amounts
+        <AddBudget token={props.token} />
         {/* <Doughnut */}
         <PolarArea
+          style={{ marginLeft: "4vw", marginRight: "4vw", maxHeight: "60vh" }}
           // <Pie
           data={chartData}
           // onElementsClick={(elems) => {

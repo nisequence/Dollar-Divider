@@ -75,6 +75,11 @@ export default function Dashboard(props) {
                 transactions={transactions}
               />
             </Col>
+          </Row>
+          <Row>
+            <Col className="bg-light border">
+              <h6>FinAccounts Coming Soon</h6>
+            </Col>
             <Col className="bg-light border">
               {/* .col */}
               <RecentTransactions
