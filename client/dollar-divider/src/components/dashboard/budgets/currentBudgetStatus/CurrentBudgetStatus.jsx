@@ -23,7 +23,7 @@ export default function CurrentBudgetStatus(props) {
     labels: [],
     datasets: [
       {
-        label: "Personal Spending",
+        label: "Budget Amount",
         data: [], // Dollar amounts for each category.
         backgroundColor: [
           "rgba(255, 255, 0, 0.5)",
@@ -76,8 +76,8 @@ export default function CurrentBudgetStatus(props) {
   return (
     <>
       <div className="CurrentBudgetStatus" id="currentbudgetstatus">
-        Remaining Monthly Amounts
-        <AddBudget token={props.token} />
+        <h4>Remaining Monthly Amounts</h4>
+        <AddBudget token={props.token} view={props.view} />
         {/* <Doughnut */}
         <PolarArea
           style={{ marginLeft: "4vw", marginRight: "4vw", maxHeight: "60vh" }}
