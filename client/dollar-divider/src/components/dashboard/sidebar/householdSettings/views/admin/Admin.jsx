@@ -1,9 +1,11 @@
 import React from "react";
+import View from "./functionality/View";
 
-export default function Admin() {
+export default function Admin(props) {
   return (
     <>
-      <h1>Welcome to Admin View</h1>
+      <h6>Welcome, Household Admin!</h6>
+      <View token={props.token} />
     </>
   );
 }

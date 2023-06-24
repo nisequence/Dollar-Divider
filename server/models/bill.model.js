@@ -18,12 +18,6 @@ const BillSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    // Paid/ Unpaid
-    active: {
-        type: Boolean,
-        required: true,
-    },
-    // Due Date of bill
     dueDate: {
         type: Date,
         required: true
@@ -41,17 +35,14 @@ const BillSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    //! Can only a admin post bill?
-    //! How to write this for required for household not personal
-    password: {
-        type: String,
-        required: false,
-    },
-    //! What does this mean?
     nextDate: {
         type: Date,
         required: false,
     },
+    base: {
+        type: String,
+        required: true,
+    }
 })
 
 module.exports = mongoose.model("Bill", BillSchema);
