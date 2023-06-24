@@ -10,7 +10,7 @@ import {
 } from "reactstrap";
 import Cards from "./Cards/Cards";
 
-const months = [
+const monthGroup = [
   {
     id: 1,
     month: "May",
@@ -92,24 +92,26 @@ const items = [
 ];
 
 export default function Calendar(props) {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(1);
   const [animating, setAnimating] = useState(false);
 
   const next = () => {
     if (animating) return;
-    const nextIndex = activeIndex === months.length - 1 ? 0 : activeIndex + 1;
+    const nextIndex =
+      activeIndex === monthGroup.length - 1 ? 0 : activeIndex + 1;
     setActiveIndex(nextIndex);
   };
 
   const previous = () => {
     if (animating) return;
-    const nextIndex = activeIndex === 0 ? months.length - 1 : activeIndex - 1;
+    const nextIndex =
+      activeIndex === 0 ? monthGroup.length - 1 : activeIndex - 1;
     setActiveIndex(nextIndex);
   };
 
-  const slides = months.map((monthGroup) => {
+  const slides = monthGroup.map((monthName) => {
     let monthlyBills = items.filter((bills) => {
-      let remainingBills = bills.date === monthGroup.month;
+      let remainingBills = bills.date === monthName.month;
       return remainingBills;
     });
     // console.log("Logging monthlyBills:", monthlyBills);
@@ -117,12 +119,13 @@ export default function Calendar(props) {
       <CarouselItem
         className="custom-tag"
         tag="div"
-        key={monthGroup.id}
+        key={monthName.id}
         onExiting={() => setAnimating(true)}
         onExited={() => setAnimating(false)}
+        //! The below key/value is supposed to stop the carousel from moving on its own, but it is not working
         slide={false}
       >
-        <Cards bills={monthlyBills} month={monthGroup} />
+        <Cards bills={monthlyBills} month={monthName} />
         <CarouselCaption className="text-black" />
       </CarouselItem>
     );
@@ -141,14 +144,29 @@ export default function Calendar(props) {
           Bills At-A-Glance
         </h4>
       </Row>
-      <Row>
+      <Row style={{ maxHeight: "6vh" }}>
         <Col>
-          <Button className="button" onClick={previous} id="Prev">
+          <Button
+            className="button"
+            onClick={previous}
+            id="Prev"
+            style={{ marginTop: "0vh" }}
+          >
             Prev
           </Button>
         </Col>
         <Col>
-          <Button className="button" onClick={next} id="Next">
+          <h3>
+            <b>{monthGroup[activeIndex].month}</b>
+          </h3>
+        </Col>
+        <Col>
+          <Button
+            className="button"
+            onClick={next}
+            id="Next"
+            style={{ marginTop: "0vh" }}
+          >
             Next
           </Button>
         </Col>
@@ -157,10 +175,12 @@ export default function Calendar(props) {
         activeIndex={activeIndex}
         next={next}
         previous={previous}
+        //! The below key/value is supposed to stop the carousel from moving on its own, but it is not working
         slide={false}
       >
         {slides}
-        <CarouselControl
+        {/* //! Removed white arrows that controlled carousel below */}
+        {/* <CarouselControl
           direction="prev"
           directionText="Previous"
           onClickHandler={previous}
@@ -169,7 +189,7 @@ export default function Calendar(props) {
           direction="next"
           directionText="Next"
           onClickHandler={next}
-        />
+        /> */}
       </Carousel>
     </div>
   );
