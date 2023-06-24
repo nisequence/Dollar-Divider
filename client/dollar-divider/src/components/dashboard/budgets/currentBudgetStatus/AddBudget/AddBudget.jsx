@@ -10,10 +10,13 @@ import NewInfo from "./NewInfo/NewInfo";
 export default function AddBudget(props) {
   return (
     <>
-      <Button id="UncontrolledPopover" color="success" type="button">
+      <Button id="UncontrolledPopoverBudget" color="success" type="button">
         +
       </Button>
-      <UncontrolledPopover placement="bottom" target="UncontrolledPopover">
+      <UncontrolledPopover
+        placement="bottom"
+        target="UncontrolledPopoverBudget"
+      >
         <PopoverHeader>Add New Budget</PopoverHeader>
         <PopoverBody>
           <NewInfo token={props.token} view={props.view} />
