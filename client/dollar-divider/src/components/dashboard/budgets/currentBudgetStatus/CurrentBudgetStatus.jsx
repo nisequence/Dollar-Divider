@@ -78,6 +78,7 @@ export default function CurrentBudgetStatus(props) {
         Remaining Monthly Amounts
         {/* <Doughnut */}
         <PolarArea
+          style={{ marginLeft: "4vw", marginRight: "4vw", maxHeight: "60vh" }}
           // <Pie
           data={chartData}
           // onElementsClick={(elems) => {
