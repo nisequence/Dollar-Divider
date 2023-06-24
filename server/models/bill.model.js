@@ -10,19 +10,22 @@ const BillSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
-    merchant: {
-        type: String,
-        required: true,
-    },
     amount: {
         type: Number,
         required: true,
     },
-    dueDate: {
-        type: Date,
+    paid: {
+        type: Boolean,
+        required: true,
+    },
+    dueMonth: {
+        type: String,
         required: true
     },
-    
+    dueDay: {
+        type: Number,
+        required: true,
+    },
     recurring: {
         type: Boolean,
         required: true,
