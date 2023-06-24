@@ -1,18 +1,21 @@
 import React, { useRef, useState } from "react";
-import {
-  Form,
-  FormGroup,
-  Input,
-  Button,
-  Label,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from "reactstrap";
-import PropTypes from "prop-types";
+import { Form, FormGroup, Input, Button, Label } from "reactstrap";
 
 export default function NewInfo(props, { direction, args }) {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   const days = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
     22, 23, 24, 25, 26, 27, 28, 29, 30,
@@ -22,30 +25,43 @@ export default function NewInfo(props, { direction, args }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   //* Use useRef to get values from each input
-  const categoryRef = useRef();
+  const titleRef = useRef();
   const amountRef = useRef();
   const monthRef = useRef();
   const dayRef = useRef();
+  const categoryRef = useRef();
 
+  let base;
+  if (props.view === false) {
+    base = "personal";
+  } else {
+    base = "household";
+  }
   //* Create a function to handle the form inputs when the user attempts to create a new room
-  const submitBudget = async (e) => {
+  const submitBill = async (e) => {
+    e.preventDefault();
     // const category = categoryRef.current.value;
+    const title = titleRef.current.value;
     const amount = amountRef.current.value;
+    const dueMonth = monthRef.current.value;
+    const dueDay = dayRef.current.value;
+    const category = categoryRef.current.value;
+    console.log(base);
 
-    let url = "http://localhost:4000/budget/add";
+    let url = "http://localhost:4000/bills/add";
 
     let billObj = JSON.stringify({
-      //   title: title,
-      //   amount: amount,
-      //   dueMonth: dueMonth,
-      //   dueDay: dueDay,
-      //   autoPay: autoPay,
-      //   recurring: recurring,
-      //   category: category,
-      //   base: base,
+      title: title,
+      amount: amount,
+      dueMonth: dueMonth,
+      dueDay: dueDay,
+      autoPay: false, //! change later
+      recurring: true, //! change later
+      category: category,
+      base: base,
     });
 
-    // console.log(billObj);
+    console.log(billObj);
 
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -63,9 +79,8 @@ export default function NewInfo(props, { direction, args }) {
 
       // If the server provides a success message
       if (
-        //! need to replace this with bill controller messages
-        data.message == "You are now the owner of a brand-new budget!" ||
-        data.message == "Your household is now the owner of a brand-new budget!"
+        data.message === "You have created a new bill!" ||
+        data.message === "Your household has a new bill!"
       ) {
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
@@ -78,16 +93,17 @@ export default function NewInfo(props, { direction, args }) {
 
   return (
     <>
-      <Form onSubmit={submitBudget}>
+      <Form onSubmit={submitBill}>
         <FormGroup>
           <Label for="exampleSelectMulti">Choose Category</Label>
           <Input
-            id="exampleSelect"
+            id="exampleSelect1"
             name="select"
             type="select"
             innerRef={categoryRef}
+            required
           >
-            {categoryOptions.map((each) => {
+            {categoryOptions?.map((each) => {
               return (
                 <>
                   <option>{each.budgetCat}</option>
@@ -99,32 +115,29 @@ export default function NewInfo(props, { direction, args }) {
         <FormGroup>
           <Label for="exampleSelectMulti">Choose Month Due</Label>
           <Input
-            id="exampleSelect"
+            id="exampleSelect2"
             name="select"
             type="select"
             innerRef={monthRef}
+            required
           >
-            <option>January</option>
-            <option>February</option>
-            <option>March</option>
-            <option>April</option>
-            <option>May</option>
-            <option>June</option>
-            <option>July</option>
-            <option>August</option>
-            <option>September</option>
-            <option>October</option>
-            <option>November</option>
-            <option>December</option>
+            {months.map((each) => {
+              return (
+                <>
+                  <option value={each}>{each}</option>
+                </>
+              );
+            })}
           </Input>
         </FormGroup>
         <FormGroup>
-          <Label for="exampleSelectMulti">Choose Day Due</Label>
+          <Label for="exampleSelect3">Choose Day Due</Label>
           <Input
             id="exampleSelect"
             name="select"
             type="select"
             innerRef={dayRef}
+            required
           >
             {days.map((each) => {
               return (
@@ -137,9 +150,8 @@ export default function NewInfo(props, { direction, args }) {
         </FormGroup>
         <FormGroup>
           <Input
-            Label="Month Due"
-            placeholder="What month will this be due?"
-            innerRef={monthRef}
+            placeholder="Name of Bill"
+            innerRef={titleRef}
             autoComplete="off"
             type="text"
             required
@@ -154,7 +166,11 @@ export default function NewInfo(props, { direction, args }) {
             required
           />
         </FormGroup>
-        <Button color="success">Create Budget</Button>
+        <FormGroup>{/* autoPay */}</FormGroup>
+        <FormGroup>{/* recurring */}</FormGroup>
+        <Button color="success" type="submit">
+          Create Bill
+        </Button>
       </Form>
     </>
   );
