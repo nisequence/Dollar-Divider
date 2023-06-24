@@ -102,17 +102,22 @@ function Sidebar(props) {
   );
   let userSettings = (
     <NavItem
-      // token={props.token}
-      // status={props.status}
-      // href="/dashboard/household"    
+    // token={props.token}
+    // status={props.status}
+    // href="/dashboard/household"
     >
-      <button onClick={toggleRightSidebar} id="budgetSettings">
+      <button onClick={toggleRightSidebar} id="userSettings">
         User Settings
       </button>
     </NavItem>
   );
-  let br = (<br></br>)
-  let sidebarArray = ["Menu Item 1", "Menu Item 2", userSettings];
+  let br = <br></br>;
+  let sidebarArray = [
+    "Menu Item 1",
+    "Menu Item 2",
+    userSettings,
+    householdSettings,
+  ];
 
   const sidebarItems = sidebarArray.map((i) => {
     return br, (<NavItem>{i}</NavItem>);
@@ -139,10 +144,9 @@ function Sidebar(props) {
             <NavItem>
               <Logout updateToken={props.updateToken} />
             </NavItem>
-
-            {/* <HouseholdSettings token={props.token} /> */}
+            //! Still working on implementation of both buttons working
+            <HouseholdSettings token={props.token} />
             <UserSettings token={props.token} />
-
           </Nav>
         </Collapse>
       </Navbar>
