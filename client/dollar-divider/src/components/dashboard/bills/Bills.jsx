@@ -112,11 +112,11 @@ export default function Bills() {
   const Next = document.getElementById("Next");
 
   let nextPage = () => {
-    console.log("next page clicked")
-  }
+    console.log("next page clicked");
+  };
   let prevPage = () => {
-    console.log("prev page clicked")
-  }
+    console.log("prev page clicked");
+  };
 
   const props = placeholderData;
   // console.log("propsdata:",props)
@@ -170,8 +170,12 @@ export default function Bills() {
   });
   return (
     <div className="upcomingBills">
-      <Button className="button" onClick={prevPage} id="Prev">Prev</Button>
-      <Button className="button" onClick={nextPage} id="Next">Next</Button>
+      <Button className="button" onClick={prevPage} id="Prev">
+        Prev
+      </Button>
+      <Button className="button" onClick={nextPage} id="Next">
+        Next
+      </Button>
       <div id="upcomingBillsHeader">Upcoming Bills</div>
       <div className="upcomingBillsTable">
         <Table>
