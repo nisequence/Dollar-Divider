@@ -15,6 +15,16 @@ import {
 } from "reactstrap";
 
 export default function Cards(props) {
+  let cardColor;
+  function modifyColor(value) {
+    if (value === true) {
+      //* This is the color for paid bills (not a fan of it currently but good enough)
+      cardColor = "rgb(0, 100, 0)";
+    } else {
+      //* This is the color for unpaid bills (would like to keep this)
+      cardColor = "rgb(182,205,228)";
+    }
+  }
   return (
     <>
       <Row sm="6">
@@ -54,6 +64,8 @@ export default function Cards(props) {
       </Row>
       {/* {displayBillCards(props.bills, props.month)} */}
       {props.bills.map((each) => {
+        //* Set different value for background color based on whether the bill is paid or unpaid
+        modifyColor(each.paid);
         return (
           <>
             <Row sm="6">
@@ -63,7 +75,7 @@ export default function Cards(props) {
                 className="text-black"
                 color="light"
                 style={{
-                  backgroundColor: "rgb(182,205,228)",
+                  backgroundColor: cardColor,
                   margin: "0.2rem",
 
                   padding: "0.2rem",

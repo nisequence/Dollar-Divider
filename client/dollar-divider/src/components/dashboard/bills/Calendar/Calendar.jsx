@@ -34,6 +34,7 @@ const items = [
     autoPay: true,
     recurring: true,
     category: "Rent",
+    paid: false,
   },
   {
     title: "Car Payment",
@@ -43,6 +44,7 @@ const items = [
     autoPay: false,
     recurring: true,
     category: "Transportation",
+    paid: true,
   },
   {
     title: "Rent",
@@ -52,6 +54,7 @@ const items = [
     autoPay: true,
     recurring: true,
     category: "Rent",
+    paid: false,
   },
   {
     title: "Rent",
@@ -61,6 +64,7 @@ const items = [
     autoPay: true,
     recurring: true,
     category: "Rent",
+    paid: true,
   },
   {
     title: "Groceries",
@@ -70,6 +74,7 @@ const items = [
     autoPay: false,
     recurring: false,
     category: "Food",
+    paid: true,
   },
   {
     title: "Marshall's CC",
@@ -79,6 +84,7 @@ const items = [
     autoPay: true,
     recurring: true,
     category: "Credit",
+    paid: false,
   },
   {
     title: "Marshall's CC",
@@ -88,6 +94,37 @@ const items = [
     autoPay: true,
     recurring: false,
     category: "Credit",
+    paid: false,
+  },
+  {
+    title: "Marshall's CC",
+    amount: 35,
+    date: "July",
+    day: "15",
+    autoPay: true,
+    recurring: false,
+    category: "Credit",
+    paid: false,
+  },
+  {
+    title: "Marshall's CC",
+    amount: 35,
+    date: "July",
+    day: "15",
+    autoPay: true,
+    recurring: false,
+    category: "Credit",
+    paid: false,
+  },
+  {
+    title: "Marshall's CC",
+    amount: 35,
+    date: "July",
+    day: "15",
+    autoPay: true,
+    recurring: false,
+    category: "Credit",
+    paid: false,
   },
 ];
 
