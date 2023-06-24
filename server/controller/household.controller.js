@@ -143,7 +143,7 @@ router.get("/admin", async (req, res) => {
       //* If HH exists and user is admin, then we should have a successful request
     } else {
       return res.status(200).json({
-        msg: `Household was found!`,
+        message: `Household was found!`,
         getHousehold,
       });
     }
@@ -171,7 +171,7 @@ router.get("/member", async (req, res) => {
       let { name, participantIDs, participantNames, participantPercents } = getHousehold;
 
       return res.status(200).json({
-        msg: `Household was found!`,
+        message: `Household was found!`,
         name,
         participantIDs,
         participantNames,

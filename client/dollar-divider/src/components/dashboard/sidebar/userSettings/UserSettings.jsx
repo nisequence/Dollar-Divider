@@ -1,9 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import Admin from "./views/admin/Admin";
-import Member from "./views/member/Member";
-import Solo from "./views/solo/Solo";
-export default function HouseholdSettings() {
+import ProfileSettings from "./views/profileSettings/ProfileSettings";
+export default function UserSettings() {
   const token = localStorage.getItem("token");
 
   const [userStatus, setUserStatus] = useState("Member");
@@ -26,6 +24,8 @@ export default function HouseholdSettings() {
       const res = await fetch(url, reqOptions);
       const data = await res.json();
 
+      // console.log(data);
+
       // If the server does not provide a failure message
       if (data.message === "Admin") {
         updateStatus(data.message);
@@ -47,20 +47,10 @@ export default function HouseholdSettings() {
     }
   }, [token, userStatus]);
 
-  const returnView = () => {
-    if (userStatus === "Admin") {
-      return <Admin token={token} />;
-    } else if (userStatus === "Member") {
-      return <Member token={token} />;
-    } else if (userStatus === "Solo") {
-      return <Solo token={token} />;
-    }
-  };
   return (
     <div id="rightSideMenu">
-      <br></br>
-      <h3>Household Settings</h3>
-      {returnView()}
+      <h1>User Settings</h1>
+      <ProfileSettings/>
     </div>
   );
 }

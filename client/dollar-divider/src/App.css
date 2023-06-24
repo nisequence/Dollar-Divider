@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   background-color: rgba(0, 57, 122, 0.932);
-  color: white;
+  color: black
 }
 
 .DashBody {
@@ -34,6 +34,7 @@ RemainingMonthlyAmountsChartColors {
   height: 3.5em;
   border-right: "solid rgb(46, 46, 46) 2px";
   width: 0;
+  /* min-width: fit-content; */
   transition: width 0.2s;
   background-color: gray;
 }
@@ -81,7 +82,13 @@ RemainingMonthlyAmountsChartColors {
 
 #logout {
   color: white;
+  /* height: 1.5em; */
+  /* position: flex; */
+  /* flex-direction: column; */
+  /* margin-top: 0; */
+  padding-top: .1rem;
 }
+
 #logout:hover {
   color: black;
 }
@@ -118,6 +125,7 @@ Button:hover {
   user-select: none;
 } */
 .upcomingBillsTable {
+  max-height: fit-content;
   margin: auto;
   margin-top: 3em;
   height: 40%;
@@ -125,19 +133,40 @@ Button:hover {
 }
 
 .CurrentBudgetStatus {
-  height: 100%;
+  max-height: fit-content;
   width: 100%;
   min-width: 35vw;
   /* max-height: 50vh; */
-  background-color: rgb(178, 178, 178);
+  background-color: rgb(194, 194, 194);
   color: black;
   font-size: xx-large;
   /* opacity: .5; */
 }
 
 .RecentTransactions {
+  max-height: fit-content;
   margin: auto;
   height: 100%;
   width: 100%;
   min-width: 35vw;
+}
+
+#rightSideMenu {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 0;
+  max-width: 80vw;
+  transition: width 0.25s;
+  height: 100vh;
+  background-color: rgba(88, 88, 88, 0.9);
+  border-right: solid rgb(46, 46, 46) 2px;
+  border-bottom: solid rgb(46, 46, 46) 2px;
+  border-top: solid rgb(144, 144, 144) 2px;
+  border-left: solid rgb(144, 144, 144) 2px;
+}
+
+#formgroup{
+  width: 25rem;
+  margin: auto;
 }

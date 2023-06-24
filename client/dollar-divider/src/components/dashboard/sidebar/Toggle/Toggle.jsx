@@ -8,7 +8,7 @@ function Example({ setView, view }) {
         <Input
           type="switch"
           checked={view}
-          onClick={() => {
+          onChange={() => {
             setView(!view);
           }}
         />
