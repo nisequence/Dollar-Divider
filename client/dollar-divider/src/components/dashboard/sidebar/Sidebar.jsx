@@ -20,6 +20,7 @@ import {
 import Toggle from "../sidebar/Toggle/Toggle";
 import Logout from "../../auth/logout/Logout";
 import HouseholdSettings from "./householdSettings/HouseholdSettings";
+import UserSettings from "./userSettings/UserSettings";
 
 // --------------------------------- Toggle Left Sidebar -------------------------------------
 function Sidebar(props) {
@@ -72,7 +73,7 @@ function Sidebar(props) {
           result.push(+temp)
         }
       }
-      console.log(typeof result[1])
+      // console.log(typeof result[1])
       // let maxRightWidth = (80-result[1])+"vw";
       // console.log(maxRightWidth)
       // console.log(leftSideWidth, +leftSideWidth)
@@ -90,19 +91,30 @@ function Sidebar(props) {
 
   //! -------------------------------- Navbar Links ----------------------------
 
-  let budgetSettings = (
+  let householdSettings = (
+    <NavItem
+      // token={props.token}
+      // status={props.status}
+      // href="/dashboard/household"    
+    >
+      <button onClick={toggleRightSidebar} id="householdSettings">
+        Household Settings
+      </button>
+    </NavItem>
+  );
+  let userSettings = (
     <NavItem
       // token={props.token}
       // status={props.status}
       // href="/dashboard/household"    
     >
       <button onClick={toggleRightSidebar} id="budgetSettings">
-        Household Settings
+        User Settings
       </button>
     </NavItem>
   );
   let br = (<br></br>)
-  let sidebarArray = ["Menu Item 1", "Menu Item 2", budgetSettings];
+  let sidebarArray = ["Menu Item 1", "Menu Item 2", userSettings];
 
   const sidebarItems = sidebarArray.map((i) => {
     return (
@@ -132,7 +144,9 @@ function Sidebar(props) {
               <Logout updateToken={props.updateToken} />
             </NavItem>
 
-            <HouseholdSettings token={props.token} />
+            {/* <HouseholdSettings token={props.token} /> */}
+            <UserSettings token={props.token} />
+
           </Nav>
         </Collapse>
       </Navbar>
