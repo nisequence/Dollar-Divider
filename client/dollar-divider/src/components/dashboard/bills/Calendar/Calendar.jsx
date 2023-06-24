@@ -9,132 +9,20 @@ import {
   Col,
 } from "reactstrap";
 import Cards from "./Cards/Cards";
+import AddBill from "../AddBill/AddBill";
 
 const monthGroup = [
   {
     id: 1,
-    month: "May",
-  },
-  {
-    id: 2,
     month: "June",
   },
   {
-    id: 3,
+    id: 2,
     month: "July",
   },
-];
-
-const items = [
-  {
-    id: 0,
-    title: "Rent",
-    amount: 1000,
-    date: "June",
-    day: "1",
-    autoPay: true,
-    recurring: true,
-    category: "Rent",
-    paid: false,
-  },
-  {
-    id: 1,
-    title: "Car Payment",
-    amount: 200,
-    date: "June",
-    day: "2",
-    autoPay: false,
-    recurring: true,
-    category: "Transportation",
-    paid: true,
-  },
-  {
-    id: 2,
-    title: "Rent",
-    amount: 1000,
-    date: "July",
-    day: "12",
-    autoPay: true,
-    recurring: true,
-    category: "Rent",
-    paid: false,
-  },
   {
     id: 3,
-    title: "Rent",
-    amount: 1000,
-    date: "May",
-    day: "5",
-    autoPay: true,
-    recurring: true,
-    category: "Rent",
-    paid: true,
-  },
-  {
-    id: 4,
-    title: "Groceries",
-    amount: 250,
-    date: "May",
-    day: "15",
-    autoPay: false,
-    recurring: false,
-    category: "Food",
-    paid: true,
-  },
-  {
-    id: 5,
-    title: "Marshall's CC",
-    amount: 35,
-    date: "June",
-    day: "16",
-    autoPay: true,
-    recurring: true,
-    category: "Credit",
-    paid: false,
-  },
-  {
-    id: 6,
-    title: "Marshall's CC",
-    amount: 35,
-    date: "July",
-    day: "15",
-    autoPay: true,
-    recurring: false,
-    category: "Credit",
-    paid: false,
-  },
-  {
-    id: 7,
-    title: "Marshall's CC",
-    amount: 35,
-    date: "July",
-    day: "15",
-    autoPay: true,
-    recurring: false,
-    category: "Credit",
-    paid: false,
-  },
-  {
-    id: 8,
-    title: "Marshall's CC",
-    amount: 35,
-    date: "July",
-    day: "15",
-    autoPay: true,
-    recurring: false,
-    category: "Credit",
-    paid: false,
-  },
-  {
-    id: 9,
-    title: "Marshall's CC",
-    amount: 35,
-    date: "July",
-    day: "15",
-    autoPay: true,
-    recurring: false,
-    category: "Credit",
-    paid: false,
+    month: "August",
   },
 ];
 
@@ -157,11 +45,10 @@ export default function Calendar(props) {
   };
 
   const slides = monthGroup.map((monthName) => {
-    let monthlyBills = items.filter((bills) => {
-      let remainingBills = bills.date === monthName.month;
+    let monthlyBills = props.bills?.filter((bills) => {
+      let remainingBills = bills.dueMonth === monthName.month;
       return remainingBills;
     });
-    // console.log("Logging monthlyBills:", monthlyBills);
     return (
       <CarouselItem
         className="custom-tag"
@@ -186,10 +73,20 @@ export default function Calendar(props) {
           height: 400px;
         }`}
       </style>
-      <Row>
-        <h4 margin="0" padding="0">
-          Bills At-A-Glance
-        </h4>
+      <Row style={{ maxHeight: "6vh" }}>
+        <Col style={{ maxWidth: "13vw" }}></Col>
+        <Col>
+          <h4 margin="0" padding="0">
+            Bills At-A-Glance
+          </h4>
+        </Col>
+        <Col style={{ maxWidth: "13vw" }}>
+          <AddBill
+            token={props.token}
+            month={monthGroup[activeIndex]}
+            view={props.view}
+          />
+        </Col>
       </Row>
       <Row style={{ maxHeight: "6vh" }}>
         <Col>
