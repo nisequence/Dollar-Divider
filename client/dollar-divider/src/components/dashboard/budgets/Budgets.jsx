@@ -3,7 +3,6 @@ import CurrentBudgetStatus from "./currentBudgetStatus/CurrentBudgetStatus";
 import { useState, useEffect } from "react";
 
 export default function Budgets(props) {
-  //* State to house room data
   let url;
   const [budgets, setBudgets] = useState([]);
   const getBudgets = async (viewValue) => {
