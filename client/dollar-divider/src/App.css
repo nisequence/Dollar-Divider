@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   background-color: rgba(0, 57, 122, 0.932);
-  color: black,
+  color: black
 }
 
 .DashBody {
@@ -125,6 +125,7 @@ Button:hover {
   user-select: none;
 } */
 .upcomingBillsTable {
+  max-height: fit-content;
   margin: auto;
   margin-top: 3em;
   height: 40%;
@@ -132,17 +133,18 @@ Button:hover {
 }
 
 .CurrentBudgetStatus {
-  height: 100%;
+  max-height: fit-content;
   width: 100%;
   min-width: 35vw;
   /* max-height: 50vh; */
-  background-color: rgb(178, 178, 178);
+  background-color: rgb(194, 194, 194);
   color: black;
   font-size: xx-large;
   /* opacity: .5; */
 }
 
 .RecentTransactions {
+  max-height: fit-content;
   margin: auto;
   height: 100%;
   width: 100%;
@@ -154,6 +156,7 @@ Button:hover {
   right: 0;
   top: 0;
   width: 0;
+  max-width: 80vw;
   transition: width 0.25s;
   height: 100vh;
   background-color: rgba(88, 88, 88, 0.9);
