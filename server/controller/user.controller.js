@@ -214,8 +214,10 @@ router.patch("/adjust", requireValidation, async (req, res) => {
     const householdFilter = { _id: req.user.householdID };
 
     //* Pull update-able info from the req.body
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, email } = req.body;
+    password = bcrypt.hashSync(req.body.password, 11);
     const userNewInfo = { firstName, lastName, email, password };
+    // const userNewInfo = { firstName, lastName, email, password };
 
     const returnOption = { new: true };
 

@@ -7,7 +7,7 @@ import Budgets from "./budgets/Budgets";
 // import CurrentBudgetStatus from "./budgets/currentBudgetStatus/CurrentBudgetStatus";
 import RecentTransactions from "./transactions/recentTransactions/RecentTransactions";
 import { useState, useEffect } from "react";
-import Bills from "./bills/Bills";
+import Bills2 from "./bills/Bills2";
 
 export default function Dashboard(props) {
   const token = localStorage.getItem("token");
@@ -64,7 +64,8 @@ export default function Dashboard(props) {
             <Col className="bg-light border">
               {/* .col */}
               {/* <UpcomingBills /> */}
-              <Bills view={props.view} />
+              <br></br>
+              <Bills2 view={props.view} token={token}></Bills2>
             </Col>
             <Col className="bg-light border">
               {/* .col */}
@@ -73,6 +74,11 @@ export default function Dashboard(props) {
                 token={token}
                 transactions={transactions}
               />
+            </Col>
+          </Row>
+          <Row>
+            <Col className="bg-light border">
+              <h6>FinAccounts Coming Soon</h6>
             </Col>
             <Col className="bg-light border">
               {/* .col */}
