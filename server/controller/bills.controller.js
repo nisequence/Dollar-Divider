@@ -105,10 +105,10 @@ router.post("/add", async (req, res) => {
       // if works add new transaction to household
       const bill = new Bill({
         title: title,
-        merchant: merchant,
         amount: amount,
         paid: false,
-        dueDate: dueDate,
+        dueMonth: dueMonth,
+        dueDay: dueDay,
         autoPay: autoPay,
         recurring: recurring,
         category: category,
