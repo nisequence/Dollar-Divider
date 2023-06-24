@@ -2,15 +2,14 @@ import React, { useRef, useState } from "react";
 import { Form, FormGroup, Input, Button, Label } from "reactstrap";
 
 export default function NewInfo(props) {
-  const [baseVal, setBaseVal] = useState(false);
   //* Use useRef to get values from each input
   const categoryRef = useRef();
   const amountRef = useRef();
 
   let baseBoolean;
-  if (baseVal) {
+  if (props.view === false) {
     baseBoolean = "personal";
-  } else if (!baseVal) {
+  } else {
     baseBoolean = "household";
   }
 
@@ -18,7 +17,6 @@ export default function NewInfo(props) {
   const submitBudget = async (e) => {
     const category = categoryRef.current.value;
     const amount = amountRef.current.value;
-    console.log(baseVal);
 
     let url = "http://localhost:4000/budget/add";
 
@@ -27,8 +25,6 @@ export default function NewInfo(props) {
       amount: amount,
       base: baseBoolean,
     });
-
-    console.log(budgetObj);
 
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -79,16 +75,9 @@ export default function NewInfo(props) {
             required
           />
         </FormGroup>
-        <FormGroup switch>
-          <Input
-            type="switch"
-            role="switch"
-            checked={baseVal}
-            onChange={() => setBaseVal(() => !baseVal)}
-          />
-          <Label check>Personal Budget Item</Label>
-        </FormGroup>
-        <Button color="success">Create Budget</Button>
+        <Button color="success" type="submit">
+          Create Budget
+        </Button>
       </Form>
     </>
   );

@@ -19,7 +19,7 @@ export default function ClickCard(props) {
     const category = categoryRef.current.value;
     const amount = amountRef.current.value;
 
-    let url = `http://localhost:4000/bills/edit/${props.id}`;
+    let url = `http://localhost:4000/bills/edit/${props.billInfo.id}`;
 
     let budgetObj = JSON.stringify({
       category: category,

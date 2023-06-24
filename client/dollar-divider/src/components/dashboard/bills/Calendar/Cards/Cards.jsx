@@ -143,7 +143,7 @@ export default function Cards(props) {
                             />
                           </PopoverBody>
                         </UncontrolledPopover>
-                        Open
+                        Edit
                       </Button>
                     </Col>
                   </Row>
