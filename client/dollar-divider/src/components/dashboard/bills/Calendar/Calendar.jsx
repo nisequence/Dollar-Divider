@@ -27,6 +27,7 @@ const monthGroup = [
 
 const items = [
   {
+    id: 0,
     title: "Rent",
     amount: 1000,
     date: "June",
@@ -37,6 +38,7 @@ const items = [
     paid: false,
   },
   {
+    id: 1,
     title: "Car Payment",
     amount: 200,
     date: "June",
@@ -47,6 +49,7 @@ const items = [
     paid: true,
   },
   {
+    id: 2,
     title: "Rent",
     amount: 1000,
     date: "July",
@@ -57,6 +60,7 @@ const items = [
     paid: false,
   },
   {
+    id: 3,
     title: "Rent",
     amount: 1000,
     date: "May",
@@ -67,6 +71,7 @@ const items = [
     paid: true,
   },
   {
+    id: 4,
     title: "Groceries",
     amount: 250,
     date: "May",
@@ -77,6 +82,7 @@ const items = [
     paid: true,
   },
   {
+    id: 5,
     title: "Marshall's CC",
     amount: 35,
     date: "June",
@@ -87,6 +93,7 @@ const items = [
     paid: false,
   },
   {
+    id: 6,
     title: "Marshall's CC",
     amount: 35,
     date: "July",
@@ -97,6 +104,7 @@ const items = [
     paid: false,
   },
   {
+    id: 7,
     title: "Marshall's CC",
     amount: 35,
     date: "July",
@@ -107,6 +115,7 @@ const items = [
     paid: false,
   },
   {
+    id: 8,
     title: "Marshall's CC",
     amount: 35,
     date: "July",
@@ -117,6 +126,7 @@ const items = [
     paid: false,
   },
   {
+    id: 9,
     title: "Marshall's CC",
     amount: 35,
     date: "July",

@@ -12,7 +12,12 @@ import {
   Label,
   FormGroup,
   Input,
+  Button,
+  PopoverHeader,
+  UncontrolledPopover,
+  PopoverBody,
 } from "reactstrap";
+import ClickCard from "./ClickCard/ClickCard";
 
 export default function Cards(props) {
   let cardColor;
@@ -27,7 +32,7 @@ export default function Cards(props) {
   }
   return (
     <>
-      <Row sm="6">
+      <Row sm="6" overflow-y="scroll">
         <Card
           body
           color="secondary"
@@ -58,6 +63,9 @@ export default function Cards(props) {
               <Col>
                 <CardText>Budget</CardText>
               </Col>
+              <Col>
+                <CardText>See More</CardText>
+              </Col>
             </Row>
           </CardBody>
         </Card>
@@ -66,9 +74,11 @@ export default function Cards(props) {
       {props.bills.map((each) => {
         //* Set different value for background color based on whether the bill is paid or unpaid
         modifyColor(each.paid);
+        /* ! Would like to nest the below return for each bill into a scroll bar container */
         return (
           <>
             <Row sm="6">
+              {/* ! Would like to make this card have rounded edges if possible */}
               <Card
                 body
                 outline
@@ -77,7 +87,6 @@ export default function Cards(props) {
                 style={{
                   backgroundColor: cardColor,
                   margin: "0.2rem",
-
                   padding: "0.2rem",
                 }}
               >
@@ -114,6 +123,28 @@ export default function Cards(props) {
                     </Col> */}
                     <Col>
                       <CardText>{each.category}</CardText>
+                    </Col>
+                    <Col>
+                      <Button
+                        id="UncontrolledPopoverBills"
+                        color="success"
+                        type="button"
+                      >
+                        <UncontrolledPopover
+                          placement="left"
+                          target="UncontrolledPopoverBills"
+                        >
+                          <PopoverHeader>{each.title}</PopoverHeader>
+                          <PopoverBody>
+                            <ClickCard
+                              token={props.token}
+                              billInfo={each}
+                              id={each.id}
+                            />
+                          </PopoverBody>
+                        </UncontrolledPopover>
+                        Open
+                      </Button>
                     </Col>
                   </Row>
                 </CardBody>
