@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const finAccount = require("../models/finAccount.model");
+const FinAccount = require("../models/finAccount.model");
 const User = require("../models/user.model");
 const Household = require("../models/household.model");
 const Budget = require("../models/budget.model");
@@ -15,6 +15,8 @@ const serverError = (res, error) => {
     });
   };
 
+
+
 //? Post "/add"
 router.post("/add", async (req, res) => {
     try {
@@ -28,7 +30,7 @@ router.post("/add", async (req, res) => {
           minBalance: minBalance,
           allocations: allocations,
           available: available,
-          ownerID: ownerID,
+          ownerID: req.user._id,
         });
   
         const newFinAccount = await finAccount.save();
@@ -69,7 +71,7 @@ router.get("/ownerID/:ownerID", async (req, res) => {
     try {
       const { ownerID } = req.params;
   
-      const getOwnerID = await FinAccount.find({ ownerID: ownerID });
+      const getOwnerID = await FinAccount.find({ ownerID: req.user._id });
   
       getOwnerID.length > 0
         ? res.status(200).json({
