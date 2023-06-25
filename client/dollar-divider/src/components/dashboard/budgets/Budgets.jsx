@@ -45,6 +45,7 @@ export default function Budgets(props) {
         budgets={budgets}
         transactions={props.transactions}
         token={props.token}
+        view={props.view}
       />
     </>
   );

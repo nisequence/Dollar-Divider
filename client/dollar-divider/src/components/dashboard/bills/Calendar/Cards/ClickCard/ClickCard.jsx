@@ -19,7 +19,7 @@ export default function ClickCard(props) {
     const category = categoryRef.current.value;
     const amount = amountRef.current.value;
 
-    let url = `http://localhost:4000/bills/edit/${props.id}`;
+    let url = `http://localhost:4000/bills/edit/${props.billInfo.id}`;
 
     let budgetObj = JSON.stringify({
       category: category,
@@ -79,16 +79,9 @@ export default function ClickCard(props) {
             required
           />
         </FormGroup>
-        <FormGroup switch>
-          <Input
-            type="checkbox"
-            role="checkbox"
-            // checked={baseVal}
-            // onChange={() => setBaseVal(() => !baseVal)}
-          />
-          <Label check>Personal?</Label>
-        </FormGroup>
-        <Button color="success">Create Budget</Button>
+        <Button color="success" id="submit">
+          Create Bill
+        </Button>
       </Form>
     </>
   );
