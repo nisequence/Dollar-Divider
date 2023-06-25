@@ -64,7 +64,7 @@ export default function Cards(props) {
                 <CardText>Budget</CardText>
               </Col>
               <Col>
-                <CardText>More</CardText>
+                <CardText>Edit</CardText>
               </Col>
             </Row>
           </CardBody>
