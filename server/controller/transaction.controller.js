@@ -75,6 +75,7 @@ router.post("/add", async (req, res) => {
         checkNum: checkNum,
         finAccount: finAccount,
         manualEntry: true, 
+        source: source,
         category: category,
         base: req.user.householdID,
       });

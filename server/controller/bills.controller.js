@@ -115,12 +115,12 @@ router.get("/mine", async (req, res) => {
   try {
     const id = req.user._id;
 
-    const getAllUserBills = await Bill.find({base: id});
+    const getAllBills = await Bill.find({base: id});
 
-    getAllUserBills
+    getAllBills
       ? res.status(200).json({
           message: "All bills from user collection",
-          getAllUserBills,
+          getAllBills,
         })
       : res.status(404).json({
           message: `No bills found.`,
@@ -134,12 +134,12 @@ router.get("/household", async (req, res) => {
   try {
     const id = req.user.householdID;
 
-    const getAllHouseholdBills = await Bill.find({base: id});
+    const getAllBills = await Bill.find({base: id});
 
-    getAllHouseholdBills
+    getAllBills
       ? res.status(200).json({
           message: "All bills from household collection",
-          getAllHouseholdBills,
+          getAllBills,
         })
       : res.status(404).json({
           message: `No bills found.`,

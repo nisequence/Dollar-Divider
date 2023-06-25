@@ -8,10 +8,10 @@ import {
 } from "reactstrap";
 
 export default function View({ token }) {
-  const [memberInfo, setMemberInfo] = useState([]);
+  const [householdInfo, setHouseholdInfo] = useState([]);
 
   const getHousehold = async () => {
-    let url = "http://localhost:4000/household/member";
+    let url = "http://localhost:4000/household/admin";
 
     const reqOptions = {
       method: "GET",
@@ -24,12 +24,11 @@ export default function View({ token }) {
       const res = await fetch(url, reqOptions);
       const data = await res.json();
 
-      console.log(data);
+      console.log(data.getHousehold);
 
       if (data.message === "Household was found!") {
-        setMemberInfo(data);
-        console.log(memberInfo);
-        console.log("working!");
+        setHouseholdInfo(data.getHousehold);
+        console.log(householdInfo);
       }
     } catch (err) {
       console.error(err);
@@ -42,15 +41,15 @@ export default function View({ token }) {
     }
   }, [token]);
 
-  const listNames = memberInfo.participantNames?.map((name) => {
+  const listNames = householdInfo.participantNames?.map((name) => {
     return <li>{name}</li>;
   });
 
-  const listIDs = memberInfo.participantIDs?.map((id) => {
+  const listIDs = householdInfo.participantIDs?.map((id) => {
     return <li>{id}</li>;
   });
 
-  const listPercents = memberInfo.participantPercents?.map((percent) => {
+  const listPercents = householdInfo.participantPercents?.map((percent) => {
     return <li>{percent}</li>;
   });
 
@@ -58,8 +57,11 @@ export default function View({ token }) {
     <>
       <br></br>
       <h3>
-        <u>{memberInfo.name}</u>
+        <u>{householdInfo.name}</u>
       </h3>
+      <p>
+        <i>Current User Limit: {householdInfo.participantMaxNum}</i>
+      </p>
       <UncontrolledAccordion defaultOpen="1">
         <AccordionItem>
           <AccordionHeader targetId="1">Household Members</AccordionHeader>
