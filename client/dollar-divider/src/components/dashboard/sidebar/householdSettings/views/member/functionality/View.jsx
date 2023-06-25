@@ -24,12 +24,12 @@ export default function View({ token }) {
       const res = await fetch(url, reqOptions);
       const data = await res.json();
 
-      console.log(data);
+      // console.log(data);
 
       if (data.message === "Household was found!") {
         setMemberInfo(data);
-        console.log(memberInfo);
-        console.log("working!");
+        // console.log(memberInfo);
+        // console.log("working!");
       }
     } catch (err) {
       console.error(err);
