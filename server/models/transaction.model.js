@@ -34,6 +34,10 @@ const TransactionSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    type: {
+        type: String,
+        required: true
+    },
     base: {
         type: String,
         required: true,
