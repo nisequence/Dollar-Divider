@@ -12,14 +12,34 @@ const serverError = (res, error) => {
   });
 };
 
+
+
 //? POST ROUTE "/add"
 //* Successful on Postman MR
 
 router.post("/add", async (req, res) => {
-  try {
-    //const {id} = req.params;
 
-    const { date, desc, merchant, amount, checkNum, finAccount, category, base } = req.body;
+  try {
+    const {
+      date,
+      desc,
+      merchant,
+      amount,
+      checkNum,
+      finAccount,
+      type,
+      category,
+      base,
+    } = req.body;
+
+
+    let newAmount;
+    if (type == "expense") {
+      newAmount = -Math.abs(amount);
+    } else {
+      newAmount = amount
+    }
+    console.log(newAmount);
 
 
     if (base == "personal") {
@@ -32,16 +52,17 @@ router.post("/add", async (req, res) => {
           message: "User not found!",
         });
       }
-      // If user works add new transaction
 
+      // If user works add new transaction
       const transaction = new Transaction({
         date: date,
         desc: desc,
         merchant: merchant,
-        amount: amount,
+        amount: newAmount,
         checkNum: checkNum,
         finAccount: finAccount,
-        manualEntry: true, 
+        manualEntry: true,
+        type: type,
         category: category,
         base: req.user._id,
       });
@@ -67,15 +88,14 @@ router.post("/add", async (req, res) => {
 
       // if works add new transaction to household
       const transaction = new Transaction({
-
         date: date,
         desc: desc,
         merchant: merchant,
         amount: amount,
         checkNum: checkNum,
-        finAccount: finAccount,
-        manualEntry: true, 
-        source: source,
+        finAccount: req.user._id,
+        manualEntry: true,
+        type: type,
         category: category,
         base: req.user.householdID,
       });
@@ -101,7 +121,7 @@ router.get("/household", async (req, res) => {
   try {
     const id = req.user.householdID;
 
-    const getAllHouseholdTrans = await Transaction.find({base: id});
+    const getAllHouseholdTrans = await Transaction.find({ base: id });
 
     getAllHouseholdTrans
       ? res.status(200).json({
@@ -123,7 +143,7 @@ router.get("/mine", async (req, res) => {
   try {
     const id = req.user._id;
 
-    const getAllUserTrans = await Transaction.find({base: id});
+    const getAllUserTrans = await Transaction.find({ base: id });
 
     getAllUserTrans
       ? res.status(200).json({
@@ -184,7 +204,10 @@ router.get("/dateAndCategory/:date/:category", async (req, res) => {
   try {
     const { date, category } = req.params;
 
-    const getDateAndCategory = await Transaction.find({date:date}, { category: category });
+    const getDateAndCategory = await Transaction.find(
+      { date: date },
+      { category: category }
+    );
 
     getDateAndCategory.length > 0
       ? res.status(200).json({
@@ -197,7 +220,6 @@ router.get("/dateAndCategory/:date/:category", async (req, res) => {
     errorResponse(res, err);
   }
 });
-
 
 //? GET ONE ROUTE "/find/:id"
 //* Successful on Postman
@@ -260,7 +282,8 @@ router.delete("/delete/:id", async (req, res) => {
     const deletedTransaction = await Transaction.findOneAndDelete({ _id: id });
 
     res.status(200).json({
-      message: "Transaction was successfully deleted!", deletedTransaction
+      message: "Transaction was successfully deleted!",
+      deletedTransaction,
     });
     res.status(404).json({
       message: "Access to or existence of this transaction was not located",
