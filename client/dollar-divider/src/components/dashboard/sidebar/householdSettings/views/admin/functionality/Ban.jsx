@@ -1,14 +1,14 @@
 import React from "react";
 import { Button } from "reactstrap";
 
-export default function Tweak(props) {
-  async function tweakPercents(e) {
+export default function Ban(props) {
+  async function banUser(e) {
     e.preventDefault();
 
     let bodyObj = JSON.stringify({
-      newBreakdown: props.percentageArray,
+      banUser: props.userID,
     });
-    const url = `http://localhost:4000/household/tweak`;
+    const url = `http://localhost:4000/household/edit`;
 
     let requestOptions = {
       headers: new Headers({
@@ -30,16 +30,9 @@ export default function Tweak(props) {
       console.error(error);
     }
   }
-
   return (
-    <>
-      <Button
-        onClick={props.grabPercents}
-        color="success"
-        //   onClick={tweakPercents}
-      >
-        Submit
-      </Button>
-    </>
+    <Button color="danger" onClick={banUser}>
+      Ban
+    </Button>
   );
 }
