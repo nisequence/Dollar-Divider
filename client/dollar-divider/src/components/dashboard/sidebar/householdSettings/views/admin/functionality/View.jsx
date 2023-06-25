@@ -1,14 +1,22 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   UncontrolledAccordion,
   AccordionItem,
   AccordionHeader,
   AccordionBody,
+  Button,
+  Input,
+  Table,
 } from "reactstrap";
+import Ban from "./Ban";
+import Tweak from "./Tweak";
 
-export default function View({ token }) {
+export default function View(props) {
   const [householdInfo, setHouseholdInfo] = useState([]);
+  const [editPercent, setEditPercent] = useState(false);
+  const [percentArray, setPercentArray] = useState([]);
+  const numberRef = useRef();
 
   const getHousehold = async () => {
     let url = "http://localhost:4000/household/admin";
@@ -16,7 +24,7 @@ export default function View({ token }) {
     const reqOptions = {
       method: "GET",
       headers: new Headers({
-        Authorization: token,
+        Authorization: props.token,
       }),
     };
 
@@ -36,22 +44,76 @@ export default function View({ token }) {
   };
 
   useEffect(() => {
-    if (token) {
+    if (props.token) {
       getHousehold();
     }
-  }, [token]);
+  }, [props.token]);
 
-  const listNames = householdInfo.participantNames?.map((name) => {
-    return <li>{name}</li>;
+  const tableNames = householdInfo.participantNames?.map((name) => {
+    return (
+      <>
+        <tr>
+          <td>{name}</td>
+          <td>
+            {
+              householdInfo.participantPercents[
+                householdInfo.participantNames.indexOf(name)
+              ]
+            }
+            %
+          </td>
+          <td>
+            <Ban
+              getHousehold={getHousehold}
+              token={props.token}
+              userID={
+                householdInfo.participantIDs[
+                  householdInfo.participantNames.indexOf(name)
+                ]
+              }
+            ></Ban>
+          </td>
+        </tr>
+      </>
+    );
   });
 
-  const listIDs = householdInfo.participantIDs?.map((id) => {
-    return <li>{id}</li>;
+  const tablePercents = householdInfo.participantNames?.map((name) => {
+    let contribution =
+      householdInfo.participantPercents[
+        householdInfo.participantNames.indexOf(name)
+      ];
+    let index = householdInfo.participantNames.indexOf(name);
+    return (
+      <>
+        <tr>
+          <td>{name}</td>
+          <td>
+            {editPercent ? (
+              <Input
+                innerRef={numberRef}
+                type="number"
+                id={index}
+                className="percentageInput"
+                style={{ maxWidth: "10vw" }}
+                placeholder={contribution}
+              ></Input>
+            ) : (
+              contribution
+            )}
+          </td>
+        </tr>
+      </>
+    );
   });
+  let grabPercents = () => {
+    let inputValue =
+      document.getElementsByClassName("percentageInput")[0].value;
+    console.log(inputValue);
+  };
 
-  const listPercents = householdInfo.participantPercents?.map((percent) => {
-    return <li>{percent}</li>;
-  });
+  const inviteCode = householdInfo._id;
+  // const inviteLink = `http://localhost:4000/household/join/${inviteCode}`;
 
   return (
     <>
@@ -62,23 +124,57 @@ export default function View({ token }) {
       <p>
         <i>Current User Limit: {householdInfo.participantMaxNum}</i>
       </p>
+      <Button
+        color="success"
+        onClick={() => {
+          navigator.clipboard.writeText(inviteCode);
+        }}
+      >
+        Copy Household Invite Code
+      </Button>
+      <br></br>
+      <br></br>
       <UncontrolledAccordion defaultOpen="1">
         <AccordionItem>
           <AccordionHeader targetId="1">Household Members</AccordionHeader>
           <AccordionBody accordionId="1">
-            <ul>{listNames}</ul>
+            <Table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Contribution</th>
+                  <th>Remove</th>
+                </tr>
+              </thead>
+              <tbody>{tableNames}</tbody>
+            </Table>
           </AccordionBody>
         </AccordionItem>
         <AccordionItem>
-          <AccordionHeader targetId="2">Household IDs</AccordionHeader>
+          <AccordionHeader targetId="2">Adjust Contributions</AccordionHeader>
           <AccordionBody accordionId="2">
-            <ul>{listIDs}</ul>
-          </AccordionBody>
-        </AccordionItem>
-        <AccordionItem>
-          <AccordionHeader targetId="3">Percentage Breakdowns</AccordionHeader>
-          <AccordionBody accordionId="3">
-            <ul>{listPercents}</ul>
+            <Table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Contribution %</th>
+                </tr>
+              </thead>
+              <tbody>{tablePercents}</tbody>
+            </Table>
+            <Button
+              color="warning"
+              onClick={() => setEditPercent(!editPercent)}
+            >
+              Change
+            </Button>
+            <Button onClick={grabPercents}>Test</Button>
+            <Tweak
+              grabPercents={grabPercents}
+              percentArray={percentArray}
+              token={props.token}
+              getHousehold={getHousehold}
+            />
           </AccordionBody>
         </AccordionItem>
       </UncontrolledAccordion>
