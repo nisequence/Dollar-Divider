@@ -1,7 +1,3 @@
-# Family-Budget-App
+# Dollar-Divider
 
-## This is Develop!
-
-## This is Dan!
-
-### Nicole's Branch
+### Share bills, not bank accounts

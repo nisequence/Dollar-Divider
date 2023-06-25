@@ -33,14 +33,13 @@ export default function Calendar(props) {
   const next = () => {
     if (animating) return;
     const nextIndex =
-      activeIndex === monthGroup.length - 1 ? 0 : activeIndex + 1;
+      activeIndex === monthGroup.length - 1 ? activeIndex : activeIndex + 1;
     setActiveIndex(nextIndex);
   };
 
   const previous = () => {
     if (animating) return;
-    const nextIndex =
-      activeIndex === 0 ? monthGroup.length - 1 : activeIndex - 1;
+    const nextIndex = activeIndex === 0 ? activeIndex : activeIndex - 1;
     setActiveIndex(nextIndex);
   };
 
