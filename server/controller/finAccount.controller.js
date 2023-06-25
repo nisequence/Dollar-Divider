@@ -30,7 +30,7 @@ router.post("/add", async (req, res) => {
           minBalance: minBalance,
           allocations: allocations,
           available: available,
-          ownerID: req.user._id,
+          ownerID: ownerID,
         });
   
         const newFinAccount = await finAccount.save();
@@ -52,7 +52,7 @@ router.get("/mine", async (req, res) => {
     try {
       const id = req.user._id;
   
-      const getAllUserFinAccounts = await FinAccount.find({_id: id});
+      const getAllUserFinAccounts = await FinAccount.find({ownerID: id});
   
       getAllUserFinAccounts
         ? res.status(200).json({
@@ -66,25 +66,7 @@ router.get("/mine", async (req, res) => {
       errorResponse(res, err);
     }
   });
-//? Get by OwnerID ""
-router.get("/ownerID/:ownerID", async (req, res) => {
-    try {
-      const { ownerID } = req.params;
-  
-      const getOwnerID = await FinAccount.find({ ownerID: req.user._id });
-  
-      getOwnerID.length > 0
-        ? res.status(200).json({
-            getOwnerID,
-          })
-        : res.status(404).json({
-            message: "No financial account found.",
-          });
-    } catch (err) {
-      errorResponse(res, err);
-    }
-  });
-  
+
 //? Patch "/edit/:id"
 //* Are these by id?
 
