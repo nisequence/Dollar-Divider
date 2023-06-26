@@ -8,9 +8,13 @@ import {
   Button,
   Input,
   Table,
+  Col,
+  Row,
 } from "reactstrap";
+import Edit from "./Edit";
 import Ban from "./Ban";
 import Tweak from "./Tweak";
+import Delete from "./Delete";
 
 export default function View(props) {
   const [householdInfo, setHouseholdInfo] = useState([]);
@@ -91,9 +95,8 @@ export default function View(props) {
               <Input
                 innerRef={numberRef}
                 type="number"
-                id={index}
                 className="percentageInput"
-                style={{ maxWidth: "10vw" }}
+                style={{ maxWidth: "8vw", margin: "auto" }}
                 placeholder={contribution}
               ></Input>
             ) : (
@@ -111,20 +114,41 @@ export default function View(props) {
   return (
     <>
       <br></br>
-      <h3>
-        <u>{householdInfo.name}</u>
-      </h3>
-      <p>
-        <i>Current User Limit: {householdInfo.participantMaxNum}</i>
-      </p>
-      <Button
-        color="success"
-        onClick={() => {
-          navigator.clipboard.writeText(inviteCode);
-        }}
-      >
-        Copy Household Invite Code
-      </Button>
+      <Row>
+        <Col>
+          <p>
+            <strong>Ask someone to join!</strong>
+          </p>
+          <Button
+            style={{ margin: "auto" }}
+            color="info"
+            onClick={() => {
+              navigator.clipboard.writeText(inviteCode);
+            }}
+          >
+            Copy Household Token
+          </Button>
+        </Col>
+        <Col>
+          <h3>
+            <u>{householdInfo.name}</u>
+          </h3>
+          <p>
+            <i>Current User Limit: {householdInfo.participantMaxNum}</i>
+          </p>
+          <Edit
+            householdInfo={householdInfo}
+            token={props.token}
+            getHousehold={getHousehold}
+          />
+        </Col>
+        <Col>
+          <p>
+            <strong>Careful, this is forever!</strong>
+          </p>
+          <Delete token={props.token} />
+        </Col>
+      </Row>
       <br></br>
       <br></br>
       <UncontrolledAccordion defaultOpen="1">
@@ -162,6 +186,7 @@ export default function View(props) {
               Change
             </Button>
             <Tweak
+              edit={setEditPercent}
               info={householdInfo}
               token={props.token}
               getHousehold={getHousehold}

@@ -23,6 +23,7 @@ export default function Tweak(props) {
 
       if (data) {
         props.getHousehold();
+        props.edit(false);
       }
     } catch (error) {
       console.error(error);

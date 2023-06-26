@@ -32,7 +32,7 @@ export default function Ban(props) {
   }
   return (
     <Button color="danger" onClick={banUser}>
-      Ban
+      Ban Forever
     </Button>
   );
 }
