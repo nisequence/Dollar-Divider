@@ -6,7 +6,7 @@ import Solo from "./views/solo/Solo";
 export default function HouseholdSettings() {
   const token = localStorage.getItem("token");
 
-  const [userStatus, setUserStatus] = useState("Member");
+  const [userStatus, setUserStatus] = useState("Solo");
   const updateStatus = (newStatus) => {
     localStorage.setItem("Status", newStatus);
     setUserStatus(newStatus);

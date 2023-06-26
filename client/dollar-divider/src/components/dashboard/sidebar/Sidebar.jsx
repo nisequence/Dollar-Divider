@@ -144,7 +144,7 @@ function Sidebar(props) {
             <NavItem>
               <Logout updateToken={props.updateToken} />
             </NavItem>
-            //! Still working on implementation of both buttons working
+            {/* //! Still working on implementation of both buttons working */}
             <HouseholdSettings token={props.token} />
             <UserSettings token={props.token} />
           </Nav>

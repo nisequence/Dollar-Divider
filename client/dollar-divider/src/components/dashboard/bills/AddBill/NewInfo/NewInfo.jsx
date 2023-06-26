@@ -30,6 +30,8 @@ export default function NewInfo(props, { direction, args }) {
   const monthRef = useRef();
   const dayRef = useRef();
   const categoryRef = useRef();
+  const autoPayRef = useRef();
+  const recurringRef = useRef();
 
   let base;
   if (props.view === false) {
@@ -39,14 +41,25 @@ export default function NewInfo(props, { direction, args }) {
   }
   //* Create a function to handle the form inputs when the user attempts to create a new room
   const submitBill = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     // const category = categoryRef.current.value;
     const title = titleRef.current.value;
     const amount = amountRef.current.value;
     const dueMonth = monthRef.current.value;
     const dueDay = dayRef.current.value;
     const category = categoryRef.current.value;
-    console.log(base);
+    let autoPay;
+    if (autoPayRef.current.value === "on") {
+      autoPay = true;
+    } else {
+      autoPay = false;
+    }
+    let recurring;
+    if (recurringRef.current.value === "on") {
+      recurring = true;
+    } else {
+      recurring = false;
+    }
 
     let url = "http://localhost:4000/bills/add";
 
@@ -55,8 +68,8 @@ export default function NewInfo(props, { direction, args }) {
       amount: amount,
       dueMonth: dueMonth,
       dueDay: dueDay,
-      autoPay: false, //! change later
-      recurring: true, //! change later
+      autoPay: autoPay,
+      recurring: recurring,
       category: category,
       base: base,
     });
@@ -166,6 +179,16 @@ export default function NewInfo(props, { direction, args }) {
             required
           />
         </FormGroup>
+        <Form>
+          <FormGroup check inline>
+            <Input type="checkbox" innerRef={autoPayRef} />
+            <Label check>Auto-pay</Label>
+          </FormGroup>
+          <FormGroup check inline>
+            <Input type="checkbox" innerRef={recurringRef} />
+            <Label check>Recurring</Label>
+          </FormGroup>
+        </Form>
         <FormGroup>{/* autoPay */}</FormGroup>
         <FormGroup>{/* recurring */}</FormGroup>
         <Button color="success" type="submit">
