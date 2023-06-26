@@ -15,7 +15,6 @@ import Tweak from "./Tweak";
 export default function View(props) {
   const [householdInfo, setHouseholdInfo] = useState([]);
   const [editPercent, setEditPercent] = useState(false);
-  const [percentArray, setPercentArray] = useState([]);
   const numberRef = useRef();
 
   const getHousehold = async () => {
@@ -60,7 +59,6 @@ export default function View(props) {
                 householdInfo.participantNames.indexOf(name)
               ]
             }
-            %
           </td>
           <td>
             <Ban
@@ -106,11 +104,6 @@ export default function View(props) {
       </>
     );
   });
-  let grabPercents = () => {
-    let inputValue =
-      document.getElementsByClassName("percentageInput")[0].value;
-    console.log(inputValue);
-  };
 
   const inviteCode = householdInfo._id;
   // const inviteLink = `http://localhost:4000/household/join/${inviteCode}`;
@@ -142,7 +135,7 @@ export default function View(props) {
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Contribution</th>
+                  <th>Contribution %</th>
                   <th>Remove</th>
                 </tr>
               </thead>
@@ -168,10 +161,8 @@ export default function View(props) {
             >
               Change
             </Button>
-            <Button onClick={grabPercents}>Test</Button>
             <Tweak
-              grabPercents={grabPercents}
-              percentArray={percentArray}
+              info={householdInfo}
               token={props.token}
               getHousehold={getHousehold}
             />
