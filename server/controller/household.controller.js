@@ -277,8 +277,13 @@ router.patch("/edit", async (req, res) => {
 
     if (!findHousehold) {
       //* if household cannot be found with the input token (id)
-      return res.status(400).json({
+      return res.status(404).json({
         message: "Household not found!",
+      });
+    } else if (banUser == userID) {
+      //* if trying to ban oneself
+      return res.status(400).json({
+        message: "You cannot ban yourself!",
       });
     } else if (userID != findHousehold.admin_id) {
       //* if user is not the admin
