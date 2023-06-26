@@ -48,8 +48,11 @@ export default function UserSettings() {
   }, [token, userStatus]);
 
   return (
-    <div id="rightSideMenu">
+    <div id="userSettingsMenu">
       <h1>User Settings</h1>
+      <div>Hello, is this thing working?
+    
+      </div>
       <ProfileSettings/>
     </div>
   );

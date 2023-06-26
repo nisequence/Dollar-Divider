@@ -63,8 +63,6 @@ export default function Dashboard(props) {
         <Container>
           <Row>
             <Col className="bg-light border">
-              {/* .col */}
-              {/* <UpcomingBills /> */}
               <br></br>
               <Bills2 view={props.view} token={token}></Bills2>
             </Col>
