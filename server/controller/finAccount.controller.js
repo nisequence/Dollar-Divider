@@ -50,9 +50,11 @@ router.post("/add", async (req, res) => {
 
 router.get("/mine", async (req, res) => {
     try {
-      const id = req.user._id;
+      const id = req.user.ownerID;
+      // const id = req.user._id;
   
-      const getAllUserFinAccounts = await FinAccount.find({ownerID: id});
+      const getAllUserFinAccounts = await FinAccount.find({base: id});
+      // const getAllUserFinAccounts = await FinAccount.find({ownerID: id});
   
       getAllUserFinAccounts
         ? res.status(200).json({
