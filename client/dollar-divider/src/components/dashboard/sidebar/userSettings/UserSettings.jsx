@@ -50,9 +50,6 @@ export default function UserSettings() {
   return (
     <div id="userSettingsMenu">
       <h1>User Settings</h1>
-      <div>Hello, is this thing working?
-    
-      </div>
       <ProfileSettings/>
     </div>
   );
