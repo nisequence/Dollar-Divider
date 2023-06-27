@@ -49,7 +49,7 @@ export default function Tweak(props) {
         color="success"
         //   onClick={tweakPercents}
       >
-        Submit
+        Submit Changes
       </Button>
     </>
   );

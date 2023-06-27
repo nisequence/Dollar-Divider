@@ -57,12 +57,14 @@ export default function Edit(props) {
         <ModalBody>
           New Title
           <Input
+            required
             placeholder={props.householdInfo.name}
             innerRef={nameRef}
           ></Input>
           <br></br>
           New Limit of Members
           <Input
+            required
             type="number"
             style={{ maxWidth: "4vw" }}
             innerRef={numberRef}

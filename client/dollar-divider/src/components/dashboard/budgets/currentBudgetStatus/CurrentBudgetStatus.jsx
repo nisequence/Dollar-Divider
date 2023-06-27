@@ -77,7 +77,11 @@ export default function CurrentBudgetStatus(props) {
     <>
       <div className="CurrentBudgetStatus" id="currentbudgetstatus">
         <h4>Remaining Monthly Amounts</h4>
-        <AddBudget token={props.token} view={props.view} />
+        <AddBudget
+          token={props.token}
+          view={props.view}
+          getBudgets={props.getBudgets}
+        />
         {/* <Doughnut */}
         <PolarArea
           style={{ marginLeft: "4vw", marginRight: "4vw", maxHeight: "60vh" }}

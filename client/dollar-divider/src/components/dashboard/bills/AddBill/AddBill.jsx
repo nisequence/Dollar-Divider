@@ -63,6 +63,7 @@ export default function AddBill(props) {
         <PopoverHeader>Add New Bill</PopoverHeader>
         <PopoverBody>
           <NewInfo
+            getBills={props.getBills}
             token={props.token}
             view={props.view}
             month={props.month}

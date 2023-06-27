@@ -40,7 +40,12 @@ export default function Bills2(props) {
   }, [props.token, props.view]);
   return (
     <div className="upcomingBills">
-      <Calendar bills={bills} token={props.token} view={props.view} />
+      <Calendar
+        bills={bills}
+        token={props.token}
+        view={props.view}
+        getBills={getBills}
+      />
     </div>
   );
 }

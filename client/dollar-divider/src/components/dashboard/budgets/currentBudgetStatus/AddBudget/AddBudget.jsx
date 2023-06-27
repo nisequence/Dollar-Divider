@@ -19,7 +19,11 @@ export default function AddBudget(props) {
       >
         <PopoverHeader>Add New Budget</PopoverHeader>
         <PopoverBody>
-          <NewInfo token={props.token} view={props.view} />
+          <NewInfo
+            getBudgets={props.getBudgets}
+            token={props.token}
+            view={props.view}
+          />
         </PopoverBody>
       </UncontrolledPopover>
     </>
