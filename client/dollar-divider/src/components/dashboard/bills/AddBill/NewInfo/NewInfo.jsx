@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Form, FormGroup, Input, Button, Label } from "reactstrap";
 
-export default function NewInfo(props, { direction, args }) {
+export default function NewInfo(props) {
   const months = [
     "January",
     "February",
@@ -21,9 +21,6 @@ export default function NewInfo(props, { direction, args }) {
     22, 23, 24, 25, 26, 27, 28, 29, 30,
   ];
   let categoryOptions = props.budgets;
-  //* Dropdown settings
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const toggle = () => setDropdownOpen((prevState) => !prevState);
   //* Use useRef to get values from each input
   const titleRef = useRef();
   const amountRef = useRef();
@@ -41,8 +38,7 @@ export default function NewInfo(props, { direction, args }) {
   }
   //* Create a function to handle the form inputs when the user attempts to create a new room
   const submitBill = async (e) => {
-    // e.preventDefault();
-    // const category = categoryRef.current.value;
+    e.preventDefault();
     const title = titleRef.current.value;
     const amount = amountRef.current.value;
     const dueMonth = monthRef.current.value;
@@ -95,6 +91,7 @@ export default function NewInfo(props, { direction, args }) {
         data.message === "You have created a new bill!" ||
         data.message === "Your household has a new bill!"
       ) {
+        props.getBills();
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
         console.error("User is unauthorized.");

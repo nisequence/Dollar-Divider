@@ -58,7 +58,11 @@ export default function Calendar(props) {
         //! The below key/value is supposed to stop the carousel from moving on its own, but it is not working
         slide={false}
       >
-        <Cards bills={monthlyBills} month={monthName} />
+        <Cards
+          getBills={props.getBills}
+          bills={monthlyBills}
+          month={monthName}
+        />
         <CarouselCaption className="text-black" />
       </CarouselItem>
     );
@@ -81,6 +85,7 @@ export default function Calendar(props) {
         </Col>
         <Col style={{ maxWidth: "13vw" }}>
           <AddBill
+            getBills={props.getBills}
             token={props.token}
             month={monthGroup[activeIndex]}
             view={props.view}

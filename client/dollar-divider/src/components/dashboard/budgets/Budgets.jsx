@@ -42,6 +42,7 @@ export default function Budgets(props) {
   return (
     <>
       <CurrentBudgetStatus
+        getBudgets={getBudgets}
         budgets={budgets}
         transactions={props.transactions}
         token={props.token}
