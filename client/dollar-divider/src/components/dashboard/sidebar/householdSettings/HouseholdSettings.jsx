@@ -29,15 +29,10 @@ export default function HouseholdSettings() {
       // If the server does not provide a failure message
       if (data.message === "Admin") {
         updateStatus(data.message);
-        console.log("admin settings")
       } else if (data.message === "Member") {
         updateStatus(data.message);
-        console.log("member settings")
       } else if (data.message === "Solo") {
         updateStatus(data.message);
-        console.log("solo settings")
-      } else {
-        console.error("Unable to identify user type!");
       }
     } catch (err) {
       console.error(err);

@@ -67,6 +67,8 @@ router.post("/new", async (req, res) => {
 
     //! I'd like to add in a confirmation that the user doesn't already have a household first
 
+    //! Add in confirmation that maxNum >= 1
+
     const household = new Household({
       name: householdName,
       participantIDs: [`${req.user._id}`],
@@ -168,7 +170,8 @@ router.get("/member", async (req, res) => {
       });
       //* Second, check if user has access
     } else if (getHousehold.participantIDs.includes(userID)) {
-      let { name, participantIDs, participantNames, participantPercents } = getHousehold;
+      let { name, participantIDs, participantNames, participantPercents } =
+        getHousehold;
 
       return res.status(200).json({
         message: `Household was found!`,
@@ -464,13 +467,27 @@ router.delete("/admin/remove", async (req, res) => {
       admin_id: userID,
     });
 
-    deleteHousehold.deletedCount === 1
-      ? res.status(200).json({
-          message: "Household deleted.",
-        })
-      : res.status(404).json({
-          message: "Deletion unsuccessful.",
-        });
+    //* Once deleted, we need to reset householdID within user as null
+    if (deleteHousehold.deletedCount === 1) {
+      const userFilter = { _id: userID };
+      const userNewInfo = { householdID: null };
+      const returnOption = { new: true };
+
+      const updateUser = await User.findOneAndUpdate(
+        userFilter,
+        userNewInfo,
+        returnOption
+      );
+
+      res.status(200).json({
+        message: `Household deleted.`,
+        updateUser,
+      });
+    } else {
+      res.status(404).json({
+        message: "Deletion unsuccessful.",
+      });
+    }
   } catch (err) {
     serverError(res, err);
   }
