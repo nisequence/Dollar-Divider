@@ -63,11 +63,25 @@ async function addUserToHousehold(userID, HhID) {
 //? POST Route for Creation
 router.post("/new", async (req, res) => {
   try {
+    const user = req.user;
     const { householdName, maxNum } = req.body;
 
-    //! I'd like to add in a confirmation that the user doesn't already have a household first
+    //* Confirmation that the user doesn't already have a household first
+    if (user.householdID != null) {
+      // the user already has a householdID
+      return res.status(403).json({
+        message:
+          "Sorry, you must leave your current household before joining a new one!",
+      });
+    }
 
-    //! Add in confirmation that maxNum >= 1
+    //* Add in confirmation that maxNum >= 1
+    if (maxNum < 1) {
+      return res.status(411).json({
+        message:
+          "Sorry, you must have a minimum of one user allowed!",
+      });
+    }
 
     const household = new Household({
       name: householdName,
@@ -297,6 +311,11 @@ router.patch("/edit", async (req, res) => {
       //* if admin has already banned this user
       return res.status(410).json({
         message: "You have already banned this user!",
+      });
+    } else if (req.body.maxNum <= findHousehold.participantIDs.length - 1) {
+      return res.status(411).json({
+        message:
+          "Lengths do not match! You cannot have less users than currently exist in your household.",
       });
     } else if (banUser !== null || banUser !== undefined) {
       //* if the admin is sending a user to ban
