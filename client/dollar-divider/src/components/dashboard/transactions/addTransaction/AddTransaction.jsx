@@ -1,12 +1,11 @@
-
 import React, {useState, useEffect} from 'react';
-import NewTransInfo from './newTransInfo/NewTransInfo';
 import {
   Button,
   PopoverHeader,
   UncontrolledPopover,
   PopoverBody,
 } from "reactstrap";
+import NewTransInfo from './newTransInfo/NewTransInfo';
 
 
 
@@ -65,7 +64,7 @@ return (
     >
       <PopoverHeader>Add New Transaction</PopoverHeader>
       <PopoverBody>
-        <NewInfo
+        <NewTransInfo
           token={props.token}
           view={props.view}
           month={props.month}

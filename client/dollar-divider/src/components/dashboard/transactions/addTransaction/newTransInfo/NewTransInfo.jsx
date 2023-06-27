@@ -1,6 +1,6 @@
-import React from 'react';
 import React, { useRef, useState } from "react";
 import { Form, FormGroup, Input, Button, Label } from "reactstrap";
+
 
 export default function NewTransInfo(props, { direction, args }) {
   const months = [
@@ -27,14 +27,17 @@ export default function NewTransInfo(props, { direction, args }) {
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   //* Use useRef to get values from each input
   const dateRef = useRef();
+  const monthRef = useRef();
+  const dayRef = useRef();
   const descRef = useRef();
   const merchantRef = useRef();
   const amountRef = useRef();
   const checkNumRef = useRef();
-  const manuelEntry= useRef();
-  const finAccount= useRef();
-  const category = useRef();
-  const type = useRef();
+  const manualEntryRef= useRef();
+  const finAccountRef= useRef();
+  const categoryRef = useRef();
+  const typeRef = useRef();
+  const baseRef = useRef();
 
   let base;
   if (props.view === false) {
@@ -46,27 +49,36 @@ export default function NewTransInfo(props, { direction, args }) {
   const submitTrans = async (e) => {
     e.preventDefault();
     // const category = categoryRef.current.value;
-    const title = titleRef.current.value;
+    const date = dateRef.current.value;
+    const desc = descRef.current.value;
     const amount = amountRef.current.value;
-    const dueMonth = monthRef.current.value;
-    const dueDay = dayRef.current.value;
+    const month = monthRef.current.value;
+    const day = dayRef.current.value;
     const category = categoryRef.current.value;
+    const merchant = merchantRef.current.value;
+    const checkNumber = checkNumRef.current.value;
+    const manualEntry = manualEntryRef.current.value;
+    const finAccount = finAccountRef.current.value;
+    const type = typeRef.current.value;
+    const base = baseRef.current.value;
     console.log(base);
 
-    let url = "http://localhost:4000/bills/add";
+    let url = "http://localhost:4000/transaction/add";
 
-    let billObj = JSON.stringify({
-      title: title,
+    let transObj = JSON.stringify({
+      date: month + day,
+      desc: desc,
+      merchant: merchant,
       amount: amount,
-      dueMonth: dueMonth,
-      dueDay: dueDay,
-      autoPay: false, //! change later
-      recurring: true, //! change later
+      checkNumber: checkNumber,
+      manualEntry: manualEntry,
+      finAccount: finAccount,
       category: category,
+      type: type,
       base: base,
     });
 
-    console.log(billObj);
+    console.log(transObj);
 
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -74,7 +86,7 @@ export default function NewTransInfo(props, { direction, args }) {
 
     const reqOption = {
       headers: headers,
-      body: billObj,
+      body: transObj,
       method: "POST",
     };
 
@@ -84,8 +96,8 @@ export default function NewTransInfo(props, { direction, args }) {
 
       // If the server provides a success message
       if (
-        data.message === "You have created a new bill!" ||
-        data.message === "Your household has a new bill!"
+        data.message === "You have created a new transaction!" ||
+        data.message === "Your household has a new transaction!"
       ) {
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
@@ -98,7 +110,7 @@ export default function NewTransInfo(props, { direction, args }) {
 
   return (
     <>
-      <Form onSubmit={submitBill}>
+      <Form onSubmit={submitTrans}>
         <FormGroup>
           <Label for="exampleSelectMulti">Choose Category</Label>
           <Input
@@ -118,7 +130,7 @@ export default function NewTransInfo(props, { direction, args }) {
           </Input>
         </FormGroup>
         <FormGroup>
-          <Label for="exampleSelectMulti">Choose Month Due</Label>
+          <Label for="exampleSelectMulti">Choose Month</Label>
           <Input
             id="exampleSelect2"
             name="select"
@@ -136,7 +148,7 @@ export default function NewTransInfo(props, { direction, args }) {
           </Input>
         </FormGroup>
         <FormGroup>
-          <Label for="exampleSelect3">Choose Day Due</Label>
+          <Label for="exampleSelect3">Choose Day</Label>
           <Input
             id="exampleSelect"
             name="select"
@@ -155,8 +167,8 @@ export default function NewTransInfo(props, { direction, args }) {
         </FormGroup>
         <FormGroup>
           <Input
-            placeholder="Name of Bill"
-            innerRef={titleRef}
+            placeholder="Name of Transaction"
+            innerRef={descRef}
             autoComplete="off"
             type="text"
             required
@@ -171,12 +183,32 @@ export default function NewTransInfo(props, { direction, args }) {
             required
           />
         </FormGroup>
-        <FormGroup>{/* autoPay */}</FormGroup>
-        <FormGroup>{/* recurring */}</FormGroup>
+        <FormGroup>
+          <Input
+            placeholder="Income or Expense"
+            innerRef={typeRef}
+            autoComplete="off"
+            type="text"
+            required
+          />
+        </FormGroup>
+        <FormGroup>
+          <Input
+            placeholder="financial  Account"
+            innerRef={finAccountRef}
+            autoComplete="off"
+            type="text"
+            required
+          />
+        </FormGroup>
+
+        <FormGroup>{/* manualEntry */}</FormGroup>
+        <FormGroup>{/* checkNum */}</FormGroup>
         <Button color="success" type="submit">
-          Create Bill
+          Create Transaction
         </Button>
       </Form>
     </>
   );
 }
+
