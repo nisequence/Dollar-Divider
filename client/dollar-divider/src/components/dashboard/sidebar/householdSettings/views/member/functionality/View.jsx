@@ -6,7 +6,11 @@ import {
   AccordionHeader,
   AccordionBody,
   Table,
+  Row,
+  Col,
+  Button,
 } from "reactstrap";
+import Leave from "./Leave";
 
 export default function View({ token }) {
   const [memberInfo, setMemberInfo] = useState([]);
@@ -43,10 +47,6 @@ export default function View({ token }) {
     }
   }, [token]);
 
-  const listNames = memberInfo.participantNames?.map((name) => {
-    return <li>{name}</li>;
-  });
-
   const tableNames = memberInfo.participantNames?.map((name) => {
     let index = memberInfo.participantNames.indexOf(name);
     return (
@@ -62,9 +62,18 @@ export default function View({ token }) {
   return (
     <>
       <br></br>
-      <h3>
-        <u>{memberInfo.name}</u>
-      </h3>
+      <Row>
+        <Col></Col>
+        <Col>
+          <h3>
+            <u>{memberInfo.name}</u>
+          </h3>
+        </Col>
+        <Col>
+          <Leave getHousehold={getHousehold} token={token} />
+        </Col>
+      </Row>
+      <br></br>
       <UncontrolledAccordion defaultOpen="1">
         <AccordionItem>
           <AccordionHeader targetId="1">Household Members</AccordionHeader>

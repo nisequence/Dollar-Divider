@@ -81,11 +81,8 @@ export default function View(props) {
   });
 
   const tablePercents = householdInfo.participantNames?.map((name) => {
-    let contribution =
-      householdInfo.participantPercents[
-        householdInfo.participantNames.indexOf(name)
-      ];
     let index = householdInfo.participantNames.indexOf(name);
+    let contribution = householdInfo.participantPercents[index];
     return (
       <>
         <tr>
@@ -186,6 +183,7 @@ export default function View(props) {
               Change
             </Button>
             <Tweak
+              editStatus={editPercent}
               edit={setEditPercent}
               info={householdInfo}
               token={props.token}

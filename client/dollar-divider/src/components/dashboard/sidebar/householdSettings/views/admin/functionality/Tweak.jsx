@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "reactstrap";
 
 export default function Tweak(props) {
+  let editable = props.editStatus;
   async function tweakPercents(array) {
     let bodyObj = JSON.stringify({
       newBreakdown: array,
@@ -42,15 +43,19 @@ export default function Tweak(props) {
     tweakPercents(percentArray);
   };
 
-  return (
-    <>
-      <Button
-        onClick={grabPercents}
-        color="success"
-        //   onClick={tweakPercents}
-      >
-        Submit Changes
-      </Button>
-    </>
-  );
+  let displayButton = () => {
+    if (editable === true) {
+      return (
+        <Button
+          onClick={grabPercents}
+          color="success"
+          //   onClick={tweakPercents}
+        >
+          Submit Changes
+        </Button>
+      );
+    }
+  };
+
+  return <>{displayButton()}</>;
 }
