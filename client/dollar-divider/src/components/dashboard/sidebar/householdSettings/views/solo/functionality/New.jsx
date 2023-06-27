@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Button,
   Input,
@@ -9,7 +9,40 @@ import {
   ModalFooter,
 } from "reactstrap";
 
-export default function New() {
+export default function New(props) {
+  const nameRef = useRef();
+  const numberRef = useRef();
+
+  async function createHousehold() {
+    const newName = nameRef.current.value;
+    const num = numberRef.current.value;
+
+    let bodyObj = JSON.stringify({
+      householdName: newName,
+      maxNum: num,
+    });
+    const url = `http://localhost:4000/household/new`;
+
+    let requestOptions = {
+      headers: new Headers({
+        Authorization: props.token,
+        "Content-Type": "application/json",
+      }),
+      method: "POST",
+      body: bodyObj,
+    };
+
+    try {
+      let response = await fetch(url, requestOptions);
+      let data = await response.json();
+
+      if (data.message === "You are now the admin of a household!") {
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
   const [modalNew, setModalNew] = useState(false);
 
   const toggleNew = () => setModalNew(!modalNew);
@@ -25,16 +58,25 @@ export default function New() {
           Ready to start your own household?
           <br></br>
           <br></br>
-          <Input required placeholder="Name Your Household"></Input>
+          <Input
+            required
+            placeholder="Name Your Household"
+            innerRef={nameRef}
+          ></Input>
           <br></br>
-          <Input required placeholder="Member Limit" type="number"></Input>
+          <Input
+            required
+            placeholder="Member Limit"
+            type="number"
+            innerRef={numberRef}
+          ></Input>
           {/* Not 0!!!! */}
         </ModalBody>
         <ModalFooter>
           <Button color="danger" onClick={toggleNew}>
             Cancel
           </Button>
-          <Button color="success" onClick={toggleNew}>
+          <Button color="success" onClick={createHousehold}>
             Create Household
           </Button>{" "}
         </ModalFooter>
