@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./components/dashboard/Dashboard";
 import HouseholdSettings from "./components/dashboard/sidebar/householdSettings/HouseholdSettings";
+import RecentTransactions from "./components/dashboard/transactions/recentTransactions/RecentTransactions";
 
 function App() {
   // Use useState to house token (in square brackets, because useState uses square brackets)

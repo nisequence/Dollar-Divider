@@ -1,5 +1,6 @@
 import React from 'react'
 import { Table } from 'reactstrap'
+import AddTransaction from '../addTransaction/AddTransaction';
 export default function RecentTransactions(props) {
 // console.log("props.transacations",props.transactions)
 
@@ -48,8 +49,12 @@ tempTransactions.map((transaction) => {
 })
   return (
     <div className='RecentTransactions'>
-      <Table>
-        <thead>Recent Transactions</thead>
+    <Table>
+        
+        <AddTransaction
+            token={props.token}
+            view={props.view}
+          /> <thead> Add Transaction </thead>
   <thead>
     <tr>
       <th>
