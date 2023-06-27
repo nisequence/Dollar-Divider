@@ -77,7 +77,10 @@ export default function Dashboard(props) {
           </Row>
           <Row>
             <Col className="bg-light border">
-              <AccountsList token={token} />
+              <AccountsList 
+              view = {props.view}
+              token={token}
+              />
             </Col>
             <Col className="bg-light border">
               {/* .col */}
