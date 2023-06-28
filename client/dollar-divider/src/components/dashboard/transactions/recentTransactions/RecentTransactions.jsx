@@ -2,17 +2,18 @@ import React from 'react'
 import { Table } from 'reactstrap'
 import AddTransaction from '../addTransaction/AddTransaction';
 export default function RecentTransactions(props) {
+  console.log(props)
 // console.log("props.transacations",props.transactions)
 
 const recentTransactions = [];
 const tempTransactions = [];
 let colorAssignment = 0;
 let tempColor;
-props.transactions.map((i) => {
+props.transactions?.map((i) => {
   tempTransactions.push(i);
 });
 
-tempTransactions.map((transaction) => {
+tempTransactions?.map((transaction) => {
 
   if (colorAssignment === 0) {
     tempColor = "table-success"
@@ -54,6 +55,7 @@ tempTransactions.map((transaction) => {
         <AddTransaction
             token={props.token}
             view={props.view}
+            getTransaction={props.getTransaction}
           /> <thead> Add Transaction </thead>
   <thead>
     <tr>

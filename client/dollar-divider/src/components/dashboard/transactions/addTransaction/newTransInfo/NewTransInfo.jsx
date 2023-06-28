@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Form, FormGroup, Input, Button, Label } from "reactstrap";
 
 
-export default function NewTransInfo(props, { direction, args }) {
+export default function NewTransInfo(props) {
   const months = [
     "January",
     "February",
@@ -26,18 +26,17 @@ export default function NewTransInfo(props, { direction, args }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   //* Use useRef to get values from each input
-  const dateRef = useRef();
   const monthRef = useRef();
   const dayRef = useRef();
   const descRef = useRef();
   const merchantRef = useRef();
   const amountRef = useRef();
   const checkNumRef = useRef();
-  const manualEntryRef= useRef();
+  //const manualEntryRef= useRef();
   const finAccountRef= useRef();
   const categoryRef = useRef();
   const typeRef = useRef();
-  const baseRef = useRef();
+  
 
   let base;
   if (props.view === false) {
@@ -48,8 +47,6 @@ export default function NewTransInfo(props, { direction, args }) {
   //* Create a function to handle the form inputs when the user attempts to create a new room
   const submitTrans = async (e) => {
     e.preventDefault();
-    // const category = categoryRef.current.value;
-    const date = dateRef.current.value;
     const desc = descRef.current.value;
     const amount = amountRef.current.value;
     const month = monthRef.current.value;
@@ -57,28 +54,30 @@ export default function NewTransInfo(props, { direction, args }) {
     const category = categoryRef.current.value;
     const merchant = merchantRef.current.value;
     const checkNumber = checkNumRef.current.value;
-    const manualEntry = manualEntryRef.current.value;
+    //const manualEntry = manualEntryRef.current.value;
     const finAccount = finAccountRef.current.value;
     const type = typeRef.current.value;
-    const base = baseRef.current.value;
-    console.log(base);
+    
+    
+   
 
     let url = "http://localhost:4000/transaction/add";
 
     let transObj = JSON.stringify({
-      date: month + day,
+      month: month,
+      day: day,
       desc: desc,
       merchant: merchant,
       amount: amount,
       checkNumber: checkNumber,
-      manualEntry: manualEntry,
+      //manualEntry: true,
       finAccount: finAccount,
       category: category,
       type: type,
       base: base,
     });
 
-    console.log(transObj);
+    
 
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -99,6 +98,7 @@ export default function NewTransInfo(props, { direction, args }) {
         data.message === "You have created a new transaction!" ||
         data.message === "Your household has a new transaction!"
       ) {
+        props.getTransaction();
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
         console.error("User is unauthorized.");
@@ -119,13 +119,18 @@ export default function NewTransInfo(props, { direction, args }) {
             type="select"
             innerRef={categoryRef}
             required
-          >
+          > 
+        
+          
             {categoryOptions?.map((each) => {
+             
               return (
+        
                 <>
                   <option>{each.budgetCat}</option>
                 </>
               );
+              
             })}
           </Input>
         </FormGroup>
@@ -179,7 +184,7 @@ export default function NewTransInfo(props, { direction, args }) {
             placeholder="Dollar Amount"
             innerRef={amountRef}
             autoComplete="off"
-            type="text"
+            type="number"
             required
           />
         </FormGroup>
@@ -194,16 +199,31 @@ export default function NewTransInfo(props, { direction, args }) {
         </FormGroup>
         <FormGroup>
           <Input
-            placeholder="financial  Account"
+            placeholder="Financial  Account"
             innerRef={finAccountRef}
+            autoComplete="off"
+            type="text"
+            required="false"
+          />
+        </FormGroup>
+        <FormGroup>
+          <Input
+            placeholder="Merchant"
+            innerRef={merchantRef}
             autoComplete="off"
             type="text"
             required
           />
         </FormGroup>
-
-        <FormGroup>{/* manualEntry */}</FormGroup>
-        <FormGroup>{/* checkNum */}</FormGroup>
+        <FormGroup>
+          <Input
+            placeholder="Check Number"
+            innerRef={checkNumRef}
+            autoComplete="off"
+            type="number"
+        
+          />
+        </FormGroup>
         <Button color="success" type="submit">
           Create Transaction
         </Button>

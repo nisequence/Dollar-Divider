@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
 
 const TransactionSchema = new mongoose.Schema({
-    date: {
-        type: Date,
+    month: {
+        type: String,
+        required: true,
+    },
+    day: {
+        type: Number,
         required: true,
     },
     desc: {
@@ -23,7 +27,7 @@ const TransactionSchema = new mongoose.Schema({
     },
     manualEntry: {
         type: Boolean,
-        required: true,
+        required: false,
     },
     // checking/savings
     finAccount: {
