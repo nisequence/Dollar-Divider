@@ -143,6 +143,16 @@
     height: 100%;
     width: 100%;
   }
+
+
+  #accountsList {
+    /* user-select: none; */
+    color: black !important;
+    height: 100%;
+    width: 100%;
+  }
+
+
   /* .upcomingBillsTable > thead {
     user-select: none;
   } */
@@ -168,8 +178,8 @@
   .RecentTransactions {
     max-height: fit-content;
     margin: auto;
-    height: 100%;
-    width: 100%;
+    /* height: 100%; */
+    /* width: 100%; */
     min-width: 35vw;
   }
   
