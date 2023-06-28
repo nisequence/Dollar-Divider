@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Sidebar from "./sidebar/Sidebar";
 import Budgets from "./budgets/Budgets";
 // import CurrentBudgetStatus from "./budgets/currentBudgetStatus/CurrentBudgetStatus";
-import RecentTransactions from "./transactions/recentTransactions/RecentTransactions";
+import Transaction from "./transactions/Transaction";
 import { useState, useEffect } from "react";
 import Bills2 from "./bills/Bills2";
 import AccountsList from "./accounts/AccountsList";
@@ -84,8 +84,9 @@ export default function Dashboard(props) {
             </Col>
             <Col className="bg-light border">
               {/* .col */}
-              <RecentTransactions
+              <Transaction
                 view={props.view}
+                token={token}
                 transactions={transactions}
               />
             </Col>

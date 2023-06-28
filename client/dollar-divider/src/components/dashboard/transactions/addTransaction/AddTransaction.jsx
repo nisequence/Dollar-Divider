@@ -10,6 +10,7 @@ import NewTransInfo from './newTransInfo/NewTransInfo';
 
 
 export default function AddTransaction(props) {
+  console.log(props);
   let url;
   const [budgets, setBudgets] = useState([]);
 const getBudgets = async (viewValue) => {
@@ -32,6 +33,7 @@ const getBudgets = async (viewValue) => {
     // If the server does not provide a failure message
     if (data.message == "Budget(s) found!") {
       setBudgets(data.allBudgets);
+      
     } else {
       setBudgets(null);
     }
@@ -69,6 +71,7 @@ return (
           view={props.view}
           month={props.month}
           budgets={budgets}
+          getTransaction={props.getTransaction}
         />
       </PopoverBody>
     </UncontrolledPopover>

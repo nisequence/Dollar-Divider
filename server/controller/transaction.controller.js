@@ -21,7 +21,8 @@ router.post("/add", async (req, res) => {
 
   try {
     const {
-      date,
+      month,
+      day,
       desc,
       merchant,
       amount,
@@ -55,13 +56,13 @@ router.post("/add", async (req, res) => {
 
       // If user works add new transaction
       const transaction = new Transaction({
-        date: date,
+        month: month,
+        day: day,
         desc: desc,
         merchant: merchant,
         amount: newAmount,
         checkNum: checkNum,
         finAccount: finAccount,
-        manualEntry: true,
         type: type,
         category: category,
         base: req.user._id,
@@ -88,13 +89,13 @@ router.post("/add", async (req, res) => {
 
       // if works add new transaction to household
       const transaction = new Transaction({
-        date: date,
+        month: month,
+        day: day,
         desc: desc,
         merchant: merchant,
         amount: amount,
         checkNum: checkNum,
         finAccount: req.user._id,
-        manualEntry: true,
         type: type,
         category: category,
         base: req.user.householdID,
@@ -160,11 +161,11 @@ router.get("/mine", async (req, res) => {
 //? GET BY DATE ROUTE "/date/:date"
 //* Successful in postman
 
-router.get("/date/:date", async (req, res) => {
+router.get("/date/:month/:day", async (req, res) => {
   try {
-    const { date } = req.params;
+    const { month, day } = req.params;
 
-    const getDate = await Transaction.find({ date: date });
+    const getDate = await Transaction.find({ month: month, day: day });
 
     getDate.length > 0
       ? res.status(200).json({
@@ -200,12 +201,12 @@ router.get("/category/:category", async (req, res) => {
 
 //? GET BY DATE AND CATEGORY ROUTER ("/dateAndCategory/:date/:category")
 
-router.get("/dateAndCategory/:date/:category", async (req, res) => {
+router.get("/dateAndCategory/:month/:day/:category", async (req, res) => {
   try {
-    const { date, category } = req.params;
+    const { month, day, category } = req.params;
 
     const getDateAndCategory = await Transaction.find(
-      { date: date },
+      { month: month, day: day },
       { category: category }
     );
 
