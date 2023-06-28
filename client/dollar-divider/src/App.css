@@ -1,9 +1,14 @@
 .App {
     text-align: center;
     background-color: rgba(0, 57, 122, 0.932);
-    color: white
+    color: white;
+    height: 100vh;
   }
-  
+
+  #logo {
+    height: 80%;
+    width: 80%;
+  }
   .DashBody {
     background-color: #00517c;
   }
