@@ -19,6 +19,7 @@ export default function Edit(props) {
     let bodyObj = JSON.stringify({
       householdName: newName,
       maxNum: num,
+      banUser: null,
     });
     const url = `http://localhost:4000/household/edit`;
 
