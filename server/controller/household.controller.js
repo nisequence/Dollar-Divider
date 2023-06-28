@@ -78,8 +78,7 @@ router.post("/new", async (req, res) => {
     //* Add in confirmation that maxNum >= 1
     if (maxNum < 1) {
       return res.status(411).json({
-        message:
-          "Sorry, you must have a minimum of one user allowed!",
+        message: "Sorry, you must have a minimum of one user allowed!",
       });
     }
 
@@ -288,6 +287,7 @@ router.patch("/edit", async (req, res) => {
     const id = req.user.householdID;
     const userID = req.user._id;
     const { householdName, maxNum, banUser } = req.body;
+    let newInfo;
 
     //* attempt to find the HH based on given ID
     const findHousehold = await Household.findOne({ _id: id });
@@ -328,26 +328,39 @@ router.patch("/edit", async (req, res) => {
       }
       //* Regardless of whether banned user lives in HH or not, as long as value is not null or undefined and isn't already in the array, add to banned array
       findHousehold.bannedUsers.push(banUser);
+
+      //* Track how many users are now in the household
+      let numOfUsers = findHousehold.participantIDs.length;
+
+      //* Update the percentages based on how many users there are
+      let breakdownArray = breakdownPercents(numOfUsers);
+
+      newInfo = {
+        name: householdName,
+        participantIDs: findHousehold.participantIDs,
+        participantNames: findHousehold.participantNames,
+        participantPercents: breakdownArray,
+        participantMaxNum: maxNum,
+        bannedUsers: findHousehold.bannedUsers,
+      };
+    } else {
+      //* Track how many users are now in the household
+      let numOfUsers = findHousehold.participantIDs.length;
+
+      //* Update the percentages based on how many users there are
+      let breakdownArray = breakdownPercents(numOfUsers);
+
+      newInfo = {
+        name: householdName,
+        participantIDs: findHousehold.participantIDs,
+        participantNames: findHousehold.participantNames,
+        participantPercents: breakdownArray,
+        participantMaxNum: maxNum,
+      };
     }
 
     //* We have proven that the ID can find the household, so save this as our filter
     const filter = { _id: id };
-
-    //* Track how many users are now in the household
-    let numOfUsers = findHousehold.participantIDs.length;
-
-    //* Update the percentages based on how many users there are
-    let breakdownArray = breakdownPercents(numOfUsers);
-
-    //* Track any possible new info we are updating to send to the database
-    let newInfo = {
-      name: householdName,
-      participantIDs: findHousehold.participantIDs,
-      participantNames: findHousehold.participantNames,
-      participantPercents: breakdownArray,
-      participantMaxNum: maxNum,
-      bannedUsers: findHousehold.bannedUsers,
-    };
 
     //* Confirm we are only sending new info through
     const returnOption = { new: true };
