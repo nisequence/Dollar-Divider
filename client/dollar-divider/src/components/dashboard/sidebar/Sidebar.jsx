@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { v4 } from "uuid";
 import {
   // Col,
   // Container,
@@ -175,7 +176,7 @@ function Sidebar(props) {
   ];
 
   const sidebarItems = sidebarArray.map((i) => {
-    return br, (<NavItem>{i}</NavItem>);
+    return br, (<NavItem key={v4()}>{i}</NavItem>);
   });
 
   return (
