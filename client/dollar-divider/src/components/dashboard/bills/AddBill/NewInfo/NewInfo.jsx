@@ -39,17 +39,20 @@ export default function NewInfo(props) {
   //* Create a function to handle the form inputs when the user attempts to create a new room
   const submitBill = async (e) => {
     e.preventDefault();
+
     const title = titleRef.current.value;
     const amount = amountRef.current.value;
     const dueMonth = monthRef.current.value;
     const dueDay = dayRef.current.value;
     const category = categoryRef.current.value;
+
     let autoPay;
     if (autoPayRef.current.value === "on") {
       autoPay = true;
     } else {
       autoPay = false;
     }
+
     let recurring;
     if (recurringRef.current.value === "on") {
       recurring = true;
@@ -105,7 +108,17 @@ export default function NewInfo(props) {
     <>
       <Form onSubmit={submitBill}>
         <FormGroup>
-          <Label for="exampleSelectMulti">Choose Category</Label>
+          <Label>Name</Label>
+          <Input
+            placeholder="Name of Bill"
+            innerRef={titleRef}
+            autoComplete="off"
+            type="text"
+            required
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="exampleSelectMulti">Budget Category</Label>
           <Input
             id="exampleSelect1"
             name="select"
@@ -123,7 +136,17 @@ export default function NewInfo(props) {
           </Input>
         </FormGroup>
         <FormGroup>
-          <Label for="exampleSelectMulti">Choose Month Due</Label>
+          <Label>Amount</Label>
+          <Input
+            placeholder="Dollar Amount"
+            innerRef={amountRef}
+            autoComplete="off"
+            type="Number"
+            required
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="exampleSelectMulti">Month Due</Label>
           <Input
             id="exampleSelect2"
             name="select"
@@ -141,7 +164,7 @@ export default function NewInfo(props) {
           </Input>
         </FormGroup>
         <FormGroup>
-          <Label for="exampleSelect3">Choose Day Due</Label>
+          <Label for="exampleSelect3">Day Due</Label>
           <Input
             id="exampleSelect"
             name="select"
@@ -158,34 +181,14 @@ export default function NewInfo(props) {
             })}
           </Input>
         </FormGroup>
-        <FormGroup>
-          <Input
-            placeholder="Name of Bill"
-            innerRef={titleRef}
-            autoComplete="off"
-            type="text"
-            required
-          />
+        <FormGroup check inline>
+          <Input type="checkbox" innerRef={autoPayRef} />
+          <Label check>Auto-pay</Label>
         </FormGroup>
-        <FormGroup>
-          <Input
-            placeholder="Dollar Amount"
-            innerRef={amountRef}
-            autoComplete="off"
-            type="text"
-            required
-          />
+        <FormGroup check inline>
+          <Input type="checkbox" innerRef={recurringRef} />
+          <Label check>Recurring</Label>
         </FormGroup>
-        <Form>
-          <FormGroup check inline>
-            <Input type="checkbox" innerRef={autoPayRef} />
-            <Label check>Auto-pay</Label>
-          </FormGroup>
-          <FormGroup check inline>
-            <Input type="checkbox" innerRef={recurringRef} />
-            <Label check>Recurring</Label>
-          </FormGroup>
-        </Form>
         <FormGroup>{/* autoPay */}</FormGroup>
         <FormGroup>{/* recurring */}</FormGroup>
         <Button color="success" type="submit">

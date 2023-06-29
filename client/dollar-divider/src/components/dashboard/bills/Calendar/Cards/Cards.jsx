@@ -1,25 +1,52 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Card,
   CardBody,
   CardDeck,
   CardTitle,
   CardText,
-  CardLink,
   Col,
   Row,
-  Label,
-  FormGroup,
-  Input,
-  Button,
-  PopoverHeader,
-  UncontrolledPopover,
-  PopoverBody,
 } from "reactstrap";
-import ClickCard from "./ClickCard/ClickCard";
+import OpenCard from "./OpenCard/OpenCard";
 
 export default function Cards(props) {
+  let url;
+  const [budgets, setBudgets] = useState([]);
+  const getBudgets = async (viewValue) => {
+    if (viewValue == true) {
+      url = "http://localhost:4000/budget/household";
+    } else {
+      url = "http://localhost:4000/budget/mine";
+    }
+    const reqOptions = {
+      method: "GET",
+      headers: new Headers({
+        Authorization: props.token,
+      }),
+    };
+
+    try {
+      const res = await fetch(url, reqOptions);
+      const data = await res.json();
+
+      // If the server does not provide a failure message
+      if (data.message == "Budget(s) found!") {
+        setBudgets(data.allBudgets);
+      } else {
+        setBudgets(null);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    if (props.token) {
+      getBudgets(props.view);
+    }
+  }, [props.token, props.view]);
+
   let cardColor;
   function modifyColor(value) {
     if (value === true) {
@@ -30,6 +57,7 @@ export default function Cards(props) {
       cardColor = "rgb(182,205,228)";
     }
   }
+
   return (
     <>
       <Row sm="6" overflow-y="scroll">
@@ -125,26 +153,12 @@ export default function Cards(props) {
                       <CardText>{each.category}</CardText>
                     </Col>
                     <Col>
-                      <Button
-                        id="UncontrolledPopoverBills"
-                        color="success"
-                        type="button"
-                      >
-                        <UncontrolledPopover
-                          placement="left"
-                          target="UncontrolledPopoverBills"
-                        >
-                          <PopoverHeader>{each.title}</PopoverHeader>
-                          <PopoverBody>
-                            <ClickCard
-                              token={props.token}
-                              billInfo={each}
-                              id={each.id}
-                            />
-                          </PopoverBody>
-                        </UncontrolledPopover>
-                        Edit
-                      </Button>
+                      <OpenCard
+                        billInfo={each}
+                        token={props.token}
+                        getBills={props.getBills}
+                        budgets={budgets}
+                      />
                     </Col>
                   </Row>
                 </CardBody>

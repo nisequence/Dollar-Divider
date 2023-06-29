@@ -45,8 +45,11 @@ const TransactionSchema = new mongoose.Schema({
     base: {
         type: String,
         required: true,
+    },
+    ownerID: {
+        type: String,
+        required: true,
     }
-    
 })
 
 module.exports = mongoose.model("Transaction", TransactionSchema);
