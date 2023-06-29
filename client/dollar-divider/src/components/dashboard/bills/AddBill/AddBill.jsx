@@ -59,6 +59,7 @@ export default function AddBill(props) {
       <UncontrolledPopover
         placement="bottom"
         target="UncontrolledPopoverAddBill"
+        trigger="legacy"
       >
         <PopoverHeader>Add New Bill</PopoverHeader>
         <PopoverBody>
