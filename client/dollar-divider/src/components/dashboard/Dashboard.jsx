@@ -21,9 +21,8 @@ export default function Dashboard(props) {
 
     const reqOptions = {
       method: "GET",
-      headers: new Headers({
-        Authorization: token,
-      }),
+      headers: new Headers({Authorization: token}),
+      // headers: new Headers({Authorization: token}),
     };
 
     try {
