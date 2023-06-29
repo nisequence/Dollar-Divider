@@ -22,22 +22,19 @@ router.post("/add", async (req, res) => {
       desc,
       merchant,
       amount,
-      checkNum,
       finAccount,
       type,
       category,
       base,
     } = req.body;
-
+    const userID = req.user._id;
 
     let newAmount;
     if (type == "expense") {
-      newAmount = -Math.abs(amount);
+      newAmount = 0 - amount;
     } else {
-      newAmount = amount
+      newAmount = amount;
     }
-    console.log(newAmount);
-
 
     if (base == "personal") {
       // make sure ID is correct & findable
@@ -52,17 +49,16 @@ router.post("/add", async (req, res) => {
 
       // If user works add new transaction
       const transaction = new Transaction({
+        ownerID: userID,
         month: month,
         day: day,
         desc: desc,
         merchant: merchant,
         amount: newAmount,
-        checkNum: checkNum,
         finAccount: finAccount,
         type: type,
         category: category,
         base: req.user._id,
-        ownerID: req.user_id,
       });
 
       const newTransaction = await transaction.save();
@@ -86,17 +82,16 @@ router.post("/add", async (req, res) => {
 
       // if works add new transaction to household
       const transaction = new Transaction({
+        ownerID: userID,
         month: month,
         day: day,
         desc: desc,
         merchant: merchant,
         amount: amount,
-        checkNum: checkNum,
         finAccount: req.user._id,
         type: type,
         category: category,
         base: req.user.householdID,
-        ownerID: req.user._id,
       });
 
       const newTransaction = await transaction.save();
@@ -279,15 +274,18 @@ router.delete("/delete/:id", async (req, res) => {
     const userID = req.user._id;
 
     //* Find and confirm the user has access to the transaction
-    const deleteTransaction = await Transaction.deleteOne({ _id: id, ownerID: userID });
+    const deleteTransaction = await Transaction.deleteOne({
+      _id: id,
+      ownerID: userID,
+    });
 
-    deleteBudget.deletedCount === 1
-    res.status(200).json({
-      message: "Transaction was successfully deleted!",
-    });
-    res.status(404).json({
-      message: "Access to or existence of this transaction was not located",
-    });
+    deleteTransaction.deletedCount === 1
+      ? res.status(200).json({
+          message: "Transaction was successfully deleted!",
+        })
+      : res.status(404).json({
+          message: "Access to or existence of this transaction was not located",
+        });
   } catch (err) {
     serverError(res, err);
   }

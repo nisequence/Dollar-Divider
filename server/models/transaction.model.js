@@ -21,15 +21,6 @@ const TransactionSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    checkNum: {
-        type: Number,
-        required: false,
-    },
-    manualEntry: {
-        type: Boolean,
-        required: false,
-    },
-    // checking/savings
     finAccount: {
         type: String,
         required: true,

@@ -10,6 +10,8 @@ import {
   Legend,
 } from "chart.js";
 import AddBudget from "./AddBudget/AddBudget";
+import UpdateBudgets from "../view/single/UpdateBudget";
+
 // import React, { useRef } from "react";
 // import React, {useState} from "react";
 // import ModalFullscreenExample from "../../../../utils/modalExample";
@@ -28,7 +30,7 @@ export default function CurrentBudgetStatus(props) {
       {
         label: "Budget Amount",
         data: [], // Dollar amounts for each category.
-        options: { onClick: clicked },
+        options: { onClick: clicked},
         backgroundColor: [
           "rgba(255, 255, 0, 0.5)",
           "rgba(255, 0, 0, 0.5)",
@@ -76,6 +78,9 @@ export default function CurrentBudgetStatus(props) {
   // Construct the body object & JSON stringify it
   let bodyObj = JSON.stringify({}); // JSON-ifying our data to be passed.
 
+  // Build a fn to return the edit and delete button
+  
+
   // Request Options object
   return (
     <>
@@ -86,11 +91,18 @@ export default function CurrentBudgetStatus(props) {
           view={props.view}
           getBudgets={props.getBudgets}
         />
+        {/* <UpdateBudgets
+          token={props.token}
+          view={props.view}
+          getBudgets={props.getBudgets}
+        /> */}
+        <UpdateBudgets budgets={props.budgets}/>
         {/* <Doughnut */}
         <PolarArea
           style={{ marginLeft: "4vw", marginRight: "4vw", maxHeight: "60vh" }}
           // <Pie
           data={chartData}
+          
           // onElementsClick={(elems) => {
           //   // if required to build the URL, you can
           //   // get datasetIndex and value index from an `elem`:
