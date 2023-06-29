@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import {v4} from 'uuid';
 import {
   CardGroup,
   Card,
@@ -13,7 +14,8 @@ let accounts = props.accounts;
 // console.log("accounts",accounts);
 let finAccts = accounts.map((acct) => {
     return (
-      <Card>
+
+      <Card key={v4()}>
       <CardBody>
         <CardTitle tag="h5">{acct.name}</CardTitle>
         <CardSubtitle className="mb-2 text-muted" tag="h6">
