@@ -317,10 +317,11 @@ router.patch("/edit/:id", async (req, res) => {
     // pull value from parameter (id)
     const { id } = req.params;
     // pull info from body
-    const { title, amount, dueDay, autoPay, recurring } = req.body;
+    const { category, amount, dueDay, dueMonth, autoPay, recurring } = req.body;
     const info = {
-      title: title,
+      category: category,
       amount: amount,
+      dueMonth: dueMonth,
       dueDay: dueDay,
       autoPay: autoPay,
       recurring: recurring,
@@ -340,7 +341,7 @@ router.patch("/edit/:id", async (req, res) => {
       UpdatedBill,
     });
   } catch (err) {
-    errorResponse(res, err);
+    serverError(res, err);
   }
 });
 

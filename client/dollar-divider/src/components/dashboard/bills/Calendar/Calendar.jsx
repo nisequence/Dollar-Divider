@@ -62,6 +62,8 @@ export default function Calendar(props) {
           getBills={props.getBills}
           bills={monthlyBills}
           month={monthName}
+          view={props.view}
+          token={props.token}
         />
         <CarouselCaption className="text-black" />
       </CarouselItem>
