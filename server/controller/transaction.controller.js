@@ -12,13 +12,9 @@ const serverError = (res, error) => {
   });
 };
 
-
-
 //? POST ROUTE "/add"
 //* Successful on Postman MR
-
 router.post("/add", async (req, res) => {
-
   try {
     const {
       month,
@@ -66,6 +62,7 @@ router.post("/add", async (req, res) => {
         type: type,
         category: category,
         base: req.user._id,
+        ownerID: req.user_id,
       });
 
       const newTransaction = await transaction.save();
@@ -99,6 +96,7 @@ router.post("/add", async (req, res) => {
         type: type,
         category: category,
         base: req.user.householdID,
+        ownerID: req.user._id,
       });
 
       const newTransaction = await transaction.save();
@@ -278,13 +276,14 @@ router.delete("/delete/:id", async (req, res) => {
   try {
     //* Pull transaction id from params
     const { id } = req.params;
+    const userID = req.user._id;
 
     //* Find and confirm the user has access to the transaction
-    const deletedTransaction = await Transaction.findOneAndDelete({ _id: id });
+    const deleteTransaction = await Transaction.deleteOne({ _id: id, ownerID: userID });
 
+    deleteBudget.deletedCount === 1
     res.status(200).json({
       message: "Transaction was successfully deleted!",
-      deletedTransaction,
     });
     res.status(404).json({
       message: "Access to or existence of this transaction was not located",
