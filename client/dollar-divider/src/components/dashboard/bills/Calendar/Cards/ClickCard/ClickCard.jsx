@@ -26,7 +26,7 @@ export default function ClickCard(props) {
       amount: amount,
     });
 
-    console.log(budgetObj);
+    // console.log(budgetObj);
 
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
