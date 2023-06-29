@@ -19,7 +19,7 @@ ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function clicked() {
-  console.log("click")
+  console.log("click");
 }
 export default function CurrentBudgetStatus(props) {
   const chartData = {
@@ -28,7 +28,7 @@ export default function CurrentBudgetStatus(props) {
       {
         label: "Budget Amount",
         data: [], // Dollar amounts for each category.
-        options: {onClick: clicked},
+        options: { onClick: clicked },
         backgroundColor: [
           "rgba(255, 255, 0, 0.5)",
           "rgba(255, 0, 0, 0.5)",
@@ -41,7 +41,6 @@ export default function CurrentBudgetStatus(props) {
           "rgba(160, 81, 45, 0.5)",
           "rgba(147, 112, 216, 0.5)",
         ],
-        
       },
     ],
   };
@@ -138,5 +137,5 @@ export default function CurrentBudgetStatus(props) {
         </Button>
       </div>
     </>
-  )
+  );
 }
