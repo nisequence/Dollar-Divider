@@ -22,21 +22,20 @@ router.post("/add", async (req, res) => {
       desc,
       merchant,
       amount,
-      checkNum,
       finAccount,
       type,
       category,
       base,
     } = req.body;
+    const userID = req.user._id
 
 
     let newAmount;
     if (type == "expense") {
-      newAmount = -Math.abs(amount);
+      newAmount = 0 - amount;
     } else {
       newAmount = amount
     }
-    console.log(newAmount);
 
 
     if (base == "personal") {
@@ -52,17 +51,16 @@ router.post("/add", async (req, res) => {
 
       // If user works add new transaction
       const transaction = new Transaction({
+        ownerID: userID,
         month: month,
         day: day,
         desc: desc,
         merchant: merchant,
         amount: newAmount,
-        checkNum: checkNum,
         finAccount: finAccount,
         type: type,
         category: category,
         base: req.user._id,
-        ownerID: req.user_id,
       });
 
       const newTransaction = await transaction.save();
@@ -86,17 +84,16 @@ router.post("/add", async (req, res) => {
 
       // if works add new transaction to household
       const transaction = new Transaction({
+        ownerID: userID,
         month: month,
         day: day,
         desc: desc,
         merchant: merchant,
         amount: amount,
-        checkNum: checkNum,
         finAccount: req.user._id,
         type: type,
         category: category,
         base: req.user.householdID,
-        ownerID: req.user._id,
       });
 
       const newTransaction = await transaction.save();
