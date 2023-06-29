@@ -76,6 +76,7 @@ router.post("/add", async (req, res) => {
         recurring: recurring,
         category: category,
         base: req.user._id,
+        ownerID: req.user._id,
       });
 
       const newBill = await bill.save();
@@ -113,6 +114,7 @@ router.post("/add", async (req, res) => {
         recurring: recurring,
         category: category,
         base: req.user.householdID,
+        ownerID: req.user._id,
       });
 
       const newBill = await bill.save();
@@ -328,6 +330,14 @@ router.patch("/edit/:id", async (req, res) => {
     };
 
     const returnOption = { new: true };
+    
+    //* Find bill to confirm user is authorized to update
+    const findBill = await Bill.findOne({_id: id});
+    if (findBill.ownerID != req.user._id) {
+      return res.status(401).json({
+        message: "Sorry, user is not authorized to edit bill."
+      })
+    }
 
     //* findOneAndUpdate(query/filter, document, options)
     const UpdatedBill = await Bill.findOneAndUpdate(
@@ -350,16 +360,24 @@ router.delete("/delete/:id", async (req, res) => {
   try {
     //* Pull transaction id from params
     const { id } = req.params;
+    const userID = req.user._id;
 
     //* Find and confirm the user has access to the transaction
-    const deletedBill = await Bill.findOneAndDelete({ _id: id });
+    // const findBill = await Bill.findOne({_id: id});
+    // if (findBill.ownerID != req.user._id) {
+    //   return res.status(401).json({
+    //     message: "Sorry, user is not authorized to edit bill."
+    //   })
+    // }
 
-    res.status(200).json({
+    const deleteBill = await Bill.deleteOne({ _id: id, ownerID: userID });
+
+    deleteBill.deletedCount === 1
+    ? res.status(200).json({
       message: "Bill was successfully deleted!",
-      deletedBill,
-    });
-    res.status(404).json({
-      message: "Bill was not located",
+    })
+    : res.status(404).json({
+      message: "Bill was not located or deleted.",
     });
   } catch (err) {
     serverError(res, err);
