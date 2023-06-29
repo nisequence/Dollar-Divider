@@ -2,8 +2,9 @@ import React from "react";
 import { Button } from "reactstrap";
 
 export default function DeleteBill(props) {
+  console.log(props);
   async function deleteBill() {
-    const url = `http://localhost:4000/household/admin/remove`;
+    const url = `http://localhost:4000/bills/delete/${props.id}`;
 
     const myHeaders = new Headers();
     myHeaders.append("Authorization", props.token);
