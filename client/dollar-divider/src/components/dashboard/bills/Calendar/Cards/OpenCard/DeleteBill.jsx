@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "reactstrap";
 
 export default function DeleteBill(props) {
-  console.log(props);
   async function deleteBill() {
     const url = `http://localhost:4000/bills/delete/${props.id}`;
 
@@ -20,7 +19,8 @@ export default function DeleteBill(props) {
 
       //* If we get the right response from the server
       if (data.message === "Bill was successfully deleted!") {
-        props.getBills();
+        props.getBills(props.view);
+        props.toggle();
       }
     } catch (err) {
       console.error(err);

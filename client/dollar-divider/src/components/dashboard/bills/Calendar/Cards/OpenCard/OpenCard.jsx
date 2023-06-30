@@ -13,6 +13,7 @@ import {
   Label,
 } from "reactstrap";
 import DeleteBill from "./DeleteBill";
+import MarkPaid from "./MarkPaid";
 
 export default function OpenCard(props) {
   let billInfo = props.billInfo;
@@ -139,12 +140,7 @@ export default function OpenCard(props) {
         Open
       </Button>
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}>
-          Viewing {billInfo.title} Bill
-          {/* <Button color="danger" onClick={DeleteBill(billInfo.id)}> */}
-          {/* X
-                </Button> */}
-        </ModalHeader>
+        <ModalHeader toggle={toggle}>Viewing {billInfo.title} Bill</ModalHeader>
         <Form onSubmit={editBill}>
           <ModalBody>
             <FormGroup>
@@ -241,8 +237,17 @@ export default function OpenCard(props) {
               token={props.token}
               getBills={props.getBills}
               id={billID}
+              toggle={toggle}
             />
             {/* {payable()} */}
+            <MarkPaid
+              token={props.token}
+              getBills={props.getBills}
+              id={billID}
+              value={billInfo.paid}
+              toggle={toggle}
+              view={props.view}
+            />
             <Button color="primary" id="submit">
               Submit Changes
             </Button>{" "}
