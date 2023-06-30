@@ -1,8 +1,7 @@
-import React, { useState, useRef} from "react";
+import React, { useState, useRef } from "react";
 import { Form, FormGroup, Input, Button, Label } from "reactstrap";
 
 export default function EditTransactionInfo(props) {
-
   const transactionsToDelete = [
     "January",
     "February",
@@ -83,7 +82,7 @@ export default function EditTransactionInfo(props) {
             innerRef={monthRef}
             required
           >
-            {transactionsToDelete.map((each) => {
+            {transactionsToDelete?.map((each) => {
               return (
                 <>
                   <option value={each}>{each}</option>

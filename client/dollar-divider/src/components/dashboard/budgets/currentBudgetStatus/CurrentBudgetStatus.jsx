@@ -24,13 +24,39 @@ function clicked() {
   console.log("click");
 }
 export default function CurrentBudgetStatus(props) {
+  const status = localStorage.getItem("Status");
+
+  const viewType = () => {
+    if (props.view === false || status == "Admin") {
+      //* If viewing personal or if user is the Admin
+      // get all the stuff
+      return (
+        <>
+          <h4>Remaining Monthly Amounts</h4>
+          <AddBudget
+            token={props.token}
+            view={props.view}
+            getBudgets={props.getBudgets}
+          />
+        </>
+      );
+    } else {
+      //* If viewing household and not the admin
+      // get minimal
+      return (
+        <>
+          <h4>Remaining Monthly Amounts</h4>
+        </>
+      );
+    }
+  };
   const chartData = {
     labels: [],
     datasets: [
       {
         label: "Budget Amount",
         data: [], // Dollar amounts for each category.
-        options: { onClick: clicked},
+        options: { onClick: clicked },
         backgroundColor: [
           "rgba(255, 255, 0, 0.5)",
           "rgba(255, 0, 0, 0.5)",
@@ -79,30 +105,24 @@ export default function CurrentBudgetStatus(props) {
   let bodyObj = JSON.stringify({}); // JSON-ifying our data to be passed.
 
   // Build a fn to return the edit and delete button
-  
 
   // Request Options object
   return (
     <>
       <div className="CurrentBudgetStatus" id="currentbudgetstatus">
-        <h4>Remaining Monthly Amounts</h4>
-        <AddBudget
-          token={props.token}
-          view={props.view}
-          getBudgets={props.getBudgets}
-        />
+        {viewType()}
         {/* <UpdateBudgets
           token={props.token}
           view={props.view}
           getBudgets={props.getBudgets}
         /> */}
-        <UpdateBudgets budgets={props.budgets}/>
+        <UpdateBudgets budgets={props.budgets} />
         {/* <Doughnut */}
         <PolarArea
           style={{ marginLeft: "4vw", marginRight: "4vw", maxHeight: "60vh" }}
           // <Pie
           data={chartData}
-          
+
           // onElementsClick={(elems) => {
           //   // if required to build the URL, you can
           //   // get datasetIndex and value index from an `elem`:
