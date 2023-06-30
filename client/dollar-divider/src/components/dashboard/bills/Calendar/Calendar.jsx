@@ -122,11 +122,13 @@ export default function Calendar(props) {
         </Col>
       </Row>
       <Carousel
+        interval={null} //! This seems to have fixed the autoscrolling problem.
         activeIndex={activeIndex}
+        data-bs-interval="false"
         next={next}
         previous={previous}
         //! The below key/value is supposed to stop the carousel from moving on its own, but it is not working
-        slide={false}
+        // slide={false}
       >
         {slides}
         {/* //! Removed white arrows that controlled carousel below */}
