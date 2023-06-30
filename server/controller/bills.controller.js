@@ -292,7 +292,7 @@ router.patch("/pay/:id", async (req, res) => {
         recurring: updatedBill.recurring,
         category: updatedBill.category,
         base: updatedBill.base,
-        ownerID: updatedBill.ownerID,
+        ownerID: updatedBill.ownerID
       });
 
       const createBill = await newBill.save();
