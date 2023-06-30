@@ -93,7 +93,7 @@ export default function Cards(props) {
         </Card>
       </Row>
       {/* {displayBillCards(props.bills, props.month)} */}
-      {props.bills.map((each) => {
+      {props.bills?.map((each) => {
         //* Set different value for background color based on whether the bill is paid or unpaid
         modifyColor(each.paid);
         /* ! Would like to nest the below return for each bill into a scroll bar container */
