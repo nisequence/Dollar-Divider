@@ -280,8 +280,6 @@ router.patch("/pay/:id", async (req, res) => {
       returnOption
     );
 
-    console.log(updatedBill);
-
     if (findBill.recurring === true && paid == true) {
       //* If this bill is supposed to happen again, create a new one for the next month
       const newBill = new Bill({
@@ -293,7 +291,8 @@ router.patch("/pay/:id", async (req, res) => {
         autoPay: updatedBill.autoPay,
         recurring: updatedBill.recurring,
         category: updatedBill.category,
-        base: req.user._id,
+        base: updatedBill.base,
+        ownerID: updatedBill.ownerID
       });
 
       const createBill = await newBill.save();

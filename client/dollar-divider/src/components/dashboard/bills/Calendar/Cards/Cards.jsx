@@ -60,7 +60,7 @@ export default function Cards(props) {
 
   return (
     <>
-      <Row sm="6" overflow-y="scroll">
+      <Row sm="5" overflow-y="scroll">
         <Card
           body
           color="secondary"
@@ -82,31 +82,24 @@ export default function Cards(props) {
               <Col>
                 <CardText>Due</CardText>
               </Col>
-              {/* <Col>
-                <CardText>AutoPay?</CardText>
-              </Col>
-              <Col>
-                <CardText>Recurring?</CardText>
-              </Col> */}
               <Col>
                 <CardText>Budget</CardText>
               </Col>
               <Col>
-                <CardText>Edit</CardText>
+                <CardText>More</CardText>
               </Col>
             </Row>
           </CardBody>
         </Card>
       </Row>
       {/* {displayBillCards(props.bills, props.month)} */}
-      {props.bills.map((each) => {
+      {props.bills?.map((each) => {
         //* Set different value for background color based on whether the bill is paid or unpaid
         modifyColor(each.paid);
         /* ! Would like to nest the below return for each bill into a scroll bar container */
         return (
           <>
-            <Row sm="6">
-              {/* ! Would like to make this card have rounded edges if possible */}
+            <Row sm="5">
               <Card
                 body
                 outline
@@ -158,6 +151,7 @@ export default function Cards(props) {
                         token={props.token}
                         getBills={props.getBills}
                         budgets={budgets}
+                        view={props.view}
                       />
                     </Col>
                   </Row>
