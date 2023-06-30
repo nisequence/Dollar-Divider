@@ -101,7 +101,7 @@ export default function OpenCard(props) {
 
       // If the server provides a success message
       if (data.message == "Bill has been updated successfully") {
-        props.getBills();
+        props.getBills(props.view);
         toggle();
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item

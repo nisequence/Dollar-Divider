@@ -50,12 +50,13 @@ export default function Calendar(props) {
     });
     return (
       <CarouselItem
-        className="custom-tag"
+        className="overflow-calendar"
         tag="div"
         key={monthName.id}
         onExiting={() => setAnimating(true)}
         onExited={() => setAnimating(false)}
-        //! The below key/value is supposed to stop the carousel from moving on its own, but it is not working
+        /*         style={{ maxWidth: "95vw", maxHeight: "75vh" }}
+         */ //! The below key/value is supposed to stop the carousel from moving on its own, but it is not working
         slide={false}
       >
         <Cards
@@ -73,9 +74,12 @@ export default function Calendar(props) {
   return (
     <div>
       <style>
-        {`.custom-tag {
-          max-width: 100%;
-          height: 400px;
+        {`.overflow-calendar {
+          height: 500px;
+          overflow-y:scroll;
+          overflow-x: hidden;
+          scrollbar-color: "red orange";
+  scrollbar-width: thin;
         }`}
       </style>
       <Row style={{ maxHeight: "6vh" }}>
@@ -122,26 +126,13 @@ export default function Calendar(props) {
         </Col>
       </Row>
       <Carousel
-        interval={null} //! This seems to have fixed the autoscrolling problem.
+        interval={null}
         activeIndex={activeIndex}
         data-bs-interval="false"
         next={next}
         previous={previous}
-        //! The below key/value is supposed to stop the carousel from moving on its own, but it is not working
-        // slide={false}
       >
         {slides}
-        {/* //! Removed white arrows that controlled carousel below */}
-        {/* <CarouselControl
-          direction="prev"
-          directionText="Previous"
-          onClickHandler={previous}
-        />
-        <CarouselControl
-          direction="next"
-          directionText="Next"
-          onClickHandler={next}
-        /> */}
       </Carousel>
     </div>
   );

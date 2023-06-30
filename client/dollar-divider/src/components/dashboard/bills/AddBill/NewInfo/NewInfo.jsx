@@ -73,8 +73,6 @@ export default function NewInfo(props) {
       base: base,
     });
 
-    console.log(billObj);
-
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
     headers.append("Authorization", props.token);
@@ -94,7 +92,7 @@ export default function NewInfo(props) {
         data.message === "You have created a new bill!" ||
         data.message === "Your household has a new bill!"
       ) {
-        props.getBills();
+        props.getBills(props.view);
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
         console.error("User is unauthorized.");
