@@ -10,7 +10,7 @@ import NewTransInfo from './newTransInfo/NewTransInfo';
 
 
 export default function AddTransaction(props) {
-  console.log(props);
+  // console.log(props);
   let url;
   const [budgets, setBudgets] = useState([]);
 const getBudgets = async (viewValue) => {
@@ -61,7 +61,7 @@ return (
       +
     </Button>
     <UncontrolledPopover
-      placement="bottom"
+      placement="top"
       target="UncontrolledPopoverAddTransaction"
     >
       <PopoverHeader>Add New Transaction</PopoverHeader>

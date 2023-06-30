@@ -124,23 +124,11 @@ export default function Calendar(props) {
       <Carousel
         interval={null}
         activeIndex={activeIndex}
+        data-bs-interval="false"
         next={next}
         previous={previous}
-        //! The below key/value is supposed to stop the carousel from moving on its own, but it is not working
-        slide={false}
       >
         {slides}
-        {/* //! Removed white arrows that controlled carousel below */}
-        {/* <CarouselControl
-          direction="prev"
-          directionText="Previous"
-          onClickHandler={previous}
-        />
-        <CarouselControl
-          direction="next"
-          directionText="Next"
-          onClickHandler={next}
-        /> */}
       </Carousel>
     </div>
   );

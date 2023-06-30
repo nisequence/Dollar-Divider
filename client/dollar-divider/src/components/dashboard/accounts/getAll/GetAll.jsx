@@ -27,7 +27,7 @@ export default function GetAll(props) {
       const res = await fetch(url, reqOptions);
       const data = await res.json();
       let information = data.getAllUserFinAccounts[0];
-      console.log("Accounts Data:",information)
+      // console.log("Accounts Data:",information)
       name = information.name;
       balance = information.balance;
       minBalance = information.balance;
