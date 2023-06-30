@@ -151,6 +151,7 @@ export default function Cards(props) {
                         token={props.token}
                         getBills={props.getBills}
                         budgets={budgets}
+                        view={props.view}
                       />
                     </Col>
                   </Row>

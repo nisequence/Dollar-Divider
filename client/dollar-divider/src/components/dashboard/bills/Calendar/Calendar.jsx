@@ -75,7 +75,7 @@ export default function Calendar(props) {
     <div>
       <style>
         {`.overflow-calendar {
-          height: 500px;
+          height: 60vh;
           overflow-y:scroll;
           overflow-x: hidden;
           scrollbar-color: "red orange";
