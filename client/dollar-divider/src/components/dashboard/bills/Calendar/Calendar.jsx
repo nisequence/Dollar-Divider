@@ -122,6 +122,7 @@ export default function Calendar(props) {
         </Col>
       </Row>
       <Carousel
+        interval={null}
         activeIndex={activeIndex}
         next={next}
         previous={previous}
