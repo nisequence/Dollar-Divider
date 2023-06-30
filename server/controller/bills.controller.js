@@ -340,16 +340,20 @@ router.patch("/edit/:id", async (req, res) => {
     }
 
     //* findOneAndUpdate(query/filter, document, options)
-    const UpdatedBill = await Bill.findOneAndUpdate(
+    const updatedBill = await Bill.findOneAndUpdate(
       { _id: id },
       info,
       returnOption
     );
 
-    res.status(200).json({
+    updatedBill
+    ? res.status(200).json({
       message: `Bill has been updated successfully`,
-      UpdatedBill,
-    });
+      updatedBill,
+    })
+    :res.status(404).json({
+      message: `Bill unable to be edited`,
+    })
   } catch (err) {
     serverError(res, err);
   }

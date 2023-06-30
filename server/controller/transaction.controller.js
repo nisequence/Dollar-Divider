@@ -244,24 +244,45 @@ router.patch("/edit/:id", async (req, res) => {
   try {
     // pull value from parameter (id)
     const { id } = req.params;
+
+    const { month, day, desc, merchant, amount, category, type } = req.body;
+    let newAmount;
+    if (type == "expense") {
+      newAmount = 0 - amount;
+    } else {
+      newAmount = amount;
+    }
     // pull info from body
-    const info = req.body;
+    const info = {
+      month: month,
+      day: day,
+      desc: desc,
+      merchant: merchant,
+      amount: newAmount,
+      category: category,
+      type: type,
+    };
+    const userID = req.user._id;
 
     const returnOption = { new: true };
 
     //* findOneAndUpdate(query/filter, document, options)
-    const UpdatedTransaction = await Transaction.findOneAndUpdate(
-      { _id: id },
+    const updatedTransaction = await Transaction.findOneAndUpdate(
+      { _id: id, ownerID: userID },
       info,
       returnOption
     );
 
-    res.status(200).json({
-      message: `${UpdatedTransaction.category} transaction has been updated successfully`,
-      UpdatedTransaction,
-    });
+    updatedTransaction
+    ? res.status(200).json({
+      message: `Transaction has been updated successfully`,
+      updatedTransaction,
+    })
+    :res.status(404).json({
+      message: `Transaction unable to be edited`,
+    })
   } catch (err) {
-    errorResponse(res, err);
+    serverError(res, err);
   }
 });
 
