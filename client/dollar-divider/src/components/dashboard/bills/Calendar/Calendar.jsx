@@ -27,6 +27,8 @@ const monthGroup = [
 ];
 
 export default function Calendar(props) {
+  const status = localStorage.getItem("Status");
+
   const [activeIndex, setActiveIndex] = useState(1);
   const [animating, setAnimating] = useState(false);
 
@@ -41,6 +43,43 @@ export default function Calendar(props) {
     if (animating) return;
     const nextIndex = activeIndex === 0 ? activeIndex : activeIndex - 1;
     setActiveIndex(nextIndex);
+  };
+
+  const viewType = () => {
+    if (props.view === false || status == "Admin") {
+      //* If viewing personal or if user is the Admin
+      // get all the stuff
+      return (
+        <>
+          <Col>
+            <h4 margin="0" padding="0">
+              Bills At-A-Glance
+            </h4>
+          </Col>
+          <Col style={{ maxWidth: "13vw" }}>
+            <AddBill
+              getBills={props.getBills}
+              token={props.token}
+              month={monthGroup[activeIndex]}
+              view={props.view}
+            />
+          </Col>
+        </>
+      );
+    } else {
+      //* If viewing household and not the admin
+      // get minimal
+      return (
+        <>
+          <Col>
+            <h4 margin="0" padding="0">
+              Bills At-A-Glance
+            </h4>
+          </Col>
+          <Col style={{ maxWidth: "13vw" }}></Col>
+        </>
+      );
+    }
   };
 
   const slides = monthGroup.map((monthName) => {
@@ -84,19 +123,7 @@ export default function Calendar(props) {
       </style>
       <Row style={{ maxHeight: "6vh" }}>
         <Col style={{ maxWidth: "13vw" }}></Col>
-        <Col>
-          <h4 margin="0" padding="0">
-            Bills At-A-Glance
-          </h4>
-        </Col>
-        <Col style={{ maxWidth: "13vw" }}>
-          <AddBill
-            getBills={props.getBills}
-            token={props.token}
-            month={monthGroup[activeIndex]}
-            view={props.view}
-          />
-        </Col>
+        {viewType()}
       </Row>
       <Row style={{ maxHeight: "6vh" }}>
         <Col>
