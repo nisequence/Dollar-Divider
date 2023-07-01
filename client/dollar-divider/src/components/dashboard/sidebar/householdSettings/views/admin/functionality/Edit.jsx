@@ -7,6 +7,7 @@ import {
   ModalFooter,
   Input,
 } from "reactstrap";
+import { GrEdit } from "react-icons/gr";
 
 export default function Edit(props) {
   const nameRef = useRef();
@@ -51,6 +52,7 @@ export default function Edit(props) {
   return (
     <div>
       <Button color="warning" onClick={toggle}>
+        <GrEdit />
         Edit Info
       </Button>
       <Modal isOpen={modal} toggle={toggle}>

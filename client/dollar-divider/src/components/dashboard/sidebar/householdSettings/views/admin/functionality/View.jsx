@@ -11,6 +11,8 @@ import {
   Col,
   Row,
 } from "reactstrap";
+import { AiFillCopy } from "react-icons/ai";
+import { GrEdit } from "react-icons/gr";
 import Edit from "./Edit";
 import Ban from "./Ban";
 import Tweak from "./Tweak";
@@ -126,7 +128,7 @@ export default function View(props) {
       <Row>
         <Col>
           <p>
-            <strong>Ask someone to join!</strong>
+            <strong>Ask roommates to join!</strong>
           </p>
           <Button
             style={{ margin: "auto" }}
@@ -135,7 +137,8 @@ export default function View(props) {
               navigator.clipboard.writeText(inviteCode);
             }}
           >
-            Copy Household Token
+            <AiFillCopy />
+            Invite Token
           </Button>
         </Col>
         <Col>
@@ -192,7 +195,7 @@ export default function View(props) {
               color="warning"
               onClick={() => setEditPercent(!editPercent)}
             >
-              Change
+              <GrEdit />
             </Button>
             <Tweak
               editStatus={editPercent}
