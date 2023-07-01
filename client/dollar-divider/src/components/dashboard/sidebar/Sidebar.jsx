@@ -25,14 +25,15 @@ import HouseholdSettings from "./householdSettings/HouseholdSettings";
 import UserSettings from "./userSettings/UserSettings";
 import Logo from "./Logo/Logo";
 
-// --------------------------------- Toggle Left Sidebar -------------------------------------
-function Sidebar(props) {
+export default function Sidebar(props) {
+  //? UseState constants for each menu and the sidebar
   const [collapsed, setCollapsed] = useState(true);
   const [userSettingsMenuCollapsed, setUserSettingsMenuCollapsed] =
     useState(true);
   const [householdSettingsMenuCollapsed, setHouseholdSettingsMenuCollapsed] =
     useState(true);
 
+  //? Functions
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
     const sidebar = document.getElementById("sidebar");
@@ -246,5 +247,3 @@ function Sidebar(props) {
     </div>
   );
 }
-
-export default Sidebar;
