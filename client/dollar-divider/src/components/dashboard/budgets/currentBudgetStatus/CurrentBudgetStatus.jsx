@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 import AddBudget from "./AddBudget/AddBudget";
 import UpdateBudgets from "../view/single/UpdateBudget";
+import { useEffect } from "react";
 
 // import React, { useRef } from "react";
 // import React, {useState} from "react";
@@ -27,17 +28,28 @@ export default function CurrentBudgetStatus(props) {
   const status = localStorage.getItem("Status");
 
   const viewType = () => {
+    let total = 0;
+    const totalBudgets = () => {
+      for (let x = 0; x < props.budgets?.length; x++) {
+        let thisOne = props.budgets[x].budgetAmt;
+        total += thisOne;
+      }
+      console.log(total);
+    };
+    totalBudgets();
+
     if (props.view === false || status == "Admin") {
       //* If viewing personal or if user is the Admin
       // get all the stuff
       return (
         <>
-          <h4>Remaining Monthly Amounts</h4>
+          <h4>Budget Overview</h4>
           <AddBudget
             token={props.token}
             view={props.view}
             getBudgets={props.getBudgets}
           />
+          <h5>Total Budgeted: ${total}</h5>
         </>
       );
     } else {
@@ -45,11 +57,19 @@ export default function CurrentBudgetStatus(props) {
       // get minimal
       return (
         <>
-          <h4>Remaining Monthly Amounts</h4>
+          <h4>Budget Overview</h4>
+          <h5>Total Budgeted: ${total}</h5>
         </>
       );
     }
   };
+
+  useEffect(() => {
+    if (props.budgets) {
+      viewType();
+    }
+  }, [props.token, props.budgets, props.view]);
+
   const chartData = {
     labels: [],
     datasets: [
