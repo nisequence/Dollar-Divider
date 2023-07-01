@@ -128,7 +128,7 @@ export default function Cards(props) {
                       <CardTitle tag="h6">{each.title}</CardTitle>
                     </Col>
                     <Col>
-                      <CardText>${each.amount}</CardText>
+                      <CardText>${each.amount.toLocaleString("en-US")}</CardText>
                     </Col>
                     <Col>
                       <CardText>

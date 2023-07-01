@@ -5,6 +5,7 @@ import {
   PopoverHeader,
   UncontrolledPopover,
   PopoverBody,
+  Alert
 } from "reactstrap";
 import { v4 } from "uuid";
 import AddTransaction from "../addTransaction/AddTransaction";
@@ -109,43 +110,50 @@ export default function RecentTransactions(props) {
     }
   };
 
-  const updatingTransaction = (id) => {
+  const updateTransaction = async (id) => {
     console.log("updating Transaction", id);
+    let url = `http://localhost:4000/transaction/edit/${id}`;
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", props.token);
+
+    let requestOptions = {
+      headers: myHeaders,
+      method: "PATCH",
+    };
+
+    try {
+      let response = await fetch(url, requestOptions);
+      // let data = await response.json();
+    } catch (error) {
+      console.error(error);
+      //   }
+    }
+    alert("Transaction Updated")
   };
 
   const cancelEditing = () => {
     console.log("cancel editing button clicked");
   };
 
-  const deleteTransaction = (id) => {
-    console.log("Delete Transaction", id);
+  const deleteTransaction = async (id) => {
+    console.log("Deleting Transaction", id);
     let url = `http://localhost:4000/transaction/delete/${id}`;
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", props.token);
 
-    // async function delete()
-    //! Example Code Start
-    // async function deleteMovie(id) {
-    //   const url = `http://localhost:4000/movies/${id}`;
+    let requestOptions = {
+      headers: myHeaders,
+      method: "DELETE",
+    };
 
-      const myHeaders = new Headers();
-      myHeaders.append("Authorization", props.token);
-
-      let requestOptions = {
-        headers: myHeaders,
-        method: "DELETE",
-      };
-
-    //   try {
-    //     let response = await fetch(url, requestOptions);
-    //     let data = await response.json();
-
-    //     if (data) {
-    //       props.fetchMovies();
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // }
-    //! Example Code End
+    try {
+      let response = await fetch(url, requestOptions);
+      // let data = await response.json();
+    } catch (error) {
+      console.error(error);
+      //   }
+    }
+    alert("Transaction Deleted")
   };
 
   const recentTransactions = [];
@@ -153,8 +161,6 @@ export default function RecentTransactions(props) {
   let tempColor;
 
   props.transactions?.map((transaction) => {
-    // console.log("transid",transaction._id)
-    // let id = transaction._id;
     let monthArray = [];
     let month = transaction.month;
     function mapMonth() {
@@ -172,22 +178,33 @@ export default function RecentTransactions(props) {
       tempColor = "table-secondary";
       colorAssignment = 0;
     }
+    let displayNumber;
+    transaction.amount = +transaction.amount
+    if (transaction.amount < 0) {
+      let tempNumber = transaction.amount.toLocaleString("en-US");
+      let prefix = "-$";
+      tempNumber = tempNumber.slice(1);
+      displayNumber = prefix + tempNumber;
+    } else {
+      displayNumber = `$${transaction.amount.toLocaleString("en-US")}`;
+    }
+
     return recentTransactions.push(
       <tr className={tempColor}>
         <td>{month + transaction.day}</td>
         <td>{transaction.desc}</td>
-        <td>${transaction.amount}</td>
+        <td>{displayNumber.toLocaleString("en-US")}</td>
         <td>{transaction.merchant}</td>
         <td>{transaction.category}</td>
         <td>
           <Button
             onClick={() => {
-              transactionID = transaction._id
-              console.log(transactionID)
+              transactionID = transaction._id;
             }}
             id="UncontrolledPopoverEditTransaction"
             color="secondary"
             type="button"
+            trigger="legacy"
             style={{
               height: "1.5em",
               display: "flex",
@@ -209,7 +226,7 @@ export default function RecentTransactions(props) {
                 month={props.month}
               />
               <Button
-                onClick={() => updatingTransaction(transactionID)}
+                onClick={() => updateTransaction(transactionID)}
                 color="success"
                 type="submit"
               >
@@ -237,7 +254,7 @@ export default function RecentTransactions(props) {
       </tr>
     );
   });
-  console.log(recentTransactions);
+
   return (
     <div className="RecentTransactions">
       <Table>

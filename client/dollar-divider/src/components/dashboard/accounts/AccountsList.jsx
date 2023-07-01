@@ -19,7 +19,7 @@ let finAccts = accounts.map((acct) => {
       <CardBody>
         <CardTitle tag="h5">{acct.name}</CardTitle>
         <CardSubtitle className="mb-2 text-muted" tag="h6">
-          ${acct.balance}
+          ${acct.balance.toLocaleString("en-US")}
         </CardSubtitle>
         {/* <Button>Update</Button> */}
       </CardBody>

@@ -48,7 +48,7 @@ export default function CurrentBudgetStatus(props) {
             view={props.view}
             getBudgets={props.getBudgets}
           />
-          <h5>Total Budgeted: ${total}</h5>
+          <h5>Total Budgeted: ${total.toLocaleString("en-US")}</h5>
         </>
       );
     } else {
