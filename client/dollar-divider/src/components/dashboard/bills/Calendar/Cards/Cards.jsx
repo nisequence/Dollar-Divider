@@ -9,11 +9,13 @@ import {
   Row,
 } from "reactstrap";
 import OpenCard from "./OpenCard/OpenCard";
+import MemberView from "./OpenCard/MemberView";
 
 export default function Cards(props) {
   let url;
   const [budgets, setBudgets] = useState([]);
   const getBudgets = async (viewValue) => {
+    console.log("Getting budgets...");
     if (viewValue == true) {
       url = "http://localhost:4000/budget/household";
     } else {
@@ -56,6 +58,15 @@ export default function Cards(props) {
       //* This is the color for unpaid bills (would like to keep this)
       cardColor = "rgb(182,205,228)";
     }
+  }
+
+  const status = localStorage.getItem("Status");
+
+  let canEdit;
+  if (status == "Admin" || props.view === false) {
+    canEdit = true;
+  } else {
+    canEdit = false;
   }
 
   return (
@@ -124,35 +135,27 @@ export default function Cards(props) {
                         {each.dueMonth} {each.dueDay}
                       </CardText>
                     </Col>
-                    {/* <Col>
-                      <FormGroup check>
-                        <Input
-                          id="checkbox2"
-                          type="checkbox"
-                          defaultChecked={each.autoPay}
-                        ></Input>
-                      </FormGroup>
-                    </Col>
-                    <Col>
-                      <FormGroup check>
-                        <Input
-                          id="checkbox2"
-                          type="checkbox"
-                          defaultChecked={each.recurring}
-                        ></Input>
-                      </FormGroup>
-                    </Col> */}
                     <Col>
                       <CardText>{each.category}</CardText>
                     </Col>
                     <Col>
-                      <OpenCard
-                        billInfo={each}
-                        token={props.token}
-                        getBills={props.getBills}
-                        budgets={budgets}
-                        view={props.view}
-                      />
+                      {canEdit ? (
+                        <OpenCard
+                          billInfo={each}
+                          token={props.token}
+                          getBills={props.getBills}
+                          budgets={budgets}
+                          view={props.view}
+                        />
+                      ) : (
+                        <MemberView
+                          billInfo={each}
+                          token={props.token}
+                          getBills={props.getBills}
+                          budgets={budgets}
+                          view={props.view}
+                        />
+                      )}
                     </Col>
                   </Row>
                 </CardBody>
