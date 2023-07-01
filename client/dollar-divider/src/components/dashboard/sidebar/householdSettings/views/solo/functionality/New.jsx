@@ -8,6 +8,7 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
+import { BsHouseAdd } from "react-icons/bs";
 
 export default function New(props) {
   const nameRef = useRef();
@@ -50,7 +51,7 @@ export default function New(props) {
     <>
       <h6>Otherwise ...</h6>
       <Button color="success" onClick={toggleNew}>
-        Create a New Household
+        <BsHouseAdd /> Create New
       </Button>
       <Modal isOpen={modalNew} toggleNew={toggleNew}>
         <ModalHeader toggleNew={toggleNew}>Create New Household</ModalHeader>
@@ -77,7 +78,7 @@ export default function New(props) {
             Cancel
           </Button>
           <Button color="success" onClick={createHousehold}>
-            Create Household
+            <BsHouseAdd /> Create
           </Button>{" "}
         </ModalFooter>
       </Modal>

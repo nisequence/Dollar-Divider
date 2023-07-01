@@ -7,6 +7,7 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
+import { FaHouseUser } from "react-icons/fa";
 
 export default function Join(props) {
   const idRef = useRef();
@@ -42,7 +43,7 @@ export default function Join(props) {
     <>
       <h6>Have a token? </h6>
       <Button color="primary" onClick={toggle}>
-        Join Existing Household
+        <FaHouseUser /> Join Existing
       </Button>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Join Existing Household</ModalHeader>
@@ -61,7 +62,7 @@ export default function Join(props) {
             Cancel
           </Button>
           <Button color="primary" onClick={joinHousehold}>
-            Join Household
+            <FaHouseUser /> Join Household
           </Button>{" "}
         </ModalFooter>
       </Modal>
