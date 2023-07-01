@@ -138,9 +138,9 @@ export default function OpenCard(props) {
               >
                 {categoryOptions?.map((each) => {
                   return (
-                    <>
+                    <div key={categoryOptions.indexOf(each)}>
                       <option>{each.budgetCat}</option>
-                    </>
+                    </div>
                   );
                 })}
               </Input>
@@ -171,9 +171,9 @@ export default function OpenCard(props) {
               >
                 {months.map((each) => {
                   return (
-                    <>
+                    <div key={months.indexOf(each)}>
                       <option value={each}>{each}</option>
-                    </>
+                    </div>
                   );
                 })}
               </Input>
@@ -191,9 +191,9 @@ export default function OpenCard(props) {
               >
                 {days.map((each) => {
                   return (
-                    <>
+                    <div key={days.indexOf(each)}>
                       <option value={each}>{each}</option>
-                    </>
+                    </div>
                   );
                 })}
               </Input>

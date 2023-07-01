@@ -105,7 +105,6 @@ export default function Calendar(props) {
           view={props.view}
           token={props.token}
         />
-        <CarouselCaption className="text-black" />
       </CarouselItem>
     );
   });

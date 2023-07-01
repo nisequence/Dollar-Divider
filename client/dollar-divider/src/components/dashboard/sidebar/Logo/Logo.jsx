@@ -6,14 +6,14 @@ export default function Logo() {
     <div>
       <img
         id="logoSidebar"
-        class="logo"
+        className="logo"
         src={dollarDividerMini}
         alt="Dollar Divider Logo"
       />
       <br />
-      <h5>
+      <h6>
         <strong>Dollar Divider</strong>
-      </h5>
+      </h6>
     </div>
   );
 }

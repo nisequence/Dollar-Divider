@@ -15,7 +15,6 @@ export default function Cards(props) {
   let url;
   const [budgets, setBudgets] = useState([]);
   const getBudgets = async (viewValue) => {
-    console.log("Getting budgets...");
     if (viewValue == true) {
       url = "http://localhost:4000/budget/household";
     } else {
@@ -109,7 +108,7 @@ export default function Cards(props) {
         modifyColor(each.paid);
         /* ! Would like to nest the below return for each bill into a scroll bar container */
         return (
-          <>
+          <div key={props.bills.indexOf(each)}>
             <Row sm="5">
               <Card
                 body
@@ -161,7 +160,7 @@ export default function Cards(props) {
                 </CardBody>
               </Card>
             </Row>
-          </>
+          </div>
         );
       })}
     </>

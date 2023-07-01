@@ -24,6 +24,7 @@ import Logout from "../../auth/logout/Logout";
 import HouseholdSettings from "./householdSettings/HouseholdSettings";
 import UserSettings from "./userSettings/UserSettings";
 import Logo from "./Logo/Logo";
+import Greet from "../../auth/greet/Greet";
 
 export default function Sidebar(props) {
   //? UseState constants for each menu and the sidebar
@@ -192,41 +193,43 @@ export default function Sidebar(props) {
   let toggle = <Toggle setView={props.setView} view={props.view} />;
 
   let householdSettings = (
-    <NavItem>
-      <button
-        onClick={toggleHouseholdSettingsMenu}
-        id="householdSettingsButton"
-      >
-        Household Settings
-      </button>
-    </NavItem>
+    <button onClick={toggleHouseholdSettingsMenu} id="householdSettingsButton">
+      Household Settings
+    </button>
   );
   let userSettings = (
-    <NavItem>
-      <button onClick={toggleUserSettingsMenu} id="userSettingsButton">
-        User Settings
-      </button>
-    </NavItem>
+    <button onClick={toggleUserSettingsMenu} id="userSettingsButton">
+      User Settings
+    </button>
   );
 
   let logout = <Logout updateToken={props.updateToken} />;
 
   let logo = <Logo />;
 
-  let sidebarArray = [toggle, userSettings, householdSettings, logo, logout];
+  let welcome = <Greet />;
+
+  let sidebarArray = [
+    welcome,
+    toggle,
+    userSettings,
+    householdSettings,
+    logo,
+    logout,
+  ];
 
   const sidebarItems = sidebarArray?.map((i) => {
     return (
-      <>
-        <br></br>
+      <div key={sidebarArray.indexOf(i)}>
         <NavItem key={v4()}>{i}</NavItem>
-      </>
+        <br></br>
+      </div>
     );
   });
 
   return (
     <div className="Sidebar" id="sidebar">
-      <div style={{ width: "10rem" }} color="faded" light>
+      <div style={{ width: "10rem" }} color="faded">
         <button onClick={toggleSidebar} className="me-2" id="sidebarBtn">
           <i className="fa fa-bars"></i>
         </button>

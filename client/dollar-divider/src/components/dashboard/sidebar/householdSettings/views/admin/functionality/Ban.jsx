@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "reactstrap";
+import { BsPersonFillSlash } from "react-icons/bs";
 
 export default function Ban(props) {
   async function banUser(e) {
@@ -32,7 +33,7 @@ export default function Ban(props) {
   }
   return (
     <Button color="danger" onClick={banUser}>
-      Ban Forever
+      <BsPersonFillSlash />
     </Button>
   );
 }

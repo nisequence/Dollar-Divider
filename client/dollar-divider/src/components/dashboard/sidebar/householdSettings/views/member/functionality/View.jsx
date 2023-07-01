@@ -50,12 +50,10 @@ export default function View({ token }) {
   const tableNames = memberInfo.participantNames?.map((name) => {
     let index = memberInfo.participantNames.indexOf(name);
     return (
-      <>
-        <tr>
-          <td>{name}</td>
-          <td>{memberInfo.participantPercents[index]}</td>
-        </tr>
-      </>
+      <tr key={index}>
+        <td>{name}</td>
+        <td>{memberInfo.participantPercents[index]}</td>
+      </tr>
     );
   });
 

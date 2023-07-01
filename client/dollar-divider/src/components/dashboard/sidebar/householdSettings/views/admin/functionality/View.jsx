@@ -11,6 +11,8 @@ import {
   Col,
   Row,
 } from "reactstrap";
+import { AiFillCopy } from "react-icons/ai";
+import { GrEdit } from "react-icons/gr";
 import Edit from "./Edit";
 import Ban from "./Ban";
 import Tweak from "./Tweak";
@@ -55,45 +57,41 @@ export default function View(props) {
   const tableNames = householdInfo.participantNames?.map((name) => {
     if (householdInfo.participantNames[0] === name) {
       return (
-        <>
-          <tr>
-            <td>{name}</td>
-            <td>
-              {
-                householdInfo.participantPercents[
-                  householdInfo.participantNames.indexOf(name)
-                ]
-              }
-            </td>
-            <td></td>
-          </tr>
-        </>
+        <tr key={householdInfo.participantNames.indexOf(name)}>
+          <td>{name}</td>
+          <td>
+            {
+              householdInfo.participantPercents[
+                householdInfo.participantNames.indexOf(name)
+              ]
+            }
+          </td>
+          <td></td>
+        </tr>
       );
     } else {
       return (
-        <>
-          <tr>
-            <td>{name}</td>
-            <td>
-              {
-                householdInfo.participantPercents[
+        <tr key={householdInfo.participantNames.indexOf(name)}>
+          <td>{name}</td>
+          <td>
+            {
+              householdInfo.participantPercents[
+                householdInfo.participantNames.indexOf(name)
+              ]
+            }
+          </td>
+          <td>
+            <Ban
+              getHousehold={getHousehold}
+              token={props.token}
+              userID={
+                householdInfo.participantIDs[
                   householdInfo.participantNames.indexOf(name)
                 ]
               }
-            </td>
-            <td>
-              <Ban
-                getHousehold={getHousehold}
-                token={props.token}
-                userID={
-                  householdInfo.participantIDs[
-                    householdInfo.participantNames.indexOf(name)
-                  ]
-                }
-              ></Ban>
-            </td>
-          </tr>
-        </>
+            ></Ban>
+          </td>
+        </tr>
       );
     }
   });
@@ -102,24 +100,22 @@ export default function View(props) {
     let index = householdInfo.participantNames.indexOf(name);
     let contribution = householdInfo.participantPercents[index];
     return (
-      <>
-        <tr>
-          <td>{name}</td>
-          <td>
-            {editPercent ? (
-              <Input
-                innerRef={numberRef}
-                type="number"
-                className="percentageInput"
-                style={{ maxWidth: "8vw", margin: "auto" }}
-                placeholder={contribution}
-              ></Input>
-            ) : (
-              contribution
-            )}
-          </td>
-        </tr>
-      </>
+      <tr key={index}>
+        <td>{name}</td>
+        <td>
+          {editPercent ? (
+            <Input
+              innerRef={numberRef}
+              type="number"
+              className="percentageInput"
+              style={{ maxWidth: "8vw", margin: "auto" }}
+              placeholder={contribution}
+            ></Input>
+          ) : (
+            contribution
+          )}
+        </td>
+      </tr>
     );
   });
 
@@ -132,7 +128,7 @@ export default function View(props) {
       <Row>
         <Col>
           <p>
-            <strong>Ask someone to join!</strong>
+            <strong>Ask roommates to join!</strong>
           </p>
           <Button
             style={{ margin: "auto" }}
@@ -141,7 +137,8 @@ export default function View(props) {
               navigator.clipboard.writeText(inviteCode);
             }}
           >
-            Copy Household Token
+            <AiFillCopy />
+            Invite Token
           </Button>
         </Col>
         <Col>
@@ -198,7 +195,7 @@ export default function View(props) {
               color="warning"
               onClick={() => setEditPercent(!editPercent)}
             >
-              Change
+              <GrEdit />
             </Button>
             <Tweak
               editStatus={editPercent}

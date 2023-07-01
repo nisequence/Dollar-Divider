@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "reactstrap";
+import { MdDeleteForever } from "react-icons/md";
 
 export default function Delete(props) {
   async function deleteHousehold() {
@@ -29,6 +30,7 @@ export default function Delete(props) {
   return (
     <>
       <Button color="danger" onClick={deleteHousehold}>
+        <MdDeleteForever />
         Delete Household
       </Button>
     </>
