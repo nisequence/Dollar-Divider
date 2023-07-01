@@ -6,7 +6,7 @@ import Login from "./login/Login";
 // https://getbootstrap.com/docs/5.3/layout/grid/ (change class to className in jsx)
 import { Col, Container, Row, Button } from "reactstrap";
 import { useState } from "react";
-
+import Logo from "./login/Logo";
 export default function Auth(props) {
   //* useState to hold button's state login/sign-up
   const [button, setButton] = useState("New user? Sign-up here!");
@@ -44,7 +44,7 @@ export default function Auth(props) {
         <Row>
           <Col md="6">{displayForm()}</Col>
           <Col>
-            <p>Insert Image Here</p>
+            <Logo />
           </Col>
         </Row>
         <Row>

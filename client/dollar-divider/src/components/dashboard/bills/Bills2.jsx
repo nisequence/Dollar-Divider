@@ -38,9 +38,15 @@ export default function Bills2(props) {
       getBills(props.view);
     }
   }, [props.token, props.view]);
+
   return (
-    <>
-      <Calendar bills={bills} token={props.token} view={props.view} />
-    </>
+    <div className="upcomingBills">
+      <Calendar
+        bills={bills}
+        token={props.token}
+        view={props.view}
+        getBills={getBills}
+      />
+    </div>
   );
 }

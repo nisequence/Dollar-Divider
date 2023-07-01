@@ -5,7 +5,12 @@ import {
   AccordionItem,
   AccordionHeader,
   AccordionBody,
+  Table,
+  Row,
+  Col,
+  Button,
 } from "reactstrap";
+import Leave from "./Leave";
 
 export default function View({ token }) {
   const [memberInfo, setMemberInfo] = useState([]);
@@ -24,12 +29,12 @@ export default function View({ token }) {
       const res = await fetch(url, reqOptions);
       const data = await res.json();
 
-      console.log(data);
+      // console.log(data);
 
       if (data.message === "Household was found!") {
         setMemberInfo(data);
-        console.log(memberInfo);
-        console.log("working!");
+        // console.log(memberInfo);
+        // console.log("working!");
       }
     } catch (err) {
       console.error(err);
@@ -42,41 +47,44 @@ export default function View({ token }) {
     }
   }, [token]);
 
-  const listNames = memberInfo.participantNames?.map((name) => {
-    return <li>{name}</li>;
-  });
-
-  const listIDs = memberInfo.participantIDs?.map((id) => {
-    return <li>{id}</li>;
-  });
-
-  const listPercents = memberInfo.participantPercents?.map((percent) => {
-    return <li>{percent}</li>;
+  const tableNames = memberInfo.participantNames?.map((name) => {
+    let index = memberInfo.participantNames.indexOf(name);
+    return (
+      <tr key={index}>
+        <td>{name}</td>
+        <td>{memberInfo.participantPercents[index]}</td>
+      </tr>
+    );
   });
 
   return (
     <>
       <br></br>
-      <h3>
-        <u>{memberInfo.name}</u>
-      </h3>
+      <Row>
+        <Col></Col>
+        <Col>
+          <h3>
+            <u>{memberInfo.name}</u>
+          </h3>
+        </Col>
+        <Col>
+          <Leave getHousehold={getHousehold} token={token} />
+        </Col>
+      </Row>
+      <br></br>
       <UncontrolledAccordion defaultOpen="1">
         <AccordionItem>
           <AccordionHeader targetId="1">Household Members</AccordionHeader>
           <AccordionBody accordionId="1">
-            <ul>{listNames}</ul>
-          </AccordionBody>
-        </AccordionItem>
-        <AccordionItem>
-          <AccordionHeader targetId="2">Household IDs</AccordionHeader>
-          <AccordionBody accordionId="2">
-            <ul>{listIDs}</ul>
-          </AccordionBody>
-        </AccordionItem>
-        <AccordionItem>
-          <AccordionHeader targetId="3">Percentage Breakdowns</AccordionHeader>
-          <AccordionBody accordionId="3">
-            <ul>{listPercents}</ul>
+            <Table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Contribution %</th>
+                </tr>
+              </thead>
+              <tbody>{tableNames}</tbody>
+            </Table>
           </AccordionBody>
         </AccordionItem>
       </UncontrolledAccordion>

@@ -1,10 +1,9 @@
 import React from "react";
 import { Button } from "reactstrap";
-import { MdDeleteForever } from "react-icons/md";
 
-export default function Delete(props) {
-  async function deleteHousehold() {
-    const url = `http://localhost:4000/household/admin/remove`;
+export default function DeleteBill(props) {
+  async function deleteBill() {
+    const url = `http://localhost:4000/bills/delete/${props.id}`;
 
     const myHeaders = new Headers();
     myHeaders.append("Authorization", props.token);
@@ -19,9 +18,9 @@ export default function Delete(props) {
       let data = await response.json();
 
       //* If we get the right response from the server
-      if (data.message === "Household deleted.") {
-        // refresh the whole page due to modified access/abilities
-        window.location.reload();
+      if (data.message === "Bill was successfully deleted!") {
+        props.getBills(props.view);
+        props.toggle();
       }
     } catch (err) {
       console.error(err);
@@ -29,8 +28,8 @@ export default function Delete(props) {
   }
   return (
     <>
-      <Button color="danger" onClick={deleteHousehold}>
-        <MdDeleteForever /> Delete Household
+      <Button color="danger" onClick={deleteBill}>
+        Delete Bill
       </Button>
     </>
   );

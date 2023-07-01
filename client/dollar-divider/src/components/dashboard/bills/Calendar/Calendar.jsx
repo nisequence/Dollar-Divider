@@ -27,6 +27,8 @@ const monthGroup = [
 ];
 
 export default function Calendar(props) {
+  const status = localStorage.getItem("Status");
+
   const [activeIndex, setActiveIndex] = useState(1);
   const [animating, setAnimating] = useState(false);
 
@@ -43,6 +45,43 @@ export default function Calendar(props) {
     setActiveIndex(nextIndex);
   };
 
+  const viewType = () => {
+    if (props.view === false || status == "Admin") {
+      //* If viewing personal or if user is the Admin
+      // get all the stuff
+      return (
+        <>
+          <Col>
+            <h4 margin="0" padding="0">
+              Bills At-A-Glance
+            </h4>
+          </Col>
+          <Col style={{ maxWidth: "13vw" }}>
+            <AddBill
+              getBills={props.getBills}
+              token={props.token}
+              month={monthGroup[activeIndex]}
+              view={props.view}
+            />
+          </Col>
+        </>
+      );
+    } else {
+      //* If viewing household and not the admin
+      // get minimal
+      return (
+        <>
+          <Col>
+            <h4 margin="0" padding="0">
+              Bills At-A-Glance
+            </h4>
+          </Col>
+          <Col style={{ maxWidth: "13vw" }}></Col>
+        </>
+      );
+    }
+  };
+
   const slides = monthGroup.map((monthName) => {
     let monthlyBills = props.bills?.filter((bills) => {
       let remainingBills = bills.dueMonth === monthName.month;
@@ -50,16 +89,22 @@ export default function Calendar(props) {
     });
     return (
       <CarouselItem
-        className="custom-tag"
+        className="overflow-calendar"
         tag="div"
         key={monthName.id}
         onExiting={() => setAnimating(true)}
         onExited={() => setAnimating(false)}
-        //! The below key/value is supposed to stop the carousel from moving on its own, but it is not working
+        /*         style={{ maxWidth: "95vw", maxHeight: "75vh" }}
+         */ //! The below key/value is supposed to stop the carousel from moving on its own, but it is not working
         slide={false}
       >
-        <Cards bills={monthlyBills} month={monthName} />
-        <CarouselCaption className="text-black" />
+        <Cards
+          getBills={props.getBills}
+          bills={monthlyBills}
+          month={monthName}
+          view={props.view}
+          token={props.token}
+        />
       </CarouselItem>
     );
   });
@@ -67,25 +112,17 @@ export default function Calendar(props) {
   return (
     <div>
       <style>
-        {`.custom-tag {
-          max-width: 100%;
-          height: 400px;
+        {`.overflow-calendar {
+          height: 60vh;
+          overflow-y:scroll;
+          overflow-x: hidden;
+          scrollbar-color: "red orange";
+  scrollbar-width: thin;
         }`}
       </style>
       <Row style={{ maxHeight: "6vh" }}>
         <Col style={{ maxWidth: "13vw" }}></Col>
-        <Col>
-          <h4 margin="0" padding="0">
-            Bills At-A-Glance
-          </h4>
-        </Col>
-        <Col style={{ maxWidth: "13vw" }}>
-          <AddBill
-            token={props.token}
-            month={monthGroup[activeIndex]}
-            view={props.view}
-          />
-        </Col>
+        {viewType()}
       </Row>
       <Row style={{ maxHeight: "6vh" }}>
         <Col>
@@ -115,24 +152,13 @@ export default function Calendar(props) {
         </Col>
       </Row>
       <Carousel
+        interval={null}
         activeIndex={activeIndex}
+        data-bs-interval="false"
         next={next}
         previous={previous}
-        //! The below key/value is supposed to stop the carousel from moving on its own, but it is not working
-        slide={false}
       >
         {slides}
-        {/* //! Removed white arrows that controlled carousel below */}
-        {/* <CarouselControl
-          direction="prev"
-          directionText="Previous"
-          onClickHandler={previous}
-        />
-        <CarouselControl
-          direction="next"
-          directionText="Next"
-          onClickHandler={next}
-        /> */}
       </Carousel>
     </div>
   );

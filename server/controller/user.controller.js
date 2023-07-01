@@ -215,8 +215,13 @@ router.patch("/adjust", requireValidation, async (req, res) => {
 
     //* Pull update-able info from the req.body
     const { firstName, lastName, email } = req.body;
-    password = bcrypt.hashSync(req.body.password, 11);
-    const userNewInfo = { firstName, lastName, email, password };
+    let userNewInfo;
+    if (req.body.password) {
+      password = bcrypt.hashSync(req.body.password, 11);
+      userNewInfo = { firstName, lastName, email, password };
+    } else {
+      userNewInfo = {firstName, lastName, email}
+    }
     // const userNewInfo = { firstName, lastName, email, password };
 
     const returnOption = { new: true };
@@ -240,6 +245,7 @@ router.patch("/adjust", requireValidation, async (req, res) => {
       // User does not have a household to update
       return res.status(200).json({
         message: "Profile successfully updated!",
+        updateUser
       });
     }
 
@@ -278,8 +284,8 @@ router.patch("/adjust", requireValidation, async (req, res) => {
     //* Send response based on success/failure to update
     updateHousehold
       ? res.status(200).json({
-          message: `User data successfully updated!`,
-          updateHousehold,
+          message: `Profile successfully updated!`,
+updateUser
         })
       : res.status(404).json({
           message: `User data unable to be updated.`,

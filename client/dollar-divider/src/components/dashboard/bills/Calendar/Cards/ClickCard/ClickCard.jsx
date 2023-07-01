@@ -14,7 +14,7 @@ export default function ClickCard(props) {
   //     baseBoolean = "household";
   //   }
 
-  //* Create a function to handle the form inputs when the user attempts to create a new room
+  //* Create a function to handle the form inputs when the user attempts to edit the given bill
   const editBill = async (e) => {
     const category = categoryRef.current.value;
     const amount = amountRef.current.value;
@@ -26,7 +26,7 @@ export default function ClickCard(props) {
       amount: amount,
     });
 
-    console.log(budgetObj);
+    // console.log(budgetObj);
 
     let headers = new Headers();
     headers.append("Content-Type", "application/json");

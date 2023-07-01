@@ -1,172 +1,250 @@
 .App {
-  text-align: center;
-  background-color: rgba(0, 57, 122, 0.932);
-  color: black
-}
+    text-align: center;
+    background-color: rgba(0, 57, 122, 0.932);
+    color: white;
+    height: 100vh;
+  }
 
-.DashBody {
-  background-color: #00517c;
-}
+  #logoSidebar {
+    padding: 0.5rem;
+  }
+  .logo {
+    height: 80%;
+    width: 80%;
+  }
+  .DashBody {
+    background-color: #00517c;
+  }
+  
+  RemainingMonthlyAmountsChartColors {
+    background-color: rgba(255, 255, 0, 0.5);
+    background-color: rgba(255, 0, 0, 0.5);
+    background-color: rgba(128, 0, 128, 0.5);
+    background-color: rgba(0, 0, 255, 0.5);
+    background-color: rgba(0, 128, 0, 0.5);
+    background-color: rgba(255, 140, 0, 0.5);
+    background-color: rgba(46, 139, 86, 0.5);
+    background-color: rgba(176, 224, 230, 0.5);
+    background-color: rgba(160, 81, 45, 0.5);
+    background-color: rgba(147, 112, 216, 0.5);
+  }
+  
+  .stdBox {
+    border-right: solid rgb(46, 46, 46) 2px;
+    border-bottom: solid rgb(46, 46, 46) 2px;
+    border-top: solid rgb(144, 144, 144) 2px;
+    border-left: solid rgb(144, 144, 144) 2px;
+  }
+  
+  .Sidebar {
+    position: fixed;
+    z-index: 2;
+    height: 3.5em;
+    border-right: "solid rgb(46, 46, 46) 2px";
+    width: 0;
+    /* min-width: fit-content; */
+    transition: width 0.2s;
+    background-color: gray;
+  }
+  
+  #sidebarItems {
+    margin-left: 1em;
+    margin-bottom: 1em;
+    visibility: hidden;
+    position: relative;
+    top: 3em;
+    padding: 0.75rem;
+  }
 
-RemainingMonthlyAmountsChartColors {
-  background-color: rgba(255, 255, 0, 0.5);
-  background-color: rgba(255, 0, 0, 0.5);
-  background-color: rgba(128, 0, 128, 0.5);
-  background-color: rgba(0, 0, 255, 0.5);
-  background-color: rgba(0, 128, 0, 0.5);
-  background-color: rgba(255, 140, 0, 0.5);
-  background-color: rgba(46, 139, 86, 0.5);
-  background-color: rgba(176, 224, 230, 0.5);
-  background-color: rgba(160, 81, 45, 0.5);
-  background-color: rgba(147, 112, 216, 0.5);
-}
+  #editBudgetsMenu {
+    background-color: rgb(170, 170, 170);
+  }
+  
+  #sidebarBtn {
+    color: white;
+    /* color: rgb(88, 88, 88); */
+    position: fixed;
+    top: 1.5em;
+    left: 2em;
+    height: 3em;
+    width: 4em;
+    user-select: none;
+    margin-top: 0;
+    padding-top: 0;
+    background-color: gray;
+    border-radius: 0;
+    border-right: solid rgb(46, 46, 46) 2px;
+    border-bottom: solid rgb(46, 46, 46) 2px;
+    border-top: solid rgb(144, 144, 144) 2px;
+    border-left: solid rgb(144, 144, 144) 2px;
+  }
 
-.stdBox {
-  border-right: solid rgb(46, 46, 46) 2px;
-  border-bottom: solid rgb(46, 46, 46) 2px;
-  border-top: solid rgb(144, 144, 144) 2px;
-  border-left: solid rgb(144, 144, 144) 2px;
-}
+  #sidebarBtn:hover {
+    background-color: rgb(87, 87, 87);
+  }
+  
+  #sidebarBtn:focus {
+    box-shadow: 0 0 0 0 !important;
+  }
 
-.Sidebar {
-  position: fixed;
-  z-index: 2;
-  height: 3.5em;
-  border-right: "solid rgb(46, 46, 46) 2px";
-  width: 0;
-  /* min-width: fit-content; */
-  transition: width 0.2s;
-  background-color: gray;
-}
+  .navbar-toggler:focus {
+    box-shadow: 0 0 0 0 !important;
+  }
+  
+  .navbar-nav > li {
+    align-items: center !important;
+    margin-left: 0 !important;
+  }
+  
+  .nav-item {
+    margin-left: auto;
+  }
+  
+  .nav-item:hover {
+    color: black;
+  }
+  
+  .nav-link {
+    color: white !important;
+  }
+  
+  .nav-link:hover {
+    color: black !important;
+  }
+  
+  #logout {
+    color: white;
+    /* height: 1.5em; */
+    /* position: flex; */
+    /* flex-direction: column; */
+    /* margin-top: 0; */
+    padding-top: .1rem;
+  }
+  
+  #logout:hover {
+    color: black;
+  }
+  
+  #Prev {
+    margin-top: 3rem;
+    margin-right: 25%;
+  }
+  
+  #Next {
+    margin-top: 3rem;
+    margin-left: 25%;
+  }
+  
+  Button:hover {
+    background-color: gray;
+  }
+  
+  #upcomingBillsHeader {
+    user-select: none;
+    text-align: center;
+    margin-top: 2rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: x-large;
+  }
+  
+  .upcomingBills {
+    /* user-select: none; */
+    color: black !important;
+    height: 100%;
+    width: 100%;
+  }
 
-#editBudgetsMenu {
-  background-color: rgb(170, 170, 170);
-}
 
-#sidebarBtn {
-  user-select: none;
-  margin-top: 0;
-  padding-top: 0;
-  background-color: gray;
-  border-radius: 0;
-  border-right: solid rgb(46, 46, 46) 2px;
-  border-bottom: solid rgb(46, 46, 46) 2px;
-  border-top: solid rgb(144, 144, 144) 2px;
-  border-left: solid rgb(144, 144, 144) 2px;
-}
+  #accountsList {
+    /* user-select: none; */
+    color: black !important;
+    height: 100%;
+    width: 100%;
+  }
 
-.navbar-toggler:focus {
-  box-shadow: 0 0 0 0 !important;
-}
 
-.navbar-nav > li {
-  align-items: center !important;
-  margin-left: 0 !important;
-}
+  /* .upcomingBillsTable > thead {
+    user-select: none;
+  } */
+  .upcomingBillsTable {
+    max-height: fit-content;
+    margin: auto;
+    margin-top: 3em;
+    height: 40%;
+    width: 80%;
+  }
+  
+  .CurrentBudgetStatus {
+    max-height: fit-content;
+    width: 100%;
+    min-width: 35vw;
+    /* max-height: 50vh; */
+    background-color: rgb(194, 194, 194);
+    color: black;
+    font-size: xx-large;
+    /* opacity: .5; */
+  }
+  
+  .RecentTransactions {
+    margin-left: 30vw;
+    display: hidden;
+    color: black;
+    max-height: fit-content;
+    margin: auto;
+    /* height: 100%; */
+    /* width: 100%; */
+    min-width: 35vw;
+  }
+  
+  #rightSideMenu {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 0;
+    max-width: 80vw;
+    transition: width 0.25s;
+    height: 100vh;
+    background-color: rgba(88, 88, 88, 0.9);
+    border-right: solid rgb(46, 46, 46) 2px;
+    border-bottom: solid rgb(46, 46, 46) 2px;
+    border-top: solid rgb(144, 144, 144) 2px;
+    border-left: solid rgb(144, 144, 144) 2px;
+  }
+  
+  #formgroup{
+    width: 25rem;
+    margin: auto;
+  }
 
-.nav-item {
-  margin-left: auto;
-}
+  #householdSettingsMenu{
+    width: 0;
+  }
+  #userSettingsMenu {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 0;
+    max-width: 80vw;
+    transition: width 0.25s;
+    height: 100vh;
+    background-color: rgba(88, 88, 88, 0.9);
+    border-right: solid rgb(46, 46, 46) 2px;
+    border-bottom: solid rgb(46, 46, 46) 2px;
+    border-top: solid rgb(144, 144, 144) 2px;
+    border-left: solid rgb(144, 144, 144) 2px;
+  }
 
-.nav-item:hover {
-  color: black;
-}
-
-.nav-link {
-  color: white !important;
-}
-
-.nav-link:hover {
-  color: black !important;
-}
-
-#logout {
-  color: white;
-  /* height: 1.5em; */
-  /* position: flex; */
-  /* flex-direction: column; */
-  /* margin-top: 0; */
-  padding-top: .1rem;
-}
-
-#logout:hover {
-  color: black;
-}
-
-#Prev {
-  margin-top: 3rem;
-  margin-right: 25%;
-}
-
-#Next {
-  margin-top: 3rem;
-  margin-left: 25%;
-}
-
-Button:hover {
-  background-color: gray;
-}
-
-#upcomingBillsHeader {
-  user-select: none;
-  text-align: center;
-  margin-top: 2rem;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  font-size: x-large;
-}
-
-.upcomingBills {
-  /* user-select: none; */
-  color: black !important;
-  height: 100%;
-  width: 100%;
-}
-/* .upcomingBillsTable > thead {
-  user-select: none;
-} */
-.upcomingBillsTable {
-  max-height: fit-content;
-  margin: auto;
-  margin-top: 3em;
-  height: 40%;
-  width: 80%;
-}
-
-.CurrentBudgetStatus {
-  max-height: fit-content;
-  width: 100%;
-  min-width: 35vw;
-  /* max-height: 50vh; */
-  background-color: rgb(194, 194, 194);
-  color: black;
-  font-size: xx-large;
-  /* opacity: .5; */
-}
-
-.RecentTransactions {
-  max-height: fit-content;
-  margin: auto;
-  height: 100%;
-  width: 100%;
-  min-width: 35vw;
-}
-
-#rightSideMenu {
-  position: fixed;
-  right: 0;
-  top: 0;
-  width: 0;
-  max-width: 80vw;
-  transition: width 0.25s;
-  height: 100vh;
-  background-color: rgba(88, 88, 88, 0.9);
-  border-right: solid rgb(46, 46, 46) 2px;
-  border-bottom: solid rgb(46, 46, 46) 2px;
-  border-top: solid rgb(144, 144, 144) 2px;
-  border-left: solid rgb(144, 144, 144) 2px;
-}
-
-#formgroup{
-  width: 25rem;
-  margin: auto;
-}
+  #householdSettingsMenu {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 0;
+    max-width: 80vw;
+    transition: width 0.25s;
+    height: 100vh;
+    background-color: rgba(88, 88, 88, 0.9);
+    border-right: solid rgb(46, 46, 46) 2px;
+    border-bottom: solid rgb(46, 46, 46) 2px;
+    border-top: solid rgb(144, 144, 144) 2px;
+    border-left: solid rgb(144, 144, 144) 2px;
+  }

@@ -14,13 +14,27 @@ const serverError = (res, error) => {
 
 //? POST ROUTE "/add"
 //* Successful on Postman MR
-
 router.post("/add", async (req, res) => {
   try {
-    //const {id} = req.params;
+    const {
+      month,
+      day,
+      desc,
+      merchant,
+      amount,
+      finAccount,
+      type,
+      category,
+      base,
+    } = req.body;
+    const userID = req.user._id;
 
-    const { date, desc, merchant, amount, checkNum, finAccount, category, base } = req.body;
-
+    let newAmount;
+    if (type == "expense") {
+      newAmount = 0 - amount;
+    } else {
+      newAmount = amount;
+    }
 
     if (base == "personal") {
       // make sure ID is correct & findable
@@ -32,16 +46,17 @@ router.post("/add", async (req, res) => {
           message: "User not found!",
         });
       }
-      // If user works add new transaction
 
+      // If user works add new transaction
       const transaction = new Transaction({
-        date: date,
+        ownerID: userID,
+        month: month,
+        day: day,
         desc: desc,
         merchant: merchant,
-        amount: amount,
-        checkNum: checkNum,
+        amount: newAmount,
         finAccount: finAccount,
-        manualEntry: true, 
+        type: type,
         category: category,
         base: req.user._id,
       });
@@ -67,14 +82,14 @@ router.post("/add", async (req, res) => {
 
       // if works add new transaction to household
       const transaction = new Transaction({
-
-        date: date,
+        ownerID: userID,
+        month: month,
+        day: day,
         desc: desc,
         merchant: merchant,
         amount: amount,
-        checkNum: checkNum,
-        finAccount: finAccount,
-        manualEntry: true, 
+        finAccount: req.user._id,
+        type: type,
         category: category,
         base: req.user.householdID,
       });
@@ -100,7 +115,7 @@ router.get("/household", async (req, res) => {
   try {
     const id = req.user.householdID;
 
-    const getAllHouseholdTrans = await Transaction.find({base: id});
+    const getAllHouseholdTrans = await Transaction.find({ base: id });
 
     getAllHouseholdTrans
       ? res.status(200).json({
@@ -122,7 +137,7 @@ router.get("/mine", async (req, res) => {
   try {
     const id = req.user._id;
 
-    const getAllUserTrans = await Transaction.find({base: id});
+    const getAllUserTrans = await Transaction.find({ base: id });
 
     getAllUserTrans
       ? res.status(200).json({
@@ -139,11 +154,11 @@ router.get("/mine", async (req, res) => {
 //? GET BY DATE ROUTE "/date/:date"
 //* Successful in postman
 
-router.get("/date/:date", async (req, res) => {
+router.get("/date/:month/:day", async (req, res) => {
   try {
-    const { date } = req.params;
+    const { month, day } = req.params;
 
-    const getDate = await Transaction.find({ date: date });
+    const getDate = await Transaction.find({ month: month, day: day });
 
     getDate.length > 0
       ? res.status(200).json({
@@ -179,11 +194,14 @@ router.get("/category/:category", async (req, res) => {
 
 //? GET BY DATE AND CATEGORY ROUTER ("/dateAndCategory/:date/:category")
 
-router.get("/dateAndCategory/:date/:category", async (req, res) => {
+router.get("/dateAndCategory/:month/:day/:category", async (req, res) => {
   try {
-    const { date, category } = req.params;
+    const { month, day, category } = req.params;
 
-    const getDateAndCategory = await Transaction.find({date:date}, { category: category });
+    const getDateAndCategory = await Transaction.find(
+      { month: month, day: day },
+      { category: category }
+    );
 
     getDateAndCategory.length > 0
       ? res.status(200).json({
@@ -196,7 +214,6 @@ router.get("/dateAndCategory/:date/:category", async (req, res) => {
     errorResponse(res, err);
   }
 });
-
 
 //? GET ONE ROUTE "/find/:id"
 //* Successful on Postman
@@ -227,24 +244,45 @@ router.patch("/edit/:id", async (req, res) => {
   try {
     // pull value from parameter (id)
     const { id } = req.params;
+
+    const { month, day, desc, merchant, amount, category, type } = req.body;
+    let newAmount;
+    if (type == "expense") {
+      newAmount = 0 - amount;
+    } else {
+      newAmount = amount;
+    }
     // pull info from body
-    const info = req.body;
+    const info = {
+      month: month,
+      day: day,
+      desc: desc,
+      merchant: merchant,
+      amount: newAmount,
+      category: category,
+      type: type,
+    };
+    const userID = req.user._id;
 
     const returnOption = { new: true };
 
     //* findOneAndUpdate(query/filter, document, options)
-    const UpdatedTransaction = await Transaction.findOneAndUpdate(
-      { _id: id },
+    const updatedTransaction = await Transaction.findOneAndUpdate(
+      { _id: id, ownerID: userID },
       info,
       returnOption
     );
 
-    res.status(200).json({
-      message: `${UpdatedTransaction.category} transaction has been updated successfully`,
-      UpdatedTransaction,
-    });
+    updatedTransaction
+    ? res.status(200).json({
+      message: `Transaction has been updated successfully`,
+      updatedTransaction,
+    })
+    :res.status(404).json({
+      message: `Transaction unable to be edited`,
+    })
   } catch (err) {
-    errorResponse(res, err);
+    serverError(res, err);
   }
 });
 
@@ -254,16 +292,21 @@ router.delete("/delete/:id", async (req, res) => {
   try {
     //* Pull transaction id from params
     const { id } = req.params;
+    const userID = req.user._id;
 
     //* Find and confirm the user has access to the transaction
-    const deletedTransaction = await Transaction.findOneAndDelete({ _id: id });
+    const deleteTransaction = await Transaction.deleteOne({
+      _id: id,
+      ownerID: userID,
+    });
 
-    res.status(200).json({
-      message: "Transaction was successfully deleted!", deletedTransaction
-    });
-    res.status(404).json({
-      message: "Access to or existence of this transaction was not located",
-    });
+    deleteTransaction.deletedCount === 1
+      ? res.status(200).json({
+          message: "Transaction was successfully deleted!",
+        })
+      : res.status(404).json({
+          message: "Access to or existence of this transaction was not located",
+        });
   } catch (err) {
     serverError(res, err);
   }

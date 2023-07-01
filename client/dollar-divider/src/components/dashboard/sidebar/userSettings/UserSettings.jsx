@@ -48,7 +48,7 @@ export default function UserSettings() {
   }, [token, userStatus]);
 
   return (
-    <div id="rightSideMenu">
+    <div id="userSettingsMenu">
       <h1>User Settings</h1>
       <ProfileSettings/>
     </div>

@@ -10,6 +10,9 @@ import {
   Legend,
 } from "chart.js";
 import AddBudget from "./AddBudget/AddBudget";
+import UpdateBudgets from "../view/single/UpdateBudget";
+import { useEffect } from "react";
+
 // import React, { useRef } from "react";
 // import React, {useState} from "react";
 // import ModalFullscreenExample from "../../../../utils/modalExample";
@@ -18,13 +21,61 @@ ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+function clicked() {
+  console.log("click");
+}
 export default function CurrentBudgetStatus(props) {
+  const status = localStorage.getItem("Status");
+
+  const viewType = () => {
+    let total = 0;
+    const totalBudgets = () => {
+      for (let x = 0; x < props.budgets?.length; x++) {
+        let thisOne = props.budgets[x].budgetAmt;
+        total += thisOne;
+      }
+    };
+    totalBudgets();
+
+    if (props.view === false || status == "Admin") {
+      //* If viewing personal or if user is the Admin
+      // get all the stuff
+      return (
+        <>
+          <h4>Budget Overview</h4>
+          <AddBudget
+            token={props.token}
+            view={props.view}
+            getBudgets={props.getBudgets}
+          />
+          <h5>Total Budgeted: ${total.toLocaleString("en-US")}</h5>
+        </>
+      );
+    } else {
+      //* If viewing household and not the admin
+      // get minimal
+      return (
+        <>
+          <h4>Budget Overview</h4>
+          <h5>Total Budgeted: ${total}</h5>
+        </>
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (props.budgets) {
+      viewType();
+    }
+  }, [props.token, props.budgets, props.view]);
+
   const chartData = {
     labels: [],
     datasets: [
       {
         label: "Budget Amount",
         data: [], // Dollar amounts for each category.
+        options: { onClick: clicked },
         backgroundColor: [
           "rgba(255, 255, 0, 0.5)",
           "rgba(255, 0, 0, 0.5)",
@@ -72,17 +123,25 @@ export default function CurrentBudgetStatus(props) {
   // Construct the body object & JSON stringify it
   let bodyObj = JSON.stringify({}); // JSON-ifying our data to be passed.
 
+  // Build a fn to return the edit and delete button
+
   // Request Options object
   return (
     <>
       <div className="CurrentBudgetStatus" id="currentbudgetstatus">
-        <h4>Remaining Monthly Amounts</h4>
-        <AddBudget token={props.token} view={props.view} />
+        {viewType()}
+        {/* <UpdateBudgets
+          token={props.token}
+          view={props.view}
+          getBudgets={props.getBudgets}
+        /> */}
+        <UpdateBudgets budgets={props.budgets} />
         {/* <Doughnut */}
         <PolarArea
           style={{ marginLeft: "4vw", marginRight: "4vw", maxHeight: "60vh" }}
           // <Pie
           data={chartData}
+
           // onElementsClick={(elems) => {
           //   // if required to build the URL, you can
           //   // get datasetIndex and value index from an `elem`:

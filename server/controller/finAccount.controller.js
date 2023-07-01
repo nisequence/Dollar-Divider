@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const finAccount = require("../models/finAccount.model");
+const FinAccount = require("../models/finAccount.model");
 const User = require("../models/user.model");
 const Household = require("../models/household.model");
 const Budget = require("../models/budget.model");
@@ -14,6 +14,8 @@ const serverError = (res, error) => {
       Error: error.message,
     });
   };
+
+
 
 //? Post "/add"
 router.post("/add", async (req, res) => {
@@ -48,9 +50,11 @@ router.post("/add", async (req, res) => {
 
 router.get("/mine", async (req, res) => {
     try {
-      const id = req.user._id;
+      const id = req.user.ownerID;
+      // const id = req.user._id;
   
-      const getAllUserFinAccounts = await FinAccount.find({_id: id});
+      const getAllUserFinAccounts = await FinAccount.find({base: id});
+      // const getAllUserFinAccounts = await FinAccount.find({ownerID: id});
   
       getAllUserFinAccounts
         ? res.status(200).json({
@@ -64,25 +68,7 @@ router.get("/mine", async (req, res) => {
       errorResponse(res, err);
     }
   });
-//? Get by OwnerID ""
-router.get("/ownerID/:ownerID", async (req, res) => {
-    try {
-      const { ownerID } = req.params;
-  
-      const getOwnerID = await FinAccount.find({ ownerID: ownerID });
-  
-      getOwnerID.length > 0
-        ? res.status(200).json({
-            getOwnerID,
-          })
-        : res.status(404).json({
-            message: "No financial account found.",
-          });
-    } catch (err) {
-      errorResponse(res, err);
-    }
-  });
-  
+
 //? Patch "/edit/:id"
 //* Are these by id?
 

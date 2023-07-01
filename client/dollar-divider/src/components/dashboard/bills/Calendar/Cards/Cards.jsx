@@ -1,25 +1,53 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Card,
   CardBody,
   CardDeck,
   CardTitle,
   CardText,
-  CardLink,
   Col,
   Row,
-  Label,
-  FormGroup,
-  Input,
-  Button,
-  PopoverHeader,
-  UncontrolledPopover,
-  PopoverBody,
 } from "reactstrap";
-import ClickCard from "./ClickCard/ClickCard";
+import OpenCard from "./OpenCard/OpenCard";
+import MemberView from "./OpenCard/MemberView";
 
 export default function Cards(props) {
+  let url;
+  const [budgets, setBudgets] = useState([]);
+  const getBudgets = async (viewValue) => {
+    if (viewValue == true) {
+      url = "http://localhost:4000/budget/household";
+    } else {
+      url = "http://localhost:4000/budget/mine";
+    }
+    const reqOptions = {
+      method: "GET",
+      headers: new Headers({
+        Authorization: props.token,
+      }),
+    };
+
+    try {
+      const res = await fetch(url, reqOptions);
+      const data = await res.json();
+
+      // If the server does not provide a failure message
+      if (data.message == "Budget(s) found!") {
+        setBudgets(data.allBudgets);
+      } else {
+        setBudgets(null);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    if (props.token) {
+      getBudgets();
+    }
+  }, [props.token, props.view]);
+
   let cardColor;
   function modifyColor(value) {
     if (value === true) {
@@ -30,9 +58,19 @@ export default function Cards(props) {
       cardColor = "rgb(182,205,228)";
     }
   }
+
+  const status = localStorage.getItem("Status");
+
+  let canEdit;
+  if (status == "Admin" || props.view === false) {
+    canEdit = true;
+  } else {
+    canEdit = false;
+  }
+
   return (
     <>
-      <Row sm="6" overflow-y="scroll">
+      <Row sm="5" overflow-y="scroll">
         <Card
           body
           color="secondary"
@@ -54,31 +92,24 @@ export default function Cards(props) {
               <Col>
                 <CardText>Due</CardText>
               </Col>
-              {/* <Col>
-                <CardText>AutoPay?</CardText>
-              </Col>
-              <Col>
-                <CardText>Recurring?</CardText>
-              </Col> */}
               <Col>
                 <CardText>Budget</CardText>
               </Col>
               <Col>
-                <CardText>Edit</CardText>
+                <CardText>More</CardText>
               </Col>
             </Row>
           </CardBody>
         </Card>
       </Row>
       {/* {displayBillCards(props.bills, props.month)} */}
-      {props.bills.map((each) => {
+      {props.bills?.map((each) => {
         //* Set different value for background color based on whether the bill is paid or unpaid
         modifyColor(each.paid);
         /* ! Would like to nest the below return for each bill into a scroll bar container */
         return (
-          <>
-            <Row sm="6">
-              {/* ! Would like to make this card have rounded edges if possible */}
+          <div key={props.bills.indexOf(each)}>
+            <Row sm="5">
               <Card
                 body
                 outline
@@ -96,61 +127,40 @@ export default function Cards(props) {
                       <CardTitle tag="h6">{each.title}</CardTitle>
                     </Col>
                     <Col>
-                      <CardText>${each.amount}</CardText>
+                      <CardText>${each.amount.toLocaleString("en-US")}</CardText>
                     </Col>
                     <Col>
                       <CardText>
                         {each.dueMonth} {each.dueDay}
                       </CardText>
                     </Col>
-                    {/* <Col>
-                      <FormGroup check>
-                        <Input
-                          id="checkbox2"
-                          type="checkbox"
-                          defaultChecked={each.autoPay}
-                        ></Input>
-                      </FormGroup>
-                    </Col>
-                    <Col>
-                      <FormGroup check>
-                        <Input
-                          id="checkbox2"
-                          type="checkbox"
-                          defaultChecked={each.recurring}
-                        ></Input>
-                      </FormGroup>
-                    </Col> */}
                     <Col>
                       <CardText>{each.category}</CardText>
                     </Col>
                     <Col>
-                      <Button
-                        id="UncontrolledPopoverBills"
-                        color="success"
-                        type="button"
-                      >
-                        <UncontrolledPopover
-                          placement="left"
-                          target="UncontrolledPopoverBills"
-                        >
-                          <PopoverHeader>{each.title}</PopoverHeader>
-                          <PopoverBody>
-                            <ClickCard
-                              token={props.token}
-                              billInfo={each}
-                              id={each.id}
-                            />
-                          </PopoverBody>
-                        </UncontrolledPopover>
-                        Edit
-                      </Button>
+                      {canEdit ? (
+                        <OpenCard
+                          billInfo={each}
+                          token={props.token}
+                          getBills={props.getBills}
+                          budgets={budgets}
+                          view={props.view}
+                        />
+                      ) : (
+                        <MemberView
+                          billInfo={each}
+                          token={props.token}
+                          getBills={props.getBills}
+                          budgets={budgets}
+                          view={props.view}
+                        />
+                      )}
                     </Col>
                   </Row>
                 </CardBody>
               </Card>
             </Row>
-          </>
+          </div>
         );
       })}
     </>

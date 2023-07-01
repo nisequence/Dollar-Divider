@@ -2,8 +2,8 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { Form, FormGroup, Input, Label, Button } from "reactstrap";
 // import userModel from "../../../../../../../../../server/models/user.model";
-let information = [];
 export default function ProfileSettings() {
+  let [information, setInformation] = useState([]);
   const token = localStorage.getItem("token");
 
   // Retrieve User Profile Information
@@ -25,15 +25,16 @@ export default function ProfileSettings() {
       let firstName = data.findUser.firstName;
       let lastName = data.findUser.lastName;
       let currentEmail = data.findUser.email;
-      information = [];
-      information.push(firstName);
-      information.push(lastName);
-      information.push(currentEmail);
+      let newInfo = [];
+      newInfo.push(firstName);
+      newInfo.push(lastName);
+      newInfo.push(currentEmail);
+      setInformation(newInfo);
       // console.log(information)
     } catch (err) {
       console.error(err);
     }
-    return 
+    return;
   };
   // Update User Information
   const firstNameRef = useRef();
@@ -66,12 +67,19 @@ export default function ProfileSettings() {
       const res = await fetch(url, reqOptions);
       const data = await res.json();
 
-      console.log(data);
+      if (data.message === "Profile successfully updated!") {
+        //* Upon receiving server success message, reset information array of data
+        let firstName = data.updateUser.firstName;
+        localStorage.setItem("Name", firstName);
+        getUserInfo();
+        alert("Success");
+      }
     } catch (err) {
       console.error(err);
     }
 
     // Try/catch = fetch w/request options within fetch
+    //! The below code doesn't seem to be doing anything? the url is not a POST route and res is not being called
     try {
       const res = await fetch(url, {
         method: "POST",
@@ -80,15 +88,19 @@ export default function ProfileSettings() {
         }),
         body: body, // The second body refers to the body object above.
       });
-
-      alert("Success");
     } catch (err) {
       console.log(err);
     }
     // };
     return <></>;
   };
-getUserInfo()
+
+  useEffect(() => {
+    if (token) {
+      getUserInfo();
+    }
+  }, [token]);
+
   return (
     <>
       <h2>Update User Information</h2>
@@ -101,15 +113,17 @@ getUserInfo()
             innerRef={firstNameRef}
             type="text"
             autoComplete="off"
+            required
           />
         </FormGroup>
         <FormGroup>
-        <h4>Current Last Name: {information[1]}</h4>
+          <h4>Current Last Name: {information[1]}</h4>
           <Input
             placeholder="Update Last Name"
             innerRef={lastNameRef}
             type="text"
             autoComplete="off"
+            required
           />
         </FormGroup>
         <FormGroup>
@@ -119,6 +133,7 @@ getUserInfo()
             innerRef={emailRef}
             type="email"
             autoComplete="off"
+            required
           />
         </FormGroup>
         <FormGroup>

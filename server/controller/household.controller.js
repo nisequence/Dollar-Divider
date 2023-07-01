@@ -63,9 +63,24 @@ async function addUserToHousehold(userID, HhID) {
 //? POST Route for Creation
 router.post("/new", async (req, res) => {
   try {
+    const user = req.user;
     const { householdName, maxNum } = req.body;
 
-    //! I'd like to add in a confirmation that the user doesn't already have a household first
+    //* Confirmation that the user doesn't already have a household first
+    if (user.householdID != null) {
+      // the user already has a householdID
+      return res.status(403).json({
+        message:
+          "Sorry, you must leave your current household before joining a new one!",
+      });
+    }
+
+    //* Add in confirmation that maxNum >= 1
+    if (maxNum < 1) {
+      return res.status(411).json({
+        message: "Sorry, you must have a minimum of one user allowed!",
+      });
+    }
 
     const household = new Household({
       name: householdName,
@@ -168,7 +183,8 @@ router.get("/member", async (req, res) => {
       });
       //* Second, check if user has access
     } else if (getHousehold.participantIDs.includes(userID)) {
-      let { name, participantIDs, participantNames, participantPercents } = getHousehold;
+      let { name, participantIDs, participantNames, participantPercents } =
+        getHousehold;
 
       return res.status(200).json({
         message: `Household was found!`,
@@ -271,24 +287,35 @@ router.patch("/edit", async (req, res) => {
     const id = req.user.householdID;
     const userID = req.user._id;
     const { householdName, maxNum, banUser } = req.body;
+    let newInfo;
 
     //* attempt to find the HH based on given ID
     const findHousehold = await Household.findOne({ _id: id });
 
     if (!findHousehold) {
       //* if household cannot be found with the input token (id)
-      return res.status(400).json({
+      return res.status(404).json({
         message: "Household not found!",
+      });
+    } else if (banUser == userID) {
+      //* if trying to ban oneself
+      return res.status(400).json({
+        message: "You cannot ban yourself!",
       });
     } else if (userID != findHousehold.admin_id) {
       //* if user is not the admin
       return res.status(401).json({
         message: "Sorry, you're not the admin!",
       });
-    } else if (findHousehold.bannedUsers.includes(banUser)) {
+    } else if (findHousehold.bannedUsers.includes(banUser) && banUser != null) {
       //* if admin has already banned this user
       return res.status(410).json({
         message: "You have already banned this user!",
+      });
+    } else if (req.body.maxNum <= findHousehold.participantIDs.length - 1) {
+      return res.status(411).json({
+        message:
+          "Lengths do not match! You cannot have less users than currently exist in your household.",
       });
     } else if (banUser !== null || banUser !== undefined) {
       //* if the admin is sending a user to ban
@@ -301,26 +328,39 @@ router.patch("/edit", async (req, res) => {
       }
       //* Regardless of whether banned user lives in HH or not, as long as value is not null or undefined and isn't already in the array, add to banned array
       findHousehold.bannedUsers.push(banUser);
+
+      //* Track how many users are now in the household
+      let numOfUsers = findHousehold.participantIDs.length;
+
+      //* Update the percentages based on how many users there are
+      let breakdownArray = breakdownPercents(numOfUsers);
+
+      newInfo = {
+        name: householdName,
+        participantIDs: findHousehold.participantIDs,
+        participantNames: findHousehold.participantNames,
+        participantPercents: breakdownArray,
+        participantMaxNum: maxNum,
+        bannedUsers: findHousehold.bannedUsers,
+      };
+    } else {
+      //* Track how many users are now in the household
+      let numOfUsers = findHousehold.participantIDs.length;
+
+      //* Update the percentages based on how many users there are
+      let breakdownArray = breakdownPercents(numOfUsers);
+
+      newInfo = {
+        name: householdName,
+        participantIDs: findHousehold.participantIDs,
+        participantNames: findHousehold.participantNames,
+        participantPercents: breakdownArray,
+        participantMaxNum: maxNum,
+      };
     }
 
     //* We have proven that the ID can find the household, so save this as our filter
     const filter = { _id: id };
-
-    //* Track how many users are now in the household
-    let numOfUsers = findHousehold.participantIDs.length;
-
-    //* Update the percentages based on how many users there are
-    let breakdownArray = breakdownPercents(numOfUsers);
-
-    //* Track any possible new info we are updating to send to the database
-    let newInfo = {
-      name: householdName,
-      participantIDs: findHousehold.participantIDs,
-      participantNames: findHousehold.participantNames,
-      participantPercents: breakdownArray,
-      participantMaxNum: maxNum,
-      bannedUsers: findHousehold.bannedUsers,
-    };
 
     //* Confirm we are only sending new info through
     const returnOption = { new: true };
@@ -459,13 +499,27 @@ router.delete("/admin/remove", async (req, res) => {
       admin_id: userID,
     });
 
-    deleteHousehold.deletedCount === 1
-      ? res.status(200).json({
-          message: "Household deleted.",
-        })
-      : res.status(404).json({
-          message: "Deletion unsuccessful.",
-        });
+    //* Once deleted, we need to reset householdID within user as null
+    if (deleteHousehold.deletedCount === 1) {
+      const userFilter = { _id: userID };
+      const userNewInfo = { householdID: null };
+      const returnOption = { new: true };
+
+      const updateUser = await User.findOneAndUpdate(
+        userFilter,
+        userNewInfo,
+        returnOption
+      );
+
+      res.status(200).json({
+        message: `Household deleted.`,
+        updateUser,
+      });
+    } else {
+      res.status(404).json({
+        message: "Deletion unsuccessful.",
+      });
+    }
   } catch (err) {
     serverError(res, err);
   }

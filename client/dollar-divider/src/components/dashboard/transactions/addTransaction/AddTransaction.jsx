@@ -5,13 +5,13 @@ import {
   UncontrolledPopover,
   PopoverBody,
 } from "reactstrap";
-import NewInfo from "./NewInfo/NewInfo";
+import NewTransInfo from "./newTransInfo/NewTransInfo";
 
-export default function AddBill(props) {
+export default function AddTransaction(props) {
+  // console.log(props);
   let url;
   const [budgets, setBudgets] = useState([]);
-  const getBudgets = async () => {
-    let viewValue = props.view;
+  const getBudgets = async (viewValue) => {
     if (viewValue == true) {
       url = "http://localhost:4000/budget/household";
     } else {
@@ -44,11 +44,10 @@ export default function AddBill(props) {
       getBudgets();
     }
   }, [props.token, props.view]);
-
   return (
     <>
       <Button
-        id="UncontrolledPopoverAddBill"
+        id="UncontrolledPopoverAddTransaction"
         color="success"
         type="button"
         style={{
@@ -59,19 +58,18 @@ export default function AddBill(props) {
         +
       </Button>
       <UncontrolledPopover
-        placement="bottom"
-        target="UncontrolledPopoverAddBill"
+        placement="top"
+        target="UncontrolledPopoverAddTransaction"
         trigger="legacy"
       >
-        <PopoverHeader>Add New Bill</PopoverHeader>
+        <PopoverHeader>Add New Transaction</PopoverHeader>
         <PopoverBody>
-          <NewInfo
-            getBills={props.getBills}
+          <NewTransInfo
             token={props.token}
             view={props.view}
             month={props.month}
             budgets={budgets}
-            getBudgets={getBudgets}
+            getTransaction={props.getTransaction}
           />
         </PopoverBody>
       </UncontrolledPopover>

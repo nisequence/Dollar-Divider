@@ -5,10 +5,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Sidebar from "./sidebar/Sidebar";
 import Budgets from "./budgets/Budgets";
 // import CurrentBudgetStatus from "./budgets/currentBudgetStatus/CurrentBudgetStatus";
-import RecentTransactions from "./transactions/recentTransactions/RecentTransactions";
+import Transaction from "./transactions/Transaction";
 import { useState, useEffect } from "react";
 import Bills2 from "./bills/Bills2";
-import AccountsList from "./accounts/AccountsList";
+// import AccountsList from "./accounts/AccountsList";
+import GetAll from "./accounts/getAll/GetAll";
 
 export default function Dashboard(props) {
   const token = localStorage.getItem("token");
@@ -20,9 +21,8 @@ export default function Dashboard(props) {
 
     const reqOptions = {
       method: "GET",
-      headers: new Headers({
-        Authorization: token,
-      }),
+      headers: new Headers({ Authorization: token }),
+      // headers: new Headers({Authorization: token}),
     };
 
     try {
@@ -63,8 +63,6 @@ export default function Dashboard(props) {
         <Container>
           <Row>
             <Col className="bg-light border">
-              {/* .col */}
-              {/* <UpcomingBills /> */}
               <br></br>
               <Bills2 view={props.view} token={token}></Bills2>
             </Col>
@@ -79,12 +77,13 @@ export default function Dashboard(props) {
           </Row>
           <Row>
             <Col className="bg-light border">
-              <AccountsList token={token} />
+              <GetAll token={token} />
             </Col>
             <Col className="bg-light border">
               {/* .col */}
-              <RecentTransactions
+              <Transaction
                 view={props.view}
+                token={token}
                 transactions={transactions}
               />
             </Col>

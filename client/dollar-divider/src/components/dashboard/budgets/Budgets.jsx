@@ -6,7 +6,8 @@ import AddBudget from "./currentBudgetStatus/AddBudget/AddBudget";
 export default function Budgets(props) {
   let url;
   const [budgets, setBudgets] = useState([]);
-  const getBudgets = async (viewValue) => {
+  const getBudgets = async () => {
+    let viewValue = props.view;
     if (viewValue == true) {
       url = "http://localhost:4000/budget/household";
     } else {
@@ -36,12 +37,14 @@ export default function Budgets(props) {
 
   useEffect(() => {
     if (props.token) {
-      getBudgets(props.view);
+      getBudgets();
     }
   }, [props.token, props.view]);
+
   return (
     <>
       <CurrentBudgetStatus
+        getBudgets={getBudgets}
         budgets={budgets}
         transactions={props.transactions}
         token={props.token}

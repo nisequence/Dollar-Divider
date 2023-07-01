@@ -15,6 +15,7 @@ export default function NewInfo(props) {
 
   //* Create a function to handle the form inputs when the user attempts to create a new room
   const submitBudget = async (e) => {
+    e.preventDefault();
     const category = categoryRef.current.value;
     const amount = amountRef.current.value;
 
@@ -45,6 +46,7 @@ export default function NewInfo(props) {
         data.message == "You are now the owner of a brand-new budget!" ||
         data.message == "Your household is now the owner of a brand-new budget!"
       ) {
+        props.getBudgets();
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
         console.error("User is unauthorized.");

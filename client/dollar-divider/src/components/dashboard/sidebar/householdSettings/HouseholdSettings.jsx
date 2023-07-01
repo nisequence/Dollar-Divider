@@ -6,7 +6,7 @@ import Solo from "./views/solo/Solo";
 export default function HouseholdSettings() {
   const token = localStorage.getItem("token");
 
-  const [userStatus, setUserStatus] = useState("Member");
+  const [userStatus, setUserStatus] = useState("Solo");
   const updateStatus = (newStatus) => {
     localStorage.setItem("Status", newStatus);
     setUserStatus(newStatus);
@@ -33,8 +33,6 @@ export default function HouseholdSettings() {
         updateStatus(data.message);
       } else if (data.message === "Solo") {
         updateStatus(data.message);
-      } else {
-        console.error("Unable to identify user type!");
       }
     } catch (err) {
       console.error(err);
@@ -57,7 +55,7 @@ export default function HouseholdSettings() {
     }
   };
   return (
-    <div id="rightSideMenu">
+    <div id="householdSettingsMenu">
       <br></br>
       <h3>Household Settings</h3>
       {returnView()}
