@@ -69,6 +69,7 @@ export default function AddBill(props) {
             view={props.view}
             month={props.month}
             budgets={budgets}
+            getBudgets={getBudgets}
           />
         </PopoverBody>
       </UncontrolledPopover>

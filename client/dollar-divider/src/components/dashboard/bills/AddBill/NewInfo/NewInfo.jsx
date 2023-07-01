@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import { Form, FormGroup, Input, Button, Label } from "reactstrap";
 
 export default function NewInfo(props) {
+  props.getBudgets(props.view);
+
   const months = [
     "January",
     "February",
