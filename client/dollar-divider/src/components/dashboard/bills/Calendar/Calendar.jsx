@@ -1,13 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {
-  Carousel,
-  CarouselItem,
-  CarouselControl,
-  CarouselCaption,
-  Button,
-  Row,
-  Col,
-} from "reactstrap";
+import React, { useState } from "react";
+import { Carousel, CarouselItem, Button, Row, Col } from "reactstrap";
 import Cards from "./Cards/Cards";
 import AddBill from "../AddBill/AddBill";
 
@@ -46,7 +38,7 @@ export default function Calendar(props) {
   };
 
   const viewType = () => {
-    if (props.view === false || status == "Admin") {
+    if (props.view === false || status === "Admin") {
       //* If viewing personal or if user is the Admin
       // get all the stuff
       return (

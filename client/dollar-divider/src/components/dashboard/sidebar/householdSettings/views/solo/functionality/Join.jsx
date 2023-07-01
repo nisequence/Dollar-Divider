@@ -29,7 +29,7 @@ export default function Join(props) {
       let response = await fetch(url, requestOptions);
       let data = await response.json();
 
-      if (data.message == `Welcome to the household!`) {
+      if (data.message === `Welcome to the household!`) {
         window.location.reload();
       }
     } catch (error) {

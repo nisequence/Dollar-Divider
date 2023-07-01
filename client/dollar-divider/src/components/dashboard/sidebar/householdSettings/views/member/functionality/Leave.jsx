@@ -19,7 +19,9 @@ export default function Leave(props) {
       let response = await fetch(url, requestOptions);
       let data = await response.json();
 
-      if (data.message == "User was successfully removed from the household!") {
+      if (
+        data.message === "User was successfully removed from the household!"
+      ) {
         window.location.reload();
       }
     } catch (error) {
