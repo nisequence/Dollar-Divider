@@ -33,7 +33,7 @@ function Sidebar(props) {
     const sidebar = document.getElementById("sidebar");
     const openSidebarWidth = "14vw";
     if (!collapsed) {
-      document.getElementById("sidebarItems").style.visibility = "hidden"
+      document.getElementById("sidebarItems").style.visibility = "hidden";
       sidebar.style.width = "0";
       sidebar.style.minWidth = "";
     } else {
@@ -45,13 +45,13 @@ function Sidebar(props) {
       sidebar.style.borderTop = "solid rgb(144, 144, 144) 2px";
       sidebar.style.borderLeft = "solid rgb(144, 144, 144) 2px";
       setTimeout(() => {
-        document.getElementById("sidebarItems").style.visibility = "visible"  
+        document.getElementById("sidebarItems").style.visibility = "visible";
       }, 50);
-      
     }
   };
 
-  const [userSettingsMenuCollapsed, setUserSettingsMenuCollapsed] = useState(true);
+  const [userSettingsMenuCollapsed, setUserSettingsMenuCollapsed] =
+    useState(true);
   const toggleUserSettingsMenu = () => {
     setUserSettingsMenuCollapsed(!userSettingsMenuCollapsed);
     const userSettingsMenu = document.getElementById("userSettingsMenu");
@@ -62,8 +62,8 @@ function Sidebar(props) {
       // rightSideMenu.style.color = "rgba(0,0,0,0)";
       // rightSideMenu.style.minWidth = "fitContent";
     } else {
-      if (!householdSettingsMenuCollapsed){
-        document.getElementById("householdSettingsMenu").style.width="0";
+      if (!householdSettingsMenuCollapsed) {
+        document.getElementById("householdSettingsMenu").style.width = "0";
       }
       setHouseholdSettingsMenuCollapsed(!householdSettingsMenuCollapsed);
       userSettingsMenu.style.height = "100vh";
@@ -94,10 +94,13 @@ function Sidebar(props) {
     }
   };
 
-  const [householdSettingsMenuCollapsed, setHouseholdSettingsMenuCollapsed] = useState(true);
+  const [householdSettingsMenuCollapsed, setHouseholdSettingsMenuCollapsed] =
+    useState(true);
   const toggleHouseholdSettingsMenu = () => {
     setHouseholdSettingsMenuCollapsed(!householdSettingsMenuCollapsed);
-    const householdSettingsMenu = document.getElementById("householdSettingsMenu");
+    const householdSettingsMenu = document.getElementById(
+      "householdSettingsMenu"
+    );
     // const openRightSidebarWidth = "72vw";
     const openRightSidebarWidth = "95em";
     if (!householdSettingsMenuCollapsed) {
@@ -105,8 +108,8 @@ function Sidebar(props) {
       // rightSideMenu.style.color = "rgba(0,0,0,0)";
       // rightSideMenu.style.minWidth = "fitContent";
     } else {
-      if (!userSettingsMenuCollapsed){
-        document.getElementById("userSettingsMenu").style.width="0";
+      if (!userSettingsMenuCollapsed) {
+        document.getElementById("userSettingsMenu").style.width = "0";
       }
       setUserSettingsMenuCollapsed(!userSettingsMenuCollapsed);
       householdSettingsMenu.style.height = "100vh";
@@ -143,13 +146,14 @@ function Sidebar(props) {
 
   //! -------------------------------- Navbar Links ----------------------------
 
-  let toggle = (
-    <Toggle setView={props.setView} view={props.view} />
-  )
+  let toggle = <Toggle setView={props.setView} view={props.view} />;
 
   let householdSettings = (
     <NavItem>
-      <button onClick={toggleHouseholdSettingsMenu} id="householdSettingsButton">
+      <button
+        onClick={toggleHouseholdSettingsMenu}
+        id="householdSettingsButton"
+      >
         Household Settings
       </button>
     </NavItem>
@@ -162,18 +166,10 @@ function Sidebar(props) {
     </NavItem>
   );
 
-  let logout = (
-    <Logout updateToken={props.updateToken} />
-  )
+  let logout = <Logout updateToken={props.updateToken} />;
 
-  
   let br = <br></br>;
-  let sidebarArray = [
-    toggle,
-    userSettings,
-    householdSettings,
-    logout
-  ];
+  let sidebarArray = [toggle, userSettings, householdSettings, logout];
 
   const sidebarItems = sidebarArray.map((i) => {
     return br, (<NavItem key={v4()}>{i}</NavItem>);
@@ -182,20 +178,17 @@ function Sidebar(props) {
   return (
     <div className="Sidebar" id="sidebar">
       <div style={{ width: "10rem" }} color="faded" light>
-        <button
-          onClick={toggleSidebar}
-          className="me-2"
-          id="sidebarBtn"><i className="fa fa-bars"></i></button>
-        
+        <button onClick={toggleSidebar} className="me-2" id="sidebarBtn">
+          <i className="fa fa-bars"></i>
+        </button>
+
         <div>
-        {/* <Collapse horizontal isOpen={!collapsed} navbar> */}
+          {/* <Collapse horizontal isOpen={!collapsed} navbar> */}
           <Nav navbar>
             <br></br>
             <br></br>
-            <div id="sidebarItems">
-            {sidebarItems}
-            </div>
-            <NavItem>{/* <EditBudgets /> */}</NavItem>
+            <div id="sidebarItems">{sidebarItems}</div>
+            {/*             <NavItem>{<EditBudgets />}</NavItem> */}
             <br></br>
             {/* //! Still working on implementation of both buttons working */}
             <HouseholdSettings token={props.token} />

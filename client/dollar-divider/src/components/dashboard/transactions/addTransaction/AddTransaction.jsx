@@ -41,7 +41,7 @@ export default function AddTransaction(props) {
 
   useEffect(() => {
     if (props.token) {
-      getBudgets(props.view);
+      getBudgets();
     }
   }, [props.token, props.view]);
   return (

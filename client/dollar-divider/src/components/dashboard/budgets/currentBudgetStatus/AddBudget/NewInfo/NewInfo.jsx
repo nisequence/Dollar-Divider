@@ -46,7 +46,7 @@ export default function NewInfo(props) {
         data.message == "You are now the owner of a brand-new budget!" ||
         data.message == "Your household is now the owner of a brand-new budget!"
       ) {
-        props.getBudgets(props.view);
+        props.getBudgets();
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
         console.error("User is unauthorized.");
