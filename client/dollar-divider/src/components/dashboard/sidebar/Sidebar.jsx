@@ -24,6 +24,7 @@ import Logout from "../../auth/logout/Logout";
 import HouseholdSettings from "./householdSettings/HouseholdSettings";
 import UserSettings from "./userSettings/UserSettings";
 import Logo from "./Logo/Logo";
+import Greet from "../../auth/greet/Greet";
 
 export default function Sidebar(props) {
   //? UseState constants for each menu and the sidebar
@@ -213,13 +214,22 @@ export default function Sidebar(props) {
 
   let logo = <Logo />;
 
-  let sidebarArray = [toggle, userSettings, householdSettings, logo, logout];
+  let welcome = <Greet />;
+
+  let sidebarArray = [
+    welcome,
+    toggle,
+    userSettings,
+    householdSettings,
+    logo,
+    logout,
+  ];
 
   const sidebarItems = sidebarArray?.map((i) => {
     return (
       <>
-        <br></br>
         <NavItem key={v4()}>{i}</NavItem>
+        <br></br>
       </>
     );
   });
