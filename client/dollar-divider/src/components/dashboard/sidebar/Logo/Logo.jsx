@@ -6,7 +6,7 @@ export default function Logo() {
     <div>
       <img
         id="logoSidebar"
-        class="logo"
+        className="logo"
         src={dollarDividerMini}
         alt="Dollar Divider Logo"
       />

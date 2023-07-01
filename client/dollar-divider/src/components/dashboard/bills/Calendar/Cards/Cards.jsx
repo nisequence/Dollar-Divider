@@ -108,7 +108,7 @@ export default function Cards(props) {
         modifyColor(each.paid);
         /* ! Would like to nest the below return for each bill into a scroll bar container */
         return (
-          <>
+          <div key={props.bills.indexOf(each)}>
             <Row sm="5">
               <Card
                 body
@@ -160,7 +160,7 @@ export default function Cards(props) {
                 </CardBody>
               </Card>
             </Row>
-          </>
+          </div>
         );
       })}
     </>

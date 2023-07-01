@@ -5,7 +5,7 @@ function Logo() {
   return (
     <img
       id="logoAuth"
-      class="logo"
+      className="logo"
       src={dollarDividerLogo}
       alt="Dollar Divider Logo"
     />

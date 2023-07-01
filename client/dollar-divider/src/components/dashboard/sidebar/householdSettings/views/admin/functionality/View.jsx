@@ -55,45 +55,41 @@ export default function View(props) {
   const tableNames = householdInfo.participantNames?.map((name) => {
     if (householdInfo.participantNames[0] === name) {
       return (
-        <>
-          <tr>
-            <td>{name}</td>
-            <td>
-              {
-                householdInfo.participantPercents[
-                  householdInfo.participantNames.indexOf(name)
-                ]
-              }
-            </td>
-            <td></td>
-          </tr>
-        </>
+        <tr key={householdInfo.participantNames.indexOf(name)}>
+          <td>{name}</td>
+          <td>
+            {
+              householdInfo.participantPercents[
+                householdInfo.participantNames.indexOf(name)
+              ]
+            }
+          </td>
+          <td></td>
+        </tr>
       );
     } else {
       return (
-        <>
-          <tr>
-            <td>{name}</td>
-            <td>
-              {
-                householdInfo.participantPercents[
+        <tr key={householdInfo.participantNames.indexOf(name)}>
+          <td>{name}</td>
+          <td>
+            {
+              householdInfo.participantPercents[
+                householdInfo.participantNames.indexOf(name)
+              ]
+            }
+          </td>
+          <td>
+            <Ban
+              getHousehold={getHousehold}
+              token={props.token}
+              userID={
+                householdInfo.participantIDs[
                   householdInfo.participantNames.indexOf(name)
                 ]
               }
-            </td>
-            <td>
-              <Ban
-                getHousehold={getHousehold}
-                token={props.token}
-                userID={
-                  householdInfo.participantIDs[
-                    householdInfo.participantNames.indexOf(name)
-                  ]
-                }
-              ></Ban>
-            </td>
-          </tr>
-        </>
+            ></Ban>
+          </td>
+        </tr>
       );
     }
   });
@@ -102,24 +98,22 @@ export default function View(props) {
     let index = householdInfo.participantNames.indexOf(name);
     let contribution = householdInfo.participantPercents[index];
     return (
-      <>
-        <tr>
-          <td>{name}</td>
-          <td>
-            {editPercent ? (
-              <Input
-                innerRef={numberRef}
-                type="number"
-                className="percentageInput"
-                style={{ maxWidth: "8vw", margin: "auto" }}
-                placeholder={contribution}
-              ></Input>
-            ) : (
-              contribution
-            )}
-          </td>
-        </tr>
-      </>
+      <tr key={index}>
+        <td>{name}</td>
+        <td>
+          {editPercent ? (
+            <Input
+              innerRef={numberRef}
+              type="number"
+              className="percentageInput"
+              style={{ maxWidth: "8vw", margin: "auto" }}
+              placeholder={contribution}
+            ></Input>
+          ) : (
+            contribution
+          )}
+        </td>
+      </tr>
     );
   });
 

@@ -193,21 +193,14 @@ export default function Sidebar(props) {
   let toggle = <Toggle setView={props.setView} view={props.view} />;
 
   let householdSettings = (
-    <NavItem>
-      <button
-        onClick={toggleHouseholdSettingsMenu}
-        id="householdSettingsButton"
-      >
-        Household Settings
-      </button>
-    </NavItem>
+    <button onClick={toggleHouseholdSettingsMenu} id="householdSettingsButton">
+      Household Settings
+    </button>
   );
   let userSettings = (
-    <NavItem>
-      <button onClick={toggleUserSettingsMenu} id="userSettingsButton">
-        User Settings
-      </button>
-    </NavItem>
+    <button onClick={toggleUserSettingsMenu} id="userSettingsButton">
+      User Settings
+    </button>
   );
 
   let logout = <Logout updateToken={props.updateToken} />;
@@ -227,16 +220,16 @@ export default function Sidebar(props) {
 
   const sidebarItems = sidebarArray?.map((i) => {
     return (
-      <>
+      <div key={sidebarArray.indexOf(i)}>
         <NavItem key={v4()}>{i}</NavItem>
         <br></br>
-      </>
+      </div>
     );
   });
 
   return (
     <div className="Sidebar" id="sidebar">
-      <div style={{ width: "10rem" }} color="faded" light>
+      <div style={{ width: "10rem" }} color="faded">
         <button onClick={toggleSidebar} className="me-2" id="sidebarBtn">
           <i className="fa fa-bars"></i>
         </button>
