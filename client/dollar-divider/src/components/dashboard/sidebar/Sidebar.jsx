@@ -23,6 +23,7 @@ import Toggle from "../sidebar/Toggle/Toggle";
 import Logout from "../../auth/logout/Logout";
 import HouseholdSettings from "./householdSettings/HouseholdSettings";
 import UserSettings from "./userSettings/UserSettings";
+import Logo from "./Logo/Logo";
 
 // --------------------------------- Toggle Left Sidebar -------------------------------------
 function Sidebar(props) {
@@ -193,6 +194,7 @@ function Sidebar(props) {
             {/* //! Still working on implementation of both buttons working */}
             <HouseholdSettings token={props.token} />
             <UserSettings token={props.token} />
+            <Logo />
           </Nav>
         </div>
       </div>

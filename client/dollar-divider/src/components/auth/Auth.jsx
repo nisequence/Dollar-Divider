@@ -44,7 +44,7 @@ export default function Auth(props) {
         <Row>
           <Col md="6">{displayForm()}</Col>
           <Col>
-          <Logo/>
+            <Logo />
           </Col>
         </Row>
         <Row>
