@@ -16,6 +16,7 @@ import DeleteBill from "./DeleteBill";
 import MarkPaid from "./MarkPaid";
 
 export default function OpenCard(props) {
+  // props.getBudgets();
   let billInfo = props.billInfo;
   let billID = billInfo._id;
 
@@ -113,29 +114,8 @@ export default function OpenCard(props) {
     }
   };
 
-  //* IF paid switch button to Mark Unpaid color="warning"
-  //! The below needs work
-  //   let payable = () => {
-  //     const markPaid = async (id, boolean) => {
-  //       console.log("Paid:", id, boolean);
-  //     };
-  //     if (billInfo.paid === true) {
-  //       return (
-  //         <Button color="warning" onClick={markPaid(billInfo.id, false)}>
-  //           Mark Unpaid
-  //         </Button>
-  //       );
-  //     } else {
-  //       return (
-  //         <Button color="success" onClick={markPaid(billInfo.id, true)}>
-  //           Mark Paid
-  //         </Button>
-  //       );
-  //     }
-  //   };
-
   return (
-    <div>
+    <>
       <Button color="info" onClick={toggle}>
         Open
       </Button>
@@ -254,6 +234,6 @@ export default function OpenCard(props) {
           </ModalFooter>
         </Form>
       </Modal>
-    </div>
+    </>
   );
 }

@@ -8,16 +8,6 @@ import {
 import NewInfo from "./NewInfo/NewInfo";
 
 export default function AddBudget(props) {
-  const status = localStorage.getItem("Status");
-  // console.log(status);
-
-  let canAdd;
-  //! Working to only display the option when the person is admin or viewing personal info
-  if (props.view == "personal" || status == "Admin") {
-    canAdd = true;
-  } else {
-    canAdd = false;
-  }
   return (
     <>
       <Button id="UncontrolledPopoverBudget" color="success" type="button">
