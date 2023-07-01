@@ -52,8 +52,7 @@ export default function Edit(props) {
   return (
     <div>
       <Button color="warning" onClick={toggle}>
-        <GrEdit />
-        Edit Info
+        <GrEdit /> Edit Info
       </Button>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Edit Household Info</ModalHeader>

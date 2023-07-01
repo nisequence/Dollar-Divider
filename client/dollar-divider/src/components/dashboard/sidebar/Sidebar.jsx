@@ -17,6 +17,8 @@ import {
   Button,
   // NavLink,
 } from "reactstrap";
+import { BsHouseGearFill } from "react-icons/bs";
+import { FaUserCog } from "react-icons/fa";
 // import GetAll from "../accounts/getAll/GetAll";
 // import EditBudgets from "../budgets/EditBudgets";
 import Toggle from "../sidebar/Toggle/Toggle";
@@ -194,12 +196,12 @@ export default function Sidebar(props) {
 
   let householdSettings = (
     <button onClick={toggleHouseholdSettingsMenu} id="householdSettingsButton">
-      Household Settings
+      <BsHouseGearFill /> Household Settings
     </button>
   );
   let userSettings = (
     <button onClick={toggleUserSettingsMenu} id="userSettingsButton">
-      User Settings
+      <FaUserCog /> User Settings
     </button>
   );
 

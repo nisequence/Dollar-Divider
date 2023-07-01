@@ -30,8 +30,7 @@ export default function Delete(props) {
   return (
     <>
       <Button color="danger" onClick={deleteHousehold}>
-        <MdDeleteForever />
-        Delete Household
+        <MdDeleteForever /> Delete Household
       </Button>
     </>
   );
