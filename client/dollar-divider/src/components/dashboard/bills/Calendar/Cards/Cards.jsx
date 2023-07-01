@@ -45,7 +45,7 @@ export default function Cards(props) {
 
   useEffect(() => {
     if (props.token) {
-      getBudgets(props.view);
+      getBudgets();
     }
   }, [props.token, props.view]);
 

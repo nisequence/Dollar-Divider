@@ -53,31 +53,49 @@ export default function View(props) {
   }, [props.token]);
 
   const tableNames = householdInfo.participantNames?.map((name) => {
-    return (
-      <>
-        <tr>
-          <td>{name}</td>
-          <td>
-            {
-              householdInfo.participantPercents[
-                householdInfo.participantNames.indexOf(name)
-              ]
-            }
-          </td>
-          <td>
-            <Ban
-              getHousehold={getHousehold}
-              token={props.token}
-              userID={
-                householdInfo.participantIDs[
+    if (householdInfo.participantNames[0] === name) {
+      return (
+        <>
+          <tr>
+            <td>{name}</td>
+            <td>
+              {
+                householdInfo.participantPercents[
                   householdInfo.participantNames.indexOf(name)
                 ]
               }
-            ></Ban>
-          </td>
-        </tr>
-      </>
-    );
+            </td>
+            <td></td>
+          </tr>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <tr>
+            <td>{name}</td>
+            <td>
+              {
+                householdInfo.participantPercents[
+                  householdInfo.participantNames.indexOf(name)
+                ]
+              }
+            </td>
+            <td>
+              <Ban
+                getHousehold={getHousehold}
+                token={props.token}
+                userID={
+                  householdInfo.participantIDs[
+                    householdInfo.participantNames.indexOf(name)
+                  ]
+                }
+              ></Ban>
+            </td>
+          </tr>
+        </>
+      );
+    }
   });
 
   const tablePercents = householdInfo.participantNames?.map((name) => {
