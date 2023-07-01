@@ -11,9 +11,9 @@ export default function Logo() {
         alt="Dollar Divider Logo"
       />
       <br />
-      <h5>
+      <h6>
         <strong>Dollar Divider</strong>
-      </h5>
+      </h6>
     </div>
   );
 }
