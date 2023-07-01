@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { v4 } from "uuid";
 import {
   // Col,
@@ -23,11 +23,17 @@ import Toggle from "../sidebar/Toggle/Toggle";
 import Logout from "../../auth/logout/Logout";
 import HouseholdSettings from "./householdSettings/HouseholdSettings";
 import UserSettings from "./userSettings/UserSettings";
+import Logo from "./Logo/Logo";
 
-// --------------------------------- Toggle Left Sidebar -------------------------------------
-function Sidebar(props) {
+export default function Sidebar(props) {
+  //? UseState constants for each menu and the sidebar
   const [collapsed, setCollapsed] = useState(true);
+  const [userSettingsMenuCollapsed, setUserSettingsMenuCollapsed] =
+    useState(true);
+  const [householdSettingsMenuCollapsed, setHouseholdSettingsMenuCollapsed] =
+    useState(true);
 
+  //? Functions
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
     const sidebar = document.getElementById("sidebar");
@@ -50,22 +56,21 @@ function Sidebar(props) {
     }
   };
 
-  const [userSettingsMenuCollapsed, setUserSettingsMenuCollapsed] =
-    useState(true);
   const toggleUserSettingsMenu = () => {
     setUserSettingsMenuCollapsed(!userSettingsMenuCollapsed);
     const userSettingsMenu = document.getElementById("userSettingsMenu");
     // const openRightSidebarWidth = "72vw";
     const openRightSidebarWidth = "95em";
-    if (!userSettingsMenuCollapsed) {
+    if (!userSettingsMenuCollapsed || collapsed === true) {
       userSettingsMenu.style.width = "0";
       // rightSideMenu.style.color = "rgba(0,0,0,0)";
       // rightSideMenu.style.minWidth = "fitContent";
     } else {
-      if (!householdSettingsMenuCollapsed) {
-        document.getElementById("householdSettingsMenu").style.width = "0";
-      }
-      setHouseholdSettingsMenuCollapsed(!householdSettingsMenuCollapsed);
+      //! household settings adjustments moved to useEffect
+      // if (!householdSettingsMenuCollapsed || collapsed == true) {
+      //   document.getElementById("householdSettingsMenu").style.width = "0";
+      // }
+      // setHouseholdSettingsMenuCollapsed(!householdSettingsMenuCollapsed);
       userSettingsMenu.style.height = "100vh";
       userSettingsMenu.style.width = openRightSidebarWidth;
       // rightSideMenu.style.maxWidth = "95em";
@@ -94,8 +99,6 @@ function Sidebar(props) {
     }
   };
 
-  const [householdSettingsMenuCollapsed, setHouseholdSettingsMenuCollapsed] =
-    useState(true);
   const toggleHouseholdSettingsMenu = () => {
     setHouseholdSettingsMenuCollapsed(!householdSettingsMenuCollapsed);
     const householdSettingsMenu = document.getElementById(
@@ -108,10 +111,11 @@ function Sidebar(props) {
       // rightSideMenu.style.color = "rgba(0,0,0,0)";
       // rightSideMenu.style.minWidth = "fitContent";
     } else {
-      if (!userSettingsMenuCollapsed) {
-        document.getElementById("userSettingsMenu").style.width = "0";
-      }
-      setUserSettingsMenuCollapsed(!userSettingsMenuCollapsed);
+      //! userSettings menu adjustments moved to useEffect
+      // if (!userSettingsMenuCollapsed) {
+      //   document.getElementById("userSettingsMenu").style.width = "0";
+      // }
+      // setUserSettingsMenuCollapsed(!userSettingsMenuCollapsed);
       householdSettingsMenu.style.height = "100vh";
       householdSettingsMenu.style.width = openRightSidebarWidth;
       // rightSideMenu.style.maxWidth = "95em";
@@ -139,12 +143,51 @@ function Sidebar(props) {
       householdSettingsMenu.style.borderLeft = "solid rgb(144, 144, 144) 2px";
     }
   };
-  // const toggleHouseholdSettingsMenu = () => {
-  //   console.log("HouseholdSettingsMenu Toggled")
-  // }
-  //! ------------------------- Populate sidebarArray with Menu items -------------------
 
-  //! -------------------------------- Navbar Links ----------------------------
+  useEffect(() => {
+    if (collapsed === true) {
+      //* if we are closing the sidebar
+      if (!userSettingsMenuCollapsed && !householdSettingsMenuCollapsed) {
+        // If both HH and user menus are open (this should not technically happen)
+        toggleHouseholdSettingsMenu();
+        toggleUserSettingsMenu();
+        // close them both
+      } else if (!userSettingsMenuCollapsed) {
+        // if user menu is not collapsed, close it
+        toggleUserSettingsMenu();
+      } else if (!householdSettingsMenuCollapsed) {
+        // if household menu is not collapsed, close it
+        toggleHouseholdSettingsMenu();
+      }
+    }
+  }, [collapsed]);
+  //* The above useEffect is triggered when the value of collapsed changes
+
+  useEffect(() => {
+    if (
+      userSettingsMenuCollapsed === false &&
+      householdSettingsMenuCollapsed === false
+    ) {
+      // If one menu is open (false), the other should close (true)
+      toggleHouseholdSettingsMenu();
+    }
+  }, [userSettingsMenuCollapsed]);
+  //* The above useEffect is triggered when the value of userSettingsMenuCollapsed changes
+
+  useEffect(() => {
+    if (
+      householdSettingsMenuCollapsed === false &&
+      userSettingsMenuCollapsed === false
+    ) {
+      // If one menu is open (false), the other should close (true)
+      toggleUserSettingsMenu();
+    }
+  }, [householdSettingsMenuCollapsed]);
+  //* The above useEffect is triggered when the value of householdSettingsMenuCollapsed changes
+
+  //! ------ Populate sidebarArray with Menu items ------
+
+  //! ------ Navbar Links ------
 
   let toggle = <Toggle setView={props.setView} view={props.view} />;
 
@@ -168,11 +211,17 @@ function Sidebar(props) {
 
   let logout = <Logout updateToken={props.updateToken} />;
 
-  let br = <br></br>;
-  let sidebarArray = [toggle, userSettings, householdSettings, logout];
+  let logo = <Logo />;
 
-  const sidebarItems = sidebarArray.map((i) => {
-    return br, (<NavItem key={v4()}>{i}</NavItem>);
+  let sidebarArray = [toggle, userSettings, householdSettings, logo, logout];
+
+  const sidebarItems = sidebarArray?.map((i) => {
+    return (
+      <>
+        <br></br>
+        <NavItem key={v4()}>{i}</NavItem>
+      </>
+    );
   });
 
   return (
@@ -183,7 +232,6 @@ function Sidebar(props) {
         </button>
 
         <div>
-          {/* <Collapse horizontal isOpen={!collapsed} navbar> */}
           <Nav navbar>
             <br></br>
             <br></br>
@@ -199,5 +247,3 @@ function Sidebar(props) {
     </div>
   );
 }
-
-export default Sidebar;

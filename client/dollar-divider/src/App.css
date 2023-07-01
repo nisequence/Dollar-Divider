@@ -5,7 +5,10 @@
     height: 100vh;
   }
 
-  #logo {
+  #logoSidebar {
+    padding: 0.5rem;
+  }
+  .logo {
     height: 80%;
     width: 80%;
   }
@@ -46,9 +49,11 @@
   
   #sidebarItems {
     margin-left: 1em;
+    margin-bottom: 1em;
     visibility: hidden;
     position: relative;
     top: 3em;
+    padding: 0.75rem;
   }
 
   #editBudgetsMenu {
