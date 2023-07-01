@@ -137,8 +137,7 @@ export default function View(props) {
               navigator.clipboard.writeText(inviteCode);
             }}
           >
-            <AiFillCopy />
-            Invite Token
+            <AiFillCopy /> Invite Token
           </Button>
         </Col>
         <Col>

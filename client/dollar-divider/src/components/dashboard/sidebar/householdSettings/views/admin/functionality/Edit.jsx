@@ -8,6 +8,7 @@ import {
   Input,
 } from "reactstrap";
 import { GrEdit } from "react-icons/gr";
+import { TbHomeEdit } from "react-icons/tb";
 
 export default function Edit(props) {
   const nameRef = useRef();
@@ -52,8 +53,9 @@ export default function Edit(props) {
   return (
     <div>
       <Button color="warning" onClick={toggle}>
-        <GrEdit />
-        Edit Info
+        {/*         <GrEdit /> Edit Info
+         */}{" "}
+        <TbHomeEdit /> Edit Info
       </Button>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Edit Household Info</ModalHeader>
@@ -69,7 +71,7 @@ export default function Edit(props) {
           <Input
             required
             type="number"
-            style={{ maxWidth: "4vw" }}
+            style={{ maxWidth: "8vw" }}
             innerRef={numberRef}
             placeholder={props.householdInfo.participantMaxNum}
           ></Input>

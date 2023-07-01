@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "reactstrap";
+import { BsHouseXFill } from "react-icons/bs";
 
 export default function Leave(props) {
   async function quitHousehold(e) {
@@ -28,7 +29,7 @@ export default function Leave(props) {
   return (
     <>
       <Button color="danger" onClick={quitHousehold}>
-        Leave Household
+        <BsHouseXFill /> Leave
       </Button>
     </>
   );

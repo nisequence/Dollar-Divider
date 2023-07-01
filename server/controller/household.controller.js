@@ -307,7 +307,7 @@ router.patch("/edit", async (req, res) => {
       return res.status(401).json({
         message: "Sorry, you're not the admin!",
       });
-    } else if (findHousehold.bannedUsers.includes(banUser)) {
+    } else if (findHousehold.bannedUsers.includes(banUser) && banUser != null) {
       //* if admin has already banned this user
       return res.status(410).json({
         message: "You have already banned this user!",
