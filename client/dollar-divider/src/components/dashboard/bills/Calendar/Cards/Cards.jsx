@@ -15,7 +15,6 @@ export default function Cards(props) {
   let url;
   const [budgets, setBudgets] = useState([]);
   const getBudgets = async (viewValue) => {
-    console.log("Getting budgets...");
     if (viewValue == true) {
       url = "http://localhost:4000/budget/household";
     } else {
