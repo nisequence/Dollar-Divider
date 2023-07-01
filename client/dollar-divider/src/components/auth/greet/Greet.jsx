@@ -27,7 +27,6 @@ export default function Greet() {
       // If the server does not provide a failure message
       if (data.message === "Found!") {
         updateName(data.findUser.firstName);
-        console.log(name);
       }
     } catch (err) {
       console.error(err);
