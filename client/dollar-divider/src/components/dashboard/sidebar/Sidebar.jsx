@@ -169,8 +169,10 @@ function Sidebar(props) {
 
   let logout = <Logout updateToken={props.updateToken} />;
 
+  let logo = <Logo />;
+
   let br = <br></br>;
-  let sidebarArray = [toggle, userSettings, householdSettings, logout];
+  let sidebarArray = [toggle, userSettings, householdSettings, logout, logo];
 
   const sidebarItems = sidebarArray.map((i) => {
     return br, (<NavItem key={v4()}>{i}</NavItem>);
@@ -194,7 +196,6 @@ function Sidebar(props) {
             {/* //! Still working on implementation of both buttons working */}
             <HouseholdSettings token={props.token} />
             <UserSettings token={props.token} />
-            <Logo />
           </Nav>
         </div>
       </div>
