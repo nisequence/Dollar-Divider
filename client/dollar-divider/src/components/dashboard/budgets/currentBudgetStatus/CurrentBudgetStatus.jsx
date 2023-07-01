@@ -34,7 +34,6 @@ export default function CurrentBudgetStatus(props) {
         let thisOne = props.budgets[x].budgetAmt;
         total += thisOne;
       }
-      console.log(total);
     };
     totalBudgets();
 
