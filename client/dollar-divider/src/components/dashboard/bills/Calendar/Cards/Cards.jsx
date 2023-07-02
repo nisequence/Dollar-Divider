@@ -72,44 +72,9 @@ export default function Cards(props) {
 
   return (
     <>
-      <Row sm="5" overflow-y="scroll">
-        {/* <Card
-          body
-          style={{
-            maxHeight: "10vh",
-            backgroundColor: "#00517c",
-            margin: "0.75rem",
-            padding: "0.2rem",
-            color: "white",
-            alignContent: "center",
-          }}
-        >
-          <CardBody>
-            <Row>
-              <Col>
-                <CardTitle tag="h6">Title</CardTitle>
-              </Col>
-              <Col>
-                <CardText tag="h6">$</CardText>
-              </Col>
-              <Col>
-                <CardText tag="h6">Due</CardText>
-              </Col>
-              <Col>
-                <CardText tag="h6">Budget</CardText>
-              </Col>
-              <Col>
-                <CardText tag="h6">More</CardText>
-              </Col>
-            </Row>
-          </CardBody>
-        </Card> */}
-      </Row>
-      {/* {displayBillCards(props.bills, props.month)} */}
       {props.bills?.map((each) => {
         //* Set different value for background color based on whether the bill is paid or unpaid
         modifyColor(each.paid);
-        /* ! Would like to nest the below return for each bill into a scroll bar container */
         return (
           <div key={props.bills.indexOf(each)}>
             <Row sm="5">
