@@ -4,14 +4,14 @@ export default function Transaction(props) {
     let url;
     const [transaction, setTransaction] = useState([]);
     const getTransaction = async () => {
-      console.log("view",props.view)
+      // console.log("view",props.view)
       let viewValue = props.view
       if (viewValue === true) {
         url = "http://localhost:4000/transaction/household";
       } else {
         url = "http://localhost:4000/transaction/mine";
       }
-      console.log("url",url)
+      // console.log("url",url)
       const reqOptions = {
         method: "GET",
         headers: new Headers({
@@ -43,7 +43,7 @@ export default function Transaction(props) {
     return (
       <>
         <RecentTransactions
-            transaction = {transaction} token={props.token} view={props.view} getTransaction={getTransaction} />
+            transaction = {transaction} token={props.token} view={props.view} accounts = {props.accounts} getTransaction={getTransaction}/>
       </>
     );
   }
