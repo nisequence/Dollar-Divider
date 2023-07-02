@@ -53,8 +53,8 @@ export default function NewTransInfo(props) {
     const merchant = merchantRef.current.value;
     const checkNumber = checkNumRef.current.value;
     //const manualEntry = manualEntryRef.current.value;
-    const finAccount = "fix this";
-    // const finAccount = finAccountRef.current.value;
+    // const finAccount = "fix this";
+    const finAccount = finAccountRef.current.value;
     const type = typeRef.current.value;
 
     let url = "http://localhost:4000/transaction/add";
@@ -209,7 +209,7 @@ export default function NewTransInfo(props) {
             id="exampleSelect1"
             name="select"
             type="select"
-            innerRef={categoryRef}
+            innerRef={finAccountRef}
             required
           >
             {props.accounts?.map((a) => {
