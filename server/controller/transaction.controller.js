@@ -115,12 +115,12 @@ router.get("/household", async (req, res) => {
   try {
     const id = req.user.householdID;
 
-    const getAllHouseholdTrans = await Transaction.find({ base: id });
+    const getAllTransactions = await Transaction.find({ base: id });
 
-    getAllHouseholdTrans
+    getAllTransactions
       ? res.status(200).json({
           message: "All transaction from household collection",
-          getAllHouseholdTrans,
+          getAllTransactions,
         })
       : res.status(404).json({
           message: `No transactions found.`,
@@ -137,12 +137,12 @@ router.get("/mine", async (req, res) => {
   try {
     const id = req.user._id;
 
-    const getAllUserTrans = await Transaction.find({ base: id });
+    const getAllTransactions = await Transaction.find({ base: id });
 
-    getAllUserTrans
+    getAllTransactions
       ? res.status(200).json({
           message: "All transaction from user collection",
-          getAllUserTrans,
+          getAllTransactions,
         })
       : res.status(404).json({
           message: `No transactions found.`,

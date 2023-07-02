@@ -62,62 +62,62 @@ export default function RecentTransactions(props) {
     base = "household";
   }
 
-  const submitTrans = async (e) => {
-    e.preventDefault();
-    const desc = descRef.current.value;
-    const amount = amountRef.current.value;
-    const month = monthRef.current.value;
-    const day = dayRef.current.value;
-    const category = categoryRef.current.value;
-    const merchant = merchantRef.current.value;
-    const checkNumber = checkNumRef.current.value;
-    //const manualEntry = manualEntryRef.current.value;
-    const finAccount = finAccountRef.current.value;
-    const type = typeRef.current.value;
+  // const submitTrans = async (e) => {
+  //   e.preventDefault();
+  //   const desc = descRef.current.value;
+  //   const amount = amountRef.current.value;
+  //   const month = monthRef.current.value;
+  //   const day = dayRef.current.value;
+  //   const category = categoryRef.current.value;
+  //   const merchant = merchantRef.current.value;
+  //   const checkNumber = checkNumRef.current.value;
+  //   //const manualEntry = manualEntryRef.current.value;
+  //   const finAccount = finAccountRef.current.value;
+  //   const type = typeRef.current.value;
 
-    let transObj = JSON.stringify({
-      month: month,
-      day: day,
-      desc: desc,
-      merchant: merchant,
-      amount: amount,
-      checkNumber: checkNumber,
-      //manualEntry: true,
-      finAccount: finAccount,
-      category: category,
-      type: type,
-      base: base,
-    });
+  //   let transObj = JSON.stringify({
+  //     month: month,
+  //     day: day,
+  //     desc: desc,
+  //     merchant: merchant,
+  //     amount: amount,
+  //     checkNumber: checkNumber,
+  //     //manualEntry: true,
+  //     finAccount: finAccount,
+  //     category: category,
+  //     type: type,
+  //     base: base,
+  //   });
 
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Authorization", props.token);
+  //   let headers = new Headers();
+  //   headers.append("Content-Type", "application/json");
+  //   headers.append("Authorization", props.token);
 
-    const reqOption = {
-      headers: headers,
-      body: transObj,
-      method: "POST",
-    };
+  //   const reqOption = {
+  //     headers: headers,
+  //     body: transObj,
+  //     method: "POST",
+  //   };
 
-    try {
-      let url = "/"; //Todo remove this and replace with correct information
-      const res = await fetch(url, reqOption);
-      const data = await res.json();
+  //   try {
+  //     let url = "/"; //Todo remove this and replace with correct information
+  //     const res = await fetch(url, reqOption);
+  //     const data = await res.json();
 
-      // If the server provides a success message
-      if (
-        data.message === "You have created a new transaction!" ||
-        data.message === "Your household has a new transaction!"
-      ) {
-        props.getTransaction();
-      } else {
-        // Do nothing, maybe build an error component later to tell the user to re-configure their item
-        console.error("User is unauthorized.");
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  //     // If the server provides a success message
+  //     if (
+  //       data.message === "You have created a new transaction!" ||
+  //       data.message === "Your household has a new transaction!"
+  //     ) {
+  //       props.getTransaction();
+  //     } else {
+  //       // Do nothing, maybe build an error component later to tell the user to re-configure their item
+  //       console.error("User is unauthorized.");
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   const updateTransaction = async (id) => {
     console.log("updating Transaction", id);
@@ -132,12 +132,13 @@ export default function RecentTransactions(props) {
 
     try {
       let response = await fetch(url, requestOptions);
-      // let data = await response.json();
+      let data = await response.json();
+      if (data.message === `Transaction has been updated successfully`) {
+        props.getTransaction();
+      }
     } catch (error) {
       console.error(error);
-      //   }
     }
-    alert("Transaction Updated");
   };
 
   const cancelEditing = () => {
@@ -145,7 +146,7 @@ export default function RecentTransactions(props) {
   };
 
   const deleteTransaction = async (id) => {
-    console.log("Deleting Transaction", id);
+    // console.log("Deleting Transaction", id);
     let url = `http://localhost:4000/transaction/delete/${id}`;
     const myHeaders = new Headers();
     myHeaders.append("Authorization", props.token);
@@ -157,19 +158,20 @@ export default function RecentTransactions(props) {
 
     try {
       let response = await fetch(url, requestOptions);
-      // let data = await response.json();
+      let data = await response.json();
+      if (data.message === "Transaction was successfully deleted!"){
+        props.getTransaction()
+      }
     } catch (error) {
       console.error(error);
-      //   }
     }
-    alert("Transaction Deleted");
   };
 
   const recentTransactions = [];
   let colorAssignment = 0;
   let tempColor;
 
-  props.transactions?.map((transaction) => {
+  props.transaction?.map((transaction) => {
     let monthArray = [];
     let month = transaction.month;
     function mapMonth() {
