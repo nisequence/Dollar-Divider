@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Form, FormGroup, Label, Input, Row, Col } from "reactstrap";
 import { BiSolidUser } from "react-icons/bi";
 import { BsHouseFill } from "react-icons/bs";
@@ -9,7 +9,7 @@ function Example({ setView, view }) {
       <Form>
         <Row>
           <Col>
-            <Label switch>
+            <Label>
               <BiSolidUser />
             </Label>
           </Col>
@@ -25,7 +25,7 @@ function Example({ setView, view }) {
             </FormGroup>
           </Col>
           <Col>
-            <Label check>
+            <Label>
               <BsHouseFill />
             </Label>
           </Col>

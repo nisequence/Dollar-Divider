@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Calendar from "./Calendar/Calendar";
-import AddBill from "./AddBill/AddBill";
 
 export default function Bills2(props) {
   let url;

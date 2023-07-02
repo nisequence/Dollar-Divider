@@ -1,5 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Form, FormGroup, Input, Button, Label } from "reactstrap";
+import { BsFillEnvelopePlusFill } from "react-icons/bs";
 
 export default function NewInfo(props) {
   const months = [
@@ -190,7 +191,7 @@ export default function NewInfo(props) {
         <FormGroup>{/* autoPay */}</FormGroup>
         <FormGroup>{/* recurring */}</FormGroup>
         <Button color="success" type="submit">
-          Create Bill
+          <BsFillEnvelopePlusFill />
         </Button>
       </Form>
     </>

@@ -1,5 +1,4 @@
 import React from "react";
-import { Input, Button } from "reactstrap";
 import Join from "./functionality/Join";
 import New from "./functionality/New";
 

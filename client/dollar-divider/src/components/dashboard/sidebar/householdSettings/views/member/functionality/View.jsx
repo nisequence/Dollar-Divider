@@ -8,7 +8,6 @@ import {
   Table,
   Row,
   Col,
-  Button,
 } from "reactstrap";
 import Leave from "./Leave";
 

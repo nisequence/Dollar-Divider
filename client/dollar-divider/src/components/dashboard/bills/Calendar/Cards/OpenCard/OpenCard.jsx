@@ -12,6 +12,8 @@ import {
   FormGroup,
   Label,
 } from "reactstrap";
+import { BsFillEnvelopePaperFill } from "react-icons/bs";
+import { MdSave } from "react-icons/md";
 import DeleteBill from "./DeleteBill";
 import MarkPaid from "./MarkPaid";
 
@@ -116,8 +118,8 @@ export default function OpenCard(props) {
 
   return (
     <>
-      <Button color="info" onClick={toggle}>
-        Open
+      <Button color="info" onClick={toggle} altText="Open">
+        <BsFillEnvelopePaperFill />
       </Button>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Viewing {billInfo.title} Bill</ModalHeader>
@@ -229,7 +231,7 @@ export default function OpenCard(props) {
               view={props.view}
             />
             <Button color="primary" id="submit">
-              Submit Changes
+              <MdSave /> Save
             </Button>{" "}
           </ModalFooter>
         </Form>

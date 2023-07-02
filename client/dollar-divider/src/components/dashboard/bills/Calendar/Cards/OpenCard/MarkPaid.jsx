@@ -1,5 +1,9 @@
 import React from "react";
 import { Button } from "reactstrap";
+import {
+  BsFillEnvelopeCheckFill,
+  BsFillEnvelopeExclamationFill,
+} from "react-icons/bs";
 
 export default function MarkPaid(props) {
   async function payBill() {
@@ -43,13 +47,13 @@ export default function MarkPaid(props) {
   if (props.value === true) {
     return (
       <Button color="warning" onClick={payBill}>
-        Mark Unpaid
+        <BsFillEnvelopeExclamationFill /> Mark Unpaid
       </Button>
     );
   } else {
     return (
       <Button color="success" onClick={payBill}>
-        Mark Paid
+        <BsFillEnvelopeCheckFill /> Mark Paid
       </Button>
     );
   }
