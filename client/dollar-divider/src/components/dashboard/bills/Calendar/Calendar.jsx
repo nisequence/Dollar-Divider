@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Carousel, CarouselItem, Button, Row, Col } from "reactstrap";
+import { LuCalendarPlus, LuCalendarMinus } from "react-icons/lu";
 import Cards from "./Cards/Cards";
 import AddBill from "../AddBill/AddBill";
 
@@ -116,7 +117,7 @@ export default function Calendar(props) {
         <Col style={{ maxWidth: "13vw" }}></Col>
         {viewType()}
       </Row>
-      <Row style={{ maxHeight: "6vh" }}>
+      <Row style={{ maxHeight: "5vh" }}>
         <Col>
           <Button
             className="button"
@@ -124,7 +125,7 @@ export default function Calendar(props) {
             id="Prev"
             style={{ marginTop: "0vh" }}
           >
-            Prev
+            <LuCalendarMinus />
           </Button>
         </Col>
         <Col>
@@ -139,7 +140,7 @@ export default function Calendar(props) {
             id="Next"
             style={{ marginTop: "0vh" }}
           >
-            Next
+            <LuCalendarPlus />
           </Button>
         </Col>
       </Row>

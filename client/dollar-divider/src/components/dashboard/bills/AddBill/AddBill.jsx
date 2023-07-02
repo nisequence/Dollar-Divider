@@ -5,6 +5,7 @@ import {
   UncontrolledPopover,
   PopoverBody,
 } from "reactstrap";
+import { BsFillEnvelopePlusFill } from "react-icons/bs";
 import NewInfo from "./NewInfo/NewInfo";
 
 export default function AddBill(props) {
@@ -56,7 +57,7 @@ export default function AddBill(props) {
           display: "inline-block",
         }}
       >
-        +
+        <BsFillEnvelopePlusFill />
       </Button>
       <UncontrolledPopover
         placement="bottom"

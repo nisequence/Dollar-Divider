@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "reactstrap";
+import { BsFillEnvelopeSlashFill } from "react-icons/bs";
 
 export default function DeleteBill(props) {
   async function deleteBill() {
@@ -29,7 +30,7 @@ export default function DeleteBill(props) {
   return (
     <>
       <Button color="danger" onClick={deleteBill}>
-        Delete Bill
+        <BsFillEnvelopeSlashFill /> Delete
       </Button>
     </>
   );
