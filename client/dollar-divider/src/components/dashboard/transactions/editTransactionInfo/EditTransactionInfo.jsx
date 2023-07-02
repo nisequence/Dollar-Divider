@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Form, FormGroup, Input, Button, Label } from "reactstrap";
 export default function EditTransactionInfo(props) {
   // let accountsList = [];
-  
+
   // console.log("accountslist",accountsList)
   const transactionsToDelete = [
     "January",
@@ -54,10 +54,50 @@ export default function EditTransactionInfo(props) {
 
   // };
 
-
   return (
     <>
       <Form onSubmit={() => console.log("form submitted")}>
+        {/* Name of Transaction */}
+        <FormGroup>
+          <Input
+            placeholder="Name of Transaction"
+            innerRef={descRef}
+            autoComplete="off"
+            type="text"
+            required
+          />
+        </FormGroup>
+        {/* Dollar Amount */}
+        <FormGroup>
+          <Input
+            placeholder="Dollar Amount"
+            innerRef={amountRef}
+            autoComplete="off"
+            type="number"
+            required
+          />
+        </FormGroup>
+        {/* Merchant Name */}
+        <FormGroup>
+          <Input
+            placeholder="Merchant"
+            innerRef={merchantRef}
+            autoComplete="off"
+            type="text"
+            required
+          />
+        </FormGroup>
+        {/* Income vs Expense */}
+        <FormGroup>
+          <Input
+            placeholder="Income or Expense"
+            innerRef={typeRef}
+            autoComplete="off"
+            type="text"
+            required
+          />
+        </FormGroup>
+        {/* Choose Category */}
         <FormGroup>
           <Label for="exampleSelectMulti">Choose Category</Label>
           <Input
@@ -76,6 +116,7 @@ export default function EditTransactionInfo(props) {
             })}
           </Input>
         </FormGroup>
+        {/* Choose Month */}
         <FormGroup>
           <Label for="exampleSelectMulti">Choose Month</Label>
           <Input
@@ -94,6 +135,7 @@ export default function EditTransactionInfo(props) {
             })}
           </Input>
         </FormGroup>
+        {/* Choose Day */}
         <FormGroup>
           <Label for="exampleSelect3">Choose Day</Label>
           <Input
@@ -112,33 +154,7 @@ export default function EditTransactionInfo(props) {
             })}
           </Input>
         </FormGroup>
-        <FormGroup>
-          <Input
-            placeholder="Name of Transaction"
-            innerRef={descRef}
-            autoComplete="off"
-            type="text"
-            required
-          />
-        </FormGroup>
-        <FormGroup>
-          <Input
-            placeholder="Dollar Amount"
-            innerRef={amountRef}
-            autoComplete="off"
-            type="number"
-            required
-          />
-        </FormGroup>
-        <FormGroup>
-          <Input
-            placeholder="Income or Expense"
-            innerRef={typeRef}
-            autoComplete="off"
-            type="text"
-            required
-          />
-        </FormGroup>
+        {/* Choose Account */}
         <FormGroup>
           <Label for="exampleSelectMulti">Choose Account</Label>
           <Input
@@ -148,23 +164,16 @@ export default function EditTransactionInfo(props) {
             innerRef={categoryRef}
             required
           >
-            {props.accounts?.map((a) => {return (
-            <><option> {a.name}</option>
-            </>
-            )
-          })
-}
+            {props.accounts?.map((a) => {
+              return (
+                <>
+                  <option> {a.name}</option>
+                </>
+              );
+            })}
           </Input>
         </FormGroup>
-        <FormGroup>
-          <Input
-            placeholder="Merchant"
-            innerRef={merchantRef}
-            autoComplete="off"
-            type="text"
-            required
-          />
-        </FormGroup>
+        {/* Check # */}
         <FormGroup>
           <Input
             placeholder="Check Number (optional)"
