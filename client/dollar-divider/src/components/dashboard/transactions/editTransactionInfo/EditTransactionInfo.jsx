@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Form, FormGroup, Input, Button, Label } from "reactstrap";
 export default function EditTransactionInfo(props) {
   // let accountsList = [];
-
+  const [state, setState] = useState(true);
   // console.log("accountslist",accountsList)
   const transactionsToDelete = [
     "January",
@@ -44,33 +44,87 @@ export default function EditTransactionInfo(props) {
   } else {
     base = "household";
   }
+  // console.log("id:",props.id)
+  // const submitTrans = async (e) => {
+  //   e.preventDefault();
+  //   const desc = descRef.current.value;
+  //   const amount = amountRef.current.value;
+  //   const month = monthRef.current.value;
+  //   const day = dayRef.current.value;
+  //   const category = categoryRef.current.value;
+  //   const merchant = merchantRef.current.value;
+  //   const checkNumber = checkNumRef.current.value;
+  //   //const manualEntry = manualEntryRef.current.value;
+  //   const finAccount = finAccountRef.current.value;
+  //   const type = typeRef.current.value;
 
-  // return (
-  //   <>
-  //   {deleteTransaction}
-  //   </>
-  //   // <h1>ID:{id}</h1>
-  // )
+  //   let url = `http://localhost:4000/transaction/edit/${id}`;
 
+  //   let transObj = JSON.stringify({
+  //     month: month,
+  //     day: day,
+  //     desc: desc,
+  //     merchant: merchant,
+  //     amount: amount,
+  //     checkNumber: checkNumber,
+  //     //manualEntry: true,
+  //     finAccount: finAccount,
+  //     category: category,
+  //     type: type,
+  //     base: base,
+  //   });
+
+  //   let headers = new Headers();
+  //   headers.append("Content-Type", "application/json");
+  //   headers.append("Authorization", props.token);
+
+  //   const reqOption = {
+  //     headers: headers,
+  //     body: transObj,
+  //     method: "POST",
+  //   };
+
+  //   try {
+  //     const res = await fetch(url, reqOption);
+  //     const data = await res.json();
+
+  //     // If the server provides a success message
+  //     if (
+  //       data.message === "You have created a new transaction!" ||
+  //       data.message === "Your household has a new transaction!"
+  //     ) {
+  //       props.getTransaction();
+  //     } else {
+  //       // Do nothing, maybe build an error component later to tell the user to re-configure their item
+  //       console.error("User is unauthorized.");
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
   // };
 
+  function incomeExpenseToggle() {
+  // console.log(state);
+  setState(!state);
+  console.log(state);
+}
   return (
     <>
       <Form onSubmit={() => console.log("form submitted")}>
-        {/* Name of Transaction */}
+        {/* Name of Item */}
         <FormGroup>
           <Input
-            placeholder="Name of Transaction"
+            placeholder="Name of Item"
             innerRef={descRef}
             autoComplete="off"
             type="text"
             required
           />
         </FormGroup>
-        {/* Dollar Amount */}
+        {/* Cost */}
         <FormGroup>
           <Input
-            placeholder="Dollar Amount"
+            placeholder="Cost"
             innerRef={amountRef}
             autoComplete="off"
             type="number"
@@ -88,7 +142,7 @@ export default function EditTransactionInfo(props) {
           />
         </FormGroup>
         {/* Income vs Expense */}
-        <FormGroup>
+        {/* <FormGroup>
           <Input
             placeholder="Income or Expense"
             innerRef={typeRef}
@@ -96,7 +150,17 @@ export default function EditTransactionInfo(props) {
             type="text"
             required
           />
-        </FormGroup>
+        </FormGroup> */}
+        <FormGroup switch>
+        <Input 
+        type="switch" 
+        role="switch" 
+        checked={!state} 
+        onClick={() => {incomeExpenseToggle()}}
+        />
+        <Label check>Income</Label>
+
+      </FormGroup>
         {/* Choose Category */}
         <FormGroup>
           <Label for="exampleSelectMulti">Choose Category</Label>

@@ -333,6 +333,7 @@ export default function RecentTransactions(props) {
           token={props.token}
           view={props.view}
           getTransaction={props.getTransaction}
+          accounts = {props.accounts}
         />
         <thead>
           <tr>

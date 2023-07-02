@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Form, FormGroup, Input, Button, Label } from "reactstrap";
 
-
 export default function NewTransInfo(props) {
   const months = [
     "January",
@@ -33,10 +32,9 @@ export default function NewTransInfo(props) {
   const amountRef = useRef();
   const checkNumRef = useRef();
   //const manualEntryRef= useRef();
-  const finAccountRef= useRef();
+  const finAccountRef = useRef();
   const categoryRef = useRef();
   const typeRef = useRef();
-  
 
   let base;
   if (props.view === false) {
@@ -55,11 +53,9 @@ export default function NewTransInfo(props) {
     const merchant = merchantRef.current.value;
     const checkNumber = checkNumRef.current.value;
     //const manualEntry = manualEntryRef.current.value;
-    const finAccount = finAccountRef.current.value;
+    const finAccount = "fix this";
+    // const finAccount = finAccountRef.current.value;
     const type = typeRef.current.value;
-    
-    
-   
 
     let url = "http://localhost:4000/transaction/add";
 
@@ -76,8 +72,6 @@ export default function NewTransInfo(props) {
       type: type,
       base: base,
     });
-
-    
 
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -111,6 +105,47 @@ export default function NewTransInfo(props) {
   return (
     <>
       <Form onSubmit={submitTrans}>
+        {/* Name of Item */}
+        <FormGroup>
+          <Input
+            placeholder="Name of Item"
+            innerRef={descRef}
+            autoComplete="off"
+            type="text"
+            required
+          />
+        </FormGroup>
+        {/* Cost */}
+        <FormGroup>
+          <Input
+            placeholder="Cost"
+            innerRef={amountRef}
+            autoComplete="off"
+            type="number"
+            required
+          />
+        </FormGroup>
+        {/* Merchant */}
+        <FormGroup>
+          <Input
+            placeholder="Merchant"
+            innerRef={merchantRef}
+            autoComplete="off"
+            type="text"
+            required
+          />
+        </FormGroup>
+        {/* Income or Expense */}
+        <FormGroup>
+          <Input
+            placeholder="Income or Expense"
+            innerRef={typeRef}
+            autoComplete="off"
+            type="text"
+            required
+          />
+        </FormGroup>
+        {/* Category */}
         <FormGroup>
           <Label for="exampleSelectMulti">Choose Category</Label>
           <Input
@@ -119,21 +154,17 @@ export default function NewTransInfo(props) {
             type="select"
             innerRef={categoryRef}
             required
-          > 
-        
-          
+          >
             {categoryOptions?.map((each) => {
-             
               return (
-        
                 <>
                   <option>{each.budgetCat}</option>
                 </>
               );
-              
             })}
           </Input>
         </FormGroup>
+        {/* Month */}
         <FormGroup>
           <Label for="exampleSelectMulti">Choose Month</Label>
           <Input
@@ -152,6 +183,7 @@ export default function NewTransInfo(props) {
             })}
           </Input>
         </FormGroup>
+        {/* Day */}
         <FormGroup>
           <Label for="exampleSelect3">Choose Day</Label>
           <Input
@@ -170,58 +202,32 @@ export default function NewTransInfo(props) {
             })}
           </Input>
         </FormGroup>
+        {/* Choose Account */}
         <FormGroup>
+          <Label for="exampleSelectMulti">Choose Account</Label>
           <Input
-            placeholder="Name of Transaction"
-            innerRef={descRef}
-            autoComplete="off"
-            type="text"
+            id="exampleSelect1"
+            name="select"
+            type="select"
+            innerRef={categoryRef}
             required
-          />
+          >
+            {props.accounts?.map((a) => {
+              return (
+                <>
+                  <option> {a.name}</option>
+                </>
+              );
+            })}
+          </Input>
         </FormGroup>
-        <FormGroup>
-          <Input
-            placeholder="Dollar Amount"
-            innerRef={amountRef}
-            autoComplete="off"
-            type="number"
-            required
-          />
-        </FormGroup>
-        <FormGroup>
-          <Input
-            placeholder="Income or Expense"
-            innerRef={typeRef}
-            autoComplete="off"
-            type="text"
-            required
-          />
-        </FormGroup>
-        <FormGroup>
-          <Input
-            placeholder="Financial  Account"
-            innerRef={finAccountRef}
-            autoComplete="off"
-            type="text"
-            required="false"
-          />
-        </FormGroup>
-        <FormGroup>
-          <Input
-            placeholder="Merchant"
-            innerRef={merchantRef}
-            autoComplete="off"
-            type="text"
-            required
-          />
-        </FormGroup>
+        {/* Check Number */}
         <FormGroup>
           <Input
             placeholder="Check Number"
             innerRef={checkNumRef}
             autoComplete="off"
             type="number"
-        
           />
         </FormGroup>
         <Button color="success" type="submit">
@@ -231,4 +237,3 @@ export default function NewTransInfo(props) {
     </>
   );
 }
-
