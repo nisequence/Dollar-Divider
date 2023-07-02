@@ -9,6 +9,7 @@ import Transaction from "./transactions/Transaction";
 import { useState, useEffect } from "react";
 import Bills2 from "./bills/Bills2";
 import AccountsList from "./accounts/AccountsList";
+import Split from "./Split/Split";
 import GetAll from "./accounts/getAll/GetAll";
 
 export default function Dashboard(props) {
@@ -48,56 +49,80 @@ export default function Dashboard(props) {
   }, [token]);
 
   // function GetAll() {
-    let acctName;
-    let acctBalance;
-    let acctMinBalance;
-    let allocations;
-    let available;
-    let acctOwnerID;
-    let url;
-    const [accounts, setAccounts] = useState([]);
-    const getAccounts = async (viewValue) => {
-      if (viewValue === true) {
-        url = "http://localhost:4000/finAccount/household";
-      } else {
-        url = "http://localhost:4000/finAccount/mine";
-      }
-      const reqOptions = {
-        method: "GET",
-        headers: new Headers({
-          Authorization: token,
-        }),
-      };
-  
-      try {
-        const res = await fetch(url, reqOptions);
-        const data = await res.json();
-        let information = data.getAllUserFinAccounts[0];
-        // console.log("Accounts Data:",information)
-        acctName = information.name;
-        acctBalance = information.balance;
-        acctMinBalance = information.balance;
-        allocations = information.allocations;
-        available = information.available;
-        acctOwnerID = information.ownerID;
-        // If the server does not provide a failure message
-        if (data.message !== "No accounts found.") {
-          setAccounts(data.getAllUserFinAccounts);
-        } else {
-          setAccounts(null);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-      
+  let acctName;
+  let acctBalance;
+  let acctMinBalance;
+  let allocations;
+  let available;
+  let acctOwnerID;
+  let url;
+  const [accounts, setAccounts] = useState([]);
+  const getAccounts = async () => {
+    url = "http://localhost:4000/finAccount/mine";
+    const reqOptions = {
+      method: "GET",
+      headers: new Headers({
+        Authorization: token,
+      }),
     };
-  
-    useEffect(() => {
-      if (token) {
-        getAccounts(props.view);
+
+    try {
+      const res = await fetch(url, reqOptions);
+      const data = await res.json();
+      let information = data.getAllUserFinAccounts[0];
+      // console.log("Accounts Data:",information)
+      acctName = information.name;
+      acctBalance = information.balance;
+      acctMinBalance = information.balance;
+      allocations = information.allocations;
+      available = information.available;
+      acctOwnerID = information.ownerID;
+      // If the server does not provide a failure message
+      if (data.message !== "No accounts found.") {
+        setAccounts(data.getAllUserFinAccounts);
+      } else {
+        setAccounts(null);
       }
-    }, [token, props.view]);
-  
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      getAccounts();
+    }
+  }, [token, props.view]);
+
+  const viewType = () => {
+    if (props.view === false) {
+      //* If viewing personal
+      return (
+        <AccountsList
+          accounts={accounts}
+          // balance = {props.balance}
+          // minBalance = {props.minBalance}
+          // allocations = {props.allocations}
+          // ownerID = {props.ownerID}
+          // available = {props.available}
+          // getBudgets={getBudgets}
+          // budgets={budgets}
+          // transactions={props.transactions}
+          token={props.token}
+          view={props.view}
+        />
+      );
+    } else {
+      return <Split token={props.token} view={props.view} />;
+    }
+  };
+
+  useEffect(() => {
+    if (props.token) {
+      viewType();
+    }
+  }, [props.token, props.view]);
+
   //todo Incorporate useEffect to dynamically refresh sections on new information
   return (
     <>
@@ -129,19 +154,20 @@ export default function Dashboard(props) {
           <Row>
             <Col className="bg-light border">
               {/* <GetAll token={token} /> */}
-              <AccountsList 
-            accounts = {accounts}
-            // balance = {props.balance}
-            // minBalance = {props.minBalance}
-            // allocations = {props.allocations}
-            // ownerID = {props.ownerID}
-            // available = {props.available} 
-            // getBudgets={getBudgets}
-            // budgets={budgets}
-            // transactions={props.transactions}
-            token={props.token}
-            view={props.view}
-    />
+              {/*               <AccountsList
+                accounts={accounts}
+                // balance = {props.balance}
+                // minBalance = {props.minBalance}
+                // allocations = {props.allocations}
+                // ownerID = {props.ownerID}
+                // available = {props.available}
+                // getBudgets={getBudgets}
+                // budgets={budgets}
+                // transactions={props.transactions}
+                token={props.token}
+                view={props.view}
+              /> */}
+              {viewType()}
             </Col>
             <Col className="bg-light border">
               {/* .col */}
@@ -149,8 +175,8 @@ export default function Dashboard(props) {
                 view={props.view}
                 token={token}
                 transactions={transactions}
-                accounts = {accounts}
-                budgets = {props.budgets}
+                accounts={accounts}
+                budgets={props.budgets}
               />
             </Col>
           </Row>

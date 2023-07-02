@@ -13,6 +13,12 @@ import Leave from "./Leave";
 
 export default function View({ token }) {
   const [memberInfo, setMemberInfo] = useState([]);
+  const updateInfo = (newInfo) => {
+    localStorage.setItem("Percents", newInfo.participantPercents);
+    localStorage.setItem("Users", newInfo.participantNames);
+    // ^ .setItem(key, value)
+    setMemberInfo(newInfo);
+  };
 
   const getHousehold = async () => {
     let url = "http://localhost:4000/household/member";
@@ -31,7 +37,7 @@ export default function View({ token }) {
       // console.log(data);
 
       if (data.message === "Household was found!") {
-        setMemberInfo(data);
+        updateInfo(data);
         // console.log(memberInfo);
         // console.log("working!");
       }
