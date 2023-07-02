@@ -40,7 +40,7 @@ export default function Selector(props) {
             token={props.token}
             view={props.view}
             getBudgets={props.getBudgets}
-            budget={props.budgets.indexOf(chosen)}
+            budget={props.budgets?.indexOf(chosen)}
             /*             toggle={toggle} */
             modal={modal}
           />
