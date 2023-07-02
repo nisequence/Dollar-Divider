@@ -1,5 +1,5 @@
 // import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Pie, Doughnut, PolarArea } from "react-chartjs-2";
+import { PolarArea } from "react-chartjs-2";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useParams } from "react-router-dom";
 import {
@@ -37,7 +37,7 @@ export default function CurrentBudgetStatus(props) {
     };
     totalBudgets();
 
-    if (props.view === false || status == "Admin") {
+    if (props.view === false || status === "Admin") {
       //* If viewing personal or if user is the Admin
       // get all the stuff
       return (

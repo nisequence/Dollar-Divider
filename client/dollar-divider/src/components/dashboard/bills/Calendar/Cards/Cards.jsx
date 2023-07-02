@@ -75,12 +75,13 @@ export default function Cards(props) {
       <Row sm="5" overflow-y="scroll">
         <Card
           body
-          color="secondary"
           style={{
             maxHeight: "10vh",
-            backgroundColor: "rgb(182,205,228)",
+            backgroundColor: "rgba(0, 57, 122, 0.932)",
             margin: "0.75rem",
             padding: "0.2rem",
+            color: "white",
+            alignContent: "center",
           }}
         >
           <CardBody>
@@ -129,7 +130,9 @@ export default function Cards(props) {
                       <CardTitle tag="h6">{each.title}</CardTitle>
                     </Col>
                     <Col>
-                      <CardText>${each.amount.toLocaleString("en-US")}</CardText>
+                      <CardText>
+                        ${each.amount.toLocaleString("en-US")}
+                      </CardText>
                     </Col>
                     <Col>
                       <CardText>

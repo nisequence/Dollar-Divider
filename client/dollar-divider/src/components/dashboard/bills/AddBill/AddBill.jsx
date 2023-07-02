@@ -5,6 +5,7 @@ import {
   UncontrolledPopover,
   PopoverBody,
 } from "reactstrap";
+import { BsFillEnvelopePlusFill } from "react-icons/bs";
 import NewInfo from "./NewInfo/NewInfo";
 
 export default function AddBill(props) {
@@ -12,7 +13,7 @@ export default function AddBill(props) {
   const [budgets, setBudgets] = useState([]);
   const getBudgets = async () => {
     let viewValue = props.view;
-    if (viewValue == true) {
+    if (viewValue === true) {
       url = "http://localhost:4000/budget/household";
     } else {
       url = "http://localhost:4000/budget/mine";
@@ -29,7 +30,7 @@ export default function AddBill(props) {
       const data = await res.json();
 
       // If the server does not provide a failure message
-      if (data.message == "Budget(s) found!") {
+      if (data.message === "Budget(s) found!") {
         setBudgets(data.allBudgets);
       } else {
         setBudgets(null);
@@ -56,7 +57,7 @@ export default function AddBill(props) {
           display: "inline-block",
         }}
       >
-        +
+        <BsFillEnvelopePlusFill />
       </Button>
       <UncontrolledPopover
         placement="bottom"

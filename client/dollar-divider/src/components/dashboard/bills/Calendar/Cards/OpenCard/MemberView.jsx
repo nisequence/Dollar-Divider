@@ -11,6 +11,7 @@ import {
   Form,
   Label,
 } from "reactstrap";
+import { BsFillEnvelopePaperFill } from "react-icons/bs";
 import MarkPaid from "./MarkPaid";
 
 export default function MemberView(props) {
@@ -24,7 +25,7 @@ export default function MemberView(props) {
   return (
     <>
       <Button color="info" onClick={toggle}>
-        Open
+        <BsFillEnvelopePaperFill />
       </Button>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Viewing {billInfo.title} Bill</ModalHeader>

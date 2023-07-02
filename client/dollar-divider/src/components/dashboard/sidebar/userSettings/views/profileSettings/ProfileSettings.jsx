@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
-import { Form, FormGroup, Input, Label, Button } from "reactstrap";
+import { Form, FormGroup, Input, Button } from "reactstrap";
 // import userModel from "../../../../../../../../../server/models/user.model";
 export default function ProfileSettings() {
   let [information, setInformation] = useState([]);

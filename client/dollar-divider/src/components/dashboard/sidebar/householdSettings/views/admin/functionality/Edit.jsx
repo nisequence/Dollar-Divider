@@ -7,7 +7,6 @@ import {
   ModalFooter,
   Input,
 } from "reactstrap";
-import { GrEdit } from "react-icons/gr";
 import { TbHomeEdit } from "react-icons/tb";
 
 export default function Edit(props) {
