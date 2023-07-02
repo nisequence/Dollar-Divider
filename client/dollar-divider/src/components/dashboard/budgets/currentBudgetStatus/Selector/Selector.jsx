@@ -9,7 +9,7 @@ import {
   Modal,
   ModalHeader,
 } from "reactstrap";
-import UpdateBudgets from "../EditBudgets/UpdateBudget";
+import UpdateBudgets from "../EditBudgets/UpdateBudgets";
 
 export default function Selector(props) {
   let categoryOptions = props.budgets;
@@ -22,7 +22,7 @@ export default function Selector(props) {
     e.preventDefault();
 
     setChosen(choiceRef.current.value);
-    console.log(chosen);
+    
     if (modal === true) {
       //do nothing
     } else {
@@ -30,7 +30,7 @@ export default function Selector(props) {
     }
     console.log(modal);
   };
-
+console.log(chosen);
   const displayModal = () => {
     return (
       <>
@@ -40,7 +40,8 @@ export default function Selector(props) {
             token={props.token}
             view={props.view}
             getBudgets={props.getBudgets}
-            budget={props.budgets?.indexOf(chosen)}
+            budget={props.budgets?.indexOf(chosen)} //! Not working the way we had hoped. Only grabbing string of budget and not object that can be looked into for category or amount in UpdateBudget and DeleteBudget
+            budgetA={props.budgets}
             /*             toggle={toggle} */
             modal={modal}
           />
