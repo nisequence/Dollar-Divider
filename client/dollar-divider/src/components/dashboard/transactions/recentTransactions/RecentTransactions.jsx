@@ -2,16 +2,25 @@ import { useState, useRef } from "react";
 import {
   Table,
   Button,
-  PopoverHeader,
-  UncontrolledPopover,
-  PopoverBody,
-  Alert
+  // PopoverHeader,
+  // UncontrolledPopover,
+  // PopoverBody,
+  // UncontrolledModal,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  // Alert
 } from "reactstrap";
 import { v4 } from "uuid";
 import AddTransaction from "../addTransaction/AddTransaction";
 import EditTransactionInfo from "../editTransactionInfo/EditTransactionInfo";
 let transactionID;
 export default function RecentTransactions(props) {
+  const [modal, setModal] = useState(false);
+
+  const toggleModal = () => setModal(!modal);
+  
   const transactionsToDelete = [
     "January",
     "February",
@@ -128,7 +137,7 @@ export default function RecentTransactions(props) {
       console.error(error);
       //   }
     }
-    alert("Transaction Updated")
+    alert("Transaction Updated");
   };
 
   const cancelEditing = () => {
@@ -153,7 +162,7 @@ export default function RecentTransactions(props) {
       console.error(error);
       //   }
     }
-    alert("Transaction Deleted")
+    alert("Transaction Deleted");
   };
 
   const recentTransactions = [];
@@ -179,7 +188,7 @@ export default function RecentTransactions(props) {
       colorAssignment = 0;
     }
     let displayNumber;
-    transaction.amount = +transaction.amount
+    transaction.amount = +transaction.amount;
     if (transaction.amount < 0) {
       let tempNumber = transaction.amount.toLocaleString("en-US");
       let prefix = "-$";
@@ -199,12 +208,14 @@ export default function RecentTransactions(props) {
         <td>
           <Button
             onClick={() => {
+              toggleModal()
               transactionID = transaction._id;
             }}
-            id="UncontrolledPopoverEditTransaction"
+            id="UncontrolledModalEditTransaction"
+            // id="UncontrolledPopoverEditTransaction"
             color="secondary"
             type="button"
-            trigger="legacy"
+            // trigger="legacy"
             style={{
               height: "1.5em",
               display: "flex",
@@ -214,17 +225,25 @@ export default function RecentTransactions(props) {
           >
             edit
           </Button>
-          <UncontrolledPopover
-            placement="top"
-            target="UncontrolledPopoverEditTransaction"
+          <Modal
+            isOpen={modal}
+            fade={false}
+            toggle={toggleModal}
+            // <Modal
+            // placement="top"
+            // target="UncontrolledModalEditTransaction"
+            // target="UncontrolledPopoverEditTransaction"
           >
-            <PopoverHeader>Edit Transaction</PopoverHeader>
-            <PopoverBody>
+            <ModalHeader toggle={toggleModal}>Edit Transaction</ModalHeader>
+            {/* <PopoverHeader>Edit Transaction</PopoverHeader> */}
+            <ModalBody>
+              {/* <PopoverBody> */}
               <EditTransactionInfo
                 token={props.token}
                 view={props.view}
                 month={props.month}
               />
+              <ModalFooter>
               <Button
                 onClick={() => updateTransaction(transactionID)}
                 color="success"
@@ -248,8 +267,10 @@ export default function RecentTransactions(props) {
                 {/* <Button onClick={deleteTransaction(id)} color="danger"> */}
                 Delete
               </Button>
-            </PopoverBody>
-          </UncontrolledPopover>
+              </ModalFooter>
+            </ModalBody>
+          </Modal>
+          {/* </UncontrolledPopover> */}
         </td>
       </tr>
     );
@@ -257,7 +278,7 @@ export default function RecentTransactions(props) {
 
   return (
     <div className="RecentTransactions">
-      <Table>
+      <Table overflow-y="scroll">
         <AddTransaction
           token={props.token}
           view={props.view}
