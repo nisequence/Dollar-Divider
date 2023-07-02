@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef,useEffect } from "react";
 import {
   Table,
   Button,
@@ -16,11 +16,14 @@ import { v4 } from "uuid";
 import AddTransaction from "../addTransaction/AddTransaction";
 import EditTransactionInfo from "../editTransactionInfo/EditTransactionInfo";
 let transactionID;
+let categoryOptions = []
 export default function RecentTransactions(props) {
   const [modal, setModal] = useState(false);
 
   const toggleModal = () => setModal(!modal);
   
+  // console.log("account list:",props.accounts)
+
   const transactionsToDelete = [
     "January",
     "February",
@@ -39,7 +42,52 @@ export default function RecentTransactions(props) {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
     22, 23, 24, 25, 26, 27, 28, 29, 30,
   ];
-  let categoryOptions = props.budgets;
+  useEffect(() => {
+    if (props.token) {
+      getBudgets();
+    }
+  }, [props.token, props.view]);
+  
+  // let categoryOptions = [];
+  let url;
+  const getBudgets = async () => {
+    let viewValue = props.view;
+    if (viewValue == true) {
+      url = "http://localhost:4000/budget/household";
+    } else {
+      url = "http://localhost:4000/budget/mine";
+    }
+    const reqOptions = {
+      method: "GET",
+      headers: new Headers({
+        Authorization: props.token,
+      }),
+    };
+
+    try {
+      const res = await fetch(url, reqOptions);
+      const data = await res.json();
+
+      // If the server does not provide a failure message
+      if (data.message !== "No personal budgets found.") {
+        // setBudgets(data.allBudgets);
+        // console.log("budgetdata:",data.allBudgets)
+        categoryOptions = [];
+        data.allBudgets.map((item) => {
+          // console.log("budgetCat:",item.budgetCat)
+          categoryOptions.push(item)
+        })
+       } else {
+        // setBudgets(null);
+        console.log("no budget data found")
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  // console.log("catoptions", categoryOptions)
+
+
   //* Dropdown settings
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
@@ -61,6 +109,8 @@ export default function RecentTransactions(props) {
   } else {
     base = "household";
   }
+
+  
 
   // const submitTrans = async (e) => {
   //   e.preventDefault();
@@ -139,10 +189,6 @@ export default function RecentTransactions(props) {
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const cancelEditing = () => {
-    console.log("cancel editing button clicked");
   };
 
   const deleteTransaction = async (id) => {
@@ -244,6 +290,8 @@ export default function RecentTransactions(props) {
                 token={props.token}
                 view={props.view}
                 month={props.month}
+                accounts={props.accounts}
+                categoryOptions = {categoryOptions}
               />
               <ModalFooter>
               <Button
