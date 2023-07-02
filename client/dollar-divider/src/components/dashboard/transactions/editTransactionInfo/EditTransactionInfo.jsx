@@ -1,7 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Form, FormGroup, Input, Button, Label } from "reactstrap";
-
 export default function EditTransactionInfo(props) {
+  // let accountsList = [];
+  
+  // console.log("accountslist",accountsList)
   const transactionsToDelete = [
     "January",
     "February",
@@ -20,7 +22,7 @@ export default function EditTransactionInfo(props) {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
     22, 23, 24, 25, 26, 27, 28, 29, 30,
   ];
-  let categoryOptions = props.budgets;
+
   //* Dropdown settings
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
@@ -52,6 +54,7 @@ export default function EditTransactionInfo(props) {
 
   // };
 
+
   return (
     <>
       <Form onSubmit={() => console.log("form submitted")}>
@@ -64,7 +67,8 @@ export default function EditTransactionInfo(props) {
             innerRef={categoryRef}
             required
           >
-            {categoryOptions?.map((each) => {
+            {console.log("categoryOptions",props.categoryOptions)}
+            {props.categoryOptions?.map((each) => {
               return (
                 <>
                   <option>{each.budgetCat}</option>
@@ -137,13 +141,21 @@ export default function EditTransactionInfo(props) {
           />
         </FormGroup>
         <FormGroup>
+          <Label for="exampleSelectMulti">Choose Account</Label>
           <Input
-            placeholder="Financial  Account"
-            innerRef={finAccountRef}
-            autoComplete="off"
-            type="text"
-            required="false"
-          />
+            id="exampleSelect1"
+            name="select"
+            type="select"
+            innerRef={categoryRef}
+            required
+          >
+            {props.accounts?.map((a) => {return (
+            <><option> {a.name}</option>
+            </>
+            )
+          })
+}
+          </Input>
         </FormGroup>
         <FormGroup>
           <Input
@@ -156,7 +168,7 @@ export default function EditTransactionInfo(props) {
         </FormGroup>
         <FormGroup>
           <Input
-            placeholder="Check Number"
+            placeholder="Check Number (optional)"
             innerRef={checkNumRef}
             autoComplete="off"
             type="number"
