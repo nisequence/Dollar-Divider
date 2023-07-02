@@ -1,5 +1,5 @@
 import React from "react";
-import dollarDividerLogo from "../../../media/dollarDividerLogo.png";
+import dollarDividerLogo from "../../../media/DollarDividerLogoNoBG.png"
 
 function Logo() {
   return (
