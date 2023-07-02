@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react'
 import RecentTransactions from './recentTransactions/RecentTransactions';
 export default function Transaction(props) {
-  // console.log(props)
     let url;
     const [transaction, setTransaction] = useState([]);
     const getTransaction = async (viewValue) => {
@@ -37,14 +36,11 @@ export default function Transaction(props) {
         getTransaction(props.view);
       }
     }, [props.token, props.view]);
-    // console.log("transaction:",transaction)
-    // console.log("props", props)
+
     return (
       <>
         <RecentTransactions
             transactions = {props.transactions} token={props.token} view={props.view} getTransaction={getTransaction} />
-            {/* transactions = {props.transactions} transaction={transaction} token={props.token} view={props.view} getTransaction={getTransaction} /> */}
-    
       </>
     );
   }
