@@ -52,7 +52,9 @@ export default function Cards(props) {
   function modifyColor(value) {
     if (value === true) {
       //* This is the color for paid bills (not a fan of it currently but good enough)
-      cardColor = "rgb(0, 100, 0)";
+      // cardColor = "rgb(0, 100, 0)";
+      
+      cardColor = "rgb(65, 65, 65)";
     } else {
       //* This is the color for unpaid bills (would like to keep this)
       cardColor = "rgb(182,205,228)";
