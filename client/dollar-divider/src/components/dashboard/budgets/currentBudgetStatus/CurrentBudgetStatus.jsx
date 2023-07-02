@@ -1,6 +1,6 @@
 // import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { PolarArea } from "react-chartjs-2";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Button } from "reactstrap";
 import { useParams } from "react-router-dom";
 import {
   Chart as ChartJS,
@@ -10,7 +10,6 @@ import {
   Legend,
 } from "chart.js";
 import AddBudget from "./AddBudget/AddBudget";
-import UpdateBudgets from "./EditBudgets/UpdateBudget";
 import { useEffect } from "react";
 import Selector from "./Selector/Selector";
 
@@ -22,9 +21,6 @@ ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function clicked() {
-  console.log("click");
-}
 export default function CurrentBudgetStatus(props) {
   const status = localStorage.getItem("Status");
 
@@ -35,6 +31,7 @@ export default function CurrentBudgetStatus(props) {
         let thisOne = props.budgets[x].budgetAmt;
         total += thisOne;
       }
+      localStorage.setItem("Total", total);
     };
     totalBudgets();
 
@@ -76,7 +73,7 @@ export default function CurrentBudgetStatus(props) {
       {
         label: "Budget Amount",
         data: [], // Dollar amounts for each category.
-        options: { onClick: clicked },
+        // options: { onClick: clicked },
         backgroundColor: [
           "rgba(255, 255, 0, 0.5)",
           "rgba(255, 0, 0, 0.5)",

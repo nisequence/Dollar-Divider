@@ -20,6 +20,12 @@ import Delete from "./Delete";
 
 export default function View(props) {
   const [householdInfo, setHouseholdInfo] = useState([]);
+  const updateInfo = (newInfo) => {
+    localStorage.setItem("Percents", newInfo.participantPercents);
+    localStorage.setItem("Users", newInfo.participantNames);
+    // ^ .setItem(key, value)
+    setHouseholdInfo(newInfo);
+  };
   const [editPercent, setEditPercent] = useState(false);
   const numberRef = useRef();
 
@@ -40,7 +46,7 @@ export default function View(props) {
       // console.log(data.getHousehold);
 
       if (data.message === "Household was found!") {
-        setHouseholdInfo(data.getHousehold);
+        updateInfo(data.getHousehold);
         // console.log(householdInfo);
       }
     } catch (err) {
