@@ -10,8 +10,9 @@ import {
   Legend,
 } from "chart.js";
 import AddBudget from "./AddBudget/AddBudget";
-import UpdateBudgets from "../view/single/UpdateBudget";
+import UpdateBudgets from "./EditBudgets/UpdateBudget";
 import { useEffect } from "react";
+import Selector from "./Selector/Selector";
 
 // import React, { useRef } from "react";
 // import React, {useState} from "react";
@@ -130,12 +131,12 @@ export default function CurrentBudgetStatus(props) {
     <>
       <div className="CurrentBudgetStatus" id="currentbudgetstatus">
         {viewType()}
-        {/* <UpdateBudgets
+        <Selector
           token={props.token}
           view={props.view}
           getBudgets={props.getBudgets}
-        /> */}
-        <UpdateBudgets budgets={props.budgets} />
+          budgets={props.budgets}
+        />
         {/* <Doughnut */}
         <PolarArea
           style={{ marginLeft: "4vw", marginRight: "4vw", maxHeight: "60vh" }}

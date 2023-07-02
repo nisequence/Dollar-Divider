@@ -127,9 +127,9 @@ export default function NewInfo(props) {
           >
             {categoryOptions?.map((each) => {
               return (
-                <div key={categoryOptions.indexOf(each)}>
-                  <option>{each.budgetCat}</option>
-                </div>
+                <option key={categoryOptions.indexOf(each)}>
+                  {each.budgetCat}
+                </option>
               );
             })}
           </Input>
