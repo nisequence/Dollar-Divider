@@ -66,6 +66,7 @@ export default function Sidebar(props) {
     const openRightSidebarWidth = "95em";
     if (!userSettingsMenuCollapsed || collapsed === true) {
       userSettingsMenu.style.width = "0";
+      userSettingsMenu.style.visibility = "hidden";
       // rightSideMenu.style.color = "rgba(0,0,0,0)";
       // rightSideMenu.style.minWidth = "fitContent";
     } else {
@@ -76,6 +77,9 @@ export default function Sidebar(props) {
       // setHouseholdSettingsMenuCollapsed(!householdSettingsMenuCollapsed);
       userSettingsMenu.style.height = "100vh";
       userSettingsMenu.style.width = openRightSidebarWidth;
+      setTimeout(() => {
+        userSettingsMenu.style.visibility = "visible"
+      }, 100);
       // rightSideMenu.style.maxWidth = "95em";
 
       // Get the current width of the left menu to base the max width of the right menu, to prevent overlap.
@@ -111,6 +115,7 @@ export default function Sidebar(props) {
     const openRightSidebarWidth = "95em";
     if (!householdSettingsMenuCollapsed) {
       householdSettingsMenu.style.width = "0";
+      householdSettingsMenu.style.visibility = "hidden";
       // rightSideMenu.style.color = "rgba(0,0,0,0)";
       // rightSideMenu.style.minWidth = "fitContent";
     } else {
@@ -121,6 +126,9 @@ export default function Sidebar(props) {
       // setUserSettingsMenuCollapsed(!userSettingsMenuCollapsed);
       householdSettingsMenu.style.height = "100vh";
       householdSettingsMenu.style.width = openRightSidebarWidth;
+      setTimeout(() => {
+        householdSettingsMenu.style.visibility = "visible";
+      }, 100);
       // rightSideMenu.style.maxWidth = "95em";
 
       // Get the current width of the left menu to base the max width of the right menu, to prevent overlap.

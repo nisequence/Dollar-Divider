@@ -233,6 +233,7 @@
     right: 0;
     top: 0;
     width: 0;
+    visibility: hidden;
     max-width: 80vw;
     transition: width 0.25s;
     height: 100vh;
@@ -248,6 +249,7 @@
     right: 0;
     top: 0;
     width: 0;
+    visibility: hidden;
     max-width: 80vw;
     transition: width 0.25s;
     height: 100vh;
