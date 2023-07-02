@@ -53,7 +53,7 @@ export default function Cards(props) {
     if (value === true) {
       //* This is the color for paid bills (not a fan of it currently but good enough)
       // cardColor = "rgb(0, 100, 0)";
-      
+
       cardColor = "rgb(65, 65, 65)";
     } else {
       //* This is the color for unpaid bills (would like to keep this)
@@ -72,44 +72,9 @@ export default function Cards(props) {
 
   return (
     <>
-      <Row sm="5" overflow-y="scroll">
-        <Card
-          body
-          style={{
-            maxHeight: "10vh",
-            backgroundColor: "rgba(0, 57, 122, 0.932)",
-            margin: "0.75rem",
-            padding: "0.2rem",
-            color: "white",
-            alignContent: "center",
-          }}
-        >
-          <CardBody>
-            <Row>
-              <Col>
-                <CardTitle tag="h6">Title</CardTitle>
-              </Col>
-              <Col>
-                <CardText>$</CardText>
-              </Col>
-              <Col>
-                <CardText>Due</CardText>
-              </Col>
-              <Col>
-                <CardText>Budget</CardText>
-              </Col>
-              <Col>
-                <CardText>More</CardText>
-              </Col>
-            </Row>
-          </CardBody>
-        </Card>
-      </Row>
-      {/* {displayBillCards(props.bills, props.month)} */}
       {props.bills?.map((each) => {
         //* Set different value for background color based on whether the bill is paid or unpaid
         modifyColor(each.paid);
-        /* ! Would like to nest the below return for each bill into a scroll bar container */
         return (
           <div key={props.bills.indexOf(each)}>
             <Row sm="5">
