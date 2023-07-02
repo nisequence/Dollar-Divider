@@ -53,7 +53,7 @@ export default function Cards(props) {
     if (value === true) {
       //* This is the color for paid bills (not a fan of it currently but good enough)
       // cardColor = "rgb(0, 100, 0)";
-      
+
       cardColor = "rgb(65, 65, 65)";
     } else {
       //* This is the color for unpaid bills (would like to keep this)
@@ -73,11 +73,11 @@ export default function Cards(props) {
   return (
     <>
       <Row sm="5" overflow-y="scroll">
-        <Card
+        {/* <Card
           body
           style={{
             maxHeight: "10vh",
-            backgroundColor: "rgba(0, 57, 122, 0.932)",
+            backgroundColor: "#00517c",
             margin: "0.75rem",
             padding: "0.2rem",
             color: "white",
@@ -90,20 +90,20 @@ export default function Cards(props) {
                 <CardTitle tag="h6">Title</CardTitle>
               </Col>
               <Col>
-                <CardText>$</CardText>
+                <CardText tag="h6">$</CardText>
               </Col>
               <Col>
-                <CardText>Due</CardText>
+                <CardText tag="h6">Due</CardText>
               </Col>
               <Col>
-                <CardText>Budget</CardText>
+                <CardText tag="h6">Budget</CardText>
               </Col>
               <Col>
-                <CardText>More</CardText>
+                <CardText tag="h6">More</CardText>
               </Col>
             </Row>
           </CardBody>
-        </Card>
+        </Card> */}
       </Row>
       {/* {displayBillCards(props.bills, props.month)} */}
       {props.bills?.map((each) => {

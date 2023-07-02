@@ -1,5 +1,15 @@
 import React, { useState } from "react";
-import { Carousel, CarouselItem, Button, Row, Col } from "reactstrap";
+import {
+  Carousel,
+  CarouselItem,
+  Button,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  CardTitle,
+  CardText,
+} from "reactstrap";
 import { LuCalendarPlus, LuCalendarMinus } from "react-icons/lu";
 import Cards from "./Cards/Cards";
 import AddBill from "../AddBill/AddBill";
@@ -151,6 +161,37 @@ export default function Calendar(props) {
         next={next}
         previous={previous}
       >
+        <Card
+          body
+          style={{
+            maxHeight: "10vh",
+            backgroundColor: "#00517c",
+            margin: "0.75rem",
+            padding: "0.2rem",
+            color: "white",
+            alignContent: "center",
+          }}
+        >
+          <CardBody>
+            <Row>
+              <Col>
+                <CardTitle tag="h6">Title</CardTitle>
+              </Col>
+              <Col>
+                <CardText tag="h6">$</CardText>
+              </Col>
+              <Col>
+                <CardText tag="h6">Due</CardText>
+              </Col>
+              <Col>
+                <CardText tag="h6">Budget</CardText>
+              </Col>
+              <Col>
+                <CardText tag="h6">More</CardText>
+              </Col>
+            </Row>
+          </CardBody>
+        </Card>
         {slides}
       </Carousel>
     </div>
