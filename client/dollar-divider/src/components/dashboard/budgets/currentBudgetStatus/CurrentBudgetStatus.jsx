@@ -135,7 +135,10 @@ export default function CurrentBudgetStatus(props) {
           view={props.view}
           getBudgets={props.getBudgets}
         /> */}
-        <UpdateBudgets budgets={props.budgets} />
+        <UpdateBudgets 
+        budgets={props.budgets}
+        getBudgets={props.getBudgets}
+        token={props.token}/>
         {/* <Doughnut */}
         <PolarArea
           style={{ marginLeft: "4vw", marginRight: "4vw", maxHeight: "60vh" }}
