@@ -67,7 +67,6 @@ export default function EditTransactionInfo(props) {
             innerRef={categoryRef}
             required
           >
-            {console.log("categoryOptions",props.categoryOptions)}
             {props.categoryOptions?.map((each) => {
               return (
                 <>
