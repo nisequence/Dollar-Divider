@@ -254,13 +254,13 @@ export default function RecentTransactions(props) {
                 {/* <Button onClick={updatingTransaction} color="success" type="submit"> */}
                 Update
               </Button>
-              <Button
+              {/* <Button
                 // key={v4}
                 onClick={cancelEditing}
                 color="secondary"
               >
                 Cancel
-              </Button>
+              </Button> */}
               <Button
                 key={v4}
                 onClick={() => deleteTransaction(transactionID)}
