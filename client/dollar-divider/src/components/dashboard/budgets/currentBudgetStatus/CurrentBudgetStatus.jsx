@@ -10,7 +10,6 @@ import {
   Legend,
 } from "chart.js";
 import AddBudget from "./AddBudget/AddBudget";
-import UpdateBudgets from "./EditBudgets/UpdateBudget";
 import { useEffect } from "react";
 import Selector from "./Selector/Selector";
 

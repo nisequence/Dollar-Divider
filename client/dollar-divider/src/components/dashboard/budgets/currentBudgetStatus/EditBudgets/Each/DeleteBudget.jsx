@@ -1,9 +1,11 @@
 import React from "react";
+import { Button } from "reactstrap";
 
 export default function DeleteBudget(props) {
   //* DELETE FUNCTION
   async function deleteBudget() {
     const url = `http://localhost:4000/budgets/${props.id}`;
+    console.log(props.id);
 
     const myHeaders = new Headers();
     myHeaders.append("Authorization", props.token);
@@ -28,8 +30,9 @@ export default function DeleteBudget(props) {
 
   return (
     <>
-      {" "}
+    <Button color="danger" onClick={deleteBudget}>
       <h1>DeleteBudget</h1>
+      </Button>
     </>
   );
 }

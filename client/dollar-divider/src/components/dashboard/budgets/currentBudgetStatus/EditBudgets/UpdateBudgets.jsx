@@ -17,6 +17,8 @@ import DeleteBudget from "./Each/DeleteBudget";
 export default function UpdateBudgets(props) {
   let budgetInfo = props.budget;
   let budgetID = budgetInfo._id;
+  console.log("the string budget", props.budget)
+  console.log("A", props.budgetA)
 
   const budgetCatRef = useRef(); // dropdown
   const budgetAmtRef = useRef();
@@ -97,12 +99,12 @@ export default function UpdateBudgets(props) {
 
   return (
     <div>
-      <Form onSubmit={editBudget}>
+      <Form onSubmit={UpdateBudgets}>
         <ModalBody>
           <FormGroup>
             <Label input>
               Category
-              <i> (Currently: {budgetInfo.budgetCat})</i>
+              <i> (Currently: {`${budgetInfo.budgetCat}`})</i>
             </Label>
             {/*             <Input
               placeholder={budgetInfo.budgetCat}
@@ -124,7 +126,7 @@ export default function UpdateBudgets(props) {
           <FormGroup>
             <Label input>
               Amount
-              <i> (Currently: ${budgetInfo.budgetAmt})</i>
+              <i> (Currently: ${`${budgetInfo.budgetAmt}`})</i>
             </Label>
             <Input
               placeholder={budgetInfo.budgetAmt}
@@ -139,9 +141,10 @@ export default function UpdateBudgets(props) {
           <DeleteBudget
             token={props.token}
             getBudgets={props.getBudgets}
-            id={budgetID}
+            id={budgetID}//! needs to be rewritten to props.(whatever we choose to call it in Selector 143)
           />
           <Button color="primary" id="submit">
+            {editBudget}
             Submit Changes
           </Button>{" "}
         </ModalFooter>
