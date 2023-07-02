@@ -54,7 +54,7 @@ export default function GetAll(props) {
 
   return (
     <>
-    <AccountsList 
+    {/* <AccountsList 
             accounts = {accounts}
             // balance = {props.balance}
             // minBalance = {props.minBalance}
@@ -66,7 +66,7 @@ export default function GetAll(props) {
             // transactions={props.transactions}
             token={props.token}
             view={props.view}
-    />
+    /> */}
     </>
   )
 }

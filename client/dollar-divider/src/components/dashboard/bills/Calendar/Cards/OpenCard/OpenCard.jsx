@@ -121,7 +121,7 @@ export default function OpenCard(props) {
       <Button color="info" onClick={toggle} altText="Open">
         <BsFillEnvelopePaperFill />
       </Button>
-      <Modal isOpen={modal} toggle={toggle}>
+      <Modal isOpen={modal} toggle={toggle} fade={false}>
         <ModalHeader toggle={toggle}>Viewing {billInfo.title} Bill</ModalHeader>
         <Form onSubmit={editBill}>
           <ModalBody>

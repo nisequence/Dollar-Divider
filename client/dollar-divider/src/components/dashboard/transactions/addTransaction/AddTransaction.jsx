@@ -70,6 +70,7 @@ export default function AddTransaction(props) {
             month={props.month}
             budgets={budgets}
             getTransaction={props.getTransaction}
+            accounts = {props.accounts}
           />
         </PopoverBody>
       </UncontrolledPopover>
