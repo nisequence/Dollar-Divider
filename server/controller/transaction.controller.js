@@ -126,7 +126,7 @@ router.get("/household", async (req, res) => {
           message: `No transactions found.`,
         });
   } catch (err) {
-    errorResponse(res, err);
+    serverError(res, err);
   }
 });
 
@@ -148,7 +148,7 @@ router.get("/mine", async (req, res) => {
           message: `No transactions found.`,
         });
   } catch (err) {
-    errorResponse(res, err);
+    serverError(res, err);
   }
 });
 //? GET BY DATE ROUTE "/date/:date"
@@ -168,7 +168,7 @@ router.get("/date/:month/:day", async (req, res) => {
           message: "No transactions found for this date.",
         });
   } catch (err) {
-    errorResponse(res, err);
+    serverError(res, err);
   }
 });
 //? GET BY CATEGORY ROUTE "/category/:category"
@@ -188,30 +188,30 @@ router.get("/category/:category", async (req, res) => {
           message: "No category found.",
         });
   } catch (err) {
-    errorResponse(res, err);
+    serverError(res, err);
   }
 });
 
-//? GET BY DATE AND CATEGORY ROUTER ("/dateAndCategory/:date/:category")
+//? GET USER TOTALS IN HOUSEHOLD BY MONTH ("/household/:month")
 
-router.get("/dateAndCategory/:month/:day/:category", async (req, res) => {
+router.get("/household/:month", async (req, res) => {
   try {
-    const { month, day, category } = req.params;
+    const { month } = req.params;
 
-    const getDateAndCategory = await Transaction.find(
-      { month: month, day: day },
-      { category: category }
+    const getTransactions = await Transaction.find(
+      { month: month, base: req.user.householdID }
     );
 
-    getDateAndCategory.length > 0
+    getTransactions.length > 0
       ? res.status(200).json({
-          getDateAndCategory,
+          message: "Found transactions!",
+          getTransactions,
         })
       : res.status(404).json({
-          message: "No Date under Category found.",
+          message: "No transactions found.",
         });
   } catch (err) {
-    errorResponse(res, err);
+    serverError(res, err);
   }
 });
 
@@ -233,7 +233,7 @@ router.get("/find/:id", async (req, res) => {
           message: "No transaction found.",
         });
   } catch (err) {
-    errorResponse(res, err);
+    serverError(res, err);
   }
 });
 
