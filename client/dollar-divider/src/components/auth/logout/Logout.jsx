@@ -8,6 +8,8 @@ export default function Logout({ updateToken }) {
   // Build a sign-out function
   const logout = () => {
     localStorage.removeItem("token"); // clears out local storage
+    localStorage.clear();
+    sessionStorage.clear();
     updateToken(""); // resets our state to an empty string
     navigate("/"); // routes us back to Auth
   };

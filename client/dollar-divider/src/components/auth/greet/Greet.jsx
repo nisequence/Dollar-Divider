@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 
 export default function Greet() {
   const token = localStorage.getItem("token");
-  const nameItem = localStorage.getItem("Name");
+  const nameItem = sessionStorage.getItem("Name");
 
   const [name, setName] = useState(nameItem);
   const updateName = (newName) => {
-    localStorage.setItem("Name", newName);
+    sessionStorage.setItem("Name", newName);
     setName(newName);
   };
 

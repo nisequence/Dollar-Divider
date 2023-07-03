@@ -1,60 +1,56 @@
 import React, { useEffect, useState } from "react";
 import Solo from "./Solo/Solo";
+import SplitFunction from "./SplitFunction";
 import Grouped from "./Grouped/Grouped";
 
 export default function Split(props) {
-  const status = localStorage.getItem("Status");
-  const total = localStorage.getItem("Total");
-  const newTotal = Number(total);
-  // console.log(newTotal); // coming in as a number now
+  const status = sessionStorage.getItem("Status");
 
-  const users = localStorage.getItem("Users");
-  const userArray = users.split(",");
-  //   console.log(userArray);
-  const percents = localStorage.getItem("Percents");
-  const percentArray = percents.split(",");
-  //   console.log(percentArray);
-  //!  console.log(typeof users); // both coming in as a string
-  //! need to separate into arrays
-
-  const [cardInfo, setCardInfo] = useState(userArray);
-  const allUserInfo = () => {
-    let populate = [];
-    for (let u = 0; u < userArray?.length; u++) {
-      let percentNum = Number(percentArray[u]);
-      let owed = (percentNum * newTotal) / 100;
-      let paid = 0;
-      populate.push({
-        id: u,
-        name: userArray[u],
-        owes: owed.toFixed(2),
-        contribution: paid.toFixed(2),
-        remainder: (owed - paid).toFixed(2),
-      });
-      console.log("In func", populate);
-    }
-    console.log(populate);
-    setCardInfo(populate);
-    return populate;
-  };
+  let total = sessionStorage.getItem("Total");
+  console.log("Split.jsx total", total);
+  let users = sessionStorage.getItem("Users");
+  let percents = sessionStorage.getItem("Percents");
+  console.log("Split.jsx percents", percents);
+  let IDs = sessionStorage.getItem("IDs");
+  console.log("Users, Percents, IDs", users, percents, IDs);
 
   const returnView = () => {
+    // let fetchTotal = sessionStorage.getItem("Total");
+    // let fetchUsers = sessionStorage.getItem("Users");
+    // let fetchPercents = sessionStorage.getItem("Percents");
+    // let fetchIDs = sessionStorage.getItem("IDs");
+    // console.log(
+    //   "Inside function:",
+    //   fetchTotal,
+    //   fetchUsers,
+    //   fetchPercents,
+    //   fetchIDs
+    // );
+
     if (status === "Solo") {
       // tell user they have no household
       return <Solo />;
     } else {
-      return (
-        <Grouped token={props.token} view={props.view} cardInfo={cardInfo} />
-      );
+      if (status !== "Solo") {
+        return (
+          <>
+            <h6>Split.jsx</h6>
+            <SplitFunction
+              token={props.token}
+              view={props.view}
+              transactions={props.transactions}
+            />
+          </>
+        );
+      }
     }
   };
 
   useEffect(() => {
-    if (props.view) {
-      allUserInfo();
+    if (props.token) {
       returnView();
     }
-  }, [props.token, props.view]);
+  }, [props.token, props.view, total, percents, IDs]);
 
   return <>{returnView()}</>;
 }

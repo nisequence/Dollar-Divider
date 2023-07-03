@@ -2,8 +2,22 @@ import React from "react";
 import { Card, CardBody, CardHeader, CardTitle, CardText } from "reactstrap";
 
 export default function Cards(props) {
-  console.log(props);
   let each = props.index;
+  let owed = props.info[each].owes;
+  let userID = props.info[each].userID;
+
+  let filteredTransactions = props.transactions.filter((eachTransaction) => {
+    return eachTransaction.ownerID === userID;
+  });
+
+  let contribution = 0;
+  for (let i = 0; i < filteredTransactions?.length; i++) {
+    contribution = contribution + filteredTransactions[i].amount;
+  }
+  let dollarContribution = contribution.toFixed(2);
+
+  let remainder = (owed - dollarContribution).toFixed(2);
+
   return (
     <div key={each.id}>
       <Card
@@ -18,10 +32,10 @@ export default function Cards(props) {
         <CardBody>
           <CardTitle tag="h5">{props.info[each].name}</CardTitle>
           <CardText>
-            <p>Owes ${props.info[each].owes}</p>
-            <p>Paid ${props.info[each].contribution}</p>
+            <p>Owes ${owed}</p>
+            <p>Paid ${dollarContribution}</p>
             <p>
-              <strong>Still owes ${props.info[each].remainder}</strong>
+              <strong>Still owes ${remainder}</strong>
               <br />
               for this month
             </p>
