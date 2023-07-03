@@ -22,7 +22,13 @@ ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function CurrentBudgetStatus(props) {
-  const status = localStorage.getItem("Status");
+  const status = sessionStorage.getItem("Status");
+
+  const setTotal = (updatedTotal) => {
+    if (props.view === true) {
+      sessionStorage.setItem("Total", updatedTotal);
+    }
+  };
 
   const viewType = () => {
     let total = 0;
@@ -31,9 +37,11 @@ export default function CurrentBudgetStatus(props) {
         let thisOne = props.budgets[x].budgetAmt;
         total += thisOne;
       }
-      localStorage.setItem("Total", total);
+      console.log(total);
+      console.log(props.view);
     };
     totalBudgets();
+    setTotal(total);
 
     if (props.view === false || status === "Admin") {
       //* If viewing personal or if user is the Admin

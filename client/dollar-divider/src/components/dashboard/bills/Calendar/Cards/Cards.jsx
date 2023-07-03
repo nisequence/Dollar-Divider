@@ -61,7 +61,7 @@ export default function Cards(props) {
     }
   }
 
-  const status = localStorage.getItem("Status");
+  const status = sessionStorage.getItem("Status");
 
   let canEdit;
   if (status == "Admin" || props.view === false) {

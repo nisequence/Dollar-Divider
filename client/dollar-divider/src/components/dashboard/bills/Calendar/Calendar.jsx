@@ -30,7 +30,7 @@ const monthGroup = [
 ];
 
 export default function Calendar(props) {
-  const status = localStorage.getItem("Status");
+  const status = sessionStorage.getItem("Status");
 
   const [activeIndex, setActiveIndex] = useState(1);
   const [animating, setAnimating] = useState(false);

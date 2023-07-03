@@ -16,9 +16,9 @@ export default function Dashboard(props) {
   const token = localStorage.getItem("token");
   const [transactions, setTransactions] = useState([]);
 
-  const getPersonalTransactions = async () => {
+  const getSplitTransactions = async () => {
     //! Change the ID to a path parameter
-    let url = "http://localhost:4000/transaction/mine";
+    let url = "http://localhost:4000/transaction/household/July";
 
     const reqOptions = {
       method: "GET",
@@ -33,9 +33,7 @@ export default function Dashboard(props) {
       // console.log("data",data)
       // If the server does not provide a failure message
       if (data.message !== "No transactions found.") {
-        setTransactions(data.getAllUserTrans);
-      } else {
-        //! Send to 404 page
+        setTransactions(data.getTransactions);
       }
     } catch (err) {
       console.error(err);
@@ -44,7 +42,7 @@ export default function Dashboard(props) {
 
   useEffect(() => {
     if (token) {
-      getPersonalTransactions();
+      getSplitTransactions();
     }
   }, [token]);
 
@@ -113,7 +111,13 @@ export default function Dashboard(props) {
         />
       );
     } else {
-      return <Split token={props.token} view={props.view} />;
+      return (
+        <Split
+          token={props.token}
+          view={props.view}
+          transactions={transactions}
+        />
+      );
     }
   };
 
@@ -152,29 +156,12 @@ export default function Dashboard(props) {
             </Col>
           </Row>
           <Row>
-            <Col className="bg-light border">
-              {/* <GetAll token={token} /> */}
-              {/*               <AccountsList
-                accounts={accounts}
-                // balance = {props.balance}
-                // minBalance = {props.minBalance}
-                // allocations = {props.allocations}
-                // ownerID = {props.ownerID}
-                // available = {props.available}
-                // getBudgets={getBudgets}
-                // budgets={budgets}
-                // transactions={props.transactions}
-                token={props.token}
-                view={props.view}
-              /> */}
-              {viewType()}
-            </Col>
+            <Col className="bg-light border">{viewType()}</Col>
             <Col className="bg-light border">
               {/* .col */}
               <Transaction
                 view={props.view}
                 token={token}
-                transactions={transactions}
                 accounts={accounts}
                 budgets={props.budgets}
               />

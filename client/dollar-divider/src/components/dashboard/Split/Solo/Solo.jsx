@@ -3,7 +3,7 @@ import React from "react";
 export default function Solo() {
   return (
     <>
-      <h1>Solo User View</h1>
+      <h6>Looks like you don't have a household yet!</h6>
     </>
   );
 }

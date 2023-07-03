@@ -1,59 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  Carousel,
-  CarouselItem,
-  CarouselControl,
-  CarouselIndicators,
-  CarouselCaption,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  CardText,
-  CardFooter,
-} from "reactstrap";
+import { Carousel, CarouselItem, CarouselControl } from "reactstrap";
 import Cards from "./Cards/Cards";
 
 export default function Grouped(props) {
-  //   const total = localStorage.getItem("Total");
-  //   const newTotal = Number(total);
-  //   // console.log(newTotal); // coming in as a number now
-
-  //   const users = localStorage.getItem("Users");
-  //   const userArray = users.split(",");
-  //   //   console.log(userArray);
-  //   const percents = localStorage.getItem("Percents");
-  //   const percentArray = percents.split(",");
-  //   //   console.log(percentArray);
-  //   //!  console.log(typeof users); // both coming in as a string
-  //   //! need to separate into arrays
-
-  //   const [cardInfo, setCardInfo] = useState(userArray);
-  //   const allUserInfo = () => {
-  //     let populate = [];
-  //     for (let u = 0; u < userArray?.length; u++) {
-  //       let percentNum = Number(percentArray[u]);
-  //       let owed = (percentNum * newTotal) / 100;
-  //       let paid = 0;
-  //       populate.push({
-  //         id: u,
-  //         name: userArray[u],
-  //         owes: owed.toFixed(2),
-  //         contribution: paid.toFixed(2),
-  //         remainder: (owed - paid).toFixed(2),
-  //       });
-  //       console.log("In func", populate);
-  //     }
-  //     console.log(populate);
-  //     return populate;
-  //   };
-  //   useEffect(() => {
-  //     if (props.token) {
-  //       populateCards();
-  //       console.log(cardInfo);
-  //     }
-  //   }, [props.token, props.view]);
-
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
 
@@ -107,10 +56,17 @@ export default function Grouped(props) {
           view={props.view}
           index={props.cardInfo.indexOf(each)}
           info={props.cardInfo}
+          transactions={props.transactions}
         />
       </CarouselItem>
     );
   });
+
+  useEffect(() => {
+    if (props.token) {
+      console.log("I should get new cards");
+    }
+  }, [props.token, props.cardInfo]);
 
   return (
     <>

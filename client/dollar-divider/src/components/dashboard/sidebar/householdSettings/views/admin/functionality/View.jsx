@@ -21,8 +21,9 @@ import Delete from "./Delete";
 export default function View(props) {
   const [householdInfo, setHouseholdInfo] = useState([]);
   const updateInfo = (newInfo) => {
-    localStorage.setItem("Percents", newInfo.participantPercents);
-    localStorage.setItem("Users", newInfo.participantNames);
+    sessionStorage.setItem("Percents", newInfo.participantPercents);
+    sessionStorage.setItem("Users", newInfo.participantNames);
+    sessionStorage.setItem("IDs", newInfo.participantIDs);
     // ^ .setItem(key, value)
     setHouseholdInfo(newInfo);
   };

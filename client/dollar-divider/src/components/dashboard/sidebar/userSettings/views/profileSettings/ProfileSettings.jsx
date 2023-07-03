@@ -70,7 +70,7 @@ export default function ProfileSettings() {
       if (data.message === "Profile successfully updated!") {
         //* Upon receiving server success message, reset information array of data
         let firstName = data.updateUser.firstName;
-        localStorage.setItem("Name", firstName);
+        sessionStorage.setItem("Name", firstName);
         getUserInfo();
         alert("Success");
       }
