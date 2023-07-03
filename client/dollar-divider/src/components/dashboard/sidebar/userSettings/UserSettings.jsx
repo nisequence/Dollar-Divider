@@ -6,7 +6,7 @@ export default function UserSettings() {
 
   const [userStatus, setUserStatus] = useState("Member");
   const updateStatus = (newStatus) => {
-    localStorage.setItem("Status", newStatus);
+    sessionStorage.setItem("Status", newStatus);
     setUserStatus(newStatus);
   };
 
@@ -50,7 +50,7 @@ export default function UserSettings() {
   return (
     <div id="userSettingsMenu">
       <h1>User Settings</h1>
-      <ProfileSettings/>
+      <ProfileSettings />
     </div>
   );
 }

@@ -14,8 +14,9 @@ import Leave from "./Leave";
 export default function View({ token }) {
   const [memberInfo, setMemberInfo] = useState([]);
   const updateInfo = (newInfo) => {
-    localStorage.setItem("Percents", newInfo.participantPercents);
-    localStorage.setItem("Users", newInfo.participantNames);
+    sessionStorage.setItem("Percents", newInfo.participantPercents);
+    sessionStorage.setItem("Users", newInfo.participantNames);
+    sessionStorage.setItem("IDs", newInfo.participantIDs);
     // ^ .setItem(key, value)
     setMemberInfo(newInfo);
   };

@@ -8,7 +8,7 @@ export default function HouseholdSettings() {
 
   const [userStatus, setUserStatus] = useState("Solo");
   const updateStatus = (newStatus) => {
-    localStorage.setItem("Status", newStatus);
+    sessionStorage.setItem("Status", newStatus);
     setUserStatus(newStatus);
   };
 

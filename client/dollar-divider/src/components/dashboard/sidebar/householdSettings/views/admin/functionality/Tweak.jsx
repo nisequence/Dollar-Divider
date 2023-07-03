@@ -39,7 +39,7 @@ export default function Tweak(props) {
         document.getElementsByClassName("percentageInput")[x].value;
       percentArray.push(inputValue);
     }
-    console.log(percentArray);
+    sessionStorage.setItem("Percents", percentArray);
     tweakPercents(percentArray);
   };
 
