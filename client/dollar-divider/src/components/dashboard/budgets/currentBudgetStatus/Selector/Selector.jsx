@@ -22,7 +22,8 @@ export default function Selector(props) {
     e.preventDefault();
 
     setChosen(choiceRef.current.value);
-    
+    console.log(chosen);
+
     if (modal === true) {
       //do nothing
     } else {
@@ -30,24 +31,37 @@ export default function Selector(props) {
     }
     console.log(modal);
   };
-console.log(chosen);
+  console.log(chosen);
   const displayModal = () => {
-    return (
-      <>
-        <Modal isOpen={modal} toggle={toggle}>
-          <ModalHeader toggle={toggle}>Viewing {chosen} Budget</ModalHeader>
-          <UpdateBudgets
-            token={props.token}
-            view={props.view}
-            getBudgets={props.getBudgets}
-            budget={props.budgets?.indexOf(chosen)} //! Not working the way we had hoped. Only grabbing string of budget and not object that can be looked into for category or amount in UpdateBudget and DeleteBudget
-            budgetA={props.budgets}
-            /*             toggle={toggle} */
-            modal={modal}
-          />
-        </Modal>
-      </>
-    );
+    //* Globalize the variable "selected" within this function
+    let selected = null;
+    //* Go through each budget item
+    for (let i = 0; i < props.budgets?.length; i++) {
+      // If we run across one whose name matches the chosen budget
+      if (props.budgets[i].budgetCat === chosen) {
+        // set this object to the selected variable
+        selected = props.budgets[i];
+      }
+    }
+    if (selected !== null) {
+      //* ONLY if we found the budget, we can return the modal
+      return (
+        <>
+          <Modal isOpen={modal} toggle={toggle}>
+            <ModalHeader toggle={toggle}>Viewing {chosen} Budget</ModalHeader>
+            <UpdateBudgets
+              token={props.token}
+              view={props.view}
+              getBudgets={props.getBudgets}
+              budget={selected} //! Not working the way we had hoped. Only grabbing string of budget and not object that can be looked into for category or amount in UpdateBudget and DeleteBudget
+              budgetA={props.budgets}
+              /*             toggle={toggle} */
+              modal={modal}
+            />
+          </Modal>
+        </>
+      );
+    }
   };
 
   return (
