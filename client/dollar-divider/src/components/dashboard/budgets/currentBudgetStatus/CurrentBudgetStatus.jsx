@@ -22,7 +22,7 @@ ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function CurrentBudgetStatus(props) {
-  const status = localStorage.getItem("Status");
+  const status = sessionStorage.getItem("Status");
 
   const viewType = () => {
     let total = 0;
@@ -31,7 +31,9 @@ export default function CurrentBudgetStatus(props) {
         let thisOne = props.budgets[x].budgetAmt;
         total += thisOne;
       }
-      localStorage.setItem("Total", total);
+      if (props.view === true) {
+        sessionStorage.setItem("Total", total);
+      }
     };
     totalBudgets();
 
