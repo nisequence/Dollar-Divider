@@ -118,7 +118,7 @@ export default function OpenCard(props) {
 
   return (
     <>
-      <Button color="info" onClick={toggle} altText="Open">
+      <Button color="info" onClick={toggle}>
         <BsFillEnvelopePaperFill />
       </Button>
       <Modal isOpen={modal} toggle={toggle} fade={false}>
