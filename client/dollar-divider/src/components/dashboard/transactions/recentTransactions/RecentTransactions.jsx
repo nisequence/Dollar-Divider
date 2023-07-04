@@ -1,4 +1,4 @@
-import { useState, useRef,useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Table,
   Button,
@@ -16,12 +16,12 @@ import { v4 } from "uuid";
 import AddTransaction from "../addTransaction/AddTransaction";
 import EditTransactionInfo from "../editTransactionInfo/EditTransactionInfo";
 let transactionID;
-let categoryOptions = []
+let categoryOptions = [];
 export default function RecentTransactions(props) {
   const [modal, setModal] = useState(false);
 
   const toggleModal = () => setModal(!modal);
-  
+
   // console.log("account list:",props.accounts)
 
   const transactionsToDelete = [
@@ -47,7 +47,7 @@ export default function RecentTransactions(props) {
       getBudgets();
     }
   }, [props.token, props.view]);
-  
+
   // let categoryOptions = [];
   let url;
   const getBudgets = async () => {
@@ -75,18 +75,17 @@ export default function RecentTransactions(props) {
         categoryOptions = [];
         data.allBudgets.map((item) => {
           // console.log("budgetCat:",item.budgetCat)
-          categoryOptions.push(item)
-        })
-       } else {
+          categoryOptions.push(item);
+        });
+      } else {
         // setBudgets(null);
-        console.log("no budget data found")
+        console.log("no budget data found");
       }
     } catch (err) {
       console.error(err);
     }
   };
   // console.log("catoptions", categoryOptions)
-
 
   //* Dropdown settings
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -109,8 +108,6 @@ export default function RecentTransactions(props) {
   } else {
     base = "household";
   }
-
-  
 
   // const submitTrans = async (e) => {
   //   e.preventDefault();
@@ -205,8 +202,8 @@ export default function RecentTransactions(props) {
     try {
       let response = await fetch(url, requestOptions);
       let data = await response.json();
-      if (data.message === "Transaction was successfully deleted!"){
-        props.getTransaction()
+      if (data.message === "Transaction was successfully deleted!") {
+        props.getTransaction();
       }
     } catch (error) {
       console.error(error);
@@ -216,7 +213,7 @@ export default function RecentTransactions(props) {
   const recentTransactions = [];
   let colorAssignment = 0;
   let tempColor;
-
+  // console.log("props.transaction:",props.transaction)
   props.transaction?.map((transaction) => {
     let monthArray = [];
     let month = transaction.month;
@@ -245,7 +242,6 @@ export default function RecentTransactions(props) {
     } else {
       displayNumber = `$${transaction.amount.toLocaleString("en-US")}`;
     }
-
     return recentTransactions.push(
       <tr className={tempColor}>
         <td>{month + transaction.day}</td>
@@ -256,7 +252,7 @@ export default function RecentTransactions(props) {
         <td>
           <Button
             onClick={() => {
-              toggleModal()
+              toggleModal();
               transactionID = transaction._id;
             }}
             id="UncontrolledModalEditTransaction"
@@ -291,32 +287,32 @@ export default function RecentTransactions(props) {
                 view={props.view}
                 month={props.month}
                 accounts={props.accounts}
-                categoryOptions = {categoryOptions}
+                categoryOptions={categoryOptions}
               />
               <ModalFooter>
-              <Button
-                onClick={() => updateTransaction(transactionID)}
-                color="success"
-                type="submit"
-              >
-                {/* <Button onClick={updatingTransaction} color="success" type="submit"> */}
-                Update
-              </Button>
-              {/* <Button
+                <Button
+                  onClick={() => updateTransaction(transactionID)}
+                  color="success"
+                  type="submit"
+                >
+                  {/* <Button onClick={updatingTransaction} color="success" type="submit"> */}
+                  Update
+                </Button>
+                {/* <Button
                 // key={v4}
                 onClick={cancelEditing}
                 color="secondary"
               >
                 Cancel
               </Button> */}
-              <Button
-                key={v4}
-                onClick={() => deleteTransaction(transactionID)}
-                color="danger"
-              >
-                {/* <Button onClick={deleteTransaction(id)} color="danger"> */}
-                Delete
-              </Button>
+                <Button
+                  key={v4}
+                  onClick={() => deleteTransaction(transactionID)}
+                  color="danger"
+                >
+                  {/* <Button onClick={deleteTransaction(id)} color="danger"> */}
+                  Delete
+                </Button>
               </ModalFooter>
             </ModalBody>
           </Modal>
@@ -326,6 +322,66 @@ export default function RecentTransactions(props) {
     );
   });
 
+  // https://stackoverflow.com/questions/37349331/javascript-sort-items-list-by-months // Kate Found
+  // var dataCollection = [
+  //   { values: { Month: { displayValue: "August" }, Sum: "10" } },
+  //   { values: { Month: { displayValue: "February" }, Sum: "25" } },
+  //   { values: { Month: { displayValue: "July" }, Sum: "35" } }
+  // ];
+
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  let sortedTransactions = props.transaction;
+
+  function sortByDay() {
+    sortedTransactions.sort((a, b) => {
+      return a.day - b.day;
+    });
+  }
+
+  // function sortByMonth(arr1, arr2) {
+  //   arr2.sort((a, b) => {
+  //     const aKey = Object.values(a)[1];
+  //     const bKey = Object.values(b)[1];
+  //     return arr1.indexOf(aKey) - arr1.indexOf(bKey);
+  //   });
+  // }
+
+  // sortByMonth(months, sortedTransactions);
+
+  let transactionsByMonth = [{January: []},{February: []},{March: []}, {April: []}, {May: []}, {June: []}, {August: []}, {September: []}, {October: []}, {November: []}, {December: []}];
+  function createMonthsObjects() {
+    sortByDay();
+    let tempArray = []
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      for (let m = 0; m < months.length; m++) {
+      
+      if (sortedTransactions[i].month === months[i]) {
+      // if (sortedTransactions[i].month === "July") {
+        tempArray.push(sortedTransactions[i])
+        }
+      }
+      transactionsByMonth.July = tempArray;
+      console.log(transactionsByMonth)
+    }
+  }
+
+  createMonthsObjects();
+  // createMonthsObjects()
+  console.log("transactionsByMonth",transactionsByMonth);
   return (
     <div className="RecentTransactions">
       <Table overflow-y="scroll">
@@ -333,7 +389,7 @@ export default function RecentTransactions(props) {
           token={props.token}
           view={props.view}
           getTransaction={props.getTransaction}
-          accounts = {props.accounts}
+          accounts={props.accounts}
         />
         <thead>
           <tr>
