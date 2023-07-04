@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Form, FormGroup, Input, Button, Label } from "reactstrap";
+import DatePicker from "../../datePicker/DayPicker";
 
 export default function NewTransInfo(props) {
   const months = [
@@ -164,8 +165,12 @@ export default function NewTransInfo(props) {
             })}
           </Input>
         </FormGroup>
-        {/* Month */}
+        {/* Date */}
         <FormGroup>
+              <DatePicker />
+        </FormGroup>
+        {/* Month */}
+        {/* <FormGroup>
           <Label for="exampleSelectMulti">Choose Month</Label>
           <Input
             id="exampleSelect2"
@@ -182,9 +187,9 @@ export default function NewTransInfo(props) {
               );
             })}
           </Input>
-        </FormGroup>
+        </FormGroup> */}
         {/* Day */}
-        <FormGroup>
+        {/* <FormGroup>
           <Label for="exampleSelect3">Choose Day</Label>
           <Input
             id="exampleSelect"
@@ -201,7 +206,7 @@ export default function NewTransInfo(props) {
               );
             })}
           </Input>
-        </FormGroup>
+        </FormGroup> */}
         {/* Choose Account */}
         <FormGroup>
           <Label for="exampleSelectMulti">Choose Account</Label>
