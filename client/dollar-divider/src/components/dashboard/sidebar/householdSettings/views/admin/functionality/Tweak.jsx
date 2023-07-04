@@ -1,7 +1,11 @@
-import React from "react";
-import { Button } from "reactstrap";
+import React, { useState } from "react";
+import { Button, Tooltip } from "reactstrap";
+import { MdSave } from "react-icons/md";
 
 export default function Tweak(props) {
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const toggle = () => setTooltipOpen(!tooltipOpen);
+
   let editable = props.editStatus;
   async function tweakPercents(array) {
     let bodyObj = JSON.stringify({
@@ -46,13 +50,19 @@ export default function Tweak(props) {
   let displayButton = () => {
     if (editable === true) {
       return (
-        <Button
-          onClick={grabPercents}
-          color="success"
-          //   onClick={tweakPercents}
-        >
-          Submit Changes
-        </Button>
+        <>
+          <Button
+            onClick={grabPercents}
+            color="success"
+            id="savePercents"
+            //   onClick={tweakPercents}
+          >
+            <MdSave /> Submit
+          </Button>
+          <Tooltip isOpen={tooltipOpen} target="savePercents" toggle={toggle}>
+            Responses must add to 100%!
+          </Tooltip>
+        </>
       );
     }
   };

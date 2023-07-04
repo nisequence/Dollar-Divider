@@ -146,43 +146,6 @@ export default function CurrentBudgetStatus(props) {
           //   window.location = "https://example.com";
           // }}
         />
-        <Button
-          id="expandBtn"
-          // onClick={ () => { ModalFullscreenExample ()}}
-
-          // ! Temporarily disabled expand button
-          // onClick={() => {
-          //   let window = document.getElementById("currentbudgetstatus");
-          //   let expandBtn = document.getElementById(`expandBtn`);
-          //   if ((expandBtn.textContent = "Expand")) {
-          //     // CurrentBudgetStatus.style.position = ("fixed");
-          //     window.style.position = "fixed";
-          //     window.style.top = "10%";
-          //     window.style.left = "10%";
-          //     window.style.width = "80vw";
-          //     window.style.height = "80vh";
-          //     window.style.margin = ".5rem solid black";
-
-          //     expandBtn.innerText = "Collapse";
-          //   } else {
-          //     // toggle.addEventListener("click", () => {
-          //     expandBtn.onclick =
-          //       ("click",
-          //       () => {
-          //         window.style.position = "initial";
-          //         window.style.position = "initial";
-          //         window.style.top = "initial";
-          //         window.style.left = "initial";
-          //         window.style.width = "initial";
-          //         window.style.height = "initial";
-          //         window.style.margin = "initial";
-          //         expandBtn.innerText = "Expand";
-          //       });
-          //   }
-          // }}
-        >
-          Expand
-        </Button>
       </div>
     </>
   );

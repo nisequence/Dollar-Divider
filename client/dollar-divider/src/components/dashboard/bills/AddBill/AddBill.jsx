@@ -4,11 +4,15 @@ import {
   PopoverHeader,
   UncontrolledPopover,
   PopoverBody,
+  Tooltip,
 } from "reactstrap";
 import { BsFillEnvelopePlusFill } from "react-icons/bs";
 import NewInfo from "./NewInfo/NewInfo";
 
 export default function AddBill(props) {
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const toggle = () => setTooltipOpen(!tooltipOpen);
+
   let url;
   const [budgets, setBudgets] = useState([]);
   const getBudgets = async () => {
@@ -57,7 +61,14 @@ export default function AddBill(props) {
           display: "inline-block",
         }}
       >
-        <BsFillEnvelopePlusFill />
+        <BsFillEnvelopePlusFill id="AddBill" />
+        <Tooltip
+          isOpen={tooltipOpen}
+          target="UncontrolledPopoverAddBill"
+          toggle={toggle}
+        >
+          Add a new bill here!
+        </Tooltip>
       </Button>
       <UncontrolledPopover
         placement="bottom"

@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "reactstrap";
 import { useNavigate } from "react-router-dom";
+import { CiLogout } from "react-icons/ci";
 
 export default function Logout({ updateToken }) {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export default function Logout({ updateToken }) {
   return (
     <>
       <Button id="logout" onClick={logout} color="danger">
-        Logout
+        <CiLogout /> Logout
       </Button>
     </>
   );
