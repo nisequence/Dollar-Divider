@@ -260,3 +260,7 @@
     border-top: solid rgb(144, 144, 144) 2px;
     border-left: solid rgb(144, 144, 144) 2px;
   }
+
+#splitFunction {
+  color: black;
+}
