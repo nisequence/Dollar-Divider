@@ -1,7 +1,6 @@
 // import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { PolarArea } from "react-chartjs-2";
 import { Button } from "reactstrap";
-import { useParams } from "react-router-dom";
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -24,24 +23,33 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export default function CurrentBudgetStatus(props) {
   const status = sessionStorage.getItem("Status");
 
-  const setTotal = (updatedTotal) => {
-    if (props.view === true) {
-      sessionStorage.setItem("Total", updatedTotal);
-    }
-  };
+  // const setHouseholdTotal = () => {
+  //   if (props.view === true) {
+  //     let totalToDivide = 0;
+  //     const totalBudgets = () => {
+  //       for (let x = 0; x < props.budgets?.length; x++) {
+  //         let thisOne = props.budgets[x].budgetAmt;
+  //         totalToDivide += thisOne;
+  //       }
+  //       console.log(totalToDivide);
+  //       console.log(props.view);
+  //       sessionStorage.setItem("Total", totalToDivide);
+  //     };
+  //     totalBudgets();
+  //   }
+  // };
 
   const viewType = () => {
+    // setHouseholdTotal();
+
     let total = 0;
     const totalBudgets = () => {
       for (let x = 0; x < props.budgets?.length; x++) {
         let thisOne = props.budgets[x].budgetAmt;
         total += thisOne;
       }
-      console.log(total);
-      console.log(props.view);
     };
     totalBudgets();
-    setTotal(total);
 
     if (props.view === false || status === "Admin") {
       //* If viewing personal or if user is the Admin
@@ -70,7 +78,7 @@ export default function CurrentBudgetStatus(props) {
   };
 
   useEffect(() => {
-    if (props.budgets) {
+    if (props.token) {
       viewType();
     }
   }, [props.token, props.budgets, props.view]);
@@ -114,24 +122,7 @@ export default function CurrentBudgetStatus(props) {
       chartData.datasets[0].data.push(budgetCategoryTotal - amountSpent);
     });
   }
-  // console.log("props.transactions:",props.transactions)
-  // console.log("props.budgets:",props.budgets)
-  const { id } = useParams();
 
-  // Headers
-  let myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  // setting our content to be passed
-  myHeaders.append("Authorization", props.token);
-
-  // Build url variable
-
-  // Construct the body object & JSON stringify it
-  let bodyObj = JSON.stringify({}); // JSON-ifying our data to be passed.
-
-  // Build a fn to return the edit and delete button
-
-  // Request Options object
   return (
     <>
       <div className="CurrentBudgetStatus" id="currentbudgetstatus">

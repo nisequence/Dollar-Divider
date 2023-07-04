@@ -1,20 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Grouped from "./Grouped/Grouped";
 
 export default function SplitFunction(props) {
   let total = sessionStorage.getItem("Total");
-  console.log("Split.jsx total", total);
+  //   console.log("Split.jsx total", total);
   let users = sessionStorage.getItem("Users");
   let percents = sessionStorage.getItem("Percents");
-  console.log("Split.jsx percents", percents);
   let IDs = sessionStorage.getItem("IDs");
-  console.log("Users, Percents, IDs", users, percents, IDs);
-  let populate = [];
-  console.log(sessionStorage);
+  //   console.log("Users, Percents, IDs", users, percents, IDs);
+  //   console.log(sessionStorage);
 
   const getInfo = () => {
-    populate = [];
-    const newTotal = Number(total);
+    let populate = [];
+    let checkTotal = sessionStorage.getItem("Total");
+    const newTotal = Number(checkTotal);
     console.log("NewTotal", newTotal);
     const percentArray = percents?.split(",");
     const userArray = users?.split(",");
@@ -29,7 +28,7 @@ export default function SplitFunction(props) {
         owes: owed.toFixed(2),
       });
     }
-    console.log(populate);
+    // console.log(populate);
     return populate;
   };
 

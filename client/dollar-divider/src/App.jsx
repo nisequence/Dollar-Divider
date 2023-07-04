@@ -17,11 +17,11 @@ function App() {
 
   //* UseState to determine whether the user will see household or personal view (false = personal, true = household)
   const [viewSetting, setViewSetting] = useState(false);
-  const updateSetting = (newView) => {
-    localStorage.setItem("View", newView);
-    // ^ .setItem(key, value)
-    setViewSetting(newView);
-  };
+  // const updateSetting = (newView) => {
+  //   localStorage.setItem("View", newView);
+  //   // ^ .setItem(key, value)
+  //   setViewSetting(newView);
+  // };
 
   return (
     <div className="App">
@@ -36,7 +36,7 @@ function App() {
             <Dashboard
               updateToken={updateToken}
               view={viewSetting}
-              setView={updateSetting}
+              setView={setViewSetting}
             />
           }
         />
