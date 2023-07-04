@@ -2,14 +2,23 @@ import React from "react";
 import CurrentBudgetStatus from "./currentBudgetStatus/CurrentBudgetStatus";
 import { useState, useEffect } from "react";
 
-
-
 export default function Budgets(props) {
   let url;
   const [budgets, setBudgets] = useState([]);
+
+  const setHouseholdTotal = async (data) => {
+    let totalToDivide = 0;
+    for (let x = 0; x < data?.length; x++) {
+      let thisOne = data[x].budgetAmt;
+      totalToDivide += thisOne;
+    }
+    console.log("View set to", props.view, "setting total to", totalToDivide);
+    sessionStorage.setItem("Total", totalToDivide);
+  };
+
   const getBudgets = async () => {
     let viewValue = props.view;
-    if (viewValue == true) {
+    if (viewValue === true) {
       url = "http://localhost:4000/budget/household";
     } else {
       url = "http://localhost:4000/budget/mine";
@@ -26,8 +35,14 @@ export default function Budgets(props) {
       const data = await res.json();
 
       // If the server does not provide a failure message
-      if (data.message !== "No personal budgets found.") {
+      if (data.message === "Budget(s) found!") {
         setBudgets(data.allBudgets);
+        if (
+          viewValue === true &&
+          url === "http://localhost:4000/budget/household"
+        ) {
+          setHouseholdTotal(data.allBudgets);
+        }
       } else {
         setBudgets(null);
       }

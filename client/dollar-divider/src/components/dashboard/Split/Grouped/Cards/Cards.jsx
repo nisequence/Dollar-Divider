@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardBody, CardHeader, CardTitle, CardText } from "reactstrap";
+import { Card, CardBody, CardTitle, CardText } from "reactstrap";
 
 export default function Cards(props) {
   let each = props.index;
@@ -32,13 +32,14 @@ export default function Cards(props) {
         <CardBody>
           <CardTitle tag="h5">{props.info[each].name}</CardTitle>
           <CardText>
-            <p>Owes ${owed}</p>
-            <p>Paid ${dollarContribution}</p>
-            <p>
-              <strong>Still owes ${remainder}</strong>
-              <br />
-              for this month
-            </p>
+            Owes ${owed}
+            <br />
+            Paid ${dollarContribution}
+            <br />
+            <strong>Still owes ${remainder}</strong>
+            <br />
+            for this month
+            <br />
           </CardText>
         </CardBody>
       </Card>

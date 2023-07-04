@@ -1,13 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import {
-  Card,
-  CardBody,
-  CardDeck,
-  CardTitle,
-  CardText,
-  Col,
-  Row,
-} from "reactstrap";
+import React, { useState, useEffect } from "react";
+import { Card, CardBody, CardTitle, CardText, Col, Row } from "reactstrap";
 import OpenCard from "./OpenCard/OpenCard";
 import MemberView from "./OpenCard/MemberView";
 
@@ -15,7 +7,7 @@ export default function Cards(props) {
   let url;
   const [budgets, setBudgets] = useState([]);
   const getBudgets = async (viewValue) => {
-    if (viewValue == true) {
+    if (viewValue === true) {
       url = "http://localhost:4000/budget/household";
     } else {
       url = "http://localhost:4000/budget/mine";
@@ -32,7 +24,7 @@ export default function Cards(props) {
       const data = await res.json();
 
       // If the server does not provide a failure message
-      if (data.message == "Budget(s) found!") {
+      if (data.message === "Budget(s) found!") {
         setBudgets(data.allBudgets);
       } else {
         setBudgets(null);
@@ -64,7 +56,7 @@ export default function Cards(props) {
   const status = sessionStorage.getItem("Status");
 
   let canEdit;
-  if (status == "Admin" || props.view === false) {
+  if (status === "Admin" || props.view === false) {
     canEdit = true;
   } else {
     canEdit = false;

@@ -119,7 +119,6 @@ export default function Calendar(props) {
           height: 60vh;
           overflow-y:scroll;
           overflow-x: hidden;
-          scrollbar-color: "red orange";
   scrollbar-width: thin;
         }`}
       </style>

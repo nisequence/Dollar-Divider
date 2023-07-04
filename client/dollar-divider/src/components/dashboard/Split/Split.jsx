@@ -6,27 +6,15 @@ import Grouped from "./Grouped/Grouped";
 export default function Split(props) {
   const status = sessionStorage.getItem("Status");
 
-  let total = sessionStorage.getItem("Total");
-  console.log("Split.jsx total", total);
-  let users = sessionStorage.getItem("Users");
-  let percents = sessionStorage.getItem("Percents");
-  console.log("Split.jsx percents", percents);
-  let IDs = sessionStorage.getItem("IDs");
-  console.log("Users, Percents, IDs", users, percents, IDs);
+  //   let total = sessionStorage.getItem("Total");
+  //   console.log("Split.jsx total", total);
+  //   let users = sessionStorage.getItem("Users");
+  //   let percents = sessionStorage.getItem("Percents");
+  //   console.log("Split.jsx percents", percents);
+  //   let IDs = sessionStorage.getItem("IDs");
+  //   console.log("Users, Percents, IDs", users, percents, IDs);
 
   const returnView = () => {
-    // let fetchTotal = sessionStorage.getItem("Total");
-    // let fetchUsers = sessionStorage.getItem("Users");
-    // let fetchPercents = sessionStorage.getItem("Percents");
-    // let fetchIDs = sessionStorage.getItem("IDs");
-    // console.log(
-    //   "Inside function:",
-    //   fetchTotal,
-    //   fetchUsers,
-    //   fetchPercents,
-    //   fetchIDs
-    // );
-
     if (status === "Solo") {
       // tell user they have no household
       return <Solo />;
@@ -50,7 +38,7 @@ export default function Split(props) {
     if (props.token) {
       returnView();
     }
-  }, [props.token, props.view, total, percents, IDs]);
+  }, [props.token, props.view, props.transactions]);
 
   return <>{returnView()}</>;
 }

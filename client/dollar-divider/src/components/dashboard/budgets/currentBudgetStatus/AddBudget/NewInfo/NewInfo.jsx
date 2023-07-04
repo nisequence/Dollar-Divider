@@ -13,6 +13,22 @@ export default function NewInfo(props) {
     baseBoolean = "household";
   }
 
+  const setHouseholdTotal = () => {
+    if (props.view === true) {
+      let totalToDivide = 0;
+      const totalBudgets = () => {
+        for (let x = 0; x < props.budgets?.length; x++) {
+          let thisOne = props.budgets[x].budgetAmt;
+          totalToDivide += thisOne;
+        }
+        console.log(totalToDivide);
+        console.log(props.view);
+        sessionStorage.setItem("Total", totalToDivide);
+      };
+      totalBudgets();
+    }
+  };
+
   //* Create a function to handle the form inputs when the user attempts to create a new room
   const submitBudget = async (e) => {
     e.preventDefault();
@@ -47,6 +63,7 @@ export default function NewInfo(props) {
         data.message == "Your household is now the owner of a brand-new budget!"
       ) {
         props.getBudgets();
+        setHouseholdTotal();
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
         console.error("User is unauthorized.");
