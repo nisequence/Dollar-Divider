@@ -22,7 +22,6 @@ export default function Split(props) {
       if (status !== "Solo") {
         return (
           <>
-            <h6>Split.jsx</h6>
             <SplitFunction
               token={props.token}
               view={props.view}

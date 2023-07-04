@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Form, FormGroup, Input, Button, Label } from "reactstrap";
+import { MdPostAdd } from "react-icons/md";
 
 export default function NewInfo(props) {
   //* Use useRef to get values from each input
@@ -95,7 +96,7 @@ export default function NewInfo(props) {
           />
         </FormGroup>
         <Button color="success" type="submit">
-          Create Budget
+          <MdPostAdd /> Create Budget
         </Button>
       </Form>
     </>

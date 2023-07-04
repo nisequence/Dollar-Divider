@@ -9,6 +9,7 @@ import {
   Modal,
   ModalHeader,
 } from "reactstrap";
+import { GrEdit } from "react-icons/gr";
 import UpdateBudgets from "../EditBudgets/UpdateBudgets";
 
 export default function Selector(props) {
@@ -89,7 +90,7 @@ export default function Selector(props) {
           </Col>
           <Col>
             <Button id="submit" color="secondary" onClick={openBudget}>
-              Update Budget
+              <GrEdit /> Edit Budget
             </Button>
             {/*             {chooseBudget}
              */}{" "}

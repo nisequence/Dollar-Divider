@@ -49,7 +49,8 @@ export default function UserSettings() {
 
   return (
     <div id="userSettingsMenu">
-      <h1>User Settings</h1>
+      <br />
+      <h3>User Settings</h3>
       <ProfileSettings />
     </div>
   );

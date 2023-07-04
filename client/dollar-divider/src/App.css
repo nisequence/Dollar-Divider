@@ -260,3 +260,17 @@
     border-top: solid rgb(144, 144, 144) 2px;
     border-left: solid rgb(144, 144, 144) 2px;
   }
+
+#splitFunction {
+  color: black;
+}
+
+#copyAlert {
+  padding: 0rem;
+  background-color:#5d9abb;
+  color: white;
+}
+
+#copyAlert > .btn-close {
+  padding: 0.3rem;
+}

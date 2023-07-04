@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Grouped from "./Grouped/Grouped";
 
 export default function SplitFunction(props) {
@@ -13,11 +13,15 @@ export default function SplitFunction(props) {
   const getInfo = () => {
     let populate = [];
     let checkTotal = sessionStorage.getItem("Total");
+    let checkUsers = sessionStorage.getItem("Users");
+    let checkPercents = sessionStorage.getItem("Percents");
+    console.log(checkPercents);
+    let checkIDs = sessionStorage.getItem("IDs");
     const newTotal = Number(checkTotal);
     console.log("NewTotal", newTotal);
-    const percentArray = percents?.split(",");
-    const userArray = users?.split(",");
-    const idArray = IDs?.split(",");
+    const percentArray = checkPercents?.split(",");
+    const userArray = checkUsers?.split(",");
+    const idArray = checkIDs?.split(",");
     for (let u = 0; u < userArray?.length; u++) {
       let percentNum = Number(percentArray[u]);
       let owed = (percentNum * newTotal) / 100;
@@ -36,17 +40,20 @@ export default function SplitFunction(props) {
     if (props.token) {
       if (props.view === true) {
         getInfo();
+        console.log("I should get new cards now!");
       }
     }
-  }, [props.token, props.view, total, percents, IDs]);
+  }, [props.token, props.view, total, percents, users, IDs]);
 
   return (
     <>
-      <h6>Household Tracking</h6>
+      <br />
+      <h4 id="splitFunction">Household Contributions</h4>
       <Grouped
         token={props.token}
         view={props.view}
         cardInfo={getInfo()}
+        reactivate={getInfo}
         transactions={props.transactions}
       />
     </>

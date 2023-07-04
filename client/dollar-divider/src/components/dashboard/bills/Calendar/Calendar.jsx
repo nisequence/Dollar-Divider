@@ -9,6 +9,7 @@ import {
   CardBody,
   CardTitle,
   CardText,
+  Tooltip,
 } from "reactstrap";
 import { LuCalendarPlus, LuCalendarMinus } from "react-icons/lu";
 import Cards from "./Cards/Cards";
@@ -30,6 +31,11 @@ const monthGroup = [
 ];
 
 export default function Calendar(props) {
+  const [prevTooltipOpen, setPrevTooltipOpen] = useState(false);
+  const togglePrev = () => setPrevTooltipOpen(!prevTooltipOpen);
+  const [nextTooltipOpen, setNextTooltipOpen] = useState(false);
+  const toggleNext = () => setNextTooltipOpen(!nextTooltipOpen);
+
   const status = sessionStorage.getItem("Status");
 
   const [activeIndex, setActiveIndex] = useState(1);
@@ -98,7 +104,7 @@ export default function Calendar(props) {
         onExiting={() => setAnimating(true)}
         onExited={() => setAnimating(false)}
         /*         style={{ maxWidth: "95vw", maxHeight: "75vh" }}
-         */ //! The below key/value is supposed to stop the carousel from moving on its own, but it is not working
+         */
         slide={false}
       >
         <Cards
@@ -136,6 +142,9 @@ export default function Calendar(props) {
           >
             <LuCalendarMinus />
           </Button>
+          <Tooltip isOpen={prevTooltipOpen} target="Prev" toggle={togglePrev}>
+            Back
+          </Tooltip>
         </Col>
         <Col>
           <h3>
@@ -151,6 +160,9 @@ export default function Calendar(props) {
           >
             <LuCalendarPlus />
           </Button>
+          <Tooltip isOpen={nextTooltipOpen} target="Next" toggle={toggleNext}>
+            Next
+          </Tooltip>
         </Col>
       </Row>
       <Carousel

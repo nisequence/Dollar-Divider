@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Carousel, CarouselItem, CarouselControl } from "reactstrap";
+import { Carousel, CarouselItem, CarouselControl, Button } from "reactstrap";
 import Cards from "./Cards/Cards";
 
 export default function Grouped(props) {
@@ -54,6 +54,7 @@ export default function Grouped(props) {
               height: 200px;
             }`}
       </style>
+      {/* <Button onClick={props.reactivate}>Refresh</Button> */}
       <Carousel activeIndex={activeIndex} next={next} previous={previous}>
         {slides}
         <CarouselControl

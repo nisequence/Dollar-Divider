@@ -62,7 +62,7 @@ export default function Sidebar(props) {
       userSettingsMenu.style.height = "100vh";
       userSettingsMenu.style.width = openRightSidebarWidth;
       setTimeout(() => {
-        userSettingsMenu.style.visibility = "visible"
+        userSettingsMenu.style.visibility = "visible";
       }, 100);
       // rightSideMenu.style.maxWidth = "95em";
 
