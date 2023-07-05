@@ -237,7 +237,7 @@ export default function Sidebar(props) {
             <br></br>
             {/* //! Still working on implementation of both buttons working */}
             <HouseholdSettings token={props.token} />
-            <UserSettings token={props.token} />
+            <UserSettings updateToken={props.updateToken} token={props.token} />
           </Nav>
         </div>
       </div>
