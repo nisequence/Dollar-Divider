@@ -17,6 +17,21 @@ import AddTransaction from "../addTransaction/AddTransaction";
 import EditTransactionInfo from "../editTransactionInfo/EditTransactionInfo";
 let transactionID;
 let categoryOptions = [];
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 export default function RecentTransactions(props) {
   const [modal, setModal] = useState(false);
 
@@ -38,6 +53,7 @@ export default function RecentTransactions(props) {
     "November",
     "December",
   ];
+
   const days = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
     22, 23, 24, 25, 26, 27, 28, 29, 30,
@@ -85,7 +101,6 @@ export default function RecentTransactions(props) {
       console.error(err);
     }
   };
-  // console.log("catoptions", categoryOptions)
 
   //* Dropdown settings
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -109,63 +124,7 @@ export default function RecentTransactions(props) {
     base = "household";
   }
 
-  // const submitTrans = async (e) => {
-  //   e.preventDefault();
-  //   const desc = descRef.current.value;
-  //   const amount = amountRef.current.value;
-  //   const month = monthRef.current.value;
-  //   const day = dayRef.current.value;
-  //   const category = categoryRef.current.value;
-  //   const merchant = merchantRef.current.value;
-  //   const checkNumber = checkNumRef.current.value;
-  //   //const manualEntry = manualEntryRef.current.value;
-  //   const finAccount = finAccountRef.current.value;
-  //   const type = typeRef.current.value;
-
-  //   let transObj = JSON.stringify({
-  //     month: month,
-  //     day: day,
-  //     desc: desc,
-  //     merchant: merchant,
-  //     amount: amount,
-  //     checkNumber: checkNumber,
-  //     //manualEntry: true,
-  //     finAccount: finAccount,
-  //     category: category,
-  //     type: type,
-  //     base: base,
-  //   });
-
-  //   let headers = new Headers();
-  //   headers.append("Content-Type", "application/json");
-  //   headers.append("Authorization", props.token);
-
-  //   const reqOption = {
-  //     headers: headers,
-  //     body: transObj,
-  //     method: "POST",
-  //   };
-
-  //   try {
-  //     let url = "/"; //Todo remove this and replace with correct information
-  //     const res = await fetch(url, reqOption);
-  //     const data = await res.json();
-
-  //     // If the server provides a success message
-  //     if (
-  //       data.message === "You have created a new transaction!" ||
-  //       data.message === "Your household has a new transaction!"
-  //     ) {
-  //       props.getTransaction();
-  //     } else {
-  //       // Do nothing, maybe build an error component later to tell the user to re-configure their item
-  //       console.error("User is unauthorized.");
-  //     }
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
+  // Functionality for the Edit Menu
   const updateTransaction = async (id) => {
     console.log("updating Transaction", id);
     let url = `http://localhost:4000/transaction/edit/${id}`;
@@ -187,7 +146,7 @@ export default function RecentTransactions(props) {
       console.error(error);
     }
   };
-
+  // Functionality for the Edit Menu
   const deleteTransaction = async (id) => {
     // console.log("Deleting Transaction", id);
     let url = `http://localhost:4000/transaction/delete/${id}`;
@@ -213,177 +172,283 @@ export default function RecentTransactions(props) {
   const recentTransactions = [];
   let colorAssignment = 0;
   let tempColor;
-  // console.log("props.transaction:",props.transaction)
-  props.transaction?.map((transaction) => {
-    let monthArray = [];
-    let month = transaction.month;
-    function mapMonth() {
-      for (let i = 0; i < month.length; i++) {
-        monthArray.push(month[i]);
+
+  function mapMonth(curr) {
+    console.log("curr:",curr)
+    transInfo[months[curr-1]]?.map((transaction) => {
+
+      // abbreviate month names for the table
+      let monthArray = [];
+      let month = transaction.month;
+      function abbrMonth() {
+        for (let i = 0; i < month.length; i++) {
+          monthArray.push(month[i]);
+        }
+        monthArray.length = 3;
       }
-      monthArray.length = 3;
-    }
-    mapMonth();
-    month = monthArray[0] + monthArray[1] + monthArray[2] + " ";
-    if (colorAssignment === 0) {
-      tempColor = "table-success";
-      colorAssignment = 1;
-    } else {
-      tempColor = "table-secondary";
-      colorAssignment = 0;
-    }
-    let displayNumber;
-    transaction.amount = +transaction.amount;
-    if (transaction.amount < 0) {
-      let tempNumber = transaction.amount.toLocaleString("en-US");
-      let prefix = "-$";
-      tempNumber = tempNumber.slice(1);
-      displayNumber = prefix + tempNumber;
-    } else {
-      displayNumber = `$${transaction.amount.toLocaleString("en-US")}`;
-    }
-    return recentTransactions.push(
-      <tr className={tempColor}>
-        <td>{month + transaction.day}</td>
-        <td>{transaction.desc}</td>
-        <td>{displayNumber.toLocaleString("en-US")}</td>
-        <td>{transaction.merchant}</td>
-        <td>{transaction.category}</td>
-        <td>
-          <Button
-            onClick={() => {
-              toggleModal();
-              transactionID = transaction._id;
-            }}
-            id="UncontrolledModalEditTransaction"
-            // id="UncontrolledPopoverEditTransaction"
-            color="secondary"
-            type="button"
-            // trigger="legacy"
-            style={{
-              height: "1.5em",
-              display: "flex",
-              alignItems: "center",
-              marginLeft: "auto",
-            }}
-          >
-            edit
-          </Button>
-          <Modal
-            isOpen={modal}
-            fade={false}
-            toggle={toggleModal}
-            // <Modal
-            // placement="top"
-            // target="UncontrolledModalEditTransaction"
-            // target="UncontrolledPopoverEditTransaction"
-          >
-            <ModalHeader toggle={toggleModal}>Edit Transaction</ModalHeader>
-            {/* <PopoverHeader>Edit Transaction</PopoverHeader> */}
-            <ModalBody>
-              {/* <PopoverBody> */}
-              <EditTransactionInfo
-                token={props.token}
-                view={props.view}
-                month={props.month}
-                accounts={props.accounts}
-                categoryOptions={categoryOptions}
-              />
-              <ModalFooter>
-                <Button
-                  onClick={() => updateTransaction(transactionID)}
-                  color="success"
-                  type="submit"
-                >
-                  {/* <Button onClick={updatingTransaction} color="success" type="submit"> */}
-                  Update
-                </Button>
-                {/* <Button
+      abbrMonth();
+
+      // redefine month to abbreviate month names
+      month = monthArray[0] + monthArray[1] + monthArray[2] + " ";
+
+      // Add table striping
+      if (colorAssignment === 0) {
+        tempColor = "table-success";
+        colorAssignment = 1;
+      } else {
+        tempColor = "table-secondary";
+        colorAssignment = 0;
+      }
+      // correctly display numbers with dollar signs and negative symbols
+      let displayNumber;
+      transaction.amount = +transaction.amount;
+      if (transaction.amount < 0) {
+        let tempNumber = transaction.amount.toLocaleString("en-US");
+        let prefix = "-$";
+        tempNumber = tempNumber.slice(1);
+        displayNumber = prefix + tempNumber;
+      } else {
+        displayNumber = `$${transaction.amount.toLocaleString("en-US")}`;
+      }
+
+      // Return for the table rows
+      return recentTransactions.push(
+        <tr className={tempColor}>
+          <td>{month + transaction.day}</td>
+          <td>{transaction.desc}</td>
+          <td>{displayNumber.toLocaleString("en-US")}</td>
+          <td>{transaction.merchant}</td>
+          <td>{transaction.category}</td>
+          <td>
+            {/* Edit Button */}
+            <Button
+              onClick={() => {
+                toggleModal();
+                transactionID = transaction._id;
+              }}
+              id="UncontrolledModalEditTransaction"
+              // id="UncontrolledPopoverEditTransaction"
+              color="secondary"
+              type="button"
+              // trigger="legacy"
+              style={{
+                height: "1.5em",
+                display: "flex",
+                alignItems: "center",
+                marginLeft: "auto",
+              }}
+            >
+              edit
+            </Button>
+            <Modal
+              isOpen={modal}
+              fade={false}
+              toggle={toggleModal}
+              // <Modal
+              // placement="top"
+              // target="UncontrolledModalEditTransaction"
+              // target="UncontrolledPopoverEditTransaction"
+            >
+              <ModalHeader toggle={toggleModal}>Edit Transaction</ModalHeader>
+              {/* <PopoverHeader>Edit Transaction</PopoverHeader> */}
+              <ModalBody>
+                {/* <PopoverBody> */}
+                <EditTransactionInfo
+                  token={props.token}
+                  view={props.view}
+                  month={props.month}
+                  accounts={props.accounts}
+                  categoryOptions={categoryOptions}
+                />
+                <ModalFooter>
+                  <Button
+                    onClick={() => updateTransaction(transactionID)}
+                    color="success"
+                    type="submit"
+                  >
+                    {/* <Button onClick={updatingTransaction} color="success" type="submit"> */}
+                    Update
+                  </Button>
+                  {/* <Button
                 // key={v4}
                 onClick={cancelEditing}
                 color="secondary"
               >
                 Cancel
               </Button> */}
-                <Button
-                  key={v4}
-                  onClick={() => deleteTransaction(transactionID)}
-                  color="danger"
-                >
-                  {/* <Button onClick={deleteTransaction(id)} color="danger"> */}
-                  Delete
-                </Button>
-              </ModalFooter>
-            </ModalBody>
-          </Modal>
-          {/* </UncontrolledPopover> */}
-        </td>
-      </tr>
-    );
-  });
+                  <Button
+                    key={v4}
+                    onClick={() => deleteTransaction(transactionID)}
+                    color="danger"
+                  >
+                    {/* <Button onClick={deleteTransaction(id)} color="danger"> */}
+                    Delete
+                  </Button>
+                </ModalFooter>
+              </ModalBody>
+            </Modal>
+            {/* </UncontrolledPopover> */}
+          </td>
+        </tr>
+      );
+    });
+  }
 
-  // https://stackoverflow.com/questions/37349331/javascript-sort-items-list-by-months // Kate Found
-  // var dataCollection = [
-  //   { values: { Month: { displayValue: "August" }, Sum: "10" } },
-  //   { values: { Month: { displayValue: "February" }, Sum: "25" } },
-  //   { values: { Month: { displayValue: "July" }, Sum: "35" } }
-  // ];
-
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
+  // Start with sortedTransactions being the props.transaction
   let sortedTransactions = props.transaction;
 
+  // Change sortedTransactions sorting All Transactions by day
   function sortByDay() {
     sortedTransactions.sort((a, b) => {
       return a.day - b.day;
     });
   }
-
-  // function sortByMonth(arr1, arr2) {
-  //   arr2.sort((a, b) => {
-  //     const aKey = Object.values(a)[1];
-  //     const bKey = Object.values(b)[1];
-  //     return arr1.indexOf(aKey) - arr1.indexOf(bKey);
-  //   });
-  // }
-
-  // sortByMonth(months, sortedTransactions);
-
-  let transactionsByMonth = [{January: []},{February: []},{March: []}, {April: []}, {May: []}, {June: []}, {August: []}, {September: []}, {October: []}, {November: []}, {December: []}];
+  const janArray = [];
+  const febArray = [];
+  const marchArray = [];
+  const aprilArray = [];
+  const mayArray = [];
+  const juneArray = [];
+  const julyArray = [];
+  const augustArray = [];
+  const septArray = [];
+  const octArray = [];
+  const novArray = [];
+  const decArray = [];
+  sortByDay();
+  let transInfo = [];
   function createMonthsObjects() {
-    sortByDay();
-    let tempArray = []
+    // January
     for (let i = 0; i < sortedTransactions.length; i++) {
-      for (let m = 0; m < months.length; m++) {
-      
-      if (sortedTransactions[i].month === months[i]) {
-      // if (sortedTransactions[i].month === "July") {
-        tempArray.push(sortedTransactions[i])
-        }
+      if (sortedTransactions[i].month.includes("January")) {
+        janArray.push(sortedTransactions[i]);
       }
-      transactionsByMonth.July = tempArray;
-      console.log(transactionsByMonth)
+    }
+    // February
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("February")) {
+        febArray.push(sortedTransactions[i]);
+      }
+    }
+    // March
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("March")) {
+        marchArray.push(sortedTransactions[i]);
+      }
+    }
+    // April
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("April")) {
+        aprilArray.push(sortedTransactions[i]);
+      }
+    }
+    // May
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("May")) {
+        mayArray.push(sortedTransactions[i]);
+      }
+    }
+    // June
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("June")) {
+        juneArray.push(sortedTransactions[i]);
+      }
+    }
+    // July
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("July")) {
+        julyArray.push(sortedTransactions[i]);
+      }
+    }
+    // August
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("August")) {
+        augustArray.push(sortedTransactions[i]);
+      }
+    }
+    // September
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("September")) {
+        septArray.push(sortedTransactions[i]);
+      }
+    }
+    // October
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("October")) {
+        octArray.push(sortedTransactions[i]);
+      }
+    }
+    // November
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("November")) {
+        novArray.push(sortedTransactions[i]);
+      }
+    }
+    // December
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("December")) {
+        decArray.push(sortedTransactions[i]);
+      }
     }
   }
 
   createMonthsObjects();
-  // createMonthsObjects()
-  console.log("transactionsByMonth",transactionsByMonth);
+  let [currentMonth, setCurrentMonth] = useState(7);
+  // let currentMonth = 2;
+
+  transInfo.January = janArray;
+  transInfo.February = febArray;
+  transInfo.March = marchArray;
+  transInfo.April = aprilArray;
+  transInfo.May = mayArray;
+  transInfo.June = juneArray;
+  transInfo.July = julyArray;
+  transInfo.August = augustArray;
+  transInfo.September = septArray;
+  transInfo.October = octArray;
+  transInfo.November = novArray;
+  transInfo.December = decArray;
+
+  console.log("transInfo", transInfo);
+
+  const addMonth = () => {
+    if (currentMonth < 12) {
+      // console.log(currentMonth)
+      setCurrentMonth(currentMonth + 1);
+      console.log(currentMonth);
+      mapMonth(currentMonth);
+    }
+  };
+
+  const subtractMonth = () => {
+    if (currentMonth > 1) {
+      // console.log(currentMonth)
+      setCurrentMonth(currentMonth -1 );
+      console.log(currentMonth);
+      // mapMonth()
+      {
+        mapMonth(currentMonth);
+      }
+    }
+    // else {
+    //   currentMonth = 12
+    //   console.log(currentMonth)
+    // }
+  };
+  mapMonth(currentMonth);
+  // console.log("recentTransactions", recentTransactions);
+  // console.log('transinfo:',transInfo)
+  // let viewMonthInfo = [transInfo[currentMonth]]
+  let transactions = transInfo.July;
+  console.log("transactions here",transactions);
   return (
+    <>
     <div className="RecentTransactions">
+      <div id="recenttransactionsmonth">
+      <Button onClick={subtractMonth}>-</Button>
+      <div>{months[currentMonth -1]}</div>
+      <Button onClick={addMonth}>+</Button>
+      </div>
       <Table overflow-y="scroll">
         <AddTransaction
           token={props.token}
@@ -410,8 +475,11 @@ export default function RecentTransactions(props) {
       </th> */}
           </tr>
         </thead>
+        {/* <tbody>{transactions}</tbody> */}
         <tbody>{recentTransactions}</tbody>
+        {/* <tbody>{recentTransactions}</tbody> */}
       </Table>
     </div>
+    </>
   );
 }
