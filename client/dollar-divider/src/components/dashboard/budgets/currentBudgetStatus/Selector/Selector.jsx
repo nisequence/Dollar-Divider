@@ -36,6 +36,7 @@ export default function Selector(props) {
   };
   console.log(chosen);
   const displayModal = () => {
+    //* Make sure user is authorized as Admin 
     //* Globalize the variable "selected" within this function
     let selected = null;
     //* Go through each budget item
@@ -54,6 +55,7 @@ export default function Selector(props) {
             <ModalHeader toggle={toggle}>Viewing {chosen} Budget</ModalHeader>
             <UpdateBudgets
               token={props.token}
+              toggle={toggle}
               view={props.view}
               getBudgets={props.getBudgets}
               budget={selected}

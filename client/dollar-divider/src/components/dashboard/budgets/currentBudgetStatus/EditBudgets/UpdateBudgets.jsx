@@ -24,7 +24,6 @@ export default function UpdateBudgets(props) {
   // const budgetCatRef = useRef(); // dropdown
   const budgetAmtRef = useRef();
   // const assignedUserRef = useRef(); // dropdown
-
   // const modal = props.modal;
   // const toggle = props.toggle();
   //let categoryOptions = props.budgets;
@@ -64,7 +63,7 @@ export default function UpdateBudgets(props) {
       if (data.message == "Successfully updated budget!") {
       // if (data.message == "Budget has been updated successfully") {
         props.getBudgets(props.view);
-        /*         toggle(); */
+         props.toggle();
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
     console.error(res.message);
@@ -127,9 +126,10 @@ export default function UpdateBudgets(props) {
           <DeleteBudget
             token={props.token}
             getBudgets={props.getBudgets}
-            id={props.selected}
+            //id={props.selected}
             budgetID={budgetID}
             budgets={props.budgets}
+            toggle={props.toggle}
           />
           <Button color="primary" id="submit" onClick={editBudget}>
             Submit Changes

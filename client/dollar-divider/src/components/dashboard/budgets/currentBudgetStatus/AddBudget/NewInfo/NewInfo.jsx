@@ -7,6 +7,7 @@ export default function NewInfo(props) {
   const categoryRef = useRef();
   const amountRef = useRef();
 
+
   let baseBoolean;
   if (props.view === false) {
     baseBoolean = "personal";
@@ -65,6 +66,7 @@ export default function NewInfo(props) {
       ) {
         props.getBudgets();
         setHouseholdTotal();
+        
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
         console.error("User is unauthorized.");

@@ -5,22 +5,22 @@ export default function DeleteBudget(props) {
   //* DELETE FUNCTION
   async function deleteBudget() {
     const url = `http://localhost:4000/budget/delete/${props.budgetID}`;
-    console.log(props.BudgetID);
+    console.log(props.budgetID);
 
     const myHeaders = new Headers();
     myHeaders.append("Authorization", props.token);
 
-    let requestOptions = {
+    const requestOptions = {
       headers: myHeaders,
       method: "DELETE",
     };
 
     try {
-      let response = await fetch(url, requestOptions);
-      let data = await response.json();
+      const response = await fetch(url, requestOptions);
+      const  data = await response.json();
 
       if (data.message== "Budget was successfully deleted!") {
-        props.fetchBudgets(props.view);
+        props.getBudgets(props.view);
         props.toggle();
       } else { console.error("Access to or existence of this budget was not located")}
     } catch (error) {
@@ -28,9 +28,10 @@ export default function DeleteBudget(props) {
     }
   }
 
+
   return (
     <>
-    <Button color="danger" onClick={deleteBudget}>
+    <Button color="danger" onClick={deleteBudget} >
       <>DeleteBudget</>
       </Button>
     </>
