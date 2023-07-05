@@ -48,8 +48,10 @@ export default function NewTransInfo(props) {
     e.preventDefault();
     const desc = descRef.current.value;
     const amount = amountRef.current.value;
-    const month = monthRef.current.value;
-    const day = dayRef.current.value;
+    const month = "February";
+    // const month = monthRef.current.value; //Todo Change this to the Date Picker
+    const day = 2;
+    // const day = dayRef.current.value; //Todo Change This to the Date Picker
     const category = categoryRef.current.value;
     const merchant = merchantRef.current.value;
     const checkNumber = checkNumRef.current.value;
