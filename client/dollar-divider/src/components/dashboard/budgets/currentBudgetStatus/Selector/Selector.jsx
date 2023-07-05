@@ -19,6 +19,8 @@ export default function Selector(props) {
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
 
+  console.log(props.budgets) // Passing array of objects
+
   const openBudget = async (e) => {
     e.preventDefault();
 
@@ -54,8 +56,9 @@ export default function Selector(props) {
               token={props.token}
               view={props.view}
               getBudgets={props.getBudgets}
-              budget={selected} //! Not working the way we had hoped. Only grabbing string of budget and not object that can be looked into for category or amount in UpdateBudget and DeleteBudget
-              budgetA={props.budgets}
+              budget={selected}
+              budgets={props.budgets}
+              
               /*             toggle={toggle} */
               modal={modal}
             />

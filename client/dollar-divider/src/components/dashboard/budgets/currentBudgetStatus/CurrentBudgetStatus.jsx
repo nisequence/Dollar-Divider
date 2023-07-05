@@ -132,6 +132,7 @@ export default function CurrentBudgetStatus(props) {
           view={props.view}
           getBudgets={props.getBudgets}
           budgets={props.budgets}
+          id= {props.id}
         />
         {/* <Doughnut */}
         <PolarArea

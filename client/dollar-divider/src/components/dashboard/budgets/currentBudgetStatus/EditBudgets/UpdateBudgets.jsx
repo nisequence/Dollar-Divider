@@ -17,8 +17,9 @@ import DeleteBudget from "./Each/DeleteBudget";
 export default function UpdateBudgets(props) {
   let budgetInfo = props.budget;
   let budgetID = budgetInfo._id;
-  console.log("the string budget", props.budget)
-  console.log("A", props.budgetA)
+  let id=budgetID
+
+  console.log(budgetID)
 
   const budgetCatRef = useRef(); // dropdown
   const budgetAmtRef = useRef();
@@ -26,25 +27,25 @@ export default function UpdateBudgets(props) {
 
   const modal = props.modal;
   // const toggle = props.toggle();
-
-  let categoryOptions = props.budgets;
+  //let categoryOptions = props.budgets;
 
   //* EDIT BUDGET
   const editBudget = async (e) => {
     e.preventDefault();
 
     const budgetAmt = budgetAmtRef.current.value;
-    const budgetCat = budgetCatRef.current.value;
-    const assignedUser = assignedUserRef.current.value;
-    const id = budgetID;
+    //const budgetCat = budgetCatRef.current.value;
+    //const assignedUser = assignedUserRef.current.value;
+    //const id = budgetID;
 
     // Edit fetch
     let url = `http://localhost:4000/budget/edit/${id}`;
+    console.log(url)
 
     let newBudgetObj = JSON.stringify({
       budgetAmt: budgetAmt,
-      budgetCat: budgetCat,
-      assignedUser: assignedUser,
+      //budgetCat: budgetCat,
+      //assignedUser: assignedUser,
     });
 
     let headers = new Headers();
@@ -67,7 +68,7 @@ export default function UpdateBudgets(props) {
         /*         toggle(); */
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
-        console.error("Error when editing bill");
+    console.error("Error when editing budget");
       }
     } catch (err) {
       console.error(err);
@@ -81,31 +82,16 @@ export default function UpdateBudgets(props) {
   // in the map create a <tr> w/<td> budget cat, amount, & edit and delete button
   // When you click edit(need an onclick that turn each <td> into an input, also change the edit button td to a new update button)
   // Click the update button, run the fetch and go back to dashboard
-  const displayModal = () => {
-    return <></>;
-  };
-
-  // return (
-  //   <>
-
-  //     <Button
-  //         onClick={displayModal()}
-  //         color="success"
-  //         >Update Budget
-  //         </Button>
-
-  //   </>
-  // )};
-
+ 
   return (
     <div>
       <Form onSubmit={UpdateBudgets}>
         <ModalBody>
           <FormGroup>
-            <Label input>
-              Category
+            <Label>
+              Category 
               <i> (Currently: {`${budgetInfo.budgetCat}`})</i>
-            </Label>
+           </Label>
             {/*             <Input
               placeholder={budgetInfo.budgetCat}
               id="exampleSelect1"
@@ -124,7 +110,7 @@ export default function UpdateBudgets(props) {
             {/*             </Input> */}
           </FormGroup>
           <FormGroup>
-            <Label input>
+            <Label>
               Amount
               <i> (Currently: ${`${budgetInfo.budgetAmt}`})</i>
             </Label>
@@ -141,10 +127,11 @@ export default function UpdateBudgets(props) {
           <DeleteBudget
             token={props.token}
             getBudgets={props.getBudgets}
-            id={budgetID}//! needs to be rewritten to props.(whatever we choose to call it in Selector 143)
+            id={props.selected}
+            budgetID={budgetID}
+            budgets={props.budgets}
           />
-          <Button color="primary" id="submit">
-            {editBudget}
+          <Button color="primary" id="submit" onClick={editBudget}>
             Submit Changes
           </Button>{" "}
         </ModalFooter>
