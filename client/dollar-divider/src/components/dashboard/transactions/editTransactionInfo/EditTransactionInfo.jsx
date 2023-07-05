@@ -1,5 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Form, FormGroup, Input, Button, Label } from "reactstrap";
+// import DatePicker from "../datePicker/DayPicker";
+import { DayPicker } from "react-day-picker";
+import 'react-day-picker/dist/style.css';
+
 export default function EditTransactionInfo(props) {
   // let accountsList = [];
   const [state, setState] = useState(true);
@@ -180,8 +184,12 @@ export default function EditTransactionInfo(props) {
             })}
           </Input>
         </FormGroup>
+            {/* Choose Date */}
+            <FormGroup>
+              <DayPicker />
+        </FormGroup>
         {/* Choose Month */}
-        <FormGroup>
+        {/* <FormGroup>
           <Label for="exampleSelectMulti">Choose Month</Label>
           <Input
             id="exampleSelect2"
@@ -198,9 +206,9 @@ export default function EditTransactionInfo(props) {
               );
             })}
           </Input>
-        </FormGroup>
+        </FormGroup> */}
         {/* Choose Day */}
-        <FormGroup>
+        {/* <FormGroup>
           <Label for="exampleSelect3">Choose Day</Label>
           <Input
             id="exampleSelect"
@@ -217,7 +225,7 @@ export default function EditTransactionInfo(props) {
               );
             })}
           </Input>
-        </FormGroup>
+        </FormGroup> */}
         {/* Choose Account */}
         <FormGroup>
           <Label for="exampleSelectMulti">Choose Account</Label>

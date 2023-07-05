@@ -1,7 +1,20 @@
 import React, { useRef, useState } from "react";
 import { Form, FormGroup, Input, Button, Label } from "reactstrap";
+import { format } from "date-fns";
+import { DayPicker } from "react-day-picker";
+// import DatePicker from "../../datePicker/DayPicker";
+import 'react-day-picker/dist/style.css';
 
 export default function NewTransInfo(props) {
+  const [selected, setSelected] = React.useState();
+
+  let footer = <p>Please pick a day.</p>;
+  if (selected) {
+    footer = <p>You picked {format(selected, 'PP')}.</p>;
+  }
+  console.log("selected",selected)
+  // const [selected, setSelected] = React.useState<Date>();
+
   const months = [
     "January",
     "February",
@@ -47,14 +60,16 @@ export default function NewTransInfo(props) {
     e.preventDefault();
     const desc = descRef.current.value;
     const amount = amountRef.current.value;
-    const month = monthRef.current.value;
-    const day = dayRef.current.value;
+    let month = "February";
+    // const month = monthRef.current.value; //Todo Change this to the Date Picker
+    let day = 2;
+    // const day = dayRef.current.value; //Todo Change This to the Date Picker
     const category = categoryRef.current.value;
     const merchant = merchantRef.current.value;
     const checkNumber = checkNumRef.current.value;
     //const manualEntry = manualEntryRef.current.value;
-    const finAccount = "fix this";
-    // const finAccount = finAccountRef.current.value;
+    // const finAccount = "fix this";
+    const finAccount = finAccountRef.current.value;
     const type = typeRef.current.value;
 
     let url = "http://localhost:4000/transaction/add";
@@ -164,8 +179,17 @@ export default function NewTransInfo(props) {
             })}
           </Input>
         </FormGroup>
-        {/* Month */}
+        {/* Date */}
         <FormGroup>
+              <DayPicker 
+                    mode="single"
+                    selected={selected}
+                    onSelect={setSelected}
+                    footer={footer}
+              />
+        </FormGroup>
+        {/* Month */}
+        {/* <FormGroup>
           <Label for="exampleSelectMulti">Choose Month</Label>
           <Input
             id="exampleSelect2"
@@ -182,9 +206,9 @@ export default function NewTransInfo(props) {
               );
             })}
           </Input>
-        </FormGroup>
+        </FormGroup> */}
         {/* Day */}
-        <FormGroup>
+        {/* <FormGroup>
           <Label for="exampleSelect3">Choose Day</Label>
           <Input
             id="exampleSelect"
@@ -201,7 +225,7 @@ export default function NewTransInfo(props) {
               );
             })}
           </Input>
-        </FormGroup>
+        </FormGroup> */}
         {/* Choose Account */}
         <FormGroup>
           <Label for="exampleSelectMulti">Choose Account</Label>
@@ -209,7 +233,7 @@ export default function NewTransInfo(props) {
             id="exampleSelect1"
             name="select"
             type="select"
-            innerRef={categoryRef}
+            innerRef={finAccountRef}
             required
           >
             {props.accounts?.map((a) => {

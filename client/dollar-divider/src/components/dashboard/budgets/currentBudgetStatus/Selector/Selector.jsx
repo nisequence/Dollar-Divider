@@ -75,7 +75,9 @@ export default function Selector(props) {
       <Row>
         <Form>
           <Col>
+          <div id="selectBudgetCategory">
             <FormGroup>
+            <h5>Choose a Budget Category:</h5>
               <Input
                 id="exampleSelect2"
                 name="select"
@@ -92,6 +94,7 @@ export default function Selector(props) {
                 })}
               </Input>
             </FormGroup>
+            </div>
           </Col>
           <Col>
             <Button id="submit" color="secondary" onClick={openBudget}>

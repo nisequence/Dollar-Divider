@@ -21,9 +21,11 @@ export default function UpdateBudgets(props) {
 
   console.log(budgetID)
 
+
   // const budgetCatRef = useRef(); // dropdown
   const budgetAmtRef = useRef();
   // const assignedUserRef = useRef(); // dropdown
+
   // const modal = props.modal;
   // const toggle = props.toggle();
   //let categoryOptions = props.budgets;
@@ -126,10 +128,12 @@ export default function UpdateBudgets(props) {
           <DeleteBudget
             token={props.token}
             getBudgets={props.getBudgets}
+
             //id={props.selected}
             budgetID={budgetID}
             budgets={props.budgets}
             toggle={props.toggle}
+
           />
           <Button color="primary" id="submit" onClick={editBudget}>
             Submit Changes
