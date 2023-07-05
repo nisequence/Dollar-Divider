@@ -1,8 +1,20 @@
 import React, { useRef, useState } from "react";
 import { Form, FormGroup, Input, Button, Label } from "reactstrap";
-import DatePicker from "../../datePicker/DayPicker";
+import { format } from "date-fns";
+import { DayPicker } from "react-day-picker";
+// import DatePicker from "../../datePicker/DayPicker";
+import 'react-day-picker/dist/style.css';
 
 export default function NewTransInfo(props) {
+  const [selected, setSelected] = React.useState();
+
+  let footer = <p>Please pick a day.</p>;
+  if (selected) {
+    footer = <p>You picked {format(selected, 'PP')}.</p>;
+  }
+  console.log("selected",selected)
+  // const [selected, setSelected] = React.useState<Date>();
+
   const months = [
     "January",
     "February",
@@ -48,9 +60,9 @@ export default function NewTransInfo(props) {
     e.preventDefault();
     const desc = descRef.current.value;
     const amount = amountRef.current.value;
-    const month = "February";
+    let month = "February";
     // const month = monthRef.current.value; //Todo Change this to the Date Picker
-    const day = 2;
+    let day = 2;
     // const day = dayRef.current.value; //Todo Change This to the Date Picker
     const category = categoryRef.current.value;
     const merchant = merchantRef.current.value;
@@ -169,7 +181,12 @@ export default function NewTransInfo(props) {
         </FormGroup>
         {/* Date */}
         <FormGroup>
-              <DatePicker />
+              <DayPicker 
+                    mode="single"
+                    selected={selected}
+                    onSelect={setSelected}
+                    footer={footer}
+              />
         </FormGroup>
         {/* Month */}
         {/* <FormGroup>
