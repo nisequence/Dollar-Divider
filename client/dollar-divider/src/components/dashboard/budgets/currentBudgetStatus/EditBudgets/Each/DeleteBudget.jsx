@@ -19,10 +19,10 @@ export default function DeleteBudget(props) {
       let response = await fetch(url, requestOptions);
       let data = await response.json();
 
-      if (data) {
-        props.fetchBudgets();
-        // navigate("/dashboard")
-      }
+      if (data.message== "Budget was successfully deleted!") {
+        props.fetchBudgets(props.view);
+        props.toggle();
+      } else { console.error("Access to or existence of this budget was not located")}
     } catch (error) {
       console.error(error);
     }

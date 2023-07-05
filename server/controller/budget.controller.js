@@ -292,7 +292,7 @@ router.patch("/edit/:id", async (req, res) => {
 });
 
 //? DELETE Route to delete budget if admin
-router.delete("/:id", async (req, res) => {
+router.delete("delete/:id", async (req, res) => {
   try {
     //* Pull budget id from params
     const { id } = req.params;
