@@ -231,9 +231,6 @@
     margin: auto;
   }
 
-  #householdSettingsMenu{
-    width: 0;
-  }
   #userSettingsMenu {
     position: fixed;
     right: 0;
@@ -264,6 +261,30 @@
     border-bottom: solid rgb(46, 46, 46) 2px;
     border-top: solid rgb(144, 144, 144) 2px;
     border-left: solid rgb(144, 144, 144) 2px;
+  }
+
+  .accordion-item {
+    margin-left: 10%;
+    margin-right: 10%;
+    align-items: center;
+  }
+
+  .popover {
+    width:fit-content!important;
+  }
+  .popover-inner {
+    width: fit-content;
+  }
+  .popover-body {
+    width: fit-content;
+  }
+
+  #selectBudgetCategory {
+    display: inline-block;
+  }
+  #exampleSelect2 {
+    display: inline-block;
+    width: 20em;
   }
 
 #splitFunction {
