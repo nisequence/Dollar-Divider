@@ -6,7 +6,7 @@ import {
   PopoverBody,
 } from "reactstrap";
 import NewTransInfo from "./newTransInfo/NewTransInfo";
-
+import DatePicker from "../datePicker/DayPicker";
 export default function AddTransaction(props) {
   // console.log(props);
   let url;
