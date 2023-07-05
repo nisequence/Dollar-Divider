@@ -21,11 +21,11 @@ export default function UpdateBudgets(props) {
 
   console.log(budgetID)
 
-  const budgetCatRef = useRef(); // dropdown
+  // const budgetCatRef = useRef(); // dropdown
   const budgetAmtRef = useRef();
-  const assignedUserRef = useRef(); // dropdown
+  // const assignedUserRef = useRef(); // dropdown
 
-  const modal = props.modal;
+  // const modal = props.modal;
   // const toggle = props.toggle();
   //let categoryOptions = props.budgets;
 
@@ -40,12 +40,10 @@ export default function UpdateBudgets(props) {
 
     // Edit fetch
     let url = `http://localhost:4000/budget/edit/${id}`;
-    console.log(url)
-
+    
     let newBudgetObj = JSON.stringify({
-      budgetAmt: budgetAmt,
-      //budgetCat: budgetCat,
-      //assignedUser: assignedUser,
+      amount: budgetAmt,
+      // budgetAmt: budgetAmt,
     });
 
     let headers = new Headers();
@@ -63,12 +61,14 @@ export default function UpdateBudgets(props) {
       const data = await res.json();
 
       // If the server provides a success message
-      if (data.message == "Budget has been updated successfully") {
+      if (data.message == "Successfully updated budget!") {
+      // if (data.message == "Budget has been updated successfully") {
         props.getBudgets(props.view);
         /*         toggle(); */
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
-    console.error("Error when editing budget");
+    console.error(res.message);
+    // console.error("Error when editing budget");
       }
     } catch (err) {
       console.error(err);
