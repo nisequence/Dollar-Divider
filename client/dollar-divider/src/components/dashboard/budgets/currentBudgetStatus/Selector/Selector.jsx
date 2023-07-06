@@ -18,23 +18,17 @@ export default function Selector(props) {
   const [chosen, setChosen] = useState("");
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
-
-  console.log(props.budgets) // Passing array of objects
-
   const openBudget = async (e) => {
     e.preventDefault();
 
     setChosen(choiceRef.current.value);
-    console.log(chosen);
 
     if (modal === true) {
       //do nothing
     } else {
       toggle();
     }
-    console.log(modal);
   };
-  console.log(chosen);
   const displayModal = () => {
     //* Make sure user is authorized as Admin 
     //* Globalize the variable "selected" within this function

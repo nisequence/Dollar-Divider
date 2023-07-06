@@ -122,12 +122,14 @@ export default function Calendar(props) {
     <div>
       <style>
         {`.overflow-calendar {
-          height: 60vh;
+          height: 52.5vh;
           overflow-y:scroll;
           overflow-x: hidden;
   scrollbar-width: thin;
         }`}
       </style>
+      {/* <div id="idhere">
+      </div> */}
       <Row style={{ maxHeight: "6vh" }}>
         <Col style={{ maxWidth: "13vw" }}></Col>
         {viewType()}

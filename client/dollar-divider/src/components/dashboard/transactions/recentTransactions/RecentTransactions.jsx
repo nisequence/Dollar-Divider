@@ -10,6 +10,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Tooltip,
   // Alert
 } from "reactstrap";
 import { v4 } from "uuid";
@@ -33,11 +34,14 @@ const months = [
 ];
 
 export default function RecentTransactions(props) {
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+
+  const toggleToolTip = () => setTooltipOpen(!tooltipOpen);
+  
   const [modal, setModal] = useState(false);
 
   const toggleModal = () => setModal(!modal);
 
-  // console.log("account list:",props.accounts)
 
   const transactionsToDelete = [
     "January",
@@ -87,10 +91,8 @@ export default function RecentTransactions(props) {
       // If the server does not provide a failure message
       if (data.message !== "No personal budgets found.") {
         // setBudgets(data.allBudgets);
-        // console.log("budgetdata:",data.allBudgets)
         categoryOptions = [];
         data.allBudgets.map((item) => {
-          // console.log("budgetCat:",item.budgetCat)
           categoryOptions.push(item);
         });
       } else {
@@ -126,7 +128,6 @@ export default function RecentTransactions(props) {
 
   // Functionality for the Edit Menu
   const updateTransaction = async (id) => {
-    console.log("updating Transaction", id);
     let url = `http://localhost:4000/transaction/edit/${id}`;
     const myHeaders = new Headers();
     myHeaders.append("Authorization", props.token);
@@ -148,7 +149,6 @@ export default function RecentTransactions(props) {
   };
   // Functionality for the Edit Menu
   const deleteTransaction = async (id) => {
-    // console.log("Deleting Transaction", id);
     let url = `http://localhost:4000/transaction/delete/${id}`;
     const myHeaders = new Headers();
     myHeaders.append("Authorization", props.token);
@@ -174,7 +174,6 @@ export default function RecentTransactions(props) {
   let tempColor;
 
   function mapMonth(curr) {
-    console.log("curr:",curr)
     transInfo[months[curr-1]]?.map((transaction) => {
 
       // abbreviate month names for the table
@@ -240,19 +239,20 @@ export default function RecentTransactions(props) {
             >
               edit
             </Button>
+            <Tooltip
+        isOpen={tooltipOpen}
+        target="UncontrolledModalEditTransaction"
+        toggle={toggleToolTip}
+      >
+        Add a Transaction
+      </Tooltip>
             <Modal
               isOpen={modal}
               fade={false}
               toggle={toggleModal}
-              // <Modal
-              // placement="top"
-              // target="UncontrolledModalEditTransaction"
-              // target="UncontrolledPopoverEditTransaction"
             >
               <ModalHeader toggle={toggleModal}>Edit Transaction</ModalHeader>
-              {/* <PopoverHeader>Edit Transaction</PopoverHeader> */}
               <ModalBody>
-                {/* <PopoverBody> */}
                 <EditTransactionInfo
                   token={props.token}
                   view={props.view}
@@ -266,22 +266,13 @@ export default function RecentTransactions(props) {
                     color="success"
                     type="submit"
                   >
-                    {/* <Button onClick={updatingTransaction} color="success" type="submit"> */}
                     Update
                   </Button>
-                  {/* <Button
-                // key={v4}
-                onClick={cancelEditing}
-                color="secondary"
-              >
-                Cancel
-              </Button> */}
                   <Button
                     key={v4}
                     onClick={() => deleteTransaction(transactionID)}
                     color="danger"
                   >
-                    {/* <Button onClick={deleteTransaction(id)} color="danger"> */}
                     Delete
                   </Button>
                 </ModalFooter>
@@ -409,22 +400,17 @@ export default function RecentTransactions(props) {
   transInfo.November = novArray;
   transInfo.December = decArray;
 
-  console.log("transInfo", transInfo);
 
   const addMonth = () => {
     if (currentMonth < 12) {
-      // console.log(currentMonth)
       setCurrentMonth(currentMonth + 1);
-      console.log(currentMonth);
       mapMonth(currentMonth);
     }
   };
 
   const subtractMonth = () => {
     if (currentMonth > 1) {
-      // console.log(currentMonth)
       setCurrentMonth(currentMonth -1 );
-      console.log(currentMonth);
       // mapMonth()
       {
         mapMonth(currentMonth);
@@ -432,15 +418,12 @@ export default function RecentTransactions(props) {
     }
     // else {
     //   currentMonth = 12
-    //   console.log(currentMonth)
     // }
   };
   mapMonth(currentMonth);
-  // console.log("recentTransactions", recentTransactions);
-  // console.log('transinfo:',transInfo)
   // let viewMonthInfo = [transInfo[currentMonth]]
   let transactions = transInfo.July;
-  console.log("transactions here",transactions);
+  // console.log("recenttransactionsprops:",props)
   return (
     <>
     <div className="RecentTransactions">

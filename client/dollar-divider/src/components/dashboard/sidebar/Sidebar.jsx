@@ -24,12 +24,15 @@ export default function Sidebar(props) {
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
     const sidebar = document.getElementById("sidebar");
+    // const openSidebarWidth = "fit-content";
+    // const openSidebarWidth = "16em";
     const openSidebarWidth = "14vw";
     if (!collapsed) {
       document.getElementById("sidebarItems").style.visibility = "hidden";
       sidebar.style.width = "0";
       sidebar.style.minWidth = "";
     } else {
+      // sidebar.style.minWidth = "fit-content"
       sidebar.style.height = "100vh";
       sidebar.style.width = openSidebarWidth;
       // sidebar.style.minWidth = "fit-content";

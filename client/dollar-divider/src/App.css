@@ -52,6 +52,7 @@
     margin-left: 1em;
     margin-bottom: 1em;
     visibility: hidden;
+    width: 11vw;
     position: relative;
     top: 3em;
     padding: 0.75rem;
@@ -67,8 +68,8 @@
     position: fixed;
     top: 1.5em;
     left: 2em;
-    height: 3em;
-    width: 4em;
+    height: 2.5em;
+    width: 3em;
     user-select: none;
     margin-top: 0;
     padding-top: 0;
@@ -163,8 +164,17 @@
     height: 100%;
     width: 100%;
   }
+  /* .card-body {
+    width: fit-content;
+  } */
 
+  #addTransSwitch{
+    display: flex;
+  }
 
+  #addTransSwitch > Label {
+    margin-right: 1em;
+  }
   #accountsList {
     /* user-select: none; */
     color: black !important;
@@ -184,8 +194,13 @@
     width: 80%;
   }
   
+  /* #budgetStatusContainer {
+   
+  } */
+
   .CurrentBudgetStatus {
     max-height: fit-content;
+    /* height: 50%; */
     width: 100%;
     min-width: 35vw;
     /* max-height: 50vh; */
@@ -269,7 +284,7 @@
     align-items: center;
   }
 
-  .popover {
+  /* .popover {
     width:fit-content!important;
   }
   .popover-inner {
@@ -277,15 +292,15 @@
   }
   .popover-body {
     width: fit-content;
-  }
+  } */
 
   #selectBudgetCategory {
     display: inline-block;
   }
-  #exampleSelect2 {
+  /* #exampleSelect2 {
     display: inline-block;
     width: 20em;
-  }
+  } */
 
 #splitFunction {
   color: black;
@@ -299,4 +314,14 @@
 
 #copyAlert > .btn-close {
   padding: 0.3rem;
+}
+
+/* #addtransactionform {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+
+.modal-content {
+  max-width: fit-content;
 }
