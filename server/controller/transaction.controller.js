@@ -28,14 +28,12 @@ router.post("/add", async (req, res) => {
       base,
     } = req.body;
     const userID = req.user._id;
-
     let newAmount;
     if (type == "expense") {
       newAmount = 0 - amount;
     } else {
       newAmount = amount;
     }
-
     if (base == "personal") {
       // make sure ID is correct & findable
       const findUser = await User.findOne({ _id: req.user._id });
