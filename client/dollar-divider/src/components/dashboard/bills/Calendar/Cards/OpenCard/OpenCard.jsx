@@ -54,6 +54,7 @@ export default function OpenCard(props) {
     22, 23, 24, 25, 26, 27, 28, 29, 30,
   ];
   let categoryOptions = props.budgets;
+  console.log(categoryOptions);
 
   //* Create a function to handle the form inputs when the user attempts to edit the given bill
   const editBill = async (e) => {
@@ -141,9 +142,9 @@ export default function OpenCard(props) {
               >
                 {categoryOptions?.map((each) => {
                   return (
-                    <div key={categoryOptions.indexOf(each)}>
-                      <option>{each.budgetCat}</option>
-                    </div>
+                    <option key={categoryOptions.indexOf(each)}>
+                      {each.budgetCat}
+                    </option>
                   );
                 })}
               </Input>
@@ -174,9 +175,9 @@ export default function OpenCard(props) {
               >
                 {months.map((each) => {
                   return (
-                    <div key={months.indexOf(each)}>
-                      <option value={each}>{each}</option>
-                    </div>
+                    <option key={months.indexOf(each)} value={each}>
+                      {each}
+                    </option>
                   );
                 })}
               </Input>
@@ -194,16 +195,17 @@ export default function OpenCard(props) {
               >
                 {days.map((each) => {
                   return (
-                    <div key={days.indexOf(each)}>
-                      <option value={each}>{each}</option>
-                    </div>
+                    <option key={days.indexOf(each)} value={each}>
+                      {each}
+                    </option>
                   );
                 })}
               </Input>
             </FormGroup>
             <Label>
-              {`Currently set to Autopay: ${billInfo.autoPay} and Recurring: 
-              ${billInfo.recurring}`}
+              {`Currently set to autopay:`}
+              <strong>{`${billInfo.autoPay}`}</strong>
+              {`and recurring:`} <strong>{`${billInfo.recurring}`}</strong>
             </Label>
             <br></br>
             <FormGroup check inline>
