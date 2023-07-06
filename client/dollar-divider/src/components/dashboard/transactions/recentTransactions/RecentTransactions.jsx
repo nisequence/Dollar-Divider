@@ -428,11 +428,11 @@ export default function RecentTransactions(props) {
     <>
     <div className="RecentTransactions">
       <div id="recenttransactionsmonth">
-      <Button onClick={subtractMonth}>-</Button>
-      <div>{months[currentMonth -1]}</div>
-      <Button onClick={addMonth}>+</Button>
+      <Button id="monthLeftBtn" onClick={subtractMonth}>-</Button>
+      <div id="rtMonthName">{months[currentMonth -1]}</div>
+      <Button id="monthRightBtn" onClick={addMonth}>+</Button>
       </div>
-      <Table overflow-y="scroll">
+      <Table>
         <AddTransaction
           token={props.token}
           view={props.view}
