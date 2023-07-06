@@ -164,9 +164,6 @@
     height: 100%;
     width: 100%;
   }
-  /* .card-body {
-    width: fit-content;
-  } */
 
   #addTransSwitch{
     display: flex;
@@ -211,21 +208,40 @@
   }
   
   #recenttransactionsmonth {
-    width: 100%;
-    /* background-color: black; */
+    /* display: inline-block; */
+display: flex;
+flex-direction: row;
+/* margin: auto; */
+/* width: 20em; */
+align-items: center;
+  }
+  #rtMonthName {
+    width: 8em;
+    font-size: large;
+    font-weight: bold;
   }
   .RecentTransactions {
-    margin-left: 30vw;
-    display: hidden;
+    /* display: flex; */
+    /* align-items: center; */
+    /* margin-left: 30vw; */
     color: black;
-    max-height: fit-content;
-    margin: auto;
+    /* max-height: fit-content; */
+    /* margin: auto; */
     /* height: 100%; */
     /* width: 100%; */
-    min-width: 35vw;
-    text-align: center;
+    /* min-width: 35vw; */
+    /* text-align: center; */
   }
   
+  #monthLeftBtn {
+    margin-left: auto;
+    margin-right: 3%;
+  }
+
+  #monthRightBtn {
+    margin-right: auto;
+    margin-left: 3%;
+  }
   #rightSideMenu {
     position: fixed;
     right: 0;
