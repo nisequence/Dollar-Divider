@@ -54,7 +54,6 @@ export default function OpenCard(props) {
     22, 23, 24, 25, 26, 27, 28, 29, 30,
   ];
   let categoryOptions = props.budgets;
-  console.log(categoryOptions);
 
   //* Create a function to handle the form inputs when the user attempts to edit the given bill
   const editBill = async (e) => {
@@ -203,9 +202,9 @@ export default function OpenCard(props) {
               </Input>
             </FormGroup>
             <Label>
-              {`Currently set to autopay:`}
-              <strong>{`${billInfo.autoPay}`}</strong>
-              {`and recurring:`} <strong>{`${billInfo.recurring}`}</strong>
+              {`Currently set to autopay: `}
+              <strong>{`${billInfo.autoPay} `}</strong>
+              {`and recurring: `} <strong>{`${billInfo.recurring}`}</strong>
             </Label>
             <br></br>
             <FormGroup check inline>
