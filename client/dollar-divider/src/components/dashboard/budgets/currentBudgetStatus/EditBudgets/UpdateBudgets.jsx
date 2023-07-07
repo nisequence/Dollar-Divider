@@ -22,7 +22,7 @@ export default function UpdateBudgets(props) {
   console.log(budgetID)
 
 
-  // const budgetCatRef = useRef(); // dropdown
+  const budgetCatRef = useRef(); // dropdown
   const budgetAmtRef = useRef();
   // const assignedUserRef = useRef(); // dropdown
 
@@ -35,7 +35,7 @@ export default function UpdateBudgets(props) {
     e.preventDefault();
 
     const budgetAmt = budgetAmtRef.current.value;
-    //const budgetCat = budgetCatRef.current.value;
+    const budgetCat = budgetCatRef.current.value;
     //const assignedUser = assignedUserRef.current.value;
     //const id = budgetID;
 
@@ -43,7 +43,9 @@ export default function UpdateBudgets(props) {
     let url = `http://localhost:4000/budget/edit/${id}`;
     
     let newBudgetObj = JSON.stringify({
+      category: budgetCat,
       amount: budgetAmt,
+    
       // budgetAmt: budgetAmt,
     });
 
@@ -93,22 +95,20 @@ export default function UpdateBudgets(props) {
               Category 
               <i> (Currently: {`${budgetInfo.budgetCat}`})</i>
            </Label>
-            {/*             <Input
+              <Input
               placeholder={budgetInfo.budgetCat}
-              id="exampleSelect1"
-              name="select"
-              type="select"
               innerRef={budgetCatRef}
-              required
-            >
-              {categoryOptions?.map((each) => {
-                return (
-                  <>
-                    <option>{each.budgetCat}</option>
-                  </>
-                );
-              })} */}
-            {/*             </Input> */}
+              autoComplete="off"
+              type="Select"
+              required >
+              {props.categoryOptions?.map((each) => {
+                  return (
+                    <option key={props.categoryOptions.indexOf(each)}>
+                      {each.budgetCat}
+                    </option>
+                  );
+                })} 
+                </Input>
           </FormGroup>
           <FormGroup>
             <Label>

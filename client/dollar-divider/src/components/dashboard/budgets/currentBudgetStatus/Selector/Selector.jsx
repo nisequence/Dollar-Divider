@@ -13,7 +13,7 @@ import { GrEdit } from "react-icons/gr";
 import UpdateBudgets from "../EditBudgets/UpdateBudgets";
 
 export default function Selector(props) {
-  let categoryOptions = props.budgets;
+  const categoryOptions = props.budgets;
   const choiceRef = useRef();
   const [chosen, setChosen] = useState("");
   const [modal, setModal] = useState(false);
@@ -54,6 +54,7 @@ export default function Selector(props) {
               getBudgets={props.getBudgets}
               budget={selected}
               budgets={props.budgets}
+              categoryOptions={categoryOptions}
               
               /*             toggle={toggle} */
               modal={modal}
