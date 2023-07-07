@@ -343,6 +343,21 @@ router.patch("/edit", async (req, res) => {
         participantMaxNum: maxNum,
         bannedUsers: findHousehold.bannedUsers,
       };
+
+    const userFilter = { _id: banUser };
+    const userNewInfo = { householdID: null };
+    const userReturnOption = { new: true };
+
+    const updateUserProfile = await User.findOneAndUpdate(
+      userFilter,
+      userNewInfo,
+      userReturnOption
+    );
+
+    if (!updateUserProfile)
+      return res.status(520).json({
+        message: "Unable to update user profile. Please try again later.",
+      });
     } else {
       //* Track how many users are now in the household
       let numOfUsers = findHousehold.participantIDs.length;
