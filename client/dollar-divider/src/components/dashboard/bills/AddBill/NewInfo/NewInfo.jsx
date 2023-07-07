@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Form, FormGroup, Input, Button, Label } from "reactstrap";
+import { Form, FormGroup, Input, Button, Label, ModalFooter } from "reactstrap";
 import { BsFillEnvelopePlusFill } from "react-icons/bs";
 
 export default function NewInfo(props) {
@@ -103,6 +103,8 @@ export default function NewInfo(props) {
     }
   };
 
+  props.getBudgets();
+
   return (
     <>
       <Form onSubmit={submitBill}>
@@ -188,11 +190,11 @@ export default function NewInfo(props) {
           <Input type="checkbox" innerRef={recurringRef} />
           <Label check>Recurring</Label>
         </FormGroup>
-        <FormGroup>{/* autoPay */}</FormGroup>
-        <FormGroup>{/* recurring */}</FormGroup>
-        <Button color="success" type="submit">
-          <BsFillEnvelopePlusFill />
-        </Button>
+        <ModalFooter>
+          <Button color="success" type="submit" onClick={props.toggle}>
+            <BsFillEnvelopePlusFill /> Add Bill
+          </Button>
+        </ModalFooter>
       </Form>
     </>
   );
