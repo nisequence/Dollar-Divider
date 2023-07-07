@@ -1,6 +1,6 @@
 .App {
     text-align: center;
-    background-color: rgba(0, 57, 122, 0.932);
+    background-color: #00517c;
     color: white;
     height: 100vh;
   }
@@ -37,6 +37,7 @@
   }
   
   .Sidebar {
+    user-select: none;
     position: fixed;
     z-index: 2;
     height: 3.5em;
@@ -51,6 +52,7 @@
     margin-left: 1em;
     margin-bottom: 1em;
     visibility: hidden;
+    width: 11vw;
     position: relative;
     top: 3em;
     padding: 0.75rem;
@@ -66,8 +68,8 @@
     position: fixed;
     top: 1.5em;
     left: 2em;
-    height: 3em;
-    width: 4em;
+    height: 2.5em;
+    width: 3em;
     user-select: none;
     margin-top: 0;
     padding-top: 0;
@@ -100,9 +102,9 @@
     margin-left: auto;
   }
   
-  .nav-item:hover {
+  /* .nav-item:hover {
     color: black;
-  }
+  } */
   
   .nav-link {
     color: white !important;
@@ -135,8 +137,17 @@
     margin-left: 25%;
   }
   
+  Button {
+    /* border-radius: 0; */
+    border-right: solid rgb(46, 46, 46) 2px;
+    border-bottom: solid rgb(46, 46, 46) 2px;
+    border-top: solid rgb(144, 144, 144) 2px;
+    border-left: solid rgb(144, 144, 144) 2px;
+  }
+
   Button:hover {
-    background-color: gray;
+    /* background-color: gray; */
+    background-color: rgb(87, 87, 87);
   }
   
   #upcomingBillsHeader {
@@ -154,7 +165,13 @@
     width: 100%;
   }
 
+  #addTransSwitch{
+    display: flex;
+  }
 
+  #addTransSwitch > Label {
+    margin-right: 1em;
+  }
   #accountsList {
     /* user-select: none; */
     color: black !important;
@@ -174,8 +191,13 @@
     width: 80%;
   }
   
+  /* #budgetStatusContainer {
+   
+  } */
+
   .CurrentBudgetStatus {
     max-height: fit-content;
+    /* height: 50%; */
     width: 100%;
     min-width: 35vw;
     /* max-height: 50vh; */
@@ -185,17 +207,41 @@
     /* opacity: .5; */
   }
   
+  #recenttransactionsmonth {
+    /* display: inline-block; */
+display: flex;
+flex-direction: row;
+/* margin: auto; */
+/* width: 20em; */
+align-items: center;
+  }
+  #rtMonthName {
+    width: 8em;
+    font-size: large;
+    font-weight: bold;
+  }
   .RecentTransactions {
-    margin-left: 30vw;
-    display: hidden;
+    /* display: flex; */
+    /* align-items: center; */
+    /* margin-left: 30vw; */
     color: black;
-    max-height: fit-content;
-    margin: auto;
+    /* max-height: fit-content; */
+    /* margin: auto; */
     /* height: 100%; */
     /* width: 100%; */
-    min-width: 35vw;
+    /* min-width: 35vw; */
+    /* text-align: center; */
   }
   
+  #monthLeftBtn {
+    margin-left: auto;
+    margin-right: 3%;
+  }
+
+  #monthRightBtn {
+    margin-right: auto;
+    margin-left: 3%;
+  }
   #rightSideMenu {
     position: fixed;
     right: 0;
@@ -216,14 +262,12 @@
     margin: auto;
   }
 
-  #householdSettingsMenu{
-    width: 0;
-  }
   #userSettingsMenu {
     position: fixed;
     right: 0;
     top: 0;
     width: 0;
+    visibility: hidden;
     max-width: 80vw;
     transition: width 0.25s;
     height: 100vh;
@@ -239,6 +283,7 @@
     right: 0;
     top: 0;
     width: 0;
+    visibility: hidden;
     max-width: 80vw;
     transition: width 0.25s;
     height: 100vh;
@@ -248,3 +293,51 @@
     border-top: solid rgb(144, 144, 144) 2px;
     border-left: solid rgb(144, 144, 144) 2px;
   }
+
+  .accordion-item {
+    margin-left: 10%;
+    margin-right: 10%;
+    align-items: center;
+  }
+
+  /* .popover {
+    width:fit-content!important;
+  }
+  .popover-inner {
+    width: fit-content;
+  }
+  .popover-body {
+    width: fit-content;
+  } */
+
+  #selectBudgetCategory {
+    display: inline-block;
+  }
+  /* #exampleSelect2 {
+    display: inline-block;
+    width: 20em;
+  } */
+
+#splitFunction {
+  color: black;
+}
+
+#copyAlert {
+  padding: 0rem;
+  background-color:#5d9abb;
+  color: white;
+}
+
+#copyAlert > .btn-close {
+  padding: 0.3rem;
+}
+
+/* #addtransactionform {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+
+.modal-content {
+  max-width: fit-content;
+}

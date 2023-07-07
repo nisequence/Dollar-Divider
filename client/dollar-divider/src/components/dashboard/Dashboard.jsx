@@ -8,16 +8,17 @@ import Budgets from "./budgets/Budgets";
 import Transaction from "./transactions/Transaction";
 import { useState, useEffect } from "react";
 import Bills2 from "./bills/Bills2";
-// import AccountsList from "./accounts/AccountsList";
+import AccountsList from "./accounts/AccountsList";
+import Split from "./Split/Split";
 import GetAll from "./accounts/getAll/GetAll";
 
 export default function Dashboard(props) {
   const token = localStorage.getItem("token");
   const [transactions, setTransactions] = useState([]);
 
-  const getPersonalTransactions = async () => {
+  const getSplitTransactions = async () => {
     //! Change the ID to a path parameter
-    let url = "http://localhost:4000/transaction/mine";
+    let url = "http://localhost:4000/transaction/household/July";
 
     const reqOptions = {
       method: "GET",
@@ -32,9 +33,7 @@ export default function Dashboard(props) {
       // console.log("data",data)
       // If the server does not provide a failure message
       if (data.message !== "No transactions found.") {
-        setTransactions(data.getAllUserTrans);
-      } else {
-        //! Send to 404 page
+        setTransactions(data.getTransactions);
       }
     } catch (err) {
       console.error(err);
@@ -43,9 +42,90 @@ export default function Dashboard(props) {
 
   useEffect(() => {
     if (token) {
-      getPersonalTransactions();
+      getSplitTransactions();
     }
   }, [token]);
+
+  // function GetAll() {
+  let acctName;
+  let acctBalance;
+  let acctMinBalance;
+  let allocations;
+  let available;
+  let acctOwnerID;
+  let url;
+  const [accounts, setAccounts] = useState([]);
+  const getAccounts = async () => {
+    url = "http://localhost:4000/finAccount/mine";
+    const reqOptions = {
+      method: "GET",
+      headers: new Headers({
+        Authorization: token,
+      }),
+    };
+
+    try {
+      const res = await fetch(url, reqOptions);
+      const data = await res.json();
+      let information = data.getAllUserFinAccounts[0];
+      // console.log("Accounts Data:",information)
+      acctName = information.name;
+      acctBalance = information.balance;
+      acctMinBalance = information.balance;
+      allocations = information.allocations;
+      available = information.available;
+      acctOwnerID = information.ownerID;
+      // If the server does not provide a failure message
+      if (data.message !== "No accounts found.") {
+        setAccounts(data.getAllUserFinAccounts);
+      } else {
+        setAccounts(null);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      getAccounts();
+    }
+  }, [token, props.view]);
+
+  const viewType = () => {
+    if (props.view === false) {
+      //* If viewing personal
+      return (
+        <AccountsList
+          accounts={accounts}
+          // balance = {props.balance}
+          // minBalance = {props.minBalance}
+          // allocations = {props.allocations}
+          // ownerID = {props.ownerID}
+          // available = {props.available}
+          // getBudgets={getBudgets}
+          // budgets={budgets}
+          // transactions={props.transactions}
+          token={props.token}
+          view={props.view}
+        />
+      );
+    } else {
+      return (
+        <Split
+          token={props.token}
+          view={props.view}
+          transactions={transactions}
+        />
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (props.token) {
+      viewType();
+    }
+  }, [props.token, props.view]);
 
   //todo Incorporate useEffect to dynamically refresh sections on new information
   return (
@@ -76,15 +156,14 @@ export default function Dashboard(props) {
             </Col>
           </Row>
           <Row>
-            <Col className="bg-light border">
-              <GetAll token={token} />
-            </Col>
+            <Col className="bg-light border">{viewType()}</Col>
             <Col className="bg-light border">
               {/* .col */}
               <Transaction
                 view={props.view}
                 token={token}
-                transactions={transactions}
+                accounts={accounts}
+                budgets={props.budgets}
               />
             </Col>
           </Row>

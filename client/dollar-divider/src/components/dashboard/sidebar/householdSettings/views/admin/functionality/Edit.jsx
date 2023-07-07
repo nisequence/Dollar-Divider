@@ -7,8 +7,8 @@ import {
   ModalFooter,
   Input,
 } from "reactstrap";
-import { GrEdit } from "react-icons/gr";
 import { TbHomeEdit } from "react-icons/tb";
+import { MdSave } from "react-icons/md";
 
 export default function Edit(props) {
   const nameRef = useRef();
@@ -77,11 +77,8 @@ export default function Edit(props) {
           ></Input>
         </ModalBody>
         <ModalFooter>
-          <Button color="secondary" onClick={toggle}>
-            Cancel
-          </Button>
           <Button color="primary" onClick={editHousehold}>
-            Submit
+            <MdSave /> Save Changes
           </Button>{" "}
         </ModalFooter>
       </Modal>

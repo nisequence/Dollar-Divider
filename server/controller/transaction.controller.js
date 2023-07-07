@@ -28,14 +28,12 @@ router.post("/add", async (req, res) => {
       base,
     } = req.body;
     const userID = req.user._id;
-
     let newAmount;
     if (type == "expense") {
       newAmount = 0 - amount;
     } else {
       newAmount = amount;
     }
-
     if (base == "personal") {
       // make sure ID is correct & findable
       const findUser = await User.findOne({ _id: req.user._id });
@@ -115,18 +113,18 @@ router.get("/household", async (req, res) => {
   try {
     const id = req.user.householdID;
 
-    const getAllHouseholdTrans = await Transaction.find({ base: id });
+    const getAllTransactions = await Transaction.find({ base: id });
 
-    getAllHouseholdTrans
+    getAllTransactions
       ? res.status(200).json({
           message: "All transaction from household collection",
-          getAllHouseholdTrans,
+          getAllTransactions,
         })
       : res.status(404).json({
           message: `No transactions found.`,
         });
   } catch (err) {
-    errorResponse(res, err);
+    serverError(res, err);
   }
 });
 
@@ -137,18 +135,18 @@ router.get("/mine", async (req, res) => {
   try {
     const id = req.user._id;
 
-    const getAllUserTrans = await Transaction.find({ base: id });
+    const getAllTransactions = await Transaction.find({ base: id });
 
-    getAllUserTrans
+    getAllTransactions
       ? res.status(200).json({
           message: "All transaction from user collection",
-          getAllUserTrans,
+          getAllTransactions,
         })
       : res.status(404).json({
           message: `No transactions found.`,
         });
   } catch (err) {
-    errorResponse(res, err);
+    serverError(res, err);
   }
 });
 //? GET BY DATE ROUTE "/date/:date"
@@ -168,7 +166,7 @@ router.get("/date/:month/:day", async (req, res) => {
           message: "No transactions found for this date.",
         });
   } catch (err) {
-    errorResponse(res, err);
+    serverError(res, err);
   }
 });
 //? GET BY CATEGORY ROUTE "/category/:category"
@@ -188,30 +186,30 @@ router.get("/category/:category", async (req, res) => {
           message: "No category found.",
         });
   } catch (err) {
-    errorResponse(res, err);
+    serverError(res, err);
   }
 });
 
-//? GET BY DATE AND CATEGORY ROUTER ("/dateAndCategory/:date/:category")
+//? GET USER TOTALS IN HOUSEHOLD BY MONTH ("/household/:month")
 
-router.get("/dateAndCategory/:month/:day/:category", async (req, res) => {
+router.get("/household/:month", async (req, res) => {
   try {
-    const { month, day, category } = req.params;
+    const { month } = req.params;
 
-    const getDateAndCategory = await Transaction.find(
-      { month: month, day: day },
-      { category: category }
+    const getTransactions = await Transaction.find(
+      { month: month, base: req.user.householdID }
     );
 
-    getDateAndCategory.length > 0
+    getTransactions.length > 0
       ? res.status(200).json({
-          getDateAndCategory,
+          message: "Found transactions!",
+          getTransactions,
         })
       : res.status(404).json({
-          message: "No Date under Category found.",
+          message: "No transactions found.",
         });
   } catch (err) {
-    errorResponse(res, err);
+    serverError(res, err);
   }
 });
 
@@ -233,7 +231,7 @@ router.get("/find/:id", async (req, res) => {
           message: "No transaction found.",
         });
   } catch (err) {
-    errorResponse(res, err);
+    serverError(res, err);
   }
 });
 

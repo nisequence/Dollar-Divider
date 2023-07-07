@@ -1,13 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import {
-  Card,
-  CardBody,
-  CardDeck,
-  CardTitle,
-  CardText,
-  Col,
-  Row,
-} from "reactstrap";
+import React, { useState, useEffect } from "react";
+import { Card, CardBody, CardTitle, CardText, Col, Row } from "reactstrap";
 import OpenCard from "./OpenCard/OpenCard";
 import MemberView from "./OpenCard/MemberView";
 
@@ -15,7 +7,7 @@ export default function Cards(props) {
   let url;
   const [budgets, setBudgets] = useState([]);
   const getBudgets = async (viewValue) => {
-    if (viewValue == true) {
+    if (viewValue === true) {
       url = "http://localhost:4000/budget/household";
     } else {
       url = "http://localhost:4000/budget/mine";
@@ -32,7 +24,7 @@ export default function Cards(props) {
       const data = await res.json();
 
       // If the server does not provide a failure message
-      if (data.message == "Budget(s) found!") {
+      if (data.message === "Budget(s) found!") {
         setBudgets(data.allBudgets);
       } else {
         setBudgets(null);
@@ -52,17 +44,19 @@ export default function Cards(props) {
   function modifyColor(value) {
     if (value === true) {
       //* This is the color for paid bills (not a fan of it currently but good enough)
-      cardColor = "rgb(0, 100, 0)";
+      // cardColor = "rgb(0, 100, 0)";
+
+      cardColor = "rgb(65, 65, 65)";
     } else {
       //* This is the color for unpaid bills (would like to keep this)
       cardColor = "rgb(182,205,228)";
     }
   }
 
-  const status = localStorage.getItem("Status");
+  const status = sessionStorage.getItem("Status");
 
   let canEdit;
-  if (status == "Admin" || props.view === false) {
+  if (status === "Admin" || props.view === false) {
     canEdit = true;
   } else {
     canEdit = false;
@@ -70,43 +64,9 @@ export default function Cards(props) {
 
   return (
     <>
-      <Row sm="5" overflow-y="scroll">
-        <Card
-          body
-          color="secondary"
-          style={{
-            maxHeight: "10vh",
-            backgroundColor: "rgb(182,205,228)",
-            margin: "0.75rem",
-            padding: "0.2rem",
-          }}
-        >
-          <CardBody>
-            <Row>
-              <Col>
-                <CardTitle tag="h6">Title</CardTitle>
-              </Col>
-              <Col>
-                <CardText>$</CardText>
-              </Col>
-              <Col>
-                <CardText>Due</CardText>
-              </Col>
-              <Col>
-                <CardText>Budget</CardText>
-              </Col>
-              <Col>
-                <CardText>More</CardText>
-              </Col>
-            </Row>
-          </CardBody>
-        </Card>
-      </Row>
-      {/* {displayBillCards(props.bills, props.month)} */}
       {props.bills?.map((each) => {
         //* Set different value for background color based on whether the bill is paid or unpaid
         modifyColor(each.paid);
-        /* ! Would like to nest the below return for each bill into a scroll bar container */
         return (
           <div key={props.bills.indexOf(each)}>
             <Row sm="5">
@@ -127,7 +87,9 @@ export default function Cards(props) {
                       <CardTitle tag="h6">{each.title}</CardTitle>
                     </Col>
                     <Col>
-                      <CardText>${each.amount.toLocaleString("en-US")}</CardText>
+                      <CardText>
+                        ${each.amount.toLocaleString("en-US")}
+                      </CardText>
                     </Col>
                     <Col>
                       <CardText>

@@ -1,5 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Form, FormGroup, Input, Button, Label } from "reactstrap";
+import { BsFillEnvelopePlusFill } from "react-icons/bs";
 
 export default function NewInfo(props) {
   const months = [
@@ -126,9 +127,9 @@ export default function NewInfo(props) {
           >
             {categoryOptions?.map((each) => {
               return (
-                <div key={categoryOptions.indexOf(each)}>
-                  <option>{each.budgetCat}</option>
-                </div>
+                <option key={categoryOptions.indexOf(each)}>
+                  {each.budgetCat}
+                </option>
               );
             })}
           </Input>
@@ -154,9 +155,9 @@ export default function NewInfo(props) {
           >
             {months.map((each) => {
               return (
-                <div key={months.indexOf(each)}>
-                  <option value={each}>{each}</option>
-                </div>
+                <option key={months.indexOf(each)} value={each}>
+                  {each}
+                </option>
               );
             })}
           </Input>
@@ -172,9 +173,9 @@ export default function NewInfo(props) {
           >
             {days.map((each) => {
               return (
-                <div key={days.indexOf(each)}>
-                  <option value={each}>{each}</option>
-                </div>
+                <option key={days.indexOf(each)} value={each}>
+                  {each}
+                </option>
               );
             })}
           </Input>
@@ -190,7 +191,7 @@ export default function NewInfo(props) {
         <FormGroup>{/* autoPay */}</FormGroup>
         <FormGroup>{/* recurring */}</FormGroup>
         <Button color="success" type="submit">
-          Create Bill
+          <BsFillEnvelopePlusFill />
         </Button>
       </Form>
     </>

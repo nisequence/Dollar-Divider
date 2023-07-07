@@ -10,6 +10,7 @@ import {
   Table,
   Col,
   Row,
+  Alert,
 } from "reactstrap";
 import { AiFillCopy } from "react-icons/ai";
 import { GrEdit } from "react-icons/gr";
@@ -19,7 +20,17 @@ import Tweak from "./Tweak";
 import Delete from "./Delete";
 
 export default function View(props) {
+  const [visible, setVisible] = useState(false);
+  const onDismiss = () => setVisible(!visible);
+
   const [householdInfo, setHouseholdInfo] = useState([]);
+  const updateInfo = (newInfo) => {
+    sessionStorage.setItem("Percents", newInfo.participantPercents);
+    sessionStorage.setItem("Users", newInfo.participantNames);
+    sessionStorage.setItem("IDs", newInfo.participantIDs);
+    // ^ .setItem(key, value)
+    setHouseholdInfo(newInfo);
+  };
   const [editPercent, setEditPercent] = useState(false);
   const numberRef = useRef();
 
@@ -40,7 +51,7 @@ export default function View(props) {
       // console.log(data.getHousehold);
 
       if (data.message === "Household was found!") {
-        setHouseholdInfo(data.getHousehold);
+        updateInfo(data.getHousehold);
         // console.log(householdInfo);
       }
     } catch (err) {
@@ -124,7 +135,7 @@ export default function View(props) {
 
   return (
     <>
-      <br></br>
+      <hr />
       <Row>
         <Col>
           <p>
@@ -135,15 +146,26 @@ export default function View(props) {
             color="info"
             onClick={() => {
               navigator.clipboard.writeText(inviteCode);
+              onDismiss();
             }}
           >
             <AiFillCopy /> Invite Token
           </Button>
+          <br />
+          <br />
+          <Alert
+            id="copyAlert"
+            color="info"
+            isOpen={visible}
+            toggle={onDismiss}
+          >
+            Token copied!
+          </Alert>
         </Col>
         <Col>
-          <h3>
+          <h5>
             <u>{householdInfo.name}</u>
-          </h3>
+          </h5>
           <p>
             <i>Current User Limit: {householdInfo.participantMaxNum}</i>
           </p>
@@ -152,6 +174,7 @@ export default function View(props) {
             token={props.token}
             getHousehold={getHousehold}
           />
+          <br />
         </Col>
         <Col>
           <p>
@@ -160,8 +183,6 @@ export default function View(props) {
           <Delete token={props.token} />
         </Col>
       </Row>
-      <br></br>
-      <br></br>
       <UncontrolledAccordion defaultOpen="1">
         <AccordionItem>
           <AccordionHeader targetId="1">Household Members</AccordionHeader>

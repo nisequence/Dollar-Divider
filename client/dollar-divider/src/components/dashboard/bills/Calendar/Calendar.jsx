@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Carousel,
   CarouselItem,
-  CarouselControl,
-  CarouselCaption,
   Button,
   Row,
   Col,
+  Card,
+  CardBody,
+  CardTitle,
+  CardText,
+  Tooltip,
 } from "reactstrap";
+import { LuCalendarPlus, LuCalendarMinus } from "react-icons/lu";
 import Cards from "./Cards/Cards";
 import AddBill from "../AddBill/AddBill";
 
@@ -27,7 +31,12 @@ const monthGroup = [
 ];
 
 export default function Calendar(props) {
-  const status = localStorage.getItem("Status");
+  const [prevTooltipOpen, setPrevTooltipOpen] = useState(false);
+  const togglePrev = () => setPrevTooltipOpen(!prevTooltipOpen);
+  const [nextTooltipOpen, setNextTooltipOpen] = useState(false);
+  const toggleNext = () => setNextTooltipOpen(!nextTooltipOpen);
+
+  const status = sessionStorage.getItem("Status");
 
   const [activeIndex, setActiveIndex] = useState(1);
   const [animating, setAnimating] = useState(false);
@@ -46,7 +55,7 @@ export default function Calendar(props) {
   };
 
   const viewType = () => {
-    if (props.view === false || status == "Admin") {
+    if (props.view === false || status === "Admin") {
       //* If viewing personal or if user is the Admin
       // get all the stuff
       return (
@@ -95,7 +104,7 @@ export default function Calendar(props) {
         onExiting={() => setAnimating(true)}
         onExited={() => setAnimating(false)}
         /*         style={{ maxWidth: "95vw", maxHeight: "75vh" }}
-         */ //! The below key/value is supposed to stop the carousel from moving on its own, but it is not working
+         */
         slide={false}
       >
         <Cards
@@ -113,18 +122,19 @@ export default function Calendar(props) {
     <div>
       <style>
         {`.overflow-calendar {
-          height: 60vh;
+          height: 52.5vh;
           overflow-y:scroll;
           overflow-x: hidden;
-          scrollbar-color: "red orange";
   scrollbar-width: thin;
         }`}
       </style>
+      {/* <div id="idhere">
+      </div> */}
       <Row style={{ maxHeight: "6vh" }}>
         <Col style={{ maxWidth: "13vw" }}></Col>
         {viewType()}
       </Row>
-      <Row style={{ maxHeight: "6vh" }}>
+      <Row style={{ maxHeight: "5vh" }}>
         <Col>
           <Button
             className="button"
@@ -132,8 +142,11 @@ export default function Calendar(props) {
             id="Prev"
             style={{ marginTop: "0vh" }}
           >
-            Prev
+            <LuCalendarMinus />
           </Button>
+          <Tooltip isOpen={prevTooltipOpen} target="Prev" toggle={togglePrev}>
+            Back
+          </Tooltip>
         </Col>
         <Col>
           <h3>
@@ -147,8 +160,11 @@ export default function Calendar(props) {
             id="Next"
             style={{ marginTop: "0vh" }}
           >
-            Next
+            <LuCalendarPlus />
           </Button>
+          <Tooltip isOpen={nextTooltipOpen} target="Next" toggle={toggleNext}>
+            Next
+          </Tooltip>
         </Col>
       </Row>
       <Carousel
@@ -158,6 +174,37 @@ export default function Calendar(props) {
         next={next}
         previous={previous}
       >
+        <Card
+          body
+          style={{
+            maxHeight: "10vh",
+            backgroundColor: "#00517c",
+            margin: "0.75rem",
+            padding: "0.2rem",
+            color: "white",
+            alignContent: "center",
+          }}
+        >
+          <CardBody>
+            <Row>
+              <Col>
+                <CardTitle tag="h6">Title</CardTitle>
+              </Col>
+              <Col>
+                <CardText tag="h6">$</CardText>
+              </Col>
+              <Col>
+                <CardText tag="h6">Due</CardText>
+              </Col>
+              <Col>
+                <CardText tag="h6">Budget</CardText>
+              </Col>
+              <Col>
+                <CardText tag="h6">More</CardText>
+              </Col>
+            </Row>
+          </CardBody>
+        </Card>
         {slides}
       </Carousel>
     </div>

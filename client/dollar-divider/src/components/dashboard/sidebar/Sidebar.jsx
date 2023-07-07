@@ -1,22 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { v4 } from "uuid";
-import {
-  // Col,
-  // Container,
-  // Row,
-  // Form,
-  // FormGroup,
-  // Label,
-  // Input,
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  // NavbarBrand,
-  Nav,
-  NavItem,
-  Button,
-  // NavLink,
-} from "reactstrap";
+import { Nav, NavItem } from "reactstrap";
 import { BsHouseGearFill } from "react-icons/bs";
 import { FaUserCog } from "react-icons/fa";
 // import GetAll from "../accounts/getAll/GetAll";
@@ -40,12 +24,15 @@ export default function Sidebar(props) {
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
     const sidebar = document.getElementById("sidebar");
+    // const openSidebarWidth = "fit-content";
+    // const openSidebarWidth = "16em";
     const openSidebarWidth = "14vw";
     if (!collapsed) {
       document.getElementById("sidebarItems").style.visibility = "hidden";
       sidebar.style.width = "0";
       sidebar.style.minWidth = "";
     } else {
+      // sidebar.style.minWidth = "fit-content"
       sidebar.style.height = "100vh";
       sidebar.style.width = openSidebarWidth;
       // sidebar.style.minWidth = "fit-content";
@@ -66,6 +53,7 @@ export default function Sidebar(props) {
     const openRightSidebarWidth = "95em";
     if (!userSettingsMenuCollapsed || collapsed === true) {
       userSettingsMenu.style.width = "0";
+      userSettingsMenu.style.visibility = "hidden";
       // rightSideMenu.style.color = "rgba(0,0,0,0)";
       // rightSideMenu.style.minWidth = "fitContent";
     } else {
@@ -76,6 +64,9 @@ export default function Sidebar(props) {
       // setHouseholdSettingsMenuCollapsed(!householdSettingsMenuCollapsed);
       userSettingsMenu.style.height = "100vh";
       userSettingsMenu.style.width = openRightSidebarWidth;
+      setTimeout(() => {
+        userSettingsMenu.style.visibility = "visible";
+      }, 100);
       // rightSideMenu.style.maxWidth = "95em";
 
       // Get the current width of the left menu to base the max width of the right menu, to prevent overlap.
@@ -111,6 +102,7 @@ export default function Sidebar(props) {
     const openRightSidebarWidth = "95em";
     if (!householdSettingsMenuCollapsed) {
       householdSettingsMenu.style.width = "0";
+      householdSettingsMenu.style.visibility = "hidden";
       // rightSideMenu.style.color = "rgba(0,0,0,0)";
       // rightSideMenu.style.minWidth = "fitContent";
     } else {
@@ -121,6 +113,9 @@ export default function Sidebar(props) {
       // setUserSettingsMenuCollapsed(!userSettingsMenuCollapsed);
       householdSettingsMenu.style.height = "100vh";
       householdSettingsMenu.style.width = openRightSidebarWidth;
+      setTimeout(() => {
+        householdSettingsMenu.style.visibility = "visible";
+      }, 100);
       // rightSideMenu.style.maxWidth = "95em";
 
       // Get the current width of the left menu to base the max width of the right menu, to prevent overlap.
@@ -245,7 +240,7 @@ export default function Sidebar(props) {
             <br></br>
             {/* //! Still working on implementation of both buttons working */}
             <HouseholdSettings token={props.token} />
-            <UserSettings token={props.token} />
+            <UserSettings updateToken={props.updateToken} token={props.token} />
           </Nav>
         </div>
       </div>

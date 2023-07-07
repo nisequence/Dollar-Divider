@@ -3,6 +3,7 @@ import { Button } from "reactstrap";
 import { BsPersonFillSlash } from "react-icons/bs";
 
 export default function Ban(props) {
+  //! update IDs
   async function banUser(e) {
     e.preventDefault();
 

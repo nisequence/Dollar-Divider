@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { Form, FormGroup, Input, Label, Button } from "reactstrap";
+import { MdSave } from "react-icons/md";
 // import userModel from "../../../../../../../../../server/models/user.model";
 export default function ProfileSettings() {
   let [information, setInformation] = useState([]);
@@ -70,7 +71,7 @@ export default function ProfileSettings() {
       if (data.message === "Profile successfully updated!") {
         //* Upon receiving server success message, reset information array of data
         let firstName = data.updateUser.firstName;
-        localStorage.setItem("Name", firstName);
+        sessionStorage.setItem("Name", firstName);
         getUserInfo();
         alert("Success");
       }
@@ -103,11 +104,15 @@ export default function ProfileSettings() {
 
   return (
     <>
-      <h2>Update User Information</h2>
+      <h6>Update User Information</h6>
+      <hr />
       {/* <Form onSubmit={handleSubmit}> */}
       <Form id="formgroup" onSubmit={updateUserInfo}>
         <FormGroup>
-          <h4>Current First Name: {information[0]}</h4>
+          <Label>
+            <b>Current First Name: </b>
+            <i>{information[0]}</i>
+          </Label>
           <Input
             placeholder="Update First Name"
             innerRef={firstNameRef}
@@ -117,7 +122,10 @@ export default function ProfileSettings() {
           />
         </FormGroup>
         <FormGroup>
-          <h4>Current Last Name: {information[1]}</h4>
+          <Label>
+            <b>Current Last Name: </b>
+            <i>{information[1]}</i>
+          </Label>
           <Input
             placeholder="Update Last Name"
             innerRef={lastNameRef}
@@ -127,7 +135,10 @@ export default function ProfileSettings() {
           />
         </FormGroup>
         <FormGroup>
-          <h4>Current Email: {information[2]}</h4>
+          <Label>
+            <b>Current Email: </b>
+            <i>{information[2]}</i>
+          </Label>
           <Input
             placeholder="Update Email"
             innerRef={emailRef}
@@ -137,7 +148,9 @@ export default function ProfileSettings() {
           />
         </FormGroup>
         <FormGroup>
-          <h4>Enter New Password:</h4>
+          <Label>
+            <b>Enter New Password:</b>
+          </Label>
           <Input
             placeholder="Update Password"
             innerRef={passwordRef}
@@ -145,7 +158,9 @@ export default function ProfileSettings() {
             autoComplete="off"
           />
         </FormGroup>
-        <Button type="submit">Update</Button>
+        <Button type="submit">
+          <MdSave /> Save Changes
+        </Button>
       </Form>
     </>
   );

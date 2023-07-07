@@ -1,7 +1,6 @@
 // import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Pie, Doughnut, PolarArea } from "react-chartjs-2";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { useParams } from "react-router-dom";
+import { PolarArea } from "react-chartjs-2";
+import { Button } from "reactstrap";
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -10,8 +9,8 @@ import {
   Legend,
 } from "chart.js";
 import AddBudget from "./AddBudget/AddBudget";
-import UpdateBudgets from "../view/single/UpdateBudget";
 import { useEffect } from "react";
+import Selector from "./Selector/Selector";
 
 // import React, { useRef } from "react";
 // import React, {useState} from "react";
@@ -21,13 +20,28 @@ ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function clicked() {
-  console.log("click");
-}
 export default function CurrentBudgetStatus(props) {
-  const status = localStorage.getItem("Status");
+  const status = sessionStorage.getItem("Status");
+
+  // const setHouseholdTotal = () => {
+  //   if (props.view === true) {
+  //     let totalToDivide = 0;
+  //     const totalBudgets = () => {
+  //       for (let x = 0; x < props.budgets?.length; x++) {
+  //         let thisOne = props.budgets[x].budgetAmt;
+  //         totalToDivide += thisOne;
+  //       }
+  //       console.log(totalToDivide);
+  //       console.log(props.view);
+  //       sessionStorage.setItem("Total", totalToDivide);
+  //     };
+  //     totalBudgets();
+  //   }
+  // };
 
   const viewType = () => {
+    // setHouseholdTotal();
+
     let total = 0;
     const totalBudgets = () => {
       for (let x = 0; x < props.budgets?.length; x++) {
@@ -37,7 +51,7 @@ export default function CurrentBudgetStatus(props) {
     };
     totalBudgets();
 
-    if (props.view === false || status == "Admin") {
+    if (props.view === false || status === "Admin") {
       //* If viewing personal or if user is the Admin
       // get all the stuff
       return (
@@ -64,7 +78,7 @@ export default function CurrentBudgetStatus(props) {
   };
 
   useEffect(() => {
-    if (props.budgets) {
+    if (props.token) {
       viewType();
     }
   }, [props.token, props.budgets, props.view]);
@@ -75,7 +89,7 @@ export default function CurrentBudgetStatus(props) {
       {
         label: "Budget Amount",
         data: [], // Dollar amounts for each category.
-        options: { onClick: clicked },
+        // options: { onClick: clicked },
         backgroundColor: [
           "rgba(255, 255, 0, 0.5)",
           "rgba(255, 0, 0, 0.5)",
@@ -108,34 +122,18 @@ export default function CurrentBudgetStatus(props) {
       chartData.datasets[0].data.push(budgetCategoryTotal - amountSpent);
     });
   }
-  // console.log("props.transactions:",props.transactions)
-  // console.log("props.budgets:",props.budgets)
-  const { id } = useParams();
 
-  // Headers
-  let myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  // setting our content to be passed
-  myHeaders.append("Authorization", props.token);
-
-  // Build url variable
-
-  // Construct the body object & JSON stringify it
-  let bodyObj = JSON.stringify({}); // JSON-ifying our data to be passed.
-
-  // Build a fn to return the edit and delete button
-
-  // Request Options object
   return (
     <>
       <div className="CurrentBudgetStatus" id="currentbudgetstatus">
         {viewType()}
-        {/* <UpdateBudgets
+        <Selector
           token={props.token}
           view={props.view}
           getBudgets={props.getBudgets}
-        /> */}
-        <UpdateBudgets budgets={props.budgets} />
+          budgets={props.budgets}
+          id= {props.id}
+        />
         {/* <Doughnut */}
         <PolarArea
           style={{ marginLeft: "4vw", marginRight: "4vw", maxHeight: "60vh" }}
@@ -149,43 +147,6 @@ export default function CurrentBudgetStatus(props) {
           //   window.location = "https://example.com";
           // }}
         />
-        <Button
-          id="expandBtn"
-          // onClick={ () => { ModalFullscreenExample ()}}
-
-          // ! Temporarily disabled expand button
-          // onClick={() => {
-          //   let window = document.getElementById("currentbudgetstatus");
-          //   let expandBtn = document.getElementById(`expandBtn`);
-          //   if ((expandBtn.textContent = "Expand")) {
-          //     // CurrentBudgetStatus.style.position = ("fixed");
-          //     window.style.position = "fixed";
-          //     window.style.top = "10%";
-          //     window.style.left = "10%";
-          //     window.style.width = "80vw";
-          //     window.style.height = "80vh";
-          //     window.style.margin = ".5rem solid black";
-
-          //     expandBtn.innerText = "Collapse";
-          //   } else {
-          //     // toggle.addEventListener("click", () => {
-          //     expandBtn.onclick =
-          //       ("click",
-          //       () => {
-          //         window.style.position = "initial";
-          //         window.style.position = "initial";
-          //         window.style.top = "initial";
-          //         window.style.left = "initial";
-          //         window.style.width = "initial";
-          //         window.style.height = "initial";
-          //         window.style.margin = "initial";
-          //         expandBtn.innerText = "Expand";
-          //       });
-          //   }
-          // }}
-        >
-          Expand
-        </Button>
       </div>
     </>
   );

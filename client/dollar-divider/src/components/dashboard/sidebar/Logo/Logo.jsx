@@ -1,5 +1,5 @@
 import React from "react";
-import dollarDividerMini from "../../../../media/favicon.png";
+import dollarDividerMini from "../../../../media/DollarDividerLogoNoBG.png"
 
 export default function Logo() {
   return (

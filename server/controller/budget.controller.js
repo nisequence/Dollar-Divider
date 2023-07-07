@@ -292,11 +292,12 @@ router.patch("/edit/:id", async (req, res) => {
 });
 
 //? DELETE Route to delete budget if admin
-router.delete("/:id", async (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
   try {
     //* Pull budget id from params
     const { id } = req.params;
     const userID = req.user._id;
+    console.log(id, userID);
 
     //* Find and confirm the user has access to the budget
     const deleteBudget = await Budget.deleteOne({ _id: id, ownerID: userID });

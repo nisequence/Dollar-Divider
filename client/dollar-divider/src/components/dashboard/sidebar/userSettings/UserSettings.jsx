@@ -1,12 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import ProfileSettings from "./views/profileSettings/ProfileSettings";
-export default function UserSettings() {
+import DeleteOwnProfile from "./views/profileSettings/DeleteOwnProfile";
+export default function UserSettings(props) {
   const token = localStorage.getItem("token");
 
   const [userStatus, setUserStatus] = useState("Member");
   const updateStatus = (newStatus) => {
-    localStorage.setItem("Status", newStatus);
+    sessionStorage.setItem("Status", newStatus);
     setUserStatus(newStatus);
   };
 
@@ -49,8 +50,14 @@ export default function UserSettings() {
 
   return (
     <div id="userSettingsMenu">
-      <h1>User Settings</h1>
-      <ProfileSettings/>
+      <br />
+      <h3>User Settings</h3>
+      <ProfileSettings />
+      <DeleteOwnProfile 
+      updateToken={props.updateToken}
+        token = {props.token}
+
+      />
     </div>
   );
 }

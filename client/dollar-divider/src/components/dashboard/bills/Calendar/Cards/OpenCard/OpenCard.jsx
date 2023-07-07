@@ -11,7 +11,10 @@ import {
   Form,
   FormGroup,
   Label,
+  Tooltip,
 } from "reactstrap";
+import { BsFillEnvelopePaperFill } from "react-icons/bs";
+import { MdSave } from "react-icons/md";
 import DeleteBill from "./DeleteBill";
 import MarkPaid from "./MarkPaid";
 
@@ -117,9 +120,9 @@ export default function OpenCard(props) {
   return (
     <>
       <Button color="info" onClick={toggle}>
-        Open
+        <BsFillEnvelopePaperFill />
       </Button>
-      <Modal isOpen={modal} toggle={toggle}>
+      <Modal isOpen={modal} toggle={toggle} fade={false}>
         <ModalHeader toggle={toggle}>Viewing {billInfo.title} Bill</ModalHeader>
         <Form onSubmit={editBill}>
           <ModalBody>
@@ -138,9 +141,9 @@ export default function OpenCard(props) {
               >
                 {categoryOptions?.map((each) => {
                   return (
-                    <div key={categoryOptions.indexOf(each)}>
-                      <option>{each.budgetCat}</option>
-                    </div>
+                    <option key={categoryOptions.indexOf(each)}>
+                      {each.budgetCat}
+                    </option>
                   );
                 })}
               </Input>
@@ -171,9 +174,9 @@ export default function OpenCard(props) {
               >
                 {months.map((each) => {
                   return (
-                    <div key={months.indexOf(each)}>
-                      <option value={each}>{each}</option>
-                    </div>
+                    <option key={months.indexOf(each)} value={each}>
+                      {each}
+                    </option>
                   );
                 })}
               </Input>
@@ -191,16 +194,17 @@ export default function OpenCard(props) {
               >
                 {days.map((each) => {
                   return (
-                    <div key={days.indexOf(each)}>
-                      <option value={each}>{each}</option>
-                    </div>
+                    <option key={days.indexOf(each)} value={each}>
+                      {each}
+                    </option>
                   );
                 })}
               </Input>
             </FormGroup>
             <Label>
-              {`Currently set to Autopay: ${billInfo.autoPay} and Recurring: 
-              ${billInfo.recurring}`}
+              {`Currently set to autopay: `}
+              <strong>{`${billInfo.autoPay} `}</strong>
+              {`and recurring: `} <strong>{`${billInfo.recurring}`}</strong>
             </Label>
             <br></br>
             <FormGroup check inline>
@@ -229,7 +233,7 @@ export default function OpenCard(props) {
               view={props.view}
             />
             <Button color="primary" id="submit">
-              Submit Changes
+              <MdSave /> Save
             </Button>{" "}
           </ModalFooter>
         </Form>

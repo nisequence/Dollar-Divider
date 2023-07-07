@@ -34,7 +34,7 @@ return (
    <CardGroup>
   {finAccts}
 </CardGroup>
-<Button>Update</Button>
+{/* <Button>Update</Button> */}
 </div>
 )
 }

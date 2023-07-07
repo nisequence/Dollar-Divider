@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from "react";
 import {
   Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
   PopoverHeader,
   UncontrolledPopover,
   PopoverBody,
 } from "reactstrap";
+import { v4 } from "uuid";
 import NewTransInfo from "./newTransInfo/NewTransInfo";
-
+// import DatePicker from "../datePicker/DayPicker";
 export default function AddTransaction(props) {
-  // console.log(props);
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
   let url;
   const [budgets, setBudgets] = useState([]);
   const getBudgets = async (viewValue) => {
+
     if (viewValue == true) {
       url = "http://localhost:4000/budget/household";
     } else {
@@ -41,15 +48,26 @@ export default function AddTransaction(props) {
 
   useEffect(() => {
     if (props.token) {
-      getBudgets();
+      getBudgets(props.view);
     }
   }, [props.token, props.view]);
+  let transactionType;
+  // console.log("props.view",props)
+      if (props.view === true) {
+    transactionType = "Household"
+  } else {transactionType = "Personal"}
+
   return (
-    <>
+    <div id="testing" key={v4}>
+      
       <Button
-        id="UncontrolledPopoverAddTransaction"
+      onClick={() => {
+        toggleModal();
+      }}
+        // id="UncontrolledPopoverAddTransaction"
+        id="UncontrolledModalEditTransaction"
         color="success"
-        type="button"
+        // type="button"
         style={{
           maxWidth: "4vw",
           display: "inline-block",
@@ -57,22 +75,32 @@ export default function AddTransaction(props) {
       >
         +
       </Button>
-      <UncontrolledPopover
-        placement="top"
-        target="UncontrolledPopoverAddTransaction"
+      {/* <UncontrolledPopover */}
+      <Modal 
+      isOpen={modal}
+      fade={false}
+      toggle={toggleModal}
+        // placement="top"
+        // target="UncontrolledPopoverAddTransaction"
         trigger="legacy"
       >
-        <PopoverHeader>Add New Transaction</PopoverHeader>
-        <PopoverBody>
+        <ModalHeader toggle = {toggleModal}>New {transactionType} Transaction</ModalHeader>
+        {/* <PopoverHeader>Add New Transaction</PopoverHeader> */}
+        {/* <PopoverBody> */}
+        <ModalBody key={v4}>
           <NewTransInfo
             token={props.token}
             view={props.view}
             month={props.month}
             budgets={budgets}
             getTransaction={props.getTransaction}
+            category = {props.category}
+            accounts = {props.accounts}
           />
-        </PopoverBody>
-      </UncontrolledPopover>
-    </>
+          </ModalBody>
+        {/* </PopoverBody> */}
+      {/* </UncontrolledPopover> */}
+      </Modal>
+    </div>
   );
 }

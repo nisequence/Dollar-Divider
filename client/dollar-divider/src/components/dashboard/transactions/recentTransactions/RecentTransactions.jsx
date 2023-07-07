@@ -1,17 +1,48 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Table,
   Button,
-  PopoverHeader,
-  UncontrolledPopover,
-  PopoverBody,
-  Alert
+  // PopoverHeader,
+  // UncontrolledPopover,
+  // PopoverBody,
+  // UncontrolledModal,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Tooltip,
+  // Alert
 } from "reactstrap";
 import { v4 } from "uuid";
 import AddTransaction from "../addTransaction/AddTransaction";
 import EditTransactionInfo from "../editTransactionInfo/EditTransactionInfo";
 let transactionID;
+let categoryOptions = [];
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 export default function RecentTransactions(props) {
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+
+  const toggleToolTip = () => setTooltipOpen(!tooltipOpen);
+  
+  const [modal, setModal] = useState(false);
+
+  const toggleModal = () => setModal(!modal);
+
+
   const transactionsToDelete = [
     "January",
     "February",
@@ -26,11 +57,53 @@ export default function RecentTransactions(props) {
     "November",
     "December",
   ];
+
   const days = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
     22, 23, 24, 25, 26, 27, 28, 29, 30,
   ];
-  let categoryOptions = props.budgets;
+  useEffect(() => {
+    if (props.token) {
+      getBudgets();
+    }
+  }, [props.token, props.view]);
+
+  // let categoryOptions = [];
+  let url;
+  const getBudgets = async () => {
+    let viewValue = props.view;
+    if (viewValue == true) {
+      url = "http://localhost:4000/budget/household";
+    } else {
+      url = "http://localhost:4000/budget/mine";
+    }
+    const reqOptions = {
+      method: "GET",
+      headers: new Headers({
+        Authorization: props.token,
+      }),
+    };
+
+    try {
+      const res = await fetch(url, reqOptions);
+      const data = await res.json();
+
+      // If the server does not provide a failure message
+      if (data.message !== "No personal budgets found.") {
+        // setBudgets(data.allBudgets);
+        categoryOptions = [];
+        data.allBudgets.map((item) => {
+          categoryOptions.push(item);
+        });
+      } else {
+        // setBudgets(null);
+        console.log("no budget data found");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   //* Dropdown settings
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
@@ -53,65 +126,8 @@ export default function RecentTransactions(props) {
     base = "household";
   }
 
-  const submitTrans = async (e) => {
-    e.preventDefault();
-    const desc = descRef.current.value;
-    const amount = amountRef.current.value;
-    const month = monthRef.current.value;
-    const day = dayRef.current.value;
-    const category = categoryRef.current.value;
-    const merchant = merchantRef.current.value;
-    const checkNumber = checkNumRef.current.value;
-    //const manualEntry = manualEntryRef.current.value;
-    const finAccount = finAccountRef.current.value;
-    const type = typeRef.current.value;
-
-    let transObj = JSON.stringify({
-      month: month,
-      day: day,
-      desc: desc,
-      merchant: merchant,
-      amount: amount,
-      checkNumber: checkNumber,
-      //manualEntry: true,
-      finAccount: finAccount,
-      category: category,
-      type: type,
-      base: base,
-    });
-
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Authorization", props.token);
-
-    const reqOption = {
-      headers: headers,
-      body: transObj,
-      method: "POST",
-    };
-
-    try {
-      let url = "/"; //Todo remove this and replace with correct information
-      const res = await fetch(url, reqOption);
-      const data = await res.json();
-
-      // If the server provides a success message
-      if (
-        data.message === "You have created a new transaction!" ||
-        data.message === "Your household has a new transaction!"
-      ) {
-        props.getTransaction();
-      } else {
-        // Do nothing, maybe build an error component later to tell the user to re-configure their item
-        console.error("User is unauthorized.");
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
+  // Functionality for the Edit Menu
   const updateTransaction = async (id) => {
-    console.log("updating Transaction", id);
     let url = `http://localhost:4000/transaction/edit/${id}`;
     const myHeaders = new Headers();
     myHeaders.append("Authorization", props.token);
@@ -123,20 +139,16 @@ export default function RecentTransactions(props) {
 
     try {
       let response = await fetch(url, requestOptions);
-      // let data = await response.json();
+      let data = await response.json();
+      if (data.message === `Transaction has been updated successfully`) {
+        props.getTransaction();
+      }
     } catch (error) {
       console.error(error);
-      //   }
     }
-    alert("Transaction Updated")
   };
-
-  const cancelEditing = () => {
-    console.log("cancel editing button clicked");
-  };
-
+  // Functionality for the Edit Menu
   const deleteTransaction = async (id) => {
-    console.log("Deleting Transaction", id);
     let url = `http://localhost:4000/transaction/delete/${id}`;
     const myHeaders = new Headers();
     myHeaders.append("Authorization", props.token);
@@ -148,120 +160,284 @@ export default function RecentTransactions(props) {
 
     try {
       let response = await fetch(url, requestOptions);
-      // let data = await response.json();
+      let data = await response.json();
+      if (data.message === "Transaction was successfully deleted!") {
+        props.getTransaction();
+      }
     } catch (error) {
       console.error(error);
-      //   }
     }
-    alert("Transaction Deleted")
   };
 
   const recentTransactions = [];
   let colorAssignment = 0;
   let tempColor;
 
-  props.transactions?.map((transaction) => {
-    let monthArray = [];
-    let month = transaction.month;
-    function mapMonth() {
-      for (let i = 0; i < month.length; i++) {
-        monthArray.push(month[i]);
+  function mapMonth(curr) {
+    transInfo[months[curr-1]]?.map((transaction) => {
+
+      // abbreviate month names for the table
+      let monthArray = [];
+      let month = transaction.month;
+      function abbrMonth() {
+        for (let i = 0; i < month.length; i++) {
+          monthArray.push(month[i]);
+        }
+        monthArray.length = 3;
       }
-      monthArray.length = 3;
-    }
-    mapMonth();
-    month = monthArray[0] + monthArray[1] + monthArray[2] + " ";
-    if (colorAssignment === 0) {
-      tempColor = "table-success";
-      colorAssignment = 1;
-    } else {
-      tempColor = "table-secondary";
-      colorAssignment = 0;
-    }
-    let displayNumber;
-    transaction.amount = +transaction.amount
-    if (transaction.amount < 0) {
-      let tempNumber = transaction.amount.toLocaleString("en-US");
-      let prefix = "-$";
-      tempNumber = tempNumber.slice(1);
-      displayNumber = prefix + tempNumber;
-    } else {
-      displayNumber = `$${transaction.amount.toLocaleString("en-US")}`;
-    }
+      abbrMonth();
 
-    return recentTransactions.push(
-      <tr className={tempColor}>
-        <td>{month + transaction.day}</td>
-        <td>{transaction.desc}</td>
-        <td>{displayNumber.toLocaleString("en-US")}</td>
-        <td>{transaction.merchant}</td>
-        <td>{transaction.category}</td>
-        <td>
-          <Button
-            onClick={() => {
-              transactionID = transaction._id;
-            }}
-            id="UncontrolledPopoverEditTransaction"
-            color="secondary"
-            type="button"
-            trigger="legacy"
-            style={{
-              height: "1.5em",
-              display: "flex",
-              alignItems: "center",
-              marginLeft: "auto",
-            }}
-          >
-            edit
-          </Button>
-          <UncontrolledPopover
-            placement="top"
-            target="UncontrolledPopoverEditTransaction"
-          >
-            <PopoverHeader>Edit Transaction</PopoverHeader>
-            <PopoverBody>
-              <EditTransactionInfo
-                token={props.token}
-                view={props.view}
-                month={props.month}
-              />
-              <Button
-                onClick={() => updateTransaction(transactionID)}
-                color="success"
-                type="submit"
-              >
-                {/* <Button onClick={updatingTransaction} color="success" type="submit"> */}
-                Update
-              </Button>
-              <Button
-                // key={v4}
-                onClick={cancelEditing}
-                color="secondary"
-              >
-                Cancel
-              </Button>
-              <Button
-                key={v4}
-                onClick={() => deleteTransaction(transactionID)}
-                color="danger"
-              >
-                {/* <Button onClick={deleteTransaction(id)} color="danger"> */}
-                Delete
-              </Button>
-            </PopoverBody>
-          </UncontrolledPopover>
-        </td>
-      </tr>
-    );
-  });
+      // redefine month to abbreviate month names
+      month = monthArray[0] + monthArray[1] + monthArray[2] + " ";
 
+      // Add table striping
+      if (colorAssignment === 0) {
+        tempColor = "table-success";
+        colorAssignment = 1;
+      } else {
+        tempColor = "table-secondary";
+        colorAssignment = 0;
+      }
+      // correctly display numbers with dollar signs and negative symbols
+      let displayNumber;
+      transaction.amount = +transaction.amount;
+      if (transaction.amount < 0) {
+        let tempNumber = transaction.amount.toLocaleString("en-US");
+        let prefix = "-$";
+        tempNumber = tempNumber.slice(1);
+        displayNumber = prefix + tempNumber;
+      } else {
+        displayNumber = `$${transaction.amount.toLocaleString("en-US")}`;
+      }
+
+      // Return for the table rows
+      return recentTransactions.push(
+        <tr className={tempColor}>
+          <td>{month + transaction.day}</td>
+          <td>{transaction.desc}</td>
+          <td>{displayNumber.toLocaleString("en-US")}</td>
+          <td>{transaction.merchant}</td>
+          <td>{transaction.category}</td>
+          <td>
+            {/* Edit Button */}
+            <Button
+              onClick={() => {
+                toggleModal();
+                transactionID = transaction._id;
+              }}
+              id="UncontrolledModalEditTransaction"
+              // id="UncontrolledPopoverEditTransaction"
+              color="secondary"
+              type="button"
+              // trigger="legacy"
+              style={{
+                height: "1.5em",
+                display: "flex",
+                alignItems: "center",
+                marginLeft: "auto",
+              }}
+            >
+              edit
+            </Button>
+            <Tooltip
+        isOpen={tooltipOpen}
+        target="UncontrolledModalEditTransaction"
+        toggle={toggleToolTip}
+      >
+        Add a Transaction
+      </Tooltip>
+            <Modal
+              isOpen={modal}
+              fade={false}
+              toggle={toggleModal}
+            >
+              <ModalHeader toggle={toggleModal}>Edit Transaction</ModalHeader>
+              <ModalBody>
+                <EditTransactionInfo
+                  token={props.token}
+                  view={props.view}
+                  month={props.month}
+                  accounts={props.accounts}
+                  categoryOptions={categoryOptions}
+                />
+                <ModalFooter>
+                  <Button
+                    onClick={() => updateTransaction(transactionID)}
+                    color="success"
+                    type="submit"
+                  >
+                    Update
+                  </Button>
+                  <Button
+                    key={v4}
+                    onClick={() => deleteTransaction(transactionID)}
+                    color="danger"
+                  >
+                    Delete
+                  </Button>
+                </ModalFooter>
+              </ModalBody>
+            </Modal>
+            {/* </UncontrolledPopover> */}
+          </td>
+        </tr>
+      );
+    });
+  }
+
+  // Start with sortedTransactions being the props.transaction
+  let sortedTransactions = props.transaction;
+
+  // Change sortedTransactions sorting All Transactions by day
+  function sortByDay() {
+    sortedTransactions.sort((a, b) => {
+      return a.day - b.day;
+    });
+  }
+  const janArray = [];
+  const febArray = [];
+  const marchArray = [];
+  const aprilArray = [];
+  const mayArray = [];
+  const juneArray = [];
+  const julyArray = [];
+  const augustArray = [];
+  const septArray = [];
+  const octArray = [];
+  const novArray = [];
+  const decArray = [];
+  sortByDay();
+  let transInfo = [];
+  function createMonthsObjects() {
+    // January
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("January")) {
+        janArray.push(sortedTransactions[i]);
+      }
+    }
+    // February
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("February")) {
+        febArray.push(sortedTransactions[i]);
+      }
+    }
+    // March
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("March")) {
+        marchArray.push(sortedTransactions[i]);
+      }
+    }
+    // April
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("April")) {
+        aprilArray.push(sortedTransactions[i]);
+      }
+    }
+    // May
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("May")) {
+        mayArray.push(sortedTransactions[i]);
+      }
+    }
+    // June
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("June")) {
+        juneArray.push(sortedTransactions[i]);
+      }
+    }
+    // July
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("July")) {
+        julyArray.push(sortedTransactions[i]);
+      }
+    }
+    // August
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("August")) {
+        augustArray.push(sortedTransactions[i]);
+      }
+    }
+    // September
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("September")) {
+        septArray.push(sortedTransactions[i]);
+      }
+    }
+    // October
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("October")) {
+        octArray.push(sortedTransactions[i]);
+      }
+    }
+    // November
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("November")) {
+        novArray.push(sortedTransactions[i]);
+      }
+    }
+    // December
+    for (let i = 0; i < sortedTransactions.length; i++) {
+      if (sortedTransactions[i].month.includes("December")) {
+        decArray.push(sortedTransactions[i]);
+      }
+    }
+  }
+
+  createMonthsObjects();
+  let [currentMonth, setCurrentMonth] = useState(7);
+  // let currentMonth = 2;
+
+  transInfo.January = janArray;
+  transInfo.February = febArray;
+  transInfo.March = marchArray;
+  transInfo.April = aprilArray;
+  transInfo.May = mayArray;
+  transInfo.June = juneArray;
+  transInfo.July = julyArray;
+  transInfo.August = augustArray;
+  transInfo.September = septArray;
+  transInfo.October = octArray;
+  transInfo.November = novArray;
+  transInfo.December = decArray;
+
+
+  const addMonth = () => {
+    if (currentMonth < 12) {
+      setCurrentMonth(currentMonth + 1);
+      mapMonth(currentMonth);
+    }
+  };
+
+  const subtractMonth = () => {
+    if (currentMonth > 1) {
+      setCurrentMonth(currentMonth -1 );
+      // mapMonth()
+      {
+        mapMonth(currentMonth);
+      }
+    }
+    // else {
+    //   currentMonth = 12
+    // }
+  };
+  mapMonth(currentMonth);
+  // let viewMonthInfo = [transInfo[currentMonth]]
+  let transactions = transInfo.July;
+  // console.log("recenttransactionsprops:",props)
   return (
+    <>
     <div className="RecentTransactions">
+      <div id="recenttransactionsmonth">
+      <Button id="monthLeftBtn" onClick={subtractMonth}>-</Button>
+      <div id="rtMonthName">{months[currentMonth -1]}</div>
+      <Button id="monthRightBtn" onClick={addMonth}>+</Button>
+      </div>
       <Table>
         <AddTransaction
           token={props.token}
           view={props.view}
           getTransaction={props.getTransaction}
+          accounts={props.accounts}
         />
         <thead>
           <tr>
@@ -282,8 +458,11 @@ export default function RecentTransactions(props) {
       </th> */}
           </tr>
         </thead>
+        {/* <tbody>{transactions}</tbody> */}
         <tbody>{recentTransactions}</tbody>
+        {/* <tbody>{recentTransactions}</tbody> */}
       </Table>
     </div>
+    </>
   );
 }

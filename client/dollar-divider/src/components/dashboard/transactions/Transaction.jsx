@@ -1,15 +1,17 @@
 import {useEffect, useState} from 'react'
 import RecentTransactions from './recentTransactions/RecentTransactions';
 export default function Transaction(props) {
-  // console.log(props)
     let url;
     const [transaction, setTransaction] = useState([]);
-    const getTransaction = async (viewValue) => {
+    const getTransaction = async () => {
+      // console.log("view",props.view)
+      let viewValue = props.view
       if (viewValue === true) {
         url = "http://localhost:4000/transaction/household";
       } else {
         url = "http://localhost:4000/transaction/mine";
       }
+      // console.log("url",url)
       const reqOptions = {
         method: "GET",
         headers: new Headers({
@@ -23,7 +25,7 @@ export default function Transaction(props) {
   
         // If the server does not provide a failure message
         if (data.message !== "No transactions found.") {
-          setTransaction(data.getAllTrans);
+          setTransaction(data.getAllTransactions);
         } else {
           setTransaction(null);
         }
@@ -34,17 +36,14 @@ export default function Transaction(props) {
   
     useEffect(() => {
       if (props.token) {
-        getTransaction(props.view);
+        getTransaction();
       }
     }, [props.token, props.view]);
-    // console.log("transaction:",transaction)
-    // console.log("props", props)
+
     return (
       <>
         <RecentTransactions
-            transactions = {props.transactions} token={props.token} view={props.view} getTransaction={getTransaction} />
-            {/* transactions = {props.transactions} transaction={transaction} token={props.token} view={props.view} getTransaction={getTransaction} /> */}
-    
+            transaction = {transaction} token={props.token} view={props.view} accounts = {props.accounts} getTransaction={getTransaction}/>
       </>
     );
   }

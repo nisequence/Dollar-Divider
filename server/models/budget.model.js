@@ -9,10 +9,6 @@ const BudgetSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  // remainingAmt: {
-  //   type: Number,
-  //   required: true,
-  // },
   assignedUser: {
     type: String,
     required: false,

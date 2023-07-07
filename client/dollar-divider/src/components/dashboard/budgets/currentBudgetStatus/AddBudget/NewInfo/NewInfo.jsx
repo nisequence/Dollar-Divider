@@ -1,10 +1,12 @@
 import React, { useRef, useState } from "react";
 import { Form, FormGroup, Input, Button, Label } from "reactstrap";
+import { MdPostAdd } from "react-icons/md";
 
 export default function NewInfo(props) {
   //* Use useRef to get values from each input
   const categoryRef = useRef();
   const amountRef = useRef();
+
 
   let baseBoolean;
   if (props.view === false) {
@@ -12,6 +14,22 @@ export default function NewInfo(props) {
   } else {
     baseBoolean = "household";
   }
+
+  const setHouseholdTotal = () => {
+    if (props.view === true) {
+      let totalToDivide = 0;
+      const totalBudgets = () => {
+        for (let x = 0; x < props.budgets?.length; x++) {
+          let thisOne = props.budgets[x].budgetAmt;
+          totalToDivide += thisOne;
+        }
+        console.log(totalToDivide);
+        console.log(props.view);
+        sessionStorage.setItem("Total", totalToDivide);
+      };
+      totalBudgets();
+    }
+  };
 
   //* Create a function to handle the form inputs when the user attempts to create a new room
   const submitBudget = async (e) => {
@@ -47,6 +65,8 @@ export default function NewInfo(props) {
         data.message == "Your household is now the owner of a brand-new budget!"
       ) {
         props.getBudgets();
+        setHouseholdTotal();
+        
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
         console.error("User is unauthorized.");
@@ -78,7 +98,7 @@ export default function NewInfo(props) {
           />
         </FormGroup>
         <Button color="success" type="submit">
-          Create Budget
+          <MdPostAdd /> Create Budget
         </Button>
       </Form>
     </>
