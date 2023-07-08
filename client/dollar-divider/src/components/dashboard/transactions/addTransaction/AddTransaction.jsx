@@ -18,7 +18,6 @@ export default function AddTransaction(props) {
   let url;
   const [budgets, setBudgets] = useState([]);
   const getBudgets = async (viewValue) => {
-
     if (viewValue == true) {
       url = "http://localhost:4000/budget/household";
     } else {
@@ -53,38 +52,41 @@ export default function AddTransaction(props) {
   }, [props.token, props.view]);
   let transactionType;
   // console.log("props.view",props)
-      if (props.view === true) {
-    transactionType = "Household"
-  } else {transactionType = "Personal"}
+  if (props.view === true) {
+    transactionType = "Household";
+  } else {
+    transactionType = "Personal";
+  }
 
   return (
     <div id="testing" key={v4}>
-      
       <Button
-      onClick={() => {
-        toggleModal();
-      }}
+        onClick={() => {
+          toggleModal();
+        }}
         // id="UncontrolledPopoverAddTransaction"
         id="UncontrolledModalEditTransaction"
         color="success"
         // type="button"
-        style={{
-          maxWidth: "4vw",
-          display: "inline-block",
-        }}
+        // style={{
+        //   maxWidth: "4vw",
+        //   display: "inline-block",
+        // }}
       >
-        +
+        Log New Transaction
       </Button>
       {/* <UncontrolledPopover */}
-      <Modal 
-      isOpen={modal}
-      fade={false}
-      toggle={toggleModal}
+      <Modal
+        isOpen={modal}
+        fade={false}
+        toggle={toggleModal}
         // placement="top"
         // target="UncontrolledPopoverAddTransaction"
         trigger="legacy"
       >
-        <ModalHeader toggle = {toggleModal}>New {transactionType} Transaction</ModalHeader>
+        <ModalHeader toggle={toggleModal}>
+          New {transactionType} Transaction
+        </ModalHeader>
         {/* <PopoverHeader>Add New Transaction</PopoverHeader> */}
         {/* <PopoverBody> */}
         <ModalBody key={v4}>
@@ -94,12 +96,12 @@ export default function AddTransaction(props) {
             month={props.month}
             budgets={budgets}
             getTransaction={props.getTransaction}
-            category = {props.category}
-            accounts = {props.accounts}
+            category={props.category}
+            accounts={props.accounts}
           />
-          </ModalBody>
+        </ModalBody>
         {/* </PopoverBody> */}
-      {/* </UncontrolledPopover> */}
+        {/* </UncontrolledPopover> */}
       </Modal>
     </div>
   );

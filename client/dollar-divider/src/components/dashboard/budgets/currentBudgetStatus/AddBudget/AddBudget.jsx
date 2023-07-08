@@ -6,7 +6,7 @@ import {
   PopoverBody,
   Tooltip,
 } from "reactstrap";
-import { GiTakeMyMoney } from "react-icons/gi";
+import { BsDatabaseFillAdd } from "react-icons/bs";
 import { MdPostAdd } from "react-icons/md";
 import NewInfo from "./NewInfo/NewInfo";
 
@@ -17,7 +17,7 @@ export default function AddBudget(props) {
   return (
     <>
       <Button id="UncontrolledPopoverBudget" color="success" type="button">
-        <MdPostAdd />
+        <BsDatabaseFillAdd /> Create New Budget
       </Button>
       <Tooltip
         isOpen={tooltipOpen}

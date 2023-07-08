@@ -30,7 +30,7 @@ export default function Selector(props) {
     }
   };
   const displayModal = () => {
-    //* Make sure user is authorized as Admin 
+    //* Make sure user is authorized as Admin
     //* Globalize the variable "selected" within this function
     let selected = null;
     //* Go through each budget item
@@ -55,7 +55,6 @@ export default function Selector(props) {
               budget={selected}
               budgets={props.budgets}
               categoryOptions={categoryOptions}
-              
               /*             toggle={toggle} */
               modal={modal}
             />
@@ -67,19 +66,26 @@ export default function Selector(props) {
 
   return (
     <>
-      <Row>
-        <Form>
+      <hr />
+      {/* <Row id="EditBudgetHeader">
+        <h5>Select a Budget Category:</h5>
+      </Row> */}
+      <Form>
+        <Row id="BudgetEditDropdown">
           <Col>
-          <div id="selectBudgetCategory">
+            {" "}
             <FormGroup>
-            <h5>Choose a Budget Category:</h5>
               <Input
                 id="exampleSelect2"
                 name="select"
                 type="select"
+                placeholder="Select"
                 required
                 innerRef={choiceRef}
               >
+                <option value="" disabled selected>
+                  Select a budget
+                </option>
                 {categoryOptions?.map((each) => {
                   return (
                     <option key={categoryOptions.indexOf(each)}>
@@ -89,17 +95,14 @@ export default function Selector(props) {
                 })}
               </Input>
             </FormGroup>
-            </div>
           </Col>
           <Col>
             <Button id="submit" color="secondary" onClick={openBudget}>
               <GrEdit /> Edit Budget
             </Button>
-            {/*             {chooseBudget}
-             */}{" "}
           </Col>
-        </Form>
-      </Row>
+        </Row>
+      </Form>
       {displayModal()}
     </>
   );

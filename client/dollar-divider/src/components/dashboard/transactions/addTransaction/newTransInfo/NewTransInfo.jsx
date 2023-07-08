@@ -1,5 +1,14 @@
 import React, { useRef, useState } from "react";
-import { Form, FormGroup, Input, Button, Label, Col, Container, Row} from "reactstrap";
+import {
+  Form,
+  FormGroup,
+  Input,
+  Button,
+  Label,
+  Col,
+  Container,
+  Row,
+} from "reactstrap";
 import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
 // import DatePicker from "../../datePicker/DayPicker";
@@ -7,13 +16,14 @@ import "react-day-picker/dist/style.css";
 let transactionType;
 
 export default function NewTransInfo(props) {
-
   const [selected, setSelected] = React.useState();
   const [state, setState] = useState(true);
   if (state === true) {
-    transactionType = "expense"
-  } else {transactionType = "income"}
-  console.log("transactionType",transactionType)
+    transactionType = "expense";
+  } else {
+    transactionType = "income";
+  }
+  console.log("transactionType", transactionType);
   // ! Inspired By Kate
   let month;
   if (selected) {
@@ -104,7 +114,7 @@ export default function NewTransInfo(props) {
   //* Create a function to handle the form inputs when the user attempts to create a new room
   const submitTrans = async (e) => {
     e.preventDefault();
-    const desc = descRef.current.value;
+    // const desc = descRef.current.value;
     const amount = amountRef.current.value;
     // let month = "February";
     // const month = monthRef.current.value; //Todo Change this to the Date Picker
@@ -117,7 +127,7 @@ export default function NewTransInfo(props) {
     // const finAccount = "fix this";
     const finAccount = finAccountRef.current.value;
     // const type = typeRef.current.value;
-    // const type = transactionType; 
+    // const type = transactionType;
 
     let url = "http://localhost:4000/transaction/add";
 
@@ -125,9 +135,9 @@ export default function NewTransInfo(props) {
       month: month,
       // month: JSON.stringify(sessionStorage.getItem("month")),
       // day: day,
-      day: day = Number(day),
+      day: (day = Number(day)),
       // month: "July",
-      desc: desc,
+      // desc: desc,
       merchant: merchant,
       amount: amount,
       // checkNumber: checkNumber,
@@ -169,28 +179,8 @@ export default function NewTransInfo(props) {
   };
 
   return (
-    <div>
+    <Container>
       <Form id="addtransactionform" onSubmit={submitTrans}>
-        {/* Name of Item */}
-        <FormGroup>
-          <Input
-            placeholder="Name of Item"
-            innerRef={descRef}
-            autoComplete="off"
-            type="text"
-            required
-          />
-        </FormGroup>
-        {/* Cost */}
-        <FormGroup>
-          <Input
-            placeholder="Cost"
-            innerRef={amountRef}
-            autoComplete="off"
-            type="number"
-            required
-          />
-        </FormGroup>
         {/* Merchant */}
         <FormGroup>
           <Input
@@ -201,47 +191,50 @@ export default function NewTransInfo(props) {
             required
           />
         </FormGroup>
-        {/* Income or Expense */}
-        <div id="addTransSwitch">
-        <Label check>Expense</Label>
-        <FormGroup switch>
-          <Label check>Income</Label>
+        {/* Name of Item */}
+        {/* <FormGroup>
           <Input
-            type = "switch"
-            role="switch"
-            check={state}
-            onClick={() => {
-              setState(!state);
-            }}
-          />
-        </FormGroup>
-        </div>
-        {/* Category */}
-        <FormGroup>
-          <Label for="exampleSelectMulti">Choose Category</Label>
-          <Input
-            id="exampleSelect1"
-            name="select"
-            type="select"
-            innerRef={categoryRef}
+            placeholder="Name of Item"
+            innerRef={descRef}
+            autoComplete="off"
+            type="text"
             required
-          >
-            {categoryOptions?.map((each) => {
-              return (
-                <>
-                  <option>{each.budgetCat}</option>
-                </>
-              );
-            })}
-          </Input>
-        </FormGroup>
-        {/* Day Picker */}
-        <FormGroup>
-          <DayPicker mode="single" selected={selected} onSelect={setSelected} />
-        </FormGroup>
+          />
+        </FormGroup> */}
+        <Row id="TransactionMoneyRow">
+          <Col>
+            {/* Cost */}
+            <FormGroup>
+              <Input
+                placeholder="Dollar Amount"
+                innerRef={amountRef}
+                autoComplete="off"
+                type="number"
+                required
+              />
+            </FormGroup>
+          </Col>
+          <Col>
+            {/* Income or Expense */}
+            <div id="addTransSwitch">
+              <Label check>Expense</Label>
+              <FormGroup switch>
+                <Label check>Income</Label>
+                <Input
+                  type="switch"
+                  role="switch"
+                  check={state}
+                  onClick={() => {
+                    setState(!state);
+                  }}
+                />
+              </FormGroup>
+            </div>
+          </Col>
+        </Row>
         {/* Choose Account */}
         <FormGroup>
-          <Label for="exampleSelectMulti">Choose Account</Label>
+          {/* <Label for="exampleSelectMulti">Choose Account</Label> */}
           <Input
             id="exampleSelect1"
             name="select"
@@ -249,6 +242,9 @@ export default function NewTransInfo(props) {
             innerRef={finAccountRef}
             required
           >
+            <option value="" disabled selected>
+              Which account?
+            </option>
             {props.accounts?.map((a) => {
               return (
                 <>
@@ -258,10 +254,43 @@ export default function NewTransInfo(props) {
             })}
           </Input>
         </FormGroup>
+        {/* Category */}
+        <FormGroup>
+          {/* <Label for="exampleSelectMulti">Choose Category</Label> */}
+          <Input
+            id="exampleSelect1"
+            name="select"
+            type="select"
+            innerRef={categoryRef}
+            required
+          >
+            <option value="" disabled selected>
+              Select a budget
+            </option>
+            {categoryOptions?.map((each) => {
+              return (
+                <>
+                  <option>{each.budgetCat}</option>
+                </>
+              );
+            })}
+          </Input>
+        </FormGroup>
+        <Row>
+          {/* Day Picker */}
+          <FormGroup>
+            <DayPicker
+              id="TransactionDayPicker"
+              mode="single"
+              selected={selected}
+              onSelect={setSelected}
+            />
+          </FormGroup>
+        </Row>
         <Button color="success" type="submit">
           Create Transaction
         </Button>
       </Form>
-    </div>
+    </Container>
   );
 }

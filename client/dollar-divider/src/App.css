@@ -196,12 +196,12 @@
   } */
 
   .CurrentBudgetStatus {
+    padding-top: 1.5rem;
     max-height: fit-content;
     /* height: 50%; */
     width: 100%;
     min-width: 35vw;
     /* max-height: 50vh; */
-    background-color: rgb(194, 194, 194);
     color: black;
     font-size: xx-large;
     /* opacity: .5; */
@@ -340,4 +340,34 @@ align-items: center;
 
 .modal-content {
   max-width: fit-content;
+}
+
+#EditBudgetHeader {
+  padding-top: 0.75rem;
+}
+
+#BudgetEditDropdown {
+  display: flex;
+  align-items: baseline;
+  padding-left: 6rem;
+  padding-right: 6rem;
+}
+
+#AddBudgetHeader {
+  display: flex;
+  align-items: baseline;
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+#TransactionMoneyRow {
+  display: flex;
+  align-items: baseline;
+}
+
+#TransactionDayPicker {
+  display: flex;
+  width: 100%;
+  padding-left: auto;
+  padding-right: auto;
 }
