@@ -1,6 +1,6 @@
 // import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { PolarArea } from "react-chartjs-2";
-import { Button } from "reactstrap";
+import { Button, Container, Row, Col } from "reactstrap";
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -42,36 +42,60 @@ export default function CurrentBudgetStatus(props) {
   const viewType = () => {
     // setHouseholdTotal();
 
-    let total = 0;
-    const totalBudgets = () => {
-      for (let x = 0; x < props.budgets?.length; x++) {
-        let thisOne = props.budgets[x].budgetAmt;
-        total += thisOne;
-      }
-    };
-    totalBudgets();
+    let total = props.totalToDisplay;
+    // const totalBudgets = () => {
+    //   for (let x = 0; x < props.budgets?.length; x++) {
+    //     let thisOne = props.budgets[x].budgetAmt;
+    //     total += thisOne;
+    //   }
+    // };
+    // totalBudgets();
 
     if (props.view === false || status === "Admin") {
       //* If viewing personal or if user is the Admin
       // get all the stuff
+      let displayTotal = Number(total);
+      let roundTotal = displayTotal.toFixed(2);
       return (
         <>
           <h4>Budget Overview</h4>
-          <AddBudget
+          <Row id="AddBudgetHeader">
+            <Col>
+              <h5>
+                <i>Total Budgeted: ${roundTotal}</i>
+              </h5>
+            </Col>
+            <Col>
+              <AddBudget
+                token={props.token}
+                view={props.view}
+                getBudgets={props.getBudgets}
+              />
+            </Col>
+          </Row>
+          <Selector
             token={props.token}
             view={props.view}
             getBudgets={props.getBudgets}
+            budgets={props.budgets}
+            id={props.id}
           />
-          <h5>Total Budgeted: ${total.toLocaleString("en-US")}</h5>
         </>
       );
     } else {
       //* If viewing household and not the admin
       // get minimal
+      let displayTotal = Number(total);
+      let roundTotal = displayTotal.toFixed(2);
       return (
         <>
           <h4>Budget Overview</h4>
-          <h5>Total Budgeted: ${total}</h5>
+          <Row id="TotalBudgetHeader">
+            <h5>
+              {" "}
+              <i>Total Budgeted: ${roundTotal}</i>
+            </h5>
+          </Row>
         </>
       );
     }
@@ -125,29 +149,24 @@ export default function CurrentBudgetStatus(props) {
 
   return (
     <>
-      <div className="CurrentBudgetStatus" id="currentbudgetstatus">
-        {viewType()}
-        <Selector
-          token={props.token}
-          view={props.view}
-          getBudgets={props.getBudgets}
-          budgets={props.budgets}
-          id= {props.id}
-        />
-        {/* <Doughnut */}
-        <PolarArea
-          style={{ marginLeft: "4vw", marginRight: "4vw", maxHeight: "60vh" }}
-          // <Pie
-          data={chartData}
+      <Container>
+        <div className="CurrentBudgetStatus">
+          {viewType()}
+          {/* <Doughnut */}
+          <PolarArea
+            style={{ marginLeft: "4vw", marginRight: "4vw", maxHeight: "60vh" }}
+            // <Pie
+            data={chartData}
 
-          // onElementsClick={(elems) => {
-          //   // if required to build the URL, you can
-          //   // get datasetIndex and value index from an `elem`:
-          //   // and then redirect to the target page:
-          //   window.location = "https://example.com";
-          // }}
-        />
-      </div>
+            // onElementsClick={(elems) => {
+            //   // if required to build the URL, you can
+            //   // get datasetIndex and value index from an `elem`:
+            //   // and then redirect to the target page:
+            //   window.location = "https://example.com";
+            // }}
+          />
+        </div>
+      </Container>
     </>
   );
 }

@@ -19,7 +19,7 @@ router.post("/add", async (req, res) => {
     const {
       month,
       day,
-      desc,
+      // desc,
       merchant,
       amount,
       finAccount,
@@ -50,7 +50,7 @@ router.post("/add", async (req, res) => {
         ownerID: userID,
         month: month,
         day: day,
-        desc: desc,
+        // desc: desc,
         merchant: merchant,
         amount: newAmount,
         finAccount: finAccount,
@@ -81,14 +81,14 @@ router.post("/add", async (req, res) => {
       // if works add new transaction to household
       const transaction = new Transaction({
         ownerID: userID,
-        month: month,
-        day: day,
-        desc: desc,
         merchant: merchant,
         amount: amount,
-        finAccount: req.user._id,
         type: type,
         category: category,
+        month: month,
+        day: day,
+        // desc: desc,
+        finAccount: req.user._id,
         base: req.user.householdID,
       });
 

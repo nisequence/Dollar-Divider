@@ -13,6 +13,7 @@ import {
   Tooltip,
   // Alert
 } from "reactstrap";
+import { GrEdit } from "react-icons/gr";
 import { v4 } from "uuid";
 import AddTransaction from "../addTransaction/AddTransaction";
 import EditTransactionInfo from "../editTransactionInfo/EditTransactionInfo";
@@ -37,11 +38,10 @@ export default function RecentTransactions(props) {
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
   const toggleToolTip = () => setTooltipOpen(!tooltipOpen);
-  
+
   const [modal, setModal] = useState(false);
 
   const toggleModal = () => setModal(!modal);
-
 
   const transactionsToDelete = [
     "January",
@@ -174,8 +174,7 @@ export default function RecentTransactions(props) {
   let tempColor;
 
   function mapMonth(curr) {
-    transInfo[months[curr-1]]?.map((transaction) => {
-
+    transInfo[months[curr - 1]]?.map((transaction) => {
       // abbreviate month names for the table
       let monthArray = [];
       let month = transaction.month;
@@ -214,7 +213,7 @@ export default function RecentTransactions(props) {
       return recentTransactions.push(
         <tr className={tempColor}>
           <td>{month + transaction.day}</td>
-          <td>{transaction.desc}</td>
+          {/* <td>{transaction.desc}</td> */}
           <td>{displayNumber.toLocaleString("en-US")}</td>
           <td>{transaction.merchant}</td>
           <td>{transaction.category}</td>
@@ -237,20 +236,16 @@ export default function RecentTransactions(props) {
                 marginLeft: "auto",
               }}
             >
-              edit
+              <GrEdit />
             </Button>
             <Tooltip
-        isOpen={tooltipOpen}
-        target="UncontrolledModalEditTransaction"
-        toggle={toggleToolTip}
-      >
-        Add a Transaction
-      </Tooltip>
-            <Modal
-              isOpen={modal}
-              fade={false}
-              toggle={toggleModal}
+              isOpen={tooltipOpen}
+              target="UncontrolledModalEditTransaction"
+              toggle={toggleToolTip}
             >
+              Add a Transaction
+            </Tooltip>
+            <Modal isOpen={modal} fade={false} toggle={toggleModal}>
               <ModalHeader toggle={toggleModal}>Edit Transaction</ModalHeader>
               <ModalBody>
                 <EditTransactionInfo
@@ -400,7 +395,6 @@ export default function RecentTransactions(props) {
   transInfo.November = novArray;
   transInfo.December = decArray;
 
-
   const addMonth = () => {
     if (currentMonth < 12) {
       setCurrentMonth(currentMonth + 1);
@@ -410,7 +404,7 @@ export default function RecentTransactions(props) {
 
   const subtractMonth = () => {
     if (currentMonth > 1) {
-      setCurrentMonth(currentMonth -1 );
+      setCurrentMonth(currentMonth - 1);
       // mapMonth()
       {
         mapMonth(currentMonth);
@@ -426,43 +420,47 @@ export default function RecentTransactions(props) {
   // console.log("recenttransactionsprops:",props)
   return (
     <>
-    <div className="RecentTransactions">
-      <div id="recenttransactionsmonth">
-      <Button id="monthLeftBtn" onClick={subtractMonth}>-</Button>
-      <div id="rtMonthName">{months[currentMonth -1]}</div>
-      <Button id="monthRightBtn" onClick={addMonth}>+</Button>
-      </div>
-      <Table>
-        <AddTransaction
-          token={props.token}
-          view={props.view}
-          getTransaction={props.getTransaction}
-          accounts={props.accounts}
-        />
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Desc</th>
-            <th>Amount</th>
-            <th>Merchant</th>
-            {/* <th>
+      <div className="RecentTransactions">
+        <div id="recenttransactionsmonth">
+          <Button id="monthLeftBtn" onClick={subtractMonth}>
+            -
+          </Button>
+          <div id="rtMonthName">{months[currentMonth - 1]}</div>
+          <Button id="monthRightBtn" onClick={addMonth}>
+            +
+          </Button>
+        </div>
+        <Table>
+          <AddTransaction
+            token={props.token}
+            view={props.view}
+            getTransaction={props.getTransaction}
+            accounts={props.accounts}
+          />
+          <thead>
+            <tr>
+              <th>Date</th>
+              {/* <th>Desc</th> */}
+              <th>Amount</th>
+              <th>Merchant</th>
+              {/* <th>
         Manual Entry
       </th> */}
-            <th>Category</th>
-            {/* <th>
+              <th>Category</th>
+              {/* <th>
         Account
       </th> */}
-            <th>Edit</th>
-            {/* <th>
+              <th>Edit</th>
+              {/* <th>
         Personal/Household
       </th> */}
-          </tr>
-        </thead>
-        {/* <tbody>{transactions}</tbody> */}
-        <tbody>{recentTransactions}</tbody>
-        {/* <tbody>{recentTransactions}</tbody> */}
-      </Table>
-    </div>
+            </tr>
+          </thead>
+          {/* <tbody>{transactions}</tbody> */}
+          <tbody>{recentTransactions}</tbody>
+          {/* <tbody>{recentTransactions}</tbody> */}
+        </Table>
+      </div>
     </>
   );
 }

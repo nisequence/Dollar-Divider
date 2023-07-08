@@ -5,6 +5,16 @@ import { useState, useEffect } from "react";
 export default function Budgets(props) {
   let url;
   const [budgets, setBudgets] = useState([]);
+  const [total, setTotal] = useState();
+
+  const calculateTotal = async (data) => {
+    let totalToDivide = 0;
+    for (let x = 0; x < data?.length; x++) {
+      let thisOne = data[x].budgetAmt;
+      totalToDivide += thisOne;
+    }
+    setTotal(totalToDivide);
+  };
 
   const setHouseholdTotal = async (data) => {
     let totalToDivide = 0;
@@ -12,7 +22,7 @@ export default function Budgets(props) {
       let thisOne = data[x].budgetAmt;
       totalToDivide += thisOne;
     }
-    console.log("View set to", props.view, "setting total to", totalToDivide);
+    // console.log("View set to", props.view, "setting total to", totalToDivide);
     sessionStorage.setItem("Total", totalToDivide);
   };
 
@@ -43,6 +53,7 @@ export default function Budgets(props) {
         ) {
           setHouseholdTotal(data.allBudgets);
         }
+        calculateTotal(data.allBudgets);
       } else {
         setBudgets(null);
       }
@@ -65,6 +76,7 @@ export default function Budgets(props) {
         transactions={props.transactions}
         token={props.token}
         view={props.view}
+        totalToDisplay={total}
       />
     </>
   );

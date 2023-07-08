@@ -11,7 +11,7 @@ const TransactionSchema = new mongoose.Schema({
     },
     desc: {
         type: String,
-        required: true,
+        required: false,
     },
     merchant: {
         type: String,
@@ -31,7 +31,7 @@ const TransactionSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        required: true
+        required: true,
     },
     base: {
         type: String,
