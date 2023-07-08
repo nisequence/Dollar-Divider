@@ -62,7 +62,7 @@ export default function AddBill(props) {
         type="button"
         onClick={toggleModal}
       >
-        <BsFillEnvelopePlusFill id="AddBill" />
+        <BsFillEnvelopePlusFill id="AddBill" /> Create Bill
         <Tooltip isOpen={tooltipOpen} target="ModalAddBill" toggle={toggle}>
           Add a new bill here!
         </Tooltip>
