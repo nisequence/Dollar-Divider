@@ -13,16 +13,13 @@ import {
   Input,
   Label,
 } from "reactstrap";
-<<<<<<< HEAD
+import { LuCalendarPlus, LuCalendarMinus } from "react-icons/lu";
 import { DayPicker } from "react-day-picker";
-=======
 import { GrEdit } from "react-icons/gr";
->>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
 import { v4 } from "uuid";
 import AddTransaction from "../addTransaction/AddTransaction";
 
 export default function RecentTransactions(props) {
-<<<<<<< HEAD
   // console.log("recenttransactionsprops", props);
   let base;
   let transactionID;
@@ -34,17 +31,6 @@ export default function RecentTransactions(props) {
   let categoryOptions = [];
   let newArray = [];
   const months = [
-=======
-  const [tooltipOpen, setTooltipOpen] = useState(false);
-
-  const toggleToolTip = () => setTooltipOpen(!tooltipOpen);
-
-  const [modal, setModal] = useState(false);
-
-  const toggleModal = () => setModal(!modal);
-
-  const transactionsToDelete = [
->>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
     "January",
     "February",
     "March",
@@ -203,7 +189,6 @@ export default function RecentTransactions(props) {
     const finAccount = finAccountRef.current.value;
 
     let url = `http://localhost:4000/transaction/edit/${id}`;
-    console.log("edittransactionurl",url)
     // let url = `http://localhost:4000/transaction/edit/${id}`;
     const myHeaders = new Headers();
     myHeaders.append("Authorization", props.token);
@@ -259,13 +244,9 @@ export default function RecentTransactions(props) {
     }
   };
 
-  console.log("recentTransactionsProps",props)
   function mapMonth(curr) {
     transInfo[months[curr - 1]]?.map((transaction) => {
-<<<<<<< HEAD
-=======
       // abbreviate month names for the table
->>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
       let monthArray = [];
       let month = transaction.month;
 
@@ -318,7 +299,6 @@ export default function RecentTransactions(props) {
       }
 
       //! PastedEditTransactionCode Ending
-
       // Return for the table rows
       return recentTransactions.push(
         <tr className={tempColor}>
@@ -327,6 +307,7 @@ export default function RecentTransactions(props) {
           <td>{displayNumber.toLocaleString("en-US")}</td>
           <td>{transaction.merchant}</td>
           <td>{transaction.category}</td>
+          <td>{transaction.finAccount}</td>
           <td>
             {/* Edit Button */}
             <Button
@@ -350,17 +331,10 @@ export default function RecentTransactions(props) {
             </Button>
             <Tooltip
               isOpen={tooltipOpen}
-<<<<<<< HEAD
-              target="UncontrolledModalEditTransaction" //todo Fix this.
-              toggle={toggleToolTip}
-            >
-              Edit a Transaction
-=======
               target="UncontrolledModalEditTransaction"
               toggle={toggleToolTip}
             >
-              Add a Transaction
->>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
+              Edit a Transaction
             </Tooltip>
             <Modal isOpen={modal} fade={false} toggle={toggleModal}>
               <ModalHeader toggle={toggleModal}>Edit Transaction</ModalHeader>
@@ -489,7 +463,7 @@ export default function RecentTransactions(props) {
 
   // Start with sortedTransactions being the props.transaction
   let sortedTransactions = props.transaction;
-  console.log("sorted",sortedTransactions)
+  // console.log("sorted",sortedTransactions)
   // Change sortedTransactions sorting All Transactions by day
   function sortByDay() {
     sortedTransactions.sort((a, b) => {
@@ -598,10 +572,6 @@ export default function RecentTransactions(props) {
   const subtractMonth = () => {
     if (currentMonth > 1) {
       setCurrentMonth(currentMonth - 1);
-<<<<<<< HEAD
-=======
-      // mapMonth()
->>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
       {
         mapMonth(currentMonth);
       }
@@ -612,17 +582,26 @@ export default function RecentTransactions(props) {
   return (
     <>
       <div className="RecentTransactions">
+      <AddTransaction
+            token={props.token}
+            view={props.view}
+            getTransaction={props.getTransaction}
+            accounts={props.accounts}
+            getBudgets={props.getBudgets}
+            budgets={props.budgets}
+            getAccounts = {props.getAccounts}
+          />
         <div id="recenttransactionsmonth">
           <Button id="monthLeftBtn" onClick={subtractMonth}>
-            -
+            <LuCalendarMinus />
           </Button>
           <div id="rtMonthName">{months[currentMonth - 1]}</div>
           <Button id="monthRightBtn" onClick={addMonth}>
-            +
+          <LuCalendarPlus />
           </Button>
         </div>
-<<<<<<< HEAD
-        <div id="recenttransactionstable">
+
+        {/* <div id="recenttransactionstable">
           <Table>
             <AddTransaction
               token={props.token}
@@ -645,15 +624,8 @@ export default function RecentTransactions(props) {
             </thead>
             <tbody>{recentTransactions}</tbody>
           </Table>
-        </div>
-=======
+        </div> */}
         <Table>
-          <AddTransaction
-            token={props.token}
-            view={props.view}
-            getTransaction={props.getTransaction}
-            accounts={props.accounts}
-          />
           <thead>
             <tr>
               <th>Date</th>
@@ -664,20 +636,19 @@ export default function RecentTransactions(props) {
         Manual Entry
       </th> */}
               <th>Category</th>
-              {/* <th>
+              <th>
         Account
-      </th> */}
-              <th>Edit</th>
+      </th>
+              <th></th>
               {/* <th>
         Personal/Household
       </th> */}
             </tr>
           </thead>
           {/* <tbody>{transactions}</tbody> */}
-          <tbody>{recentTransactions}</tbody>
+          <tbody id="recenttransactionstable">{recentTransactions}</tbody>
           {/* <tbody>{recentTransactions}</tbody> */}
         </Table>
->>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
       </div>
     </>
   );
