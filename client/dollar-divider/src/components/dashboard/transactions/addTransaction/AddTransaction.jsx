@@ -96,7 +96,6 @@ export default function AddTransaction(props) {
         // target="UncontrolledPopoverAddTransaction"
         trigger="legacy"
       >
-        {/* <ModalHeader toggle = {toggleModal}>New {transactionType} Transaction</ModalHeader> */}
         <ModalHeader toggle={toggleModal}>
           New {transactionType} Transaction
         </ModalHeader>
@@ -112,10 +111,6 @@ export default function AddTransaction(props) {
             toggleModal = {toggleModal}
             getAccounts = {props.getAccounts}
             getBudgets = {props.getBudgets}
-          //   accounts = {props.accounts}
-          //   transaction = {props.transaction}
-          // />
-          // </ModalBody>
             category={props.category}
             accounts={props.accounts}
           />
