@@ -269,6 +269,7 @@ export default function Dashboard(props) {
                 transaction={transaction}
                 getTransaction={getTransaction}
                 getBudgets={getBudgets}
+                getAccounts = {getAccounts}
               />
             </Col>
           </Row>
