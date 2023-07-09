@@ -430,13 +430,13 @@ export default function RecentTransactions(props) {
             +
           </Button>
         </div>
+        <AddTransaction
+          token={props.token}
+          view={props.view}
+          getTransaction={props.getTransaction}
+          accounts={props.accounts}
+        />
         <Table>
-          <AddTransaction
-            token={props.token}
-            view={props.view}
-            getTransaction={props.getTransaction}
-            accounts={props.accounts}
-          />
           <thead>
             <tr>
               <th>Date</th>
