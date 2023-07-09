@@ -11,6 +11,7 @@ import { MdPostAdd } from "react-icons/md";
 import NewInfo from "./NewInfo/NewInfo";
 
 export default function AddBudget(props) {
+  // console.log("AddBudgetProps",props)
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const toggle = () => setTooltipOpen(!tooltipOpen);
 
@@ -37,6 +38,7 @@ export default function AddBudget(props) {
             getBudgets={props.getBudgets}
             token={props.token}
             view={props.view}
+            budgets={props.budgets}
           />
         </PopoverBody>
       </UncontrolledPopover>
