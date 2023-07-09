@@ -179,10 +179,14 @@ export default function RecentTransactions(props) {
   }
   // ! End Inspired By Kate
 
+  
   //Todo Update Transaction Functionality for the Edit Menu
-  const updateTransaction = async (id) => {
+  const updateTransaction = async (transaction) => {
   // const updateTransaction = async (id) => {
+    const id = transaction._id;
+    // console.log("transactionInfo", transaction)
     const desc = descRef.current.value;
+    // if (descRef.current.value != null) {desc = descRef.current.value;} else {desc = transaction.amount}
     const amount = amountRef.current.value;
     const category = categoryRef.current.value;
     const merchant = merchantRef.current.value;
@@ -225,6 +229,7 @@ export default function RecentTransactions(props) {
   // Delete Transaction Functionality for the Edit Menu
   const deleteTransaction = async (id) => {
     let url = `http://localhost:4000/transaction/delete/${id}`;
+    // alert(`deleteURL: ${url}`);
     const myHeaders = new Headers();
     myHeaders.append("Authorization", props.token);
 
@@ -238,6 +243,7 @@ export default function RecentTransactions(props) {
       let data = await response.json();
       if (data.message === "Transaction was successfully deleted!") {
         props.getTransaction();
+        // alert("deleted")
       }
     } catch (error) {
       console.error(error);
@@ -300,6 +306,7 @@ export default function RecentTransactions(props) {
 
       //! PastedEditTransactionCode Ending
       // Return for the table rows
+      // console.log("transaction303",transaction)
       return recentTransactions.push(
         <tr className={tempColor}>
           <td>{month + transaction.day}</td>
@@ -313,7 +320,7 @@ export default function RecentTransactions(props) {
             <Button
               onClick={() => {
                 toggleModal();
-                transactionID = transaction._id;
+                // transactionID = transaction._id;
               }}
               id="UncontrolledModalEditTransaction"
               // id="UncontrolledPopoverEditTransaction"
@@ -337,7 +344,8 @@ export default function RecentTransactions(props) {
               Edit a Transaction
             </Tooltip>
             <Modal isOpen={modal} fade={false} toggle={toggleModal}>
-              <ModalHeader toggle={toggleModal}>Edit Transaction</ModalHeader>
+              <ModalHeader>Edit Transaction</ModalHeader>
+              {/* <ModalHeader toggle={toggleModal}>Edit Transaction</ModalHeader> */}
               <ModalBody>
                 <>
                   <Form onSubmit={() => console.log("form submitted")}>
@@ -437,7 +445,7 @@ export default function RecentTransactions(props) {
                 <ModalFooter>
                   {/* UpdateTransaction Button */}
                   <Button
-                    onClick={() => updateTransaction(transactionID)}
+                    onClick={() => updateTransaction(transaction)}
                     color="success"
                     type="submit"
                   >
@@ -446,7 +454,7 @@ export default function RecentTransactions(props) {
                   {/* Delete Transaction Button */}
                   <Button
                     key={v4}
-                    onClick={() => deleteTransaction(transactionID)}
+                    onClick={() => deleteTransaction(transaction._id)}
                     color="danger"
                   >
                     Delete

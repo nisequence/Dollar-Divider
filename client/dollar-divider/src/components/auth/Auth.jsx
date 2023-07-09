@@ -29,6 +29,7 @@ export default function Auth(props) {
 
   return (
     <>
+      <div id="loginPage"></div>
       <Container>
         <Row>
           <br />
@@ -40,7 +41,7 @@ export default function Auth(props) {
         <Row>
           <Col md="6">
             <br />
-            <Button onClick={swapForm} color="dark">
+            <Button id="loginBtn" onClick={swapForm} color="dark">
               {button}
             </Button>
             <br />

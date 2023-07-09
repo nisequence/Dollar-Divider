@@ -59,7 +59,7 @@ export default function Register({ updateToken }) {
   }
 
   return (
-    <>
+    <div id="register">
       <h2>Register</h2>
       <Form onSubmit={handleSubmit}>
         <FormGroup>
@@ -94,6 +94,6 @@ export default function Register({ updateToken }) {
         </FormGroup>
         <Button type="submit">Register</Button>
       </Form>
-    </>
+    </div>
   );
 }
