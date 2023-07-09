@@ -11,7 +11,6 @@ import { MdPostAdd } from "react-icons/md";
 import NewInfo from "./NewInfo/NewInfo";
 
 export default function AddBudget(props) {
-  // console.log("AddBudgetProps",props)
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const toggle = () => setTooltipOpen(!tooltipOpen);
 
