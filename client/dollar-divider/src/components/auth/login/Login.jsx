@@ -46,7 +46,7 @@ export default function Login({ updateToken }) {
     }
   };
   return (
-    <>
+    <div id="login">
       <h2>Login</h2>
       <Form onSubmit={handleSubmit}>
         <FormGroup>
@@ -67,6 +67,6 @@ export default function Login({ updateToken }) {
         </FormGroup>
         <Button type="submit">Login</Button>
       </Form>
-    </>
+    </div>
   );
 }

@@ -5,6 +5,24 @@
   height: 100vh;
 }
 
+/* #loginPage {
+  width: 100%;
+  height: 15vh; */
+
+  #loginBtn{
+    margin-top: 10vh;
+  }
+
+  #login {
+    padding-top: 11vh;
+  }
+  #register {
+    /* padding-top: 10vh; */
+  }
+#logoAuth {
+  padding-top: 10vh;
+}
+/* } */
 #logoSidebar {
   padding: 0.5rem;
 }
@@ -372,10 +390,27 @@ align-items: center;
   color: black;
 }
 
+#opencardBtn, #btn {
+  background-color: #237eae;
+  border-color: #00517c;
+  color: rgb(225, 225, 225);
+}
+
+
+
+#opencardBtn, #btn:hover {
+  background-color: #1c668d;
+  border-color: #00517c;
+  color: rgb(225, 225, 225);
+}
+
 #copyAlert {
   padding: 0rem;
+  margin-left: 8.75em;
   background-color: #5d9abb;
   color: white;
+  width: 13em;
+  min-width: fit-content;
 }
 
 #copyAlert > .btn-close {

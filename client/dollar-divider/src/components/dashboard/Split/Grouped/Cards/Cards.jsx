@@ -6,7 +6,7 @@ export default function Cards(props) {
   let owed = props.info[each].owes;
   let userID = props.info[each].userID;
 
-  let filteredTransactions = props.transactions.filter((eachTransaction) => {
+  let filteredTransactions = props.transactions?.filter((eachTransaction) => {
     return eachTransaction.ownerID === userID;
   });
 
