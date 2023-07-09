@@ -11,10 +11,16 @@ import {
 } from "reactstrap";
 export default function AccountsList(props) {
 let accounts = props.accounts;
-// console.log("accounts",accounts);
-let finAccts = accounts.map((acct) => {
-    return (
+let transactions = props.transaction;
 
+let finAccts = () => accounts.map((acct) => {
+    transactions.map((trans) => {
+      if (trans.finAccount === acct.name) {
+        acct.balance += trans.amount
+         trans.amount = null;
+      }
+    })
+    return (
       <Card key={v4()}>
       <CardBody>
         <CardTitle tag="h5">{acct.name}</CardTitle>
@@ -32,7 +38,7 @@ let finAccts = accounts.map((acct) => {
 return (
   <div className="accountsList">
    <CardGroup>
-  {finAccts}
+  {finAccts()}
 </CardGroup>
 {/* <Button>Update</Button> */}
 </div>

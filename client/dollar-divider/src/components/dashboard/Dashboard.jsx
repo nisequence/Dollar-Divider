@@ -1,60 +1,156 @@
 import { Col, Container, Row } from "reactstrap";
-// import dashboardImage from "../../../src/media/Dashboard_Layout.png"
-// import dashboardImage from "../../media/Dashboard_Layout.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Sidebar from "./sidebar/Sidebar";
 import Budgets from "./budgets/Budgets";
-// import CurrentBudgetStatus from "./budgets/currentBudgetStatus/CurrentBudgetStatus";
 import Transaction from "./transactions/Transaction";
 import { useState, useEffect } from "react";
-import Bills2 from "./bills/Bills2";
+import Bills from "./bills/Bills";
 import AccountsList from "./accounts/AccountsList";
 import Split from "./Split/Split";
-import GetAll from "./accounts/getAll/GetAll";
 
 export default function Dashboard(props) {
-  const token = localStorage.getItem("token");
-  const [transactions, setTransactions] = useState([]);
-
-  const getSplitTransactions = async () => {
-    //! Change the ID to a path parameter
-    let url = "http://localhost:4000/transaction/household/July";
-
-    const reqOptions = {
-      method: "GET",
-      headers: new Headers({ Authorization: token }),
-      // headers: new Headers({Authorization: token}),
-    };
-
-    try {
-      // console.log("trying")
-      const res = await fetch(url, reqOptions);
-      const data = await res.json();
-      // console.log("data",data)
-      // If the server does not provide a failure message
-      if (data.message !== "No transactions found.") {
-        setTransactions(data.getTransactions);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  useEffect(() => {
-    if (token) {
-      getSplitTransactions();
-    }
-  }, [token]);
-
-  // function GetAll() {
+  let url;
   let acctName;
   let acctBalance;
   let acctMinBalance;
   let allocations;
   let available;
   let acctOwnerID;
-  let url;
+
+  const token = localStorage.getItem("token");
+
+  const [transactions, setTransactions] = useState([]);
+  const [transaction, setTransaction] = useState([]);
   const [accounts, setAccounts] = useState([]);
+  const [budgets, setBudgets] = useState([]);
+
+  const getTransaction = async () => {
+    let viewValue = props.view;
+    if (viewValue === true) {
+      url = "http://localhost:4000/transaction/household";
+    } else {
+      url = "http://localhost:4000/transaction/mine";
+    }
+    const reqOptions = {
+      method: "GET",
+      headers: new Headers({
+        Authorization: token,
+      }),
+    };
+    try {
+      const res = await fetch(url, reqOptions);
+      const data = await res.json();
+
+      console.log("getalltransdata", data)
+      // If the server does not provide a failure message
+      if (data.message !== "No transactions found.") {
+        setTransaction(data.getAllTransactions);
+      } else {
+        setTransaction(null);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getSplitTransactions = async () => {
+    //! Change the ID to a path parameter
+    let viewValue = props.view;
+    if (viewValue === true) {
+      url = "http://localhost:4000/transaction/household";
+    } else {
+      url = "http://localhost:4000/transaction/mine";
+    }
+    const reqOptions = {
+      method: "GET",
+      headers: new Headers({
+        Authorization: token,
+      }),
+      // headers: new Headers({Authorization: token}),
+    };
+
+    try {
+      const res = await fetch(url, reqOptions);
+      const data = await res.json();
+      // If the server does not provide a failure message
+      if (data.message !== "No transactions found.") {
+        setTransactions(data.getTransactions);
+      } else {
+        setTransactions(null);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const setHouseholdTotal = async (data) => {
+    let totalToDivide = 0;
+    for (let x = 0; x < data?.length; x++) {
+      let thisOne = data[x].budgetAmt;
+      totalToDivide += thisOne;
+    }
+    // console.log("View set to", props.view, "setting total to", totalToDivide);
+    sessionStorage.setItem("Total", totalToDivide);
+  };
+
+  const getBudgets = async () => {
+    let viewValue = props.view;
+    if (viewValue === true) {
+      url = "http://localhost:4000/budget/household";
+    } else {
+      url = "http://localhost:4000/budget/mine";
+    }
+    const reqOptions = {
+      method: "GET",
+      headers: new Headers({
+        Authorization: token,
+      }),
+    };
+
+    try {
+      const res = await fetch(url, reqOptions);
+      const data = await res.json();
+
+      // If the server does not provide a failure message
+      if (data.message === "Budget(s) found!") {
+        setBudgets(data.allBudgets);
+        if (
+          viewValue === true &&
+          url === "http://localhost:4000/budget/household"
+        ) {
+          setHouseholdTotal(data.allBudgets);
+        }
+      } else {
+        setBudgets(null);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  //GetBudgets UseEffect
+  useEffect(() => {
+    if (token) {
+      getBudgets();
+    }
+  }, [token, props.view]);
+  
+  //GetTransaction UseEffect
+  useEffect(() => {
+    if (token) {
+      getTransaction();
+    }
+  }, [token, props.view]);
+
+  //GetSplitTransactions UseEffect
+  useEffect(() => {
+    if (token) {
+      getSplitTransactions();
+    }
+  }, [token, props.view]);
+
+  console.log('desktopsplittrans',transactions)
+  // Get Accounts fetch
   const getAccounts = async () => {
     url = "http://localhost:4000/finAccount/mine";
     const reqOptions = {
@@ -68,7 +164,6 @@ export default function Dashboard(props) {
       const res = await fetch(url, reqOptions);
       const data = await res.json();
       let information = data.getAllUserFinAccounts[0];
-      // console.log("Accounts Data:",information)
       acctName = information.name;
       acctBalance = information.balance;
       acctMinBalance = information.balance;
@@ -86,6 +181,7 @@ export default function Dashboard(props) {
     }
   };
 
+  // Get Accounts UseEffect
   useEffect(() => {
     if (token) {
       getAccounts();
@@ -98,36 +194,33 @@ export default function Dashboard(props) {
       return (
         <AccountsList
           accounts={accounts}
-          // balance = {props.balance}
-          // minBalance = {props.minBalance}
-          // allocations = {props.allocations}
-          // ownerID = {props.ownerID}
-          // available = {props.available}
-          // getBudgets={getBudgets}
-          // budgets={budgets}
-          // transactions={props.transactions}
-          token={props.token}
+          token={token}
           view={props.view}
+          transaction={transaction}
         />
       );
     } else {
       return (
         <Split
-          token={props.token}
+          token={token}
           view={props.view}
           transactions={transactions}
+          transaction={transactions}
         />
       );
     }
   };
 
   useEffect(() => {
-    if (props.token) {
+    if (token) {
       viewType();
     }
-  }, [props.token, props.view]);
+  }, [token, props.view]);
 
-  //todo Incorporate useEffect to dynamically refresh sections on new information
+  console.log("dashboardprops", props)
+  console.log("dashtransaction",transaction)
+
+
   return (
     <>
       <div className="DashBody" id="dashbody">
@@ -137,21 +230,29 @@ export default function Dashboard(props) {
             setView={props.setView}
             view={props.view}
             token={token}
-            status={props.status}
+            // status={props.status}
           />
         </Col>
         <Container>
           <Row>
             <Col className="bg-light border">
               <br></br>
-              <Bills2 view={props.view} token={token}></Bills2>
+              <Bills 
+              view={props.view} 
+              token={token}
+              ></Bills>
             </Col>
             <Col className="bg-light border">
               {/* .col */}
               <Budgets
                 view={props.view}
                 token={token}
-                transactions={transactions}
+                transaction={transaction}
+                getTransaction={getTransaction}
+                getBudgets={getBudgets}
+                budgets={budgets}
+
+                // transactions={transactions}
               />
             </Col>
           </Row>
@@ -163,7 +264,11 @@ export default function Dashboard(props) {
                 view={props.view}
                 token={token}
                 accounts={accounts}
-                budgets={props.budgets}
+                budgets={budgets}
+                // budgets={props.budgets}
+                transaction={transaction}
+                getTransaction={getTransaction}
+                getBudgets={getBudgets}
               />
             </Col>
           </Row>

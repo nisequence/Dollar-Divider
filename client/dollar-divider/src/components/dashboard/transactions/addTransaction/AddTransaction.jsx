@@ -15,40 +15,10 @@ import NewTransInfo from "./newTransInfo/NewTransInfo";
 export default function AddTransaction(props) {
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
-  let url;
-  const [budgets, setBudgets] = useState([]);
-  const getBudgets = async (viewValue) => {
-
-    if (viewValue == true) {
-      url = "http://localhost:4000/budget/household";
-    } else {
-      url = "http://localhost:4000/budget/mine";
-    }
-    const reqOptions = {
-      method: "GET",
-      headers: new Headers({
-        Authorization: props.token,
-      }),
-    };
-
-    try {
-      const res = await fetch(url, reqOptions);
-      const data = await res.json();
-
-      // If the server does not provide a failure message
-      if (data.message == "Budget(s) found!") {
-        setBudgets(data.allBudgets);
-      } else {
-        setBudgets(null);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   useEffect(() => {
     if (props.token) {
-      getBudgets(props.view);
+      props.getBudgets(props.view);
     }
   }, [props.token, props.view]);
   let transactionType;
@@ -85,21 +55,17 @@ export default function AddTransaction(props) {
         trigger="legacy"
       >
         <ModalHeader toggle = {toggleModal}>New {transactionType} Transaction</ModalHeader>
-        {/* <PopoverHeader>Add New Transaction</PopoverHeader> */}
-        {/* <PopoverBody> */}
         <ModalBody key={v4}>
           <NewTransInfo
             token={props.token}
             view={props.view}
             month={props.month}
-            budgets={budgets}
+            budgets={props.budgets}
             getTransaction={props.getTransaction}
-            category = {props.category}
             accounts = {props.accounts}
+            transaction = {props.transaction}
           />
           </ModalBody>
-        {/* </PopoverBody> */}
-      {/* </UncontrolledPopover> */}
       </Modal>
     </div>
   );

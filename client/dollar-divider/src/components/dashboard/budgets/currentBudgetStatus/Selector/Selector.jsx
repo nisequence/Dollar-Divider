@@ -53,7 +53,7 @@ export default function Selector(props) {
               view={props.view}
               getBudgets={props.getBudgets}
               budget={selected}
-              budgets={props.budgets}
+              // budgets={props.budgets}
               categoryOptions={categoryOptions}
               
               /*             toggle={toggle} */

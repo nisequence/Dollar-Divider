@@ -1,306 +1,313 @@
 .App {
-    text-align: center;
-    background-color: #00517c;
-    color: white;
-    height: 100vh;
-  }
+  text-align: center;
+  background-color: #00517c;
+  color: white;
+  height: 100vh;
+}
 
-  #logoSidebar {
-    padding: 0.5rem;
-  }
-  .logo {
-    height: 80%;
-    width: 80%;
-  }
-  .DashBody {
-    background-color: #00517c;
-  }
-  
-  RemainingMonthlyAmountsChartColors {
-    background-color: rgba(255, 255, 0, 0.5);
-    background-color: rgba(255, 0, 0, 0.5);
-    background-color: rgba(128, 0, 128, 0.5);
-    background-color: rgba(0, 0, 255, 0.5);
-    background-color: rgba(0, 128, 0, 0.5);
-    background-color: rgba(255, 140, 0, 0.5);
-    background-color: rgba(46, 139, 86, 0.5);
-    background-color: rgba(176, 224, 230, 0.5);
-    background-color: rgba(160, 81, 45, 0.5);
-    background-color: rgba(147, 112, 216, 0.5);
-  }
-  
-  .stdBox {
-    border-right: solid rgb(46, 46, 46) 2px;
-    border-bottom: solid rgb(46, 46, 46) 2px;
-    border-top: solid rgb(144, 144, 144) 2px;
-    border-left: solid rgb(144, 144, 144) 2px;
-  }
-  
-  .Sidebar {
-    user-select: none;
-    position: fixed;
-    z-index: 2;
-    height: 3.5em;
-    border-right: "solid rgb(46, 46, 46) 2px";
-    width: 0;
-    /* min-width: fit-content; */
-    transition: width 0.2s;
-    background-color: gray;
-  }
-  
-  #sidebarItems {
-    margin-left: 1em;
-    margin-bottom: 1em;
-    visibility: hidden;
-    width: 11vw;
-    position: relative;
-    top: 3em;
-    padding: 0.75rem;
-  }
+#logoSidebar {
+  padding: 0.5rem;
+}
+.logo {
+  height: 80%;
+  width: 80%;
+}
+.DashBody {
+  background-color: #00517c;
+}
 
-  #editBudgetsMenu {
-    background-color: rgb(170, 170, 170);
-  }
-  
-  #sidebarBtn {
-    color: white;
-    /* color: rgb(88, 88, 88); */
-    position: fixed;
-    top: 1.5em;
-    left: 2em;
-    height: 2.5em;
-    width: 3em;
-    user-select: none;
-    margin-top: 0;
-    padding-top: 0;
-    background-color: gray;
-    border-radius: 0;
-    border-right: solid rgb(46, 46, 46) 2px;
-    border-bottom: solid rgb(46, 46, 46) 2px;
-    border-top: solid rgb(144, 144, 144) 2px;
-    border-left: solid rgb(144, 144, 144) 2px;
-  }
+RemainingMonthlyAmountsChartColors {
+  background-color: rgba(255, 255, 0, 0.5);
+  background-color: rgba(255, 0, 0, 0.5);
+  background-color: rgba(128, 0, 128, 0.5);
+  background-color: rgba(0, 0, 255, 0.5);
+  background-color: rgba(0, 128, 0, 0.5);
+  background-color: rgba(255, 140, 0, 0.5);
+  background-color: rgba(46, 139, 86, 0.5);
+  background-color: rgba(176, 224, 230, 0.5);
+  background-color: rgba(160, 81, 45, 0.5);
+  background-color: rgba(147, 112, 216, 0.5);
+}
 
-  #sidebarBtn:hover {
-    background-color: rgb(87, 87, 87);
-  }
-  
-  #sidebarBtn:focus {
-    box-shadow: 0 0 0 0 !important;
-  }
+.stdBox {
+  border-right: solid rgb(46, 46, 46) 2px;
+  border-bottom: solid rgb(46, 46, 46) 2px;
+  border-top: solid rgb(144, 144, 144) 2px;
+  border-left: solid rgb(144, 144, 144) 2px;
+}
 
-  .navbar-toggler:focus {
-    box-shadow: 0 0 0 0 !important;
-  }
-  
-  .navbar-nav > li {
-    align-items: center !important;
-    margin-left: 0 !important;
-  }
-  
-  .nav-item {
-    margin-left: auto;
-  }
-  
-  /* .nav-item:hover {
+.Sidebar {
+  user-select: none;
+  position: fixed;
+  z-index: 2;
+  height: 3.5em;
+  border-right: "solid rgb(46, 46, 46) 2px";
+  width: 0;
+  /* min-width: fit-content; */
+  transition: width 0.2s;
+  background-color: gray;
+}
+
+#sidebarItems {
+  margin-left: 1em;
+  margin-bottom: 1em;
+  visibility: hidden;
+  width: 11vw;
+  position: relative;
+  top: 3em;
+  padding: 0.75rem;
+}
+
+#editBudgetsMenu {
+  background-color: rgb(170, 170, 170);
+}
+
+#sidebarBtn {
+  color: white;
+  /* color: rgb(88, 88, 88); */
+  position: fixed;
+  top: 1.5em;
+  left: 2em;
+  height: 2.5em;
+  width: 3em;
+  user-select: none;
+  margin-top: 0;
+  padding-top: 0;
+  background-color: gray;
+  border-radius: 0;
+  border-right: solid rgb(46, 46, 46) 2px;
+  border-bottom: solid rgb(46, 46, 46) 2px;
+  border-top: solid rgb(144, 144, 144) 2px;
+  border-left: solid rgb(144, 144, 144) 2px;
+}
+
+#sidebarBtn:hover {
+  background-color: rgb(87, 87, 87);
+}
+
+#sidebarBtn:focus {
+  box-shadow: 0 0 0 0 !important;
+}
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 0 !important;
+}
+
+.navbar-nav > li {
+  align-items: center !important;
+  margin-left: 0 !important;
+}
+
+.nav-item {
+  margin-left: auto;
+}
+
+/* .nav-item:hover {
     color: black;
   } */
-  
-  .nav-link {
-    color: white !important;
-  }
-  
-  .nav-link:hover {
-    color: black !important;
-  }
-  
-  #logout {
-    color: white;
-    /* height: 1.5em; */
-    /* position: flex; */
-    /* flex-direction: column; */
-    /* margin-top: 0; */
-    padding-top: .1rem;
-  }
-  
-  #logout:hover {
-    color: black;
-  }
-  
-  #Prev {
-    margin-top: 3rem;
-    margin-right: 25%;
-  }
-  
-  #Next {
-    margin-top: 3rem;
-    margin-left: 25%;
-  }
-  
-  Button {
-    /* border-radius: 0; */
-    border-right: solid rgb(46, 46, 46) 2px;
-    border-bottom: solid rgb(46, 46, 46) 2px;
-    border-top: solid rgb(144, 144, 144) 2px;
-    border-left: solid rgb(144, 144, 144) 2px;
-  }
 
-  Button:hover {
-    /* background-color: gray; */
-    background-color: rgb(87, 87, 87);
-  }
-  
-  #upcomingBillsHeader {
-    user-select: none;
-    text-align: center;
-    margin-top: 2rem;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-size: x-large;
-  }
-  
-  .upcomingBills {
-    /* user-select: none; */
-    color: black !important;
-    height: 100%;
-    width: 100%;
-  }
+.nav-link {
+  color: white !important;
+}
 
-  #addTransSwitch{
-    display: flex;
-  }
+.nav-link:hover {
+  color: black !important;
+}
 
-  #addTransSwitch > Label {
-    margin-right: 1em;
-  }
-  #accountsList {
-    /* user-select: none; */
-    color: black !important;
-    height: 100%;
-    width: 100%;
-  }
+#logout {
+  color: white;
+  /* height: 1.5em; */
+  /* position: flex; */
+  /* flex-direction: column; */
+  /* margin-top: 0; */
+  padding-top: 0.1rem;
+}
 
+#logout:hover {
+  color: black;
+}
 
-  /* .upcomingBillsTable > thead {
+#Prev {
+  margin-top: 3rem;
+  margin-right: 25%;
+}
+
+#Next {
+  margin-top: 3rem;
+  margin-left: 25%;
+}
+
+Button {
+  /* border-radius: 0; */
+  border-right: solid rgb(46, 46, 46) 2px;
+  border-bottom: solid rgb(46, 46, 46) 2px;
+  border-top: solid rgb(144, 144, 144) 2px;
+  border-left: solid rgb(144, 144, 144) 2px;
+}
+
+Button:hover {
+  /* background-color: gray; */
+  background-color: rgb(87, 87, 87);
+}
+
+#upcomingBillsHeader {
+  user-select: none;
+  text-align: center;
+  margin-top: 2rem;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: x-large;
+}
+
+.upcomingBills {
+  /* user-select: none; */
+  color: black !important;
+  height: 100%;
+  width: 100%;
+}
+
+#addTransSwitch {
+  display: flex;
+}
+
+#addTransSwitch > Label {
+  margin-right: 1em;
+}
+#accountsList {
+  /* user-select: none; */
+  color: black !important;
+  height: 100%;
+  width: 100%;
+}
+
+/* .upcomingBillsTable > thead {
     user-select: none;
   } */
-  .upcomingBillsTable {
-    max-height: fit-content;
-    margin: auto;
-    margin-top: 3em;
-    height: 40%;
-    width: 80%;
-  }
-  
-  /* #budgetStatusContainer {
+.upcomingBillsTable {
+  max-height: fit-content;
+  margin: auto;
+  margin-top: 3em;
+  height: 40%;
+  width: 80%;
+}
+
+/* #budgetStatusContainer {
    
   } */
 
-  .CurrentBudgetStatus {
-    max-height: fit-content;
-    /* height: 50%; */
-    width: 100%;
-    min-width: 35vw;
-    /* max-height: 50vh; */
-    background-color: rgb(194, 194, 194);
-    color: black;
-    font-size: xx-large;
-    /* opacity: .5; */
-  }
-  
-  #recenttransactionsmonth {
-    /* display: inline-block; */
-display: flex;
-flex-direction: row;
-/* margin: auto; */
-/* width: 20em; */
-align-items: center;
-  }
-  #rtMonthName {
-    width: 8em;
-    font-size: large;
-    font-weight: bold;
-  }
-  .RecentTransactions {
-    /* display: flex; */
-    /* align-items: center; */
-    /* margin-left: 30vw; */
-    color: black;
-    /* max-height: fit-content; */
-    /* margin: auto; */
-    /* height: 100%; */
-    /* width: 100%; */
-    /* min-width: 35vw; */
-    /* text-align: center; */
-  }
-  
-  #monthLeftBtn {
-    margin-left: auto;
-    margin-right: 3%;
-  }
+.CurrentBudgetStatus {
+  max-height: fit-content;
+  /* height: 50%; */
+  width: 100%;
+  min-width: 35vw;
+  /* max-height: 50vh; */
+  background-color: rgb(194, 194, 194);
+  color: black;
+  font-size: xx-large;
+  /* opacity: .5; */
+}
 
-  #monthRightBtn {
-    margin-right: auto;
-    margin-left: 3%;
-  }
-  #rightSideMenu {
-    position: fixed;
-    right: 0;
-    top: 0;
-    width: 0;
-    max-width: 80vw;
-    transition: width 0.25s;
-    height: 100vh;
-    background-color: rgba(88, 88, 88, 0.9);
-    border-right: solid rgb(46, 46, 46) 2px;
-    border-bottom: solid rgb(46, 46, 46) 2px;
-    border-top: solid rgb(144, 144, 144) 2px;
-    border-left: solid rgb(144, 144, 144) 2px;
-  }
-  
-  #formgroup{
-    width: 25rem;
-    margin: auto;
-  }
+#recenttransactionsmonth {
+  /* display: inline-block; */
+  display: flex;
+  flex-direction: row;
+  /* margin: auto; */
+  /* width: 20em; */
+  align-items: center;
+}
+#rtMonthName {
+  width: 8em;
+  font-size: large;
+  font-weight: bold;
+}
+.RecentTransactions {
+  /* display: flex; */
+  /* align-items: center; */
+  /* margin-left: 30vw; */
+  color: black;
+  /* max-height: fit-content; */
+  /* margin: auto; */
+  /* height: 100%; */
+  /* width: 100%; */
+  /* min-width: 35vw; */
+  /* text-align: center; */
+}
 
-  #userSettingsMenu {
-    position: fixed;
-    right: 0;
-    top: 0;
-    width: 0;
-    visibility: hidden;
-    max-width: 80vw;
-    transition: width 0.25s;
-    height: 100vh;
-    background-color: rgba(88, 88, 88, 0.9);
-    border-right: solid rgb(46, 46, 46) 2px;
-    border-bottom: solid rgb(46, 46, 46) 2px;
-    border-top: solid rgb(144, 144, 144) 2px;
-    border-left: solid rgb(144, 144, 144) 2px;
-  }
+#recenttransactionstable {
+  height: 25vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
 
-  #householdSettingsMenu {
-    position: fixed;
-    right: 0;
-    top: 0;
-    width: 0;
-    visibility: hidden;
-    max-width: 80vw;
-    transition: width 0.25s;
-    height: 100vh;
-    background-color: rgba(88, 88, 88, 0.9);
-    border-right: solid rgb(46, 46, 46) 2px;
-    border-bottom: solid rgb(46, 46, 46) 2px;
-    border-top: solid rgb(144, 144, 144) 2px;
-    border-left: solid rgb(144, 144, 144) 2px;
-  }
+#monthLeftBtn {
+  margin-left: auto;
+  margin-right: 3%;
+}
 
-  .accordion-item {
-    margin-left: 10%;
-    margin-right: 10%;
-    align-items: center;
-  }
+#monthRightBtn {
+  margin-right: auto;
+  margin-left: 3%;
+}
+#rightSideMenu {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 0;
+  max-width: 80vw;
+  transition: width 0.25s;
+  height: 100vh;
+  background-color: rgba(88, 88, 88, 0.9);
+  border-right: solid rgb(46, 46, 46) 2px;
+  border-bottom: solid rgb(46, 46, 46) 2px;
+  border-top: solid rgb(144, 144, 144) 2px;
+  border-left: solid rgb(144, 144, 144) 2px;
+}
 
-  /* .popover {
+#formgroup {
+  width: 25rem;
+  margin: auto;
+}
+
+#userSettingsMenu {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 0;
+  visibility: hidden;
+  max-width: 80vw;
+  transition: width 0.25s;
+  height: 100vh;
+  background-color: rgba(88, 88, 88, 0.9);
+  border-right: solid rgb(46, 46, 46) 2px;
+  border-bottom: solid rgb(46, 46, 46) 2px;
+  border-top: solid rgb(144, 144, 144) 2px;
+  border-left: solid rgb(144, 144, 144) 2px;
+}
+
+#householdSettingsMenu {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 0;
+  visibility: hidden;
+  max-width: 80vw;
+  transition: width 0.25s;
+  height: 100vh;
+  background-color: rgba(88, 88, 88, 0.9);
+  border-right: solid rgb(46, 46, 46) 2px;
+  border-bottom: solid rgb(46, 46, 46) 2px;
+  border-top: solid rgb(144, 144, 144) 2px;
+  border-left: solid rgb(144, 144, 144) 2px;
+}
+
+.accordion-item {
+  margin-left: 10%;
+  margin-right: 10%;
+  align-items: center;
+}
+
+/* .popover {
     width:fit-content!important;
   }
   .popover-inner {
@@ -310,10 +317,10 @@ align-items: center;
     width: fit-content;
   } */
 
-  #selectBudgetCategory {
-    display: inline-block;
-  }
-  /* #exampleSelect2 {
+#selectBudgetCategory {
+  display: inline-block;
+}
+/* #exampleSelect2 {
     display: inline-block;
     width: 20em;
   } */
@@ -324,7 +331,7 @@ align-items: center;
 
 #copyAlert {
   padding: 0rem;
-  background-color:#5d9abb;
+  background-color: #5d9abb;
   color: white;
 }
 

@@ -7,13 +7,13 @@ import "react-day-picker/dist/style.css";
 let transactionType;
 
 export default function NewTransInfo(props) {
-
+// console.log("NewTransInfoProps",props)
   const [selected, setSelected] = React.useState();
   const [state, setState] = useState(true);
   if (state === true) {
     transactionType = "expense"
   } else {transactionType = "income"}
-  console.log("transactionType",transactionType)
+  // console.log("transactionType",transactionType)
   // ! Inspired By Kate
   let month;
   if (selected) {
@@ -58,28 +58,13 @@ export default function NewTransInfo(props) {
   if (selected) {
     day = parseInt(selected.toString().slice(8, 10));
     // sessionStorage.setItem("day:", day);
+    // console.log("daytypeof", day, typeof day)
   }
 
   // ! End Inspired By Kate
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const days = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24, 25, 26, 27, 28, 29, 30,
-  ];
+
   let categoryOptions = props.budgets;
+  console.log(props.budgets)
   //* Dropdown settings
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
@@ -106,36 +91,20 @@ export default function NewTransInfo(props) {
     e.preventDefault();
     const desc = descRef.current.value;
     const amount = amountRef.current.value;
-    // let month = "February";
-    // const month = monthRef.current.value; //Todo Change this to the Date Picker
-    // let day = 2;
-    // const day = dayRef.current.value; //Todo Change This to the Date Picker
     const category = categoryRef.current.value;
     const merchant = merchantRef.current.value;
-    // const checkNumber = checkNumRef.current.value;
-    //const manualEntry = manualEntryRef.current.value;
-    // const finAccount = "fix this";
     const finAccount = finAccountRef.current.value;
-    // const type = typeRef.current.value;
-    // const type = transactionType; 
 
     let url = "http://localhost:4000/transaction/add";
 
     let transObj = JSON.stringify({
       month: month,
-      // month: JSON.stringify(sessionStorage.getItem("month")),
-      // day: day,
       day: day = Number(day),
-      // month: "July",
       desc: desc,
       merchant: merchant,
       amount: amount,
-      // checkNumber: checkNumber,
-      //manualEntry: true,
       finAccount: finAccount,
-      // category: "category",
       category: category,
-      // type: "expense",
       type: transactionType,
       base: base,
     });
@@ -184,7 +153,7 @@ export default function NewTransInfo(props) {
         {/* Cost */}
         <FormGroup>
           <Input
-            placeholder="Cost"
+            placeholder="Amount"
             innerRef={amountRef}
             autoComplete="off"
             type="number"
@@ -233,6 +202,7 @@ export default function NewTransInfo(props) {
                 </>
               );
             })}
+            <option>Misc. Income</option>
           </Input>
         </FormGroup>
         {/* Day Picker */}
