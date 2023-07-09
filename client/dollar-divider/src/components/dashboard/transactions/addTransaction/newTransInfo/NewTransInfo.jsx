@@ -234,7 +234,6 @@ export default function NewTransInfo(props) {
         </Row>
         {/* Choose Account */}
         <FormGroup>
-          {/* <Label for="exampleSelectMulti">Choose Account</Label> */}
           <Input
             id="exampleSelect1"
             name="select"
@@ -256,7 +255,6 @@ export default function NewTransInfo(props) {
         </FormGroup>
         {/* Category */}
         <FormGroup>
-          {/* <Label for="exampleSelectMulti">Choose Category</Label> */}
           <Input
             id="exampleSelect1"
             name="select"
