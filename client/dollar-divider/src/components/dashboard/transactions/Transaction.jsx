@@ -49,6 +49,9 @@ export default function Transaction(props) {
         view={props.view}
         accounts={props.accounts}
         getTransaction={getTransaction}
+        budgets={props.budgets}
+        getAccounts = {props.getAccounts}
+        getBudgets = {props.getBudgets}
       />
     </>
   );

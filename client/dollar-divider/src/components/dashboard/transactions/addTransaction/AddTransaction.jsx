@@ -8,16 +8,21 @@ import {
   PopoverHeader,
   UncontrolledPopover,
   PopoverBody,
+  Tooltip,
 } from "reactstrap";
 import { v4 } from "uuid";
 import { RiMenuAddLine } from "react-icons/ri";
 import NewTransInfo from "./newTransInfo/NewTransInfo";
 // import DatePicker from "../datePicker/DayPicker";
 export default function AddTransaction(props) {
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
   let url;
   const [budgets, setBudgets] = useState([]);
+  const toggleToolTip = () => setTooltipOpen(!tooltipOpen);
+
   const getBudgets = async (viewValue) => {
     if (viewValue == true) {
       url = "http://localhost:4000/budget/household";
@@ -48,7 +53,7 @@ export default function AddTransaction(props) {
 
   useEffect(() => {
     if (props.token) {
-      getBudgets(props.view);
+      props.getBudgets(props.view);
     }
   }, [props.token, props.view]);
   let transactionType;
@@ -66,7 +71,7 @@ export default function AddTransaction(props) {
           toggleModal();
         }}
         // id="UncontrolledPopoverAddTransaction"
-        id="UncontrolledModalEditTransaction"
+        id="UncontrolledModalNewTransaction"
         color="success"
         // type="button"
         // style={{
@@ -74,8 +79,15 @@ export default function AddTransaction(props) {
         //   display: "inline-block",
         // }}
       >
-        <RiMenuAddLine /> Log Transaction
+        <RiMenuAddLine /> New Transaction
       </Button>
+      <Tooltip
+              isOpen={tooltipOpen}
+              target="UncontrolledModalNewTransaction" //todo Fix this.
+              toggle={toggleToolTip}
+            >
+              Create a Transaction
+            </Tooltip>
       {/* <UncontrolledPopover */}
       <Modal
         isOpen={modal}
@@ -95,8 +107,11 @@ export default function AddTransaction(props) {
             token={props.token}
             view={props.view}
             month={props.month}
-            budgets={budgets}
+            budgets={props.budgets}
             getTransaction={props.getTransaction}
+            toggleModal = {toggleModal}
+            getAccounts = {props.getAccounts}
+            getBudgets = {props.getBudgets}
             category={props.category}
             accounts={props.accounts}
           />

@@ -1,7 +1,7 @@
 import React from 'react'
 import AccountsList from '../AccountsList';
 import { useState, useEffect } from 'react';
-export default function GetAll(props) {
+// export default function GetAll(props) {
   let name;
   let balance;
   let minBalance;
