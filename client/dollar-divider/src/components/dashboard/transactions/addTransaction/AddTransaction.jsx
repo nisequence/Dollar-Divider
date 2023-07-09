@@ -11,6 +11,7 @@ import {
   Tooltip,
 } from "reactstrap";
 import { v4 } from "uuid";
+import { RiMenuAddLine } from "react-icons/ri";
 import NewTransInfo from "./newTransInfo/NewTransInfo";
 // import DatePicker from "../datePicker/DayPicker";
 export default function AddTransaction(props) {
@@ -78,7 +79,7 @@ export default function AddTransaction(props) {
         //   display: "inline-block",
         // }}
       >
-        New Transaction
+        <RiMenuAddLine /> New Transaction
       </Button>
       <Tooltip
               isOpen={tooltipOpen}

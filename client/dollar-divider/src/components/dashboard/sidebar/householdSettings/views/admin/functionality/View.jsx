@@ -149,7 +149,7 @@ export default function View(props) {
               onDismiss();
             }}
           >
-            <AiFillCopy /> Invite Token
+            <AiFillCopy /> Invite Code
           </Button>
           <br />
           <br />
@@ -159,7 +159,7 @@ export default function View(props) {
             isOpen={visible}
             toggle={onDismiss}
           >
-            Token copied!
+            Code copied!
           </Alert>
         </Col>
         <Col>
