@@ -390,7 +390,7 @@ align-items: center;
   color: black;
 }
 
-#opencardBtn, #btn {
+.opencardBtn, .btn {
   background-color: #237eae;
   border-color: #00517c;
   color: rgb(225, 225, 225);
@@ -398,7 +398,7 @@ align-items: center;
 
 
 
-#opencardBtn, #btn:hover {
+.opencardBtn, .btn:hover {
   background-color: #1c668d;
   border-color: #00517c;
   color: rgb(225, 225, 225);

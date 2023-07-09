@@ -24,7 +24,7 @@ export default function MemberView(props) {
 
   return (
     <>
-      <Button id="btn" color="info" onClick={toggle}>
+      <Button className="btn" onClick={toggle}>
         <BsFillEnvelopePaperFill />
       </Button>
       <Modal isOpen={modal} toggle={toggle}>
