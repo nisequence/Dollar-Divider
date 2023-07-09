@@ -41,7 +41,7 @@ export default function Dashboard(props) {
       const res = await fetch(url, reqOptions);
       const data = await res.json();
 
-      console.log("getalltransdata", data)
+      // console.log("getalltransdata", data)
       // If the server does not provide a failure message
       if (data.message !== "No transactions found.") {
         setTransaction(data.getAllTransactions);
@@ -149,7 +149,7 @@ export default function Dashboard(props) {
     }
   }, [token, props.view]);
 
-  console.log('desktopsplittrans',transactions)
+  // console.log('desktopsplittrans',transactions)
   // Get Accounts fetch
   const getAccounts = async () => {
     url = "http://localhost:4000/finAccount/mine";
@@ -217,8 +217,8 @@ export default function Dashboard(props) {
     }
   }, [token, props.view]);
 
-  console.log("dashboardprops", props)
-  console.log("dashtransaction",transaction)
+  // console.log("dashboardprops", props)
+  // console.log("dashtransaction",transaction)
 
 
   return (
