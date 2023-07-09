@@ -19,7 +19,7 @@ export default function UpdateBudgets(props) {
   let budgetID = budgetInfo._id;
   let id=budgetID
 
-  console.log(budgetID)
+  // console.log(budgetID)
 
 
   const budgetCatRef = useRef(); // dropdown
@@ -131,7 +131,7 @@ export default function UpdateBudgets(props) {
 
             //id={props.selected}
             budgetID={budgetID}
-            budgets={props.budgets}
+            // budgets={props.budgets}
             toggle={props.toggle}
 
           />

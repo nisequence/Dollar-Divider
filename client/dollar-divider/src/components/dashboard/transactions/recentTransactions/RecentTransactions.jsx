@@ -1,49 +1,36 @@
-import { useState, useRef, useEffect } from "react";
+import { React, useState, useRef, useEffect } from "react";
 import {
   Table,
   Button,
-  // PopoverHeader,
-  // UncontrolledPopover,
-  // PopoverBody,
   // UncontrolledModal,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
   Tooltip,
-  // Alert
+  Form,
+  FormGroup,
+  Input,
+  Label,
 } from "reactstrap";
+import { LuCalendarPlus, LuCalendarMinus } from "react-icons/lu";
+import { DayPicker } from "react-day-picker";
 import { GrEdit } from "react-icons/gr";
 import { v4 } from "uuid";
 import AddTransaction from "../addTransaction/AddTransaction";
-import EditTransactionInfo from "../editTransactionInfo/EditTransactionInfo";
-let transactionID;
-let categoryOptions = [];
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
 
 export default function RecentTransactions(props) {
-  const [tooltipOpen, setTooltipOpen] = useState(false);
-
-  const toggleToolTip = () => setTooltipOpen(!tooltipOpen);
-
-  const [modal, setModal] = useState(false);
-
-  const toggleModal = () => setModal(!modal);
-
-  const transactionsToDelete = [
+  // console.log("recenttransactionsprops", props);
+  let base;
+  let transactionID;
+  let month;
+  let day;
+  let tempColor;
+  let transactionType;
+  let url;
+  let categoryOptions = [];
+  let newArray = [];
+  const months = [
     "January",
     "February",
     "March",
@@ -57,19 +44,46 @@ export default function RecentTransactions(props) {
     "November",
     "December",
   ];
+  const recentTransactions = [];
+  const janArray = [];
+  const febArray = [];
+  const marchArray = [];
+  const aprilArray = [];
+  const mayArray = [];
+  const juneArray = [];
+  const julyArray = [];
+  const augustArray = [];
+  const septArray = [];
+  const octArray = [];
+  const novArray = [];
+  const decArray = [];
+  let transInfo = [];
+  let colorAssignment = 0;
 
-  const days = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24, 25, 26, 27, 28, 29, 30,
-  ];
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [state, setState] = useState(true);
+  const [selected, setSelected] = useState();
+  const [currentMonth, setCurrentMonth] = useState(7);
+
+  // const [selected, setSelected] = React.useState();
+
+  if (state === true) {
+    transactionType = "expense";
+  } else {
+    transactionType = "income";
+  }
+
+  const toggleToolTip = () => setTooltipOpen(!tooltipOpen);
+
+  const toggleModal = () => setModal(!modal);
+
   useEffect(() => {
     if (props.token) {
       getBudgets();
     }
   }, [props.token, props.view]);
 
-  // let categoryOptions = [];
-  let url;
   const getBudgets = async () => {
     let viewValue = props.view;
     if (viewValue == true) {
@@ -87,11 +101,12 @@ export default function RecentTransactions(props) {
     try {
       const res = await fetch(url, reqOptions);
       const data = await res.json();
-
+      // console.log("recenttransactionsdata",data)
+      newArray.push(data);
       // If the server does not provide a failure message
       if (data.message !== "No personal budgets found.") {
         // setBudgets(data.allBudgets);
-        categoryOptions = [];
+        // categoryOptions = [];
         data.allBudgets.map((item) => {
           categoryOptions.push(item);
         });
@@ -104,36 +119,99 @@ export default function RecentTransactions(props) {
     }
   };
 
-  //* Dropdown settings
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const toggle = () => setDropdownOpen((prevState) => !prevState);
   //* Use useRef to get values from each input
-  const monthRef = useRef();
-  const dayRef = useRef();
   const descRef = useRef();
   const merchantRef = useRef();
   const amountRef = useRef();
-  const checkNumRef = useRef();
-  //const manualEntryRef= useRef();
   const finAccountRef = useRef();
   const categoryRef = useRef();
-  const typeRef = useRef();
 
-  let base;
+  // Set base to match props.view (should be useEffect?)
   if (props.view === false) {
     base = "personal";
   } else {
     base = "household";
   }
 
-  // Functionality for the Edit Menu
-  const updateTransaction = async (id) => {
+  // ! Inspired By Kate
+  // Slice the Day and Month from the calendar, and convert months to full names to match backend
+  if (selected) {
+    month = selected.toString().slice(4, 7);
+    if (month === "Jan") {
+      month = "January";
+    }
+    if (month === "Feb") {
+      month = "February";
+    }
+    if (month === "Mar") {
+      month = "March";
+    }
+    if (month === "Apr") {
+      month = "April";
+    }
+    if (month === "Jun") {
+      month = "June";
+    }
+    if (month === "Jul") {
+      month = "July";
+    }
+    if (month === "Aug") {
+      month = "August";
+    }
+    if (month === "Sep") {
+      month = "September";
+    }
+    if (month === "Oct") {
+      month = "October";
+    }
+    if (month === "Nov") {
+      month = "November";
+    }
+    if (month === "Dec") {
+      month = "December";
+    }
+    sessionStorage.setItem("month:", month);
+  }
+  if (selected) {
+    day = parseInt(selected.toString().slice(8, 10));
+  }
+  if (month && day) {
+  }
+  // ! End Inspired By Kate
+
+  
+  //Todo Update Transaction Functionality for the Edit Menu
+  const updateTransaction = async (transaction) => {
+  // const updateTransaction = async (id) => {
+    const id = transaction._id;
+    // console.log("transactionInfo", transaction)
+    const desc = descRef.current.value;
+    // if (descRef.current.value != null) {desc = descRef.current.value;} else {desc = transaction.amount}
+    const amount = amountRef.current.value;
+    const category = categoryRef.current.value;
+    const merchant = merchantRef.current.value;
+    const finAccount = finAccountRef.current.value;
+
     let url = `http://localhost:4000/transaction/edit/${id}`;
+    // let url = `http://localhost:4000/transaction/edit/${id}`;
     const myHeaders = new Headers();
     myHeaders.append("Authorization", props.token);
 
+    const updateObj = JSON.stringify({
+      month: month,
+      day: day,
+      desc: desc,
+      merchant: merchant,
+      amount: amount,
+      finAccount: finAccount,
+      category: category,
+      type: transactionType,
+      base: base,
+    });
+
     let requestOptions = {
       headers: myHeaders,
+      body: updateObj,
       method: "PATCH",
     };
 
@@ -147,9 +225,11 @@ export default function RecentTransactions(props) {
       console.error(error);
     }
   };
-  // Functionality for the Edit Menu
+
+  // Delete Transaction Functionality for the Edit Menu
   const deleteTransaction = async (id) => {
     let url = `http://localhost:4000/transaction/delete/${id}`;
+    // alert(`deleteURL: ${url}`);
     const myHeaders = new Headers();
     myHeaders.append("Authorization", props.token);
 
@@ -163,21 +243,20 @@ export default function RecentTransactions(props) {
       let data = await response.json();
       if (data.message === "Transaction was successfully deleted!") {
         props.getTransaction();
+        // alert("deleted")
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  const recentTransactions = [];
-  let colorAssignment = 0;
-  let tempColor;
-
   function mapMonth(curr) {
     transInfo[months[curr - 1]]?.map((transaction) => {
       // abbreviate month names for the table
       let monthArray = [];
       let month = transaction.month;
+
+      // abbreviate month names for the table
       function abbrMonth() {
         for (let i = 0; i < month.length; i++) {
           monthArray.push(month[i]);
@@ -197,6 +276,7 @@ export default function RecentTransactions(props) {
         tempColor = "table-secondary";
         colorAssignment = 0;
       }
+
       // correctly display numbers with dollar signs and negative symbols
       let displayNumber;
       transaction.amount = +transaction.amount;
@@ -208,8 +288,25 @@ export default function RecentTransactions(props) {
       } else {
         displayNumber = `$${transaction.amount.toLocaleString("en-US")}`;
       }
+      // !PastedEditTransactionInfoCode Starting
 
+      // Set the base view, could be useEffect?
+      if (props.view === false) {
+        base = "personal";
+      } else {
+        base = "household";
+      }
+
+      //! Reenabled Code Start
+
+      // Toggle Income or Expense
+      function incomeExpenseToggle() {
+        setState(!state);
+      }
+
+      //! PastedEditTransactionCode Ending
       // Return for the table rows
+      // console.log("transaction303",transaction)
       return recentTransactions.push(
         <tr className={tempColor}>
           <td>{month + transaction.day}</td>
@@ -217,12 +314,13 @@ export default function RecentTransactions(props) {
           <td>{displayNumber.toLocaleString("en-US")}</td>
           <td>{transaction.merchant}</td>
           <td>{transaction.category}</td>
+          <td>{transaction.finAccount}</td>
           <td>
             {/* Edit Button */}
             <Button
               onClick={() => {
                 toggleModal();
-                transactionID = transaction._id;
+                // transactionID = transaction._id;
               }}
               id="UncontrolledModalEditTransaction"
               // id="UncontrolledPopoverEditTransaction"
@@ -243,29 +341,120 @@ export default function RecentTransactions(props) {
               target="UncontrolledModalEditTransaction"
               toggle={toggleToolTip}
             >
-              Add a Transaction
+              Edit a Transaction
             </Tooltip>
             <Modal isOpen={modal} fade={false} toggle={toggleModal}>
-              <ModalHeader toggle={toggleModal}>Edit Transaction</ModalHeader>
+              <ModalHeader>Edit Transaction</ModalHeader>
+              {/* <ModalHeader toggle={toggleModal}>Edit Transaction</ModalHeader> */}
               <ModalBody>
-                <EditTransactionInfo
-                  token={props.token}
-                  view={props.view}
-                  month={props.month}
-                  accounts={props.accounts}
-                  categoryOptions={categoryOptions}
-                />
+                <>
+                  <Form onSubmit={() => console.log("form submitted")}>
+                    {/* Name of Item */}
+                    <FormGroup>
+                      <Input
+                        placeholder="Name of Item"
+                        innerRef={descRef}
+                        autoComplete="off"
+                        type="text"
+                        required
+                      />
+                    </FormGroup>
+                    {/* Cost */}
+                    <FormGroup>
+                      <Input
+                        placeholder="Cost"
+                        innerRef={amountRef}
+                        autoComplete="off"
+                        type="number"
+                        required
+                      />
+                    </FormGroup>
+                    {/* Merchant Name */}
+                    <FormGroup>
+                      <Input
+                        placeholder="Merchant"
+                        innerRef={merchantRef}
+                        autoComplete="off"
+                        type="text"
+                        required
+                      />
+                    </FormGroup>
+                    {/* Income vs Expense */}
+                    <Label>Expense</Label>
+                    <FormGroup switch>
+                      <Input
+                        type="switch"
+                        role="switch"
+                        checked={!state}
+                        onClick={() => {
+                          incomeExpenseToggle();
+                        }}
+                      />
+                      <Label check>Income</Label>
+                    </FormGroup>
+                    {/* Choose Category */}
+                    <FormGroup>
+                      <Label for="exampleSelectMulti">Choose Category</Label>
+                      <Input
+                        id="exampleSelect1"
+                        name="select"
+                        type="select"
+                        innerRef={categoryRef}
+                        required
+                      >
+                        {props.budgets?.map((each) => {
+                          return (
+                            <>
+                              <option>{each.budgetCat}</option>
+                            </>
+                          );
+                        })}
+                      </Input>
+                    </FormGroup>
+                    {/* Choose Date */}
+                    <FormGroup>
+                      <DayPicker
+                        mode="single"
+                        selected={selected}
+                        onSelect={setSelected}
+                      />
+                    </FormGroup>
+                    {/* Choose Account */}
+                    <FormGroup>
+                      <Label for="exampleSelectMulti">Choose Account</Label>
+                      <Input
+                        id="exampleSelect1"
+                        name="select"
+                        type="select"
+                        innerRef={finAccountRef}
+                        // innerRef={categoryRef}
+                        required
+                      >
+                        {props.accounts?.map((a) => {
+                          return (
+                            <>
+                              <option> {a.name}</option>
+                            </>
+                          );
+                        })}
+                      </Input>
+                    </FormGroup>
+                    {/* Check # */}
+                  </Form>
+                </>
                 <ModalFooter>
+                  {/* UpdateTransaction Button */}
                   <Button
-                    onClick={() => updateTransaction(transactionID)}
+                    onClick={() => updateTransaction(transaction)}
                     color="success"
                     type="submit"
                   >
                     Update
                   </Button>
+                  {/* Delete Transaction Button */}
                   <Button
                     key={v4}
-                    onClick={() => deleteTransaction(transactionID)}
+                    onClick={() => deleteTransaction(transaction._id)}
                     color="danger"
                   >
                     Delete
@@ -282,27 +471,16 @@ export default function RecentTransactions(props) {
 
   // Start with sortedTransactions being the props.transaction
   let sortedTransactions = props.transaction;
-
+  // console.log("sorted",sortedTransactions)
   // Change sortedTransactions sorting All Transactions by day
   function sortByDay() {
     sortedTransactions.sort((a, b) => {
       return a.day - b.day;
     });
   }
-  const janArray = [];
-  const febArray = [];
-  const marchArray = [];
-  const aprilArray = [];
-  const mayArray = [];
-  const juneArray = [];
-  const julyArray = [];
-  const augustArray = [];
-  const septArray = [];
-  const octArray = [];
-  const novArray = [];
-  const decArray = [];
+
   sortByDay();
-  let transInfo = [];
+
   function createMonthsObjects() {
     // January
     for (let i = 0; i < sortedTransactions.length; i++) {
@@ -379,9 +557,6 @@ export default function RecentTransactions(props) {
   }
 
   createMonthsObjects();
-  let [currentMonth, setCurrentMonth] = useState(7);
-  // let currentMonth = 2;
-
   transInfo.January = janArray;
   transInfo.February = febArray;
   transInfo.March = marchArray;
@@ -405,37 +580,34 @@ export default function RecentTransactions(props) {
   const subtractMonth = () => {
     if (currentMonth > 1) {
       setCurrentMonth(currentMonth - 1);
-      // mapMonth()
       {
         mapMonth(currentMonth);
       }
     }
-    // else {
-    //   currentMonth = 12
-    // }
   };
+
   mapMonth(currentMonth);
-  // let viewMonthInfo = [transInfo[currentMonth]]
-  let transactions = transInfo.July;
-  // console.log("recenttransactionsprops:",props)
   return (
     <>
       <div className="RecentTransactions">
+      <AddTransaction
+            token={props.token}
+            view={props.view}
+            getTransaction={props.getTransaction}
+            accounts={props.accounts}
+            getBudgets={props.getBudgets}
+            budgets={props.budgets}
+            getAccounts = {props.getAccounts}
+          />
         <div id="recenttransactionsmonth">
           <Button id="monthLeftBtn" onClick={subtractMonth}>
-            -
+            <LuCalendarMinus />
           </Button>
           <div id="rtMonthName">{months[currentMonth - 1]}</div>
           <Button id="monthRightBtn" onClick={addMonth}>
-            +
+          <LuCalendarPlus />
           </Button>
         </div>
-        <AddTransaction
-          token={props.token}
-          view={props.view}
-          getTransaction={props.getTransaction}
-          accounts={props.accounts}
-        />
         <Table>
           <thead>
             <tr>
@@ -447,17 +619,17 @@ export default function RecentTransactions(props) {
         Manual Entry
       </th> */}
               <th>Category</th>
-              {/* <th>
+              <th>
         Account
-      </th> */}
-              <th>Edit</th>
+      </th>
+              <th></th>
               {/* <th>
         Personal/Household
       </th> */}
             </tr>
           </thead>
           {/* <tbody>{transactions}</tbody> */}
-          <tbody>{recentTransactions}</tbody>
+          <tbody id="recenttransactionstable">{recentTransactions}</tbody>
           {/* <tbody>{recentTransactions}</tbody> */}
         </Table>
       </div>

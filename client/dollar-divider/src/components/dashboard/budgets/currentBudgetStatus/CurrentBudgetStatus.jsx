@@ -9,47 +9,31 @@ import {
   Legend,
 } from "chart.js";
 import AddBudget from "./AddBudget/AddBudget";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Selector from "./Selector/Selector";
 
-// import React, { useRef } from "react";
-// import React, {useState} from "react";
-// import ModalFullscreenExample from "../../../../utils/modalExample";
-// import { Form, FormGroup, Input, Label, Button } from "reactstrap";
 ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+// ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function CurrentBudgetStatus(props) {
+  let colorIndex = 0;
+  let colorList = [
+    "rgba(255, 255, 0, 0.5)",
+    "rgba(255, 0, 0, 0.5)",
+    "rgba(128, 0, 128, 0.5)",
+    "rgba(0, 0, 255, 0.5)",
+    "rgba(0, 128, 0, 0.5)",
+    "rgba(255, 140, 0, 0.5)",
+    "rgba(46, 139, 86, 0.5)",
+    "rgba(176, 224, 230, 0.5)",
+    "rgba(160, 81, 45, 0.5)",
+    "rgba(147, 112, 216, 0.5)",
+  ];
+  let total;
   const status = sessionStorage.getItem("Status");
-
-  // const setHouseholdTotal = () => {
-  //   if (props.view === true) {
-  //     let totalToDivide = 0;
-  //     const totalBudgets = () => {
-  //       for (let x = 0; x < props.budgets?.length; x++) {
-  //         let thisOne = props.budgets[x].budgetAmt;
-  //         totalToDivide += thisOne;
-  //       }
-  //       console.log(totalToDivide);
-  //       console.log(props.view);
-  //       sessionStorage.setItem("Total", totalToDivide);
-  //     };
-  //     totalBudgets();
-  //   }
-  // };
-
   const viewType = () => {
-    // setHouseholdTotal();
-
     let total = props.totalToDisplay;
-    // const totalBudgets = () => {
-    //   for (let x = 0; x < props.budgets?.length; x++) {
-    //     let thisOne = props.budgets[x].budgetAmt;
-    //     total += thisOne;
-    //   }
-    // };
-    // totalBudgets();
 
     if (props.view === false || status === "Admin") {
       //* If viewing personal or if user is the Admin
@@ -70,6 +54,7 @@ export default function CurrentBudgetStatus(props) {
                 token={props.token}
                 view={props.view}
                 getBudgets={props.getBudgets}
+                budgets={props.budgets}
               />
             </Col>
           </Row>
@@ -101,52 +86,71 @@ export default function CurrentBudgetStatus(props) {
     }
   };
 
-  useEffect(() => {
-    if (props.token) {
-      viewType();
-    }
-  }, [props.token, props.budgets, props.view]);
-
   const chartData = {
     labels: [],
     datasets: [
       {
-        label: "Budget Amount",
+        label: "Over/Under Budget",
         data: [], // Dollar amounts for each category.
-        // options: { onClick: clicked },
-        backgroundColor: [
-          "rgba(255, 255, 0, 0.5)",
-          "rgba(255, 0, 0, 0.5)",
-          "rgba(128, 0, 128, 0.5)",
-          "rgba(0, 0, 255, 0.5)",
-          "rgba(0, 128, 0, 0.5)",
-          "rgba(255, 140, 0, 0.5)",
-          "rgba(46, 139, 86, 0.5)",
-          "rgba(176, 224, 230, 0.5)",
-          "rgba(160, 81, 45, 0.5)",
-          "rgba(147, 112, 216, 0.5)",
-        ],
+        backgroundColor: [],
       },
     ],
   };
+
   //! -------------------------- Can't easily display dollar formatting --------------------
-  // todo filter through the transactions array to find the transaction categories that match the budget category names, add all those that match (maybe add misc category later), subtract transaction sum from total budget amount and display in the chart
+  // console.log("currentbudgetstatusprops.transaction",props.transaction)
+  const fillInChart = async () => {
+    // props.getBudgets()
+    // If there are no budget items, blank out everything
+    try {
+      if (!props.budgets) {
+        // if (props.budgets === undefined) {
+        chartData.labels.push("Budget is Empty");
+        let budgetCategoryTotal = 0;
+        let amountSpent = 0;
+        total = budgetCategoryTotal - amountSpent;
+        chartData.datasets[0].data.push(total);
+      } else {
+        // console.log("here")
+        // console.log("fillinchartbudgets",props)
+        props.budgets?.map((item) => {
+          chartData.labels.push(item.budgetCat);
+          let amountSpent = 0;
+          // If the item (iterated) budget amount is less than zero, turn the color black
+          try {
+            props.transaction.map((i) => {
+              if (i.category === item.budgetCat) {
+                amountSpent += i.amount;
+              }
+            });
+            if (amountSpent + item.budgetAmt < 0) {
+              chartData.datasets[0].backgroundColor.push("black");
+              if (colorIndex + 1 <= 9) {
+                colorIndex++;
+              } else {
+                colorIndex = 0;
+              }
+            } else {
+              chartData.datasets[0].backgroundColor.push(colorList[colorIndex]);
+              if (colorIndex + 1 <= 9) {
+                colorIndex++;
+              } else {
+                colorIndex = 0;
+              }
+            }
+            let budgetCategoryTotal = [item][0].budgetAmt;
+            chartData.datasets[0].data.push(budgetCategoryTotal + amountSpent);
+          } catch (err) {
+            console.log(err);
+          }
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  if (props.budgets === undefined) {
-    chartData.labels.push("Budget is Empty");
-    let budgetCategoryTotal = 0;
-    let amountSpent = 0; //todo edit this to reflect the transactions for each category
-    chartData.datasets[0].data.push(budgetCategoryTotal - amountSpent);
-    chartData.datasets[0].backgroundColor[0] = "";
-  } else {
-    props.budgets?.map((i) => {
-      chartData.labels.push(i.budgetCat);
-      let budgetCategoryTotal = [i][0].budgetAmt;
-      let amountSpent = 0; //todo edit this to reflect the transactions for each category
-      chartData.datasets[0].data.push(budgetCategoryTotal - amountSpent);
-    });
-  }
-
+  fillInChart();
   return (
     <>
       <Container>
@@ -157,13 +161,6 @@ export default function CurrentBudgetStatus(props) {
             style={{ marginLeft: "4vw", marginRight: "4vw", maxHeight: "60vh" }}
             // <Pie
             data={chartData}
-
-            // onElementsClick={(elems) => {
-            //   // if required to build the URL, you can
-            //   // get datasetIndex and value index from an `elem`:
-            //   // and then redirect to the target page:
-            //   window.location = "https://example.com";
-            // }}
           />
         </div>
       </Container>

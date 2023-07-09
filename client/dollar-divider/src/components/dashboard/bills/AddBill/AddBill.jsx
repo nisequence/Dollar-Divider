@@ -19,6 +19,7 @@ export default function AddBill(props) {
 
   let url;
   const [budgets, setBudgets] = useState([]);
+  
   const getBudgets = async () => {
     let viewValue = props.view;
     if (viewValue === true) {
