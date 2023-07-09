@@ -127,6 +127,9 @@ export default function NewInfo(props) {
             innerRef={categoryRef}
             required
           >
+            <option value="" disabled selected>
+              Select a budget
+            </option>
             {categoryOptions?.map((each) => {
               return (
                 <option key={categoryOptions.indexOf(each)}>
@@ -142,7 +145,7 @@ export default function NewInfo(props) {
             placeholder="Dollar Amount"
             innerRef={amountRef}
             autoComplete="off"
-            type="Number"
+            type="number"
             required
           />
         </FormGroup>
@@ -155,6 +158,9 @@ export default function NewInfo(props) {
             innerRef={monthRef}
             required
           >
+            <option value="" disabled selected>
+              Select a month
+            </option>
             {months.map((each) => {
               return (
                 <option key={months.indexOf(each)} value={each}>
@@ -173,6 +179,9 @@ export default function NewInfo(props) {
             innerRef={dayRef}
             required
           >
+            <option value="" disabled selected>
+              Select a day
+            </option>
             {days.map((each) => {
               return (
                 <option key={days.indexOf(each)} value={each}>

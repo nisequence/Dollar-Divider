@@ -13,11 +13,16 @@ import {
   Input,
   Label,
 } from "reactstrap";
+<<<<<<< HEAD
 import { DayPicker } from "react-day-picker";
+=======
+import { GrEdit } from "react-icons/gr";
+>>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
 import { v4 } from "uuid";
 import AddTransaction from "../addTransaction/AddTransaction";
 
 export default function RecentTransactions(props) {
+<<<<<<< HEAD
   // console.log("recenttransactionsprops", props);
   let base;
   let transactionID;
@@ -29,6 +34,17 @@ export default function RecentTransactions(props) {
   let categoryOptions = [];
   let newArray = [];
   const months = [
+=======
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+
+  const toggleToolTip = () => setTooltipOpen(!tooltipOpen);
+
+  const [modal, setModal] = useState(false);
+
+  const toggleModal = () => setModal(!modal);
+
+  const transactionsToDelete = [
+>>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
     "January",
     "February",
     "March",
@@ -246,6 +262,10 @@ export default function RecentTransactions(props) {
   console.log("recentTransactionsProps",props)
   function mapMonth(curr) {
     transInfo[months[curr - 1]]?.map((transaction) => {
+<<<<<<< HEAD
+=======
+      // abbreviate month names for the table
+>>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
       let monthArray = [];
       let month = transaction.month;
 
@@ -303,7 +323,7 @@ export default function RecentTransactions(props) {
       return recentTransactions.push(
         <tr className={tempColor}>
           <td>{month + transaction.day}</td>
-          <td>{transaction.desc}</td>
+          {/* <td>{transaction.desc}</td> */}
           <td>{displayNumber.toLocaleString("en-US")}</td>
           <td>{transaction.merchant}</td>
           <td>{transaction.category}</td>
@@ -326,14 +346,21 @@ export default function RecentTransactions(props) {
                 marginLeft: "auto",
               }}
             >
-              edit
+              <GrEdit />
             </Button>
             <Tooltip
               isOpen={tooltipOpen}
+<<<<<<< HEAD
               target="UncontrolledModalEditTransaction" //todo Fix this.
               toggle={toggleToolTip}
             >
               Edit a Transaction
+=======
+              target="UncontrolledModalEditTransaction"
+              toggle={toggleToolTip}
+            >
+              Add a Transaction
+>>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
             </Tooltip>
             <Modal isOpen={modal} fade={false} toggle={toggleModal}>
               <ModalHeader toggle={toggleModal}>Edit Transaction</ModalHeader>
@@ -571,6 +598,10 @@ export default function RecentTransactions(props) {
   const subtractMonth = () => {
     if (currentMonth > 1) {
       setCurrentMonth(currentMonth - 1);
+<<<<<<< HEAD
+=======
+      // mapMonth()
+>>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
       {
         mapMonth(currentMonth);
       }
@@ -590,6 +621,7 @@ export default function RecentTransactions(props) {
             +
           </Button>
         </div>
+<<<<<<< HEAD
         <div id="recenttransactionstable">
           <Table>
             <AddTransaction
@@ -614,6 +646,38 @@ export default function RecentTransactions(props) {
             <tbody>{recentTransactions}</tbody>
           </Table>
         </div>
+=======
+        <Table>
+          <AddTransaction
+            token={props.token}
+            view={props.view}
+            getTransaction={props.getTransaction}
+            accounts={props.accounts}
+          />
+          <thead>
+            <tr>
+              <th>Date</th>
+              {/* <th>Desc</th> */}
+              <th>Amount</th>
+              <th>Merchant</th>
+              {/* <th>
+        Manual Entry
+      </th> */}
+              <th>Category</th>
+              {/* <th>
+        Account
+      </th> */}
+              <th>Edit</th>
+              {/* <th>
+        Personal/Household
+      </th> */}
+            </tr>
+          </thead>
+          {/* <tbody>{transactions}</tbody> */}
+          <tbody>{recentTransactions}</tbody>
+          {/* <tbody>{recentTransactions}</tbody> */}
+        </Table>
+>>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
       </div>
     </>
   );

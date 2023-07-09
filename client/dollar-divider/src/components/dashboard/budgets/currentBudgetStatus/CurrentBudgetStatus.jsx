@@ -1,6 +1,6 @@
 // import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { PolarArea } from "react-chartjs-2";
-import { Button } from "reactstrap";
+import { Button, Container, Row, Col } from "reactstrap";
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -32,6 +32,7 @@ export default function CurrentBudgetStatus(props) {
   let total;
   const status = sessionStorage.getItem("Status");
   const viewType = () => {
+<<<<<<< HEAD
     let total = 0;
     const totalBudgets = () => {
       for (let x = 0; x < props.budgets?.length; x++) {
@@ -41,29 +42,68 @@ export default function CurrentBudgetStatus(props) {
     };
 
     totalBudgets();
+=======
+    // setHouseholdTotal();
+
+    let total = props.totalToDisplay;
+    // const totalBudgets = () => {
+    //   for (let x = 0; x < props.budgets?.length; x++) {
+    //     let thisOne = props.budgets[x].budgetAmt;
+    //     total += thisOne;
+    //   }
+    // };
+    // totalBudgets();
+>>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
 
     if (props.view === false || status === "Admin") {
       //* If viewing personal or if user is the Admin
       // get all the stuff
+      let displayTotal = Number(total);
+      let roundTotal = displayTotal.toFixed(2);
       return (
         <>
           <h4>Budget Overview</h4>
-          <AddBudget
+          <Row id="AddBudgetHeader">
+            <Col>
+              <h5>
+                <i>Total Budgeted: ${roundTotal}</i>
+              </h5>
+            </Col>
+            <Col>
+              <AddBudget
+                token={props.token}
+                view={props.view}
+                getBudgets={props.getBudgets}
+              />
+            </Col>
+          </Row>
+          <Selector
             token={props.token}
             view={props.view}
             getBudgets={props.getBudgets}
+<<<<<<< HEAD
             getTransaction={props.getTransaction}
+=======
+            budgets={props.budgets}
+            id={props.id}
+>>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
           />
-          <h5>Total Budgeted: ${total.toLocaleString("en-US")}</h5>
         </>
       );
     } else {
       //* If viewing household and not the admin
       // get minimal
+      let displayTotal = Number(total);
+      let roundTotal = displayTotal.toFixed(2);
       return (
         <>
           <h4>Budget Overview</h4>
-          <h5>Total Budgeted: ${total}</h5>
+          <Row id="TotalBudgetHeader">
+            <h5>
+              {" "}
+              <i>Total Budgeted: ${roundTotal}</i>
+            </h5>
+          </Row>
         </>
       );
     }
@@ -118,6 +158,7 @@ export default function CurrentBudgetStatus(props) {
   fillInChart();
   return (
     <>
+<<<<<<< HEAD
       <div className="CurrentBudgetStatus" id="currentbudgetstatus">
         {viewType()}
         <Selector
@@ -133,6 +174,26 @@ export default function CurrentBudgetStatus(props) {
           data={chartData}
         />
       </div>
+=======
+      <Container>
+        <div className="CurrentBudgetStatus">
+          {viewType()}
+          {/* <Doughnut */}
+          <PolarArea
+            style={{ marginLeft: "4vw", marginRight: "4vw", maxHeight: "60vh" }}
+            // <Pie
+            data={chartData}
+
+            // onElementsClick={(elems) => {
+            //   // if required to build the URL, you can
+            //   // get datasetIndex and value index from an `elem`:
+            //   // and then redirect to the target page:
+            //   window.location = "https://example.com";
+            // }}
+          />
+        </div>
+      </Container>
+>>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
     </>
   );
 }

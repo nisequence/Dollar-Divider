@@ -195,6 +195,7 @@ Button:hover {
    
   } */
 
+<<<<<<< HEAD
 .CurrentBudgetStatus {
   max-height: fit-content;
   /* height: 50%; */
@@ -206,6 +207,50 @@ Button:hover {
   font-size: xx-large;
   /* opacity: .5; */
 }
+=======
+  .CurrentBudgetStatus {
+    padding-top: 1.5rem;
+    max-height: fit-content;
+    /* height: 50%; */
+    width: 100%;
+    min-width: 35vw;
+    /* max-height: 50vh; */
+    color: black;
+    font-size: xx-large;
+    /* opacity: .5; */
+  }
+  
+  #recenttransactionsmonth {
+    /* display: inline-block; */
+display: flex;
+flex-direction: row;
+/* margin: auto; */
+/* width: 20em; */
+align-items: center;
+  }
+  #rtMonthName {
+    width: 8em;
+    font-size: large;
+    font-weight: bold;
+  }
+  .RecentTransactions {
+    /* display: flex; */
+    /* align-items: center; */
+    /* margin-left: 30vw; */
+    color: black;
+    /* max-height: fit-content; */
+    /* margin: auto; */
+    /* height: 100%; */
+    /* width: 100%; */
+    /* min-width: 35vw; */
+    /* text-align: center; */
+  }
+  
+  #monthLeftBtn {
+    margin-left: auto;
+    margin-right: 3%;
+  }
+>>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
 
 #recenttransactionsmonth {
   /* display: inline-block; */
@@ -348,3 +393,36 @@ Button:hover {
 .modal-content {
   max-width: fit-content;
 }
+<<<<<<< HEAD
+=======
+
+#EditBudgetHeader {
+  padding-top: 0.75rem;
+}
+
+#BudgetEditDropdown {
+  display: flex;
+  align-items: baseline;
+  padding-left: 6rem;
+  padding-right: 6rem;
+}
+
+#AddBudgetHeader {
+  display: flex;
+  align-items: baseline;
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+#TransactionMoneyRow {
+  display: flex;
+  align-items: baseline;
+}
+
+#TransactionDayPicker {
+  display: flex;
+  width: 100%;
+  padding-left: auto;
+  padding-right: auto;
+}
+>>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
