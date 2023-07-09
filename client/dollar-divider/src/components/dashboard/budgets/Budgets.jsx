@@ -5,9 +5,8 @@ import { useState, useEffect } from "react";
 export default function Budgets(props) {
   let url;
   const [budgets, setBudgets] = useState([]);
-  // let [total, setTotal] = useState();
-  
-const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(0);
+
   const calculateTotal = async (data) => {
     let totalToDivide = 0;
     for (let x = 0; x < data?.length; x++) {
@@ -71,7 +70,7 @@ const [total, setTotal] = useState(0);
       // props.getBudgets();
     }
   }, [props.token, props.view]);
-// console.log("props.transactions",props)
+  // console.log("props.transactions",props)
   return (
     <>
       <CurrentBudgetStatus
@@ -79,7 +78,7 @@ const [total, setTotal] = useState(0);
         budgets={budgets}
         transactions={props.transactions}
         transaction={props.transaction}
-        getTransaction = {props.getTransaction}
+        getTransaction={props.getTransaction}
         token={props.token}
         view={props.view}
         totalToDisplay={total}

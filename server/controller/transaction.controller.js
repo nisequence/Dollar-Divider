@@ -88,7 +88,7 @@ router.post("/add", async (req, res) => {
         month: month,
         day: day,
         // desc: desc,
-        finAccount: req.user._id,
+        finAccount: finAccount,
         base: req.user.householdID,
       });
 

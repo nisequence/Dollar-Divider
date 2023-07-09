@@ -254,7 +254,6 @@ const submitNewTransaction = async (e) => {
         </Row>
         {/* Choose Account */}
         <FormGroup>
-          {/* <Label for="exampleSelectMulti">Choose Account</Label> */}
           <Input
             id="exampleSelect1"
             name="select"
@@ -276,7 +275,6 @@ const submitNewTransaction = async (e) => {
         </FormGroup>
         {/* Category */}
         <FormGroup>
-          {/* <Label for="exampleSelectMulti">Choose Category</Label> */}
           <Input
             id="exampleSelect1"
             name="select"
