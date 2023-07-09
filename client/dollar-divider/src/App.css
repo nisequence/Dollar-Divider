@@ -195,19 +195,14 @@ Button:hover {
    
   } */
 
-<<<<<<< HEAD
-.CurrentBudgetStatus {
+/* .CurrentBudgetStatus {
   max-height: fit-content;
-  /* height: 50%; */
   width: 100%;
   min-width: 35vw;
-  /* max-height: 50vh; */
   background-color: rgb(194, 194, 194);
   color: black;
   font-size: xx-large;
-  /* opacity: .5; */
-}
-=======
+} */
   .CurrentBudgetStatus {
     padding-top: 1.5rem;
     max-height: fit-content;
@@ -250,7 +245,6 @@ align-items: center;
     margin-left: auto;
     margin-right: 3%;
   }
->>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
 
 #recenttransactionsmonth {
   /* display: inline-block; */
@@ -393,9 +387,7 @@ align-items: center;
 .modal-content {
   max-width: fit-content;
 }
-<<<<<<< HEAD
-=======
-
+/* 
 #EditBudgetHeader {
   padding-top: 0.75rem;
 }
@@ -424,5 +416,4 @@ align-items: center;
   width: 100%;
   padding-left: auto;
   padding-right: auto;
-}
->>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
+} */
