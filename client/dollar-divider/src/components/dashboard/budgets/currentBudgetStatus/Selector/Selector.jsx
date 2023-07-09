@@ -8,6 +8,8 @@ import {
   Col,
   Modal,
   ModalHeader,
+  Alert,
+  Tooltip
 } from "reactstrap";
 import { GrEdit } from "react-icons/gr";
 import UpdateBudgets from "../EditBudgets/UpdateBudgets";
@@ -17,18 +19,24 @@ export default function Selector(props) {
   const choiceRef = useRef();
   const [chosen, setChosen] = useState("");
   const [modal, setModal] = useState(false);
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+
   const toggle = () => setModal(!modal);
+  const toggleToolTip = () => setTooltipOpen(!tooltipOpen);
+
   const openBudget = async (e) => {
     e.preventDefault();
 
     setChosen(choiceRef.current.value);
 
     if (modal === true) {
+      // alert("Please Select a Budget Category.")
       //do nothing
     } else {
       toggle();
     }
   };
+  // toggle();
   const displayModal = () => {
     //* Make sure user is authorized as Admin
     //* Globalize the variable "selected" within this function
@@ -97,9 +105,17 @@ export default function Selector(props) {
             </FormGroup>
           </Col>
           <Col>
-            <Button id="submit" color="secondary" onClick={openBudget}>
+            <Button id="submit" className="editBudgetBtn" color="secondary" onClick={openBudget}>
               <GrEdit /> Edit Budget
             </Button>
+            <Tooltip
+              isOpen={tooltipOpen}
+              target="submit"
+              // target="editBudgetBtn"
+              toggle={toggleToolTip}
+            >
+              Please Select a Budget
+            </Tooltip>
           </Col>
         </Row>
       </Form>
