@@ -44,7 +44,7 @@ export default function Bills(props) {
         bills={bills}
         token={props.token}
         view={props.view}
-        // getBills={getBills}
+        getBills={getBills}
       />
     </div>
   );
