@@ -16,15 +16,6 @@ import "react-day-picker/dist/style.css";
 let transactionType;
 
 export default function NewTransInfo(props) {
-<<<<<<< HEAD
-// console.log("NewTransInfoProps",props)
-  const [selected, setSelected] = React.useState();
-  const [state, setState] = useState(true);
-  if (state === true) {
-    transactionType = "expense"
-  } else {transactionType = "income"}
-  // console.log("transactionType",transactionType)
-=======
   const [selected, setSelected] = React.useState();
   const [state, setState] = useState(true);
   if (state === true) {
@@ -33,7 +24,6 @@ export default function NewTransInfo(props) {
     transactionType = "income";
   }
   console.log("transactionType", transactionType);
->>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
   // ! Inspired By Kate
   let month;
   if (selected) {
@@ -84,7 +74,6 @@ export default function NewTransInfo(props) {
   // ! End Inspired By Kate
 
   let categoryOptions = props.budgets;
-  console.log(props.budgets)
   //* Dropdown settings
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
@@ -107,95 +96,121 @@ export default function NewTransInfo(props) {
     base = "household";
   }
   //* Create a function to handle the form inputs when the user attempts to create a new room
+  let id;
+  let balance = 0;
+  let transObj;
+  let url;
   const submitTrans = async (e) => {
-    e.preventDefault();
-    // const desc = descRef.current.value;
-    const amount = amountRef.current.value;
-    const category = categoryRef.current.value;
-    const merchant = merchantRef.current.value;
-    const finAccount = finAccountRef.current.value;
-<<<<<<< HEAD
-=======
-    // const type = typeRef.current.value;
-    // const type = transactionType;
->>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
+    let tempBalance;
+    // e.preventDefault(); 
+    props.getAccounts();
+    console.log("props",props)
+    // console.log(finAccountRef.current.value)
+    props.accounts.map((a) => {
+      if (a.name === finAccountRef.current.value) {
+        id = a._id
+        balance = a.balance;
+      }
+    })
+    if (transactionType === "expense") {
+      tempBalance = balance - Number(amountRef.current.value);
+    } else {tempBalance = balance + Number(amountRef.current.value);}
+    
+    if (tempBalance < 0) {
+      alert(`This will overdraw ${finAccountRef.current.value}`)
+      url = `http://localhost:4000/finAccount/edit/${id}`;
+    transObj = JSON.stringify({
+      balance: tempBalance,
+    })
+    } else {
+      url = `http://localhost:4000/finAccount/edit/${id}`;
+      transObj = JSON.stringify({
+        balance: tempBalance,
+      })
+    }
+    
+    
 
-    let url = "http://localhost:4000/transaction/add";
-
-    let transObj = JSON.stringify({
-      month: month,
-<<<<<<< HEAD
-      day: day = Number(day),
-      desc: desc,
-=======
-      // month: JSON.stringify(sessionStorage.getItem("month")),
-      // day: day,
-      day: (day = Number(day)),
-      // month: "July",
-      // desc: desc,
->>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
-      merchant: merchant,
-      amount: amount,
-      finAccount: finAccount,
-      category: category,
-      type: transactionType,
-      base: base,
-    });
-
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Authorization", props.token);
-
-    const reqOption = {
-      headers: headers,
-      body: transObj,
-      method: "POST",
+      let headers = new Headers();
+      headers.append("Content-Type", "application/json");
+      headers.append("Authorization", props.token);
+  
+      const reqOption = {
+        headers: headers,
+        body: transObj,
+        method: "PATCH",
+      };
+  
+      try {
+        const res = await fetch(url, reqOption);
+        const data = await res.json();
+        // If the server provides a success message
+        if (
+          data.message === `${finAccountRef.current.value} account has been updated successfully`
+        ) {
+          props.getTransaction();
+        } else {
+          // Do nothing, maybe build an error component later to tell the user to re-configure their item
+          console.error("User is unauthorized.");
+        }
+      } catch (err) {
+        console.error(err);
+      }
     };
 
-    try {
-      const res = await fetch(url, reqOption);
-      const data = await res.json();
-      // If the server provides a success message
-      if (
-        data.message === "You have created a new transaction!" ||
-        data.message === "Your household has a new transaction!"
-      ) {
-        props.getTransaction();
-      } else {
-        // Do nothing, maybe build an error component later to tell the user to re-configure their item
-        console.error("User is unauthorized.");
-      }
-    } catch (err) {
-      console.error(err);
-    }
+
+const submitNewTransaction = async (e) => {
+  e.preventDefault();
+  props.getTransaction()
+  let url = "http://localhost:4000/transaction/add";
+
+  let acctObj = JSON.stringify({
+
+    month: month,
+    day: (day = Number(day)),
+    merchant: merchantRef.current.value,
+    amount: amountRef.current.value,
+    finAccount: finAccountRef.current.value,
+    category: categoryRef.current.value,
+    type: transactionType,
+    base: base,
+  });
+
+  let headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  headers.append("Authorization", props.token);
+
+  const reqOption = {
+    headers: headers,
+    body: acctObj,
+    method: "POST",
   };
+
+  try {
+    const res = await fetch(url, reqOption);
+    const data = await res.json();
+    // If the server provides a success message
+    if (
+      data.message === "You have created a new transaction!" ||
+      data.message === "Your household has a new transaction!"
+    ) {
+      submitTrans()
+      props.getTransaction();
+      props.toggleModal();
+      props.getAccounts();
+      props.getBudgets();
+    } else {
+      // Do nothing, maybe build an error component later to tell the user to re-configure their item
+      console.error("User is unauthorized.");
+    }
+  } catch (err) {
+    console.error(err);
+  }
+  }
 
   return (
     <Container>
-      <Form id="addtransactionform" onSubmit={submitTrans}>
-<<<<<<< HEAD
-        {/* Name of Item */}
-        <FormGroup>
-          <Input
-            placeholder="Name of Item"
-            innerRef={descRef}
-            autoComplete="off"
-            type="text"
-            required
-          />
-        </FormGroup>
-        {/* Cost */}
-        <FormGroup>
-          <Input
-            placeholder="Amount"
-            innerRef={amountRef}
-            autoComplete="off"
-            type="number"
-            required
-          />
-        </FormGroup>
-=======
->>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
+      <Form id="addtransactionform" onSubmit={submitNewTransaction}>
         {/* Merchant */}
         <FormGroup>
           <Input
@@ -206,33 +221,6 @@ export default function NewTransInfo(props) {
             required
           />
         </FormGroup>
-        {/* Name of Item */}
-        {/* <FormGroup>
-          <Input
-            placeholder="Name of Item"
-            innerRef={descRef}
-            autoComplete="off"
-            type="text"
-            required
-<<<<<<< HEAD
-          >
-            {categoryOptions?.map((each) => {
-              return (
-                <>
-                  <option>{each.budgetCat}</option>
-                </>
-              );
-            })}
-            <option>Misc. Income</option>
-          </Input>
-        </FormGroup>
-        {/* Day Picker */}
-        <FormGroup>
-          <DayPicker mode="single" selected={selected} onSelect={setSelected} />
-        </FormGroup>
-=======
-          />
-        </FormGroup> */}
         <Row id="TransactionMoneyRow">
           <Col>
             {/* Cost */}
@@ -264,7 +252,6 @@ export default function NewTransInfo(props) {
             </div>
           </Col>
         </Row>
->>>>>>> 093c00ce704c49001fa000c34ae6d076c30fa70e
         {/* Choose Account */}
         <FormGroup>
           {/* <Label for="exampleSelectMulti">Choose Account</Label> */}
@@ -276,7 +263,7 @@ export default function NewTransInfo(props) {
             required
           >
             <option value="" disabled selected>
-              Which account?
+              Select an account
             </option>
             {props.accounts?.map((a) => {
               return (
@@ -300,7 +287,7 @@ export default function NewTransInfo(props) {
             <option value="" disabled selected>
               Select a budget
             </option>
-            {categoryOptions?.map((each) => {
+            {props.budgets?.map((each) => {
               return (
                 <>
                   <option>{each.budgetCat}</option>
