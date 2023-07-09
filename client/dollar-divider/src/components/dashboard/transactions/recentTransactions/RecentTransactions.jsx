@@ -600,31 +600,6 @@ export default function RecentTransactions(props) {
           <LuCalendarPlus />
           </Button>
         </div>
-
-        {/* <div id="recenttransactionstable">
-          <Table>
-            <AddTransaction
-              token={props.token}
-              view={props.view}
-              getTransaction={props.getTransaction}
-              transaction={props.transaction}
-              accounts={props.accounts}
-              getBudgets={props.getBudgets}
-              budgets={props.budgets}
-            />
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Desc</th>
-                <th>Amount</th>
-                <th>Merchant</th>
-                <th>Category</th>
-                <th>Edit</th>
-              </tr>
-            </thead>
-            <tbody>{recentTransactions}</tbody>
-          </Table>
-        </div> */}
         <Table>
           <thead>
             <tr>
