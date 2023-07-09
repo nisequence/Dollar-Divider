@@ -64,14 +64,15 @@ export default function Calendar(props) {
             <h4 margin="0" padding="0">
               Bills At-A-Glance
             </h4>
-          </Col>
-          <Col style={{ maxWidth: "13vw" }}>
             <AddBill
               getBills={props.getBills}
               token={props.token}
               month={monthGroup[activeIndex]}
               view={props.view}
             />
+          </Col>
+          <Col style={{ maxWidth: "13vw" }}>
+
           </Col>
         </>
       );
@@ -85,7 +86,7 @@ export default function Calendar(props) {
               Bills At-A-Glance
             </h4>
           </Col>
-          <Col style={{ maxWidth: "13vw" }}></Col>
+          <Col style={{ maxWidth: "13vw"}}></Col>
         </>
       );
     }
@@ -99,6 +100,7 @@ export default function Calendar(props) {
     return (
       <CarouselItem
         className="overflow-calendar"
+        id="billsCalendar"
         tag="div"
         key={monthName.id}
         onExiting={() => setAnimating(true)}
@@ -134,7 +136,7 @@ export default function Calendar(props) {
         <Col style={{ maxWidth: "13vw" }}></Col>
         {viewType()}
       </Row>
-      <Row style={{ maxHeight: "5vh" }}>
+      <Row id="budgetCalendar" style={{ maxHeight: "5vh" }}>
         <Col>
           <Button
             className="button"
