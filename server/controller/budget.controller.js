@@ -297,7 +297,6 @@ router.delete("/delete/:id", async (req, res) => {
     //* Pull budget id from params
     const { id } = req.params;
     const userID = req.user._id;
-    console.log(id, userID);
 
     //* Find and confirm the user has access to the budget
     const deleteBudget = await Budget.deleteOne({ _id: id, ownerID: userID });

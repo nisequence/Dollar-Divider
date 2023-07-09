@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Calendar from "./Calendar/Calendar";
 
-export default function Bills2(props) {
+export default function Bills(props) {
   let url;
   const [bills, setBills] = useState([]);
   const getBills = async (viewValue) => {

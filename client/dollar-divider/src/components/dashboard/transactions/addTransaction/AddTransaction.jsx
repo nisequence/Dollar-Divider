@@ -8,17 +8,22 @@ import {
   PopoverHeader,
   UncontrolledPopover,
   PopoverBody,
+  Tooltip,
 } from "reactstrap";
 import { v4 } from "uuid";
+import { RiMenuAddLine } from "react-icons/ri";
 import NewTransInfo from "./newTransInfo/NewTransInfo";
 // import DatePicker from "../datePicker/DayPicker";
 export default function AddTransaction(props) {
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
   let url;
   const [budgets, setBudgets] = useState([]);
-  const getBudgets = async (viewValue) => {
+  const toggleToolTip = () => setTooltipOpen(!tooltipOpen);
 
+  const getBudgets = async (viewValue) => {
     if (viewValue == true) {
       url = "http://localhost:4000/budget/household";
     } else {
@@ -48,43 +53,53 @@ export default function AddTransaction(props) {
 
   useEffect(() => {
     if (props.token) {
-      getBudgets(props.view);
+      props.getBudgets(props.view);
     }
   }, [props.token, props.view]);
   let transactionType;
   // console.log("props.view",props)
-      if (props.view === true) {
-    transactionType = "Household"
-  } else {transactionType = "Personal"}
+  if (props.view === true) {
+    transactionType = "Household";
+  } else {
+    transactionType = "Personal";
+  }
 
   return (
     <div id="testing" key={v4}>
-      
       <Button
-      onClick={() => {
-        toggleModal();
-      }}
+        onClick={() => {
+          toggleModal();
+        }}
         // id="UncontrolledPopoverAddTransaction"
-        id="UncontrolledModalEditTransaction"
+        id="UncontrolledModalNewTransaction"
         color="success"
         // type="button"
-        style={{
-          maxWidth: "4vw",
-          display: "inline-block",
-        }}
+        // style={{
+        //   maxWidth: "4vw",
+        //   display: "inline-block",
+        // }}
       >
-        +
+        <RiMenuAddLine /> New Transaction
       </Button>
+      <Tooltip
+              isOpen={tooltipOpen}
+              target="UncontrolledModalNewTransaction" //todo Fix this.
+              toggle={toggleToolTip}
+            >
+              Create a Transaction
+            </Tooltip>
       {/* <UncontrolledPopover */}
-      <Modal 
-      isOpen={modal}
-      fade={false}
-      toggle={toggleModal}
+      <Modal
+        isOpen={modal}
+        fade={false}
+        toggle={toggleModal}
         // placement="top"
         // target="UncontrolledPopoverAddTransaction"
         trigger="legacy"
       >
-        <ModalHeader toggle = {toggleModal}>New {transactionType} Transaction</ModalHeader>
+        <ModalHeader toggle={toggleModal}>
+          New {transactionType} Transaction
+        </ModalHeader>
         {/* <PopoverHeader>Add New Transaction</PopoverHeader> */}
         {/* <PopoverBody> */}
         <ModalBody key={v4}>
@@ -92,14 +107,17 @@ export default function AddTransaction(props) {
             token={props.token}
             view={props.view}
             month={props.month}
-            budgets={budgets}
+            budgets={props.budgets}
             getTransaction={props.getTransaction}
-            category = {props.category}
-            accounts = {props.accounts}
+            toggleModal = {toggleModal}
+            getAccounts = {props.getAccounts}
+            getBudgets = {props.getBudgets}
+            category={props.category}
+            accounts={props.accounts}
           />
-          </ModalBody>
+        </ModalBody>
         {/* </PopoverBody> */}
-      {/* </UncontrolledPopover> */}
+        {/* </UncontrolledPopover> */}
       </Modal>
     </div>
   );

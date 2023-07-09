@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Solo from "./Solo/Solo";
 import SplitFunction from "./SplitFunction";
-import Grouped from "./Grouped/Grouped";
 
 export default function Split(props) {
   const status = sessionStorage.getItem("Status");

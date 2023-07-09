@@ -119,7 +119,8 @@ export default function OpenCard(props) {
 
   return (
     <>
-      <Button color="info" onClick={toggle}>
+      <Button className="opencardBtn" onClick={toggle}>
+      {/* <Button id="opencardBtn" color="info" onClick={toggle}> */}
         <BsFillEnvelopePaperFill />
       </Button>
       <Modal isOpen={modal} toggle={toggle} fade={false}>
@@ -139,6 +140,9 @@ export default function OpenCard(props) {
                 innerRef={categoryRef}
                 required
               >
+                <option value="" disabled selected>
+                  Select a budget
+                </option>
                 {categoryOptions?.map((each) => {
                   return (
                     <option key={categoryOptions.indexOf(each)}>
@@ -172,6 +176,9 @@ export default function OpenCard(props) {
                 innerRef={monthRef}
                 required
               >
+                <option value="" disabled selected>
+                  Select a month
+                </option>
                 {months.map((each) => {
                   return (
                     <option key={months.indexOf(each)} value={each}>
@@ -192,6 +199,9 @@ export default function OpenCard(props) {
                 innerRef={dayRef}
                 required
               >
+                <option value="" disabled selected>
+                  Select a day
+                </option>
                 {days.map((each) => {
                   return (
                     <option key={days.indexOf(each)} value={each}>

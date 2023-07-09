@@ -29,35 +29,29 @@ export default function Auth(props) {
 
   return (
     <>
+      <div id="loginPage"></div>
       <Container>
         <Row>
-          <br></br>
+          <br />
+        </Row>
+        <Row>
+          <br />
+          <br />
         </Row>
         <Row>
           <Col md="6">
-            <Button onClick={swapForm} color="dark">
+            <br />
+            <Button id="loginBtn" onClick={swapForm} color="dark">
               {button}
             </Button>
+            <br />
+            <br />
+            {displayForm()}
           </Col>
-        </Row>
-        <br />
-        <Row>
-          <Col md="6">{displayForm()}</Col>
           <Col>
+            {" "}
             <Logo />
           </Col>
-        </Row>
-        <Row>
-          <br></br>
-        </Row>
-        <Row>
-          <br></br>
-        </Row>
-        <Row>
-          <br></br>
-        </Row>
-        <Row>
-          <br></br>
         </Row>
       </Container>
     </>

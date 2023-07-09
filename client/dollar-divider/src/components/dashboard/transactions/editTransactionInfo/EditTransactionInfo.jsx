@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Form, FormGroup, Input, Button, Label } from "reactstrap";
+import { Form, FormGroup, Input, Button, Label, Col, Row } from "reactstrap";
 // import DatePicker from "../datePicker/DayPicker";
 import { DayPicker } from "react-day-picker";
-import 'react-day-picker/dist/style.css';
+import "react-day-picker/dist/style.css";
 
 export default function EditTransactionInfo(props) {
   // let accountsList = [];
@@ -108,33 +108,13 @@ export default function EditTransactionInfo(props) {
   // };
 
   function incomeExpenseToggle() {
-  // console.log(state);
-  setState(!state);
-  console.log(state);
-}
+    // console.log(state);
+    setState(!state);
+    console.log(state);
+  }
   return (
     <>
       <Form onSubmit={() => console.log("form submitted")}>
-        {/* Name of Item */}
-        <FormGroup>
-          <Input
-            placeholder="Name of Item"
-            innerRef={descRef}
-            autoComplete="off"
-            type="text"
-            required
-          />
-        </FormGroup>
-        {/* Cost */}
-        <FormGroup>
-          <Input
-            placeholder="Cost"
-            innerRef={amountRef}
-            autoComplete="off"
-            type="number"
-            required
-          />
-        </FormGroup>
         {/* Merchant Name */}
         <FormGroup>
           <Input
@@ -145,90 +125,49 @@ export default function EditTransactionInfo(props) {
             required
           />
         </FormGroup>
-        {/* Income vs Expense */}
+        {/* Name of Item */}
         {/* <FormGroup>
           <Input
-            placeholder="Income or Expense"
-            innerRef={typeRef}
+            placeholder="Name of Item"
+            innerRef={descRef}
             autoComplete="off"
             type="text"
             required
           />
         </FormGroup> */}
-        <FormGroup switch>
-        <Input 
-        type="switch" 
-        role="switch" 
-        checked={!state} 
-        onClick={() => {incomeExpenseToggle()}}
-        />
-        <Label check>Income</Label>
-
-      </FormGroup>
-        {/* Choose Category */}
-        <FormGroup>
-          <Label for="exampleSelectMulti">Choose Category</Label>
-          <Input
-            id="exampleSelect1"
-            name="select"
-            type="select"
-            innerRef={categoryRef}
-            required
-          >
-            {props.categoryOptions?.map((each) => {
-              return (
-                <>
-                  <option>{each.budgetCat}</option>
-                </>
-              );
-            })}
-          </Input>
-        </FormGroup>
-            {/* Choose Date */}
+        <Row id="TransactionMoneyRow">
+          <Col>
+            {/* Cost */}
             <FormGroup>
-              <DayPicker />
-        </FormGroup>
-        {/* Choose Month */}
-        {/* <FormGroup>
-          <Label for="exampleSelectMulti">Choose Month</Label>
-          <Input
-            id="exampleSelect2"
-            name="select"
-            type="select"
-            innerRef={monthRef}
-            required
-          >
-            {transactionsToDelete?.map((each) => {
-              return (
-                <>
-                  <option value={each}>{each}</option>
-                </>
-              );
-            })}
-          </Input>
-        </FormGroup> */}
-        {/* Choose Day */}
-        {/* <FormGroup>
-          <Label for="exampleSelect3">Choose Day</Label>
-          <Input
-            id="exampleSelect"
-            name="select"
-            type="select"
-            innerRef={dayRef}
-            required
-          >
-            {days.map((each) => {
-              return (
-                <>
-                  <option value={each}>{each}</option>
-                </>
-              );
-            })}
-          </Input>
-        </FormGroup> */}
-        {/* Choose Account */}
+              <Input
+                placeholder="Dollar Amount"
+                innerRef={amountRef}
+                autoComplete="off"
+                type="number"
+                required
+              />
+            </FormGroup>
+          </Col>
+          <Col>
+            {/* Income vs Expense */}
+            <div id="addTransSwitch">
+              <Label check>Expense</Label>
+              <FormGroup switch>
+                <Label check>Income</Label>
+                <Input
+                  type="switch"
+                  role="switch"
+                  checked={!state}
+                  onClick={() => {
+                    incomeExpenseToggle();
+                  }}
+                />
+              </FormGroup>
+            </div>
+          </Col>
+        </Row>
         <FormGroup>
-          <Label for="exampleSelectMulti">Choose Account</Label>
+          {/* Choose Account */}
           <Input
             id="exampleSelect1"
             name="select"
@@ -236,6 +175,9 @@ export default function EditTransactionInfo(props) {
             innerRef={categoryRef}
             required
           >
+            <option value="" disabled selected>
+              Which account?
+            </option>
             {props.accounts?.map((a) => {
               return (
                 <>
@@ -254,6 +196,33 @@ export default function EditTransactionInfo(props) {
             type="number"
           />
         </FormGroup>
+        {/* Choose Category */}
+        <FormGroup>
+          <Input
+            id="exampleSelect1"
+            name="select"
+            type="select"
+            innerRef={categoryRef}
+            required
+          >
+            <option value="" disabled selected>
+              Select a budget
+            </option>
+            {props.categoryOptions?.map((each) => {
+              return (
+                <>
+                  <option>{each.budgetCat}</option>
+                </>
+              );
+            })}
+          </Input>
+        </FormGroup>
+        <Row>
+          {/* Choose Date */}
+          <FormGroup>
+            <DayPicker />
+          </FormGroup>
+        </Row>
       </Form>
     </>
   );

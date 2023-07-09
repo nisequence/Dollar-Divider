@@ -8,29 +8,37 @@ import {
   Col,
   Modal,
   ModalHeader,
+  Alert,
+  Tooltip
 } from "reactstrap";
 import { GrEdit } from "react-icons/gr";
 import UpdateBudgets from "../EditBudgets/UpdateBudgets";
 
 export default function Selector(props) {
-  let categoryOptions = props.budgets;
+  const categoryOptions = props.budgets;
   const choiceRef = useRef();
   const [chosen, setChosen] = useState("");
   const [modal, setModal] = useState(false);
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+
   const toggle = () => setModal(!modal);
+  const toggleToolTip = () => setTooltipOpen(!tooltipOpen);
+
   const openBudget = async (e) => {
     e.preventDefault();
 
     setChosen(choiceRef.current.value);
 
     if (modal === true) {
+      // alert("Please Select a Budget Category.")
       //do nothing
     } else {
       toggle();
     }
   };
+  // toggle();
   const displayModal = () => {
-    //* Make sure user is authorized as Admin 
+    //* Make sure user is authorized as Admin
     //* Globalize the variable "selected" within this function
     let selected = null;
     //* Go through each budget item
@@ -53,8 +61,8 @@ export default function Selector(props) {
               view={props.view}
               getBudgets={props.getBudgets}
               budget={selected}
-              budgets={props.budgets}
-              
+              // budgets={props.budgets}
+              categoryOptions={categoryOptions}
               /*             toggle={toggle} */
               modal={modal}
             />
@@ -66,19 +74,26 @@ export default function Selector(props) {
 
   return (
     <>
-      <Row>
-        <Form>
+      <hr />
+      {/* <Row id="EditBudgetHeader">
+        <h5>Select a Budget Category:</h5>
+      </Row> */}
+      <Form>
+        <Row id="BudgetEditDropdown">
           <Col>
-          <div id="selectBudgetCategory">
+            {" "}
             <FormGroup>
-            <h5>Choose a Budget Category:</h5>
               <Input
                 id="exampleSelect2"
                 name="select"
                 type="select"
+                placeholder="Select"
                 required
                 innerRef={choiceRef}
               >
+                <option value="" disabled selected>
+                  Select a budget
+                </option>
                 {categoryOptions?.map((each) => {
                   return (
                     <option key={categoryOptions.indexOf(each)}>
@@ -88,17 +103,22 @@ export default function Selector(props) {
                 })}
               </Input>
             </FormGroup>
-            </div>
           </Col>
           <Col>
-            <Button id="submit" color="secondary" onClick={openBudget}>
+            <Button id="submit" className="editBudgetBtn" color="secondary" onClick={openBudget}>
               <GrEdit /> Edit Budget
             </Button>
-            {/*             {chooseBudget}
-             */}{" "}
+            <Tooltip
+              isOpen={tooltipOpen}
+              target="submit"
+              // target="editBudgetBtn"
+              toggle={toggleToolTip}
+            >
+              Please Select a Budget
+            </Tooltip>
           </Col>
-        </Form>
-      </Row>
+        </Row>
+      </Form>
       {displayModal()}
     </>
   );

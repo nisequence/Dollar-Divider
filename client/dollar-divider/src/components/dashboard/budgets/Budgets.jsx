@@ -5,14 +5,26 @@ import { useState, useEffect } from "react";
 export default function Budgets(props) {
   let url;
   const [budgets, setBudgets] = useState([]);
+  const [total, setTotal] = useState(0);
 
+  const calculateTotal = async (data) => {
+    let totalToDivide = 0;
+    for (let x = 0; x < data?.length; x++) {
+      let thisOne = data[x].budgetAmt;
+      totalToDivide += thisOne;
+    }
+    setTotal(totalToDivide);
+  };
   const setHouseholdTotal = async (data) => {
     let totalToDivide = 0;
     for (let x = 0; x < data?.length; x++) {
       let thisOne = data[x].budgetAmt;
       totalToDivide += thisOne;
     }
-    console.log("View set to", props.view, "setting total to", totalToDivide);
+
+    // if (totalToDivide) {
+    //   // console.log('totaltodivide',totalToDivide)
+    // }
     sessionStorage.setItem("Total", totalToDivide);
   };
 
@@ -43,6 +55,7 @@ export default function Budgets(props) {
         ) {
           setHouseholdTotal(data.allBudgets);
         }
+        calculateTotal(data.allBudgets);
       } else {
         setBudgets(null);
       }
@@ -54,17 +67,21 @@ export default function Budgets(props) {
   useEffect(() => {
     if (props.token) {
       getBudgets();
+      // props.getBudgets();
     }
   }, [props.token, props.view]);
-
+  // console.log("props.transactions",props)
   return (
     <>
       <CurrentBudgetStatus
-        getBudgets={getBudgets}
+        getBudgets={props.getBudgets}
         budgets={budgets}
         transactions={props.transactions}
+        transaction={props.transaction}
+        getTransaction={props.getTransaction}
         token={props.token}
         view={props.view}
+        totalToDisplay={total}
       />
     </>
   );

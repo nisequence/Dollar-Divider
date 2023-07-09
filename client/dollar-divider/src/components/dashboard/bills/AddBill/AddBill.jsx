@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import {
   Button,
-  PopoverHeader,
-  UncontrolledPopover,
-  PopoverBody,
   Tooltip,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from "reactstrap";
 import { BsFillEnvelopePlusFill } from "react-icons/bs";
 import NewInfo from "./NewInfo/NewInfo";
@@ -13,8 +14,12 @@ export default function AddBill(props) {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const toggle = () => setTooltipOpen(!tooltipOpen);
 
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
+
   let url;
   const [budgets, setBudgets] = useState([]);
+  
   const getBudgets = async () => {
     let viewValue = props.view;
     if (viewValue === true) {
@@ -53,30 +58,19 @@ export default function AddBill(props) {
   return (
     <>
       <Button
-        id="UncontrolledPopoverAddBill"
+        id="ModalAddBill"
         color="success"
         type="button"
-        style={{
-          maxWidth: "4vw",
-          display: "inline-block",
-        }}
+        onClick={toggleModal}
       >
-        <BsFillEnvelopePlusFill id="AddBill" />
-        <Tooltip
-          isOpen={tooltipOpen}
-          target="UncontrolledPopoverAddBill"
-          toggle={toggle}
-        >
+        <BsFillEnvelopePlusFill id="AddBill" /> Create Bill
+        <Tooltip isOpen={tooltipOpen} target="ModalAddBill" toggle={toggle}>
           Add a new bill here!
         </Tooltip>
       </Button>
-      <UncontrolledPopover
-        placement="bottom"
-        target="UncontrolledPopoverAddBill"
-        trigger="legacy"
-      >
-        <PopoverHeader>Add New Bill</PopoverHeader>
-        <PopoverBody>
+      <Modal isOpen={modal} toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal}>Add New Bill</ModalHeader>
+        <ModalBody>
           <NewInfo
             getBills={props.getBills}
             token={props.token}
@@ -84,9 +78,10 @@ export default function AddBill(props) {
             month={props.month}
             budgets={budgets}
             getBudgets={getBudgets}
+            toggle={toggleModal}
           />
-        </PopoverBody>
-      </UncontrolledPopover>
+        </ModalBody>
+      </Modal>
     </>
   );
 }

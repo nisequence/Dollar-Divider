@@ -41,19 +41,20 @@ export default function Join(props) {
   const toggle = () => setModal(!modal);
   return (
     <>
-      <h6>Have a token? </h6>
+      <h6>Have an invite code? </h6>
       <Button color="primary" onClick={toggle}>
         <FaHouseUser /> Join Existing
       </Button>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Join Existing Household</ModalHeader>
         <ModalBody>
-          Received a token from a friend or family member? Enter it below!
+          Received an invite code from a friend or family member? Enter it
+          below!
           <br></br>
           <br></br>
           <Input
             required
-            placeholder="Enter Token Here"
+            placeholder="Enter Code Here"
             innerRef={idRef}
           ></Input>
         </ModalBody>
