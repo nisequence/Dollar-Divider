@@ -15,10 +15,10 @@ export default function SplitFunction(props) {
     let checkTotal = sessionStorage.getItem("Total");
     let checkUsers = sessionStorage.getItem("Users");
     let checkPercents = sessionStorage.getItem("Percents");
-    console.log(checkPercents);
+    // console.log(checkPercents);
     let checkIDs = sessionStorage.getItem("IDs");
     const newTotal = Number(checkTotal);
-    console.log("NewTotal", newTotal);
+    // console.log("NewTotal", newTotal);
     const percentArray = checkPercents?.split(",");
     const userArray = checkUsers?.split(",");
     const idArray = checkIDs?.split(",");
@@ -40,7 +40,7 @@ export default function SplitFunction(props) {
     if (props.token) {
       if (props.view === true) {
         getInfo();
-        console.log("I should get new cards now!");
+        // console.log("I should get new cards now!");
       }
     }
   }, [props.token, props.view, total, percents, users, IDs]);
