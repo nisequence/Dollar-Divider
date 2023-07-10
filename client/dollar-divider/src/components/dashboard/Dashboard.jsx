@@ -19,7 +19,7 @@ export default function Dashboard(props) {
 
   const token = localStorage.getItem("token");
 
-  const [transactions, setTransactions] = useState([]);
+  const [splitSpending, setSplitSpending] = useState([]);
   const [transaction, setTransaction] = useState([]);
   const [accounts, setAccounts] = useState([]);
   const [budgets, setBudgets] = useState([]);
@@ -31,12 +31,14 @@ export default function Dashboard(props) {
     } else {
       url = "http://localhost:4000/transaction/mine";
     }
+
     const reqOptions = {
       method: "GET",
       headers: new Headers({
         Authorization: token,
       }),
     };
+
     try {
       const res = await fetch(url, reqOptions);
       const data = await res.json();
@@ -45,38 +47,11 @@ export default function Dashboard(props) {
       // If the server does not provide a failure message
       if (data.message !== "No transactions found.") {
         setTransaction(data.getAllTransactions);
+        if (viewValue === true) {
+          setSplitSpending(data.getAllTransactions);
+        }
       } else {
         setTransaction(null);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const getSplitTransactions = async () => {
-    //! Change the ID to a path parameter
-    let viewValue = props.view;
-    if (viewValue === true) {
-      url = "http://localhost:4000/transaction/household";
-    } else {
-      url = "http://localhost:4000/transaction/mine";
-    }
-    const reqOptions = {
-      method: "GET",
-      headers: new Headers({
-        Authorization: token,
-      }),
-      // headers: new Headers({Authorization: token}),
-    };
-
-    try {
-      const res = await fetch(url, reqOptions);
-      const data = await res.json();
-      // If the server does not provide a failure message
-      if (data.message !== "No transactions found.") {
-        setTransactions(data.getTransactions);
-      } else {
-        setTransactions(null);
       }
     } catch (err) {
       console.error(err);
@@ -129,27 +104,14 @@ export default function Dashboard(props) {
   };
 
   //GetBudgets UseEffect
-  useEffect(() => {
-    if (token) {
-      getBudgets();
-    }
-  }, [token, props.view]);
-  
   //GetTransaction UseEffect
   useEffect(() => {
     if (token) {
+      getBudgets();
       getTransaction();
     }
   }, [token, props.view]);
 
-  //GetSplitTransactions UseEffect
-  useEffect(() => {
-    if (token) {
-      getSplitTransactions();
-    }
-  }, [token, props.view]);
-
-  // console.log('desktopsplittrans',transactions)
   // Get Accounts fetch
   const getAccounts = async () => {
     url = "http://localhost:4000/finAccount/mine";
@@ -204,8 +166,8 @@ export default function Dashboard(props) {
         <Split
           token={token}
           view={props.view}
-          transactions={transactions}
-          transaction={transactions}
+          transactions={splitSpending}
+          getTransactions={getTransaction}
         />
       );
     }
@@ -219,7 +181,6 @@ export default function Dashboard(props) {
 
   // console.log("dashboardprops", props)
   // console.log("dashtransaction",transaction)
-
 
   return (
     <>
@@ -237,10 +198,7 @@ export default function Dashboard(props) {
           <Row>
             <Col className="bg-light border">
               <br></br>
-              <Bills 
-              view={props.view} 
-              token={token}
-              ></Bills>
+              <Bills view={props.view} token={token}></Bills>
             </Col>
             <Col className="bg-light border">
               {/* .col */}
@@ -251,8 +209,6 @@ export default function Dashboard(props) {
                 getTransaction={getTransaction}
                 getBudgets={getBudgets}
                 budgets={budgets}
-
-                // transactions={transactions}
               />
             </Col>
           </Row>
@@ -269,7 +225,7 @@ export default function Dashboard(props) {
                 transaction={transaction}
                 getTransaction={getTransaction}
                 getBudgets={getBudgets}
-                getAccounts = {getAccounts}
+                getAccounts={getAccounts}
               />
             </Col>
           </Row>

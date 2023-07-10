@@ -19,7 +19,6 @@ export default function DeleteBudget(props) {
       const data = await response.json();
 
       if (data.message == "Budget was successfully deleted!") {
-        console.log(data);
         props.getBudgets();
         props.toggle();
       } else {

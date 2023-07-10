@@ -29,6 +29,7 @@ export default function Tweak(props) {
       if (data) {
         props.getHousehold();
         props.edit(false);
+        window.location.reload();
       }
     } catch (error) {
       console.error(error);

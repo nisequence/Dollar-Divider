@@ -90,7 +90,7 @@ export default function ProfileSettings() {
         body: body, // The second body refers to the body object above.
       });
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
     // };
     return <></>;

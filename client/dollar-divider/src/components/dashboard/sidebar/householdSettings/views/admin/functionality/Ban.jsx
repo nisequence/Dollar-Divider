@@ -27,6 +27,7 @@ export default function Ban(props) {
 
       if (data) {
         props.getHousehold();
+        window.location.reload();
       }
     } catch (error) {
       console.error(error);
