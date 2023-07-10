@@ -43,7 +43,15 @@ export default function SplitFunction(props) {
         // console.log("I should get new cards now!");
       }
     }
-  }, [props.token, props.view, total, percents, users, IDs]);
+  }, [
+    props.token,
+    props.view,
+    props.transactions,
+    total,
+    percents,
+    users,
+    IDs,
+  ]);
 
   return (
     <>

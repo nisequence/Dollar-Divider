@@ -110,11 +110,15 @@ export default function EditTransactionInfo(props) {
   function incomeExpenseToggle() {
     // console.log(state);
     setState(!state);
-    console.log(state);
+    // console.log(state);
   }
   return (
     <>
-      <Form onSubmit={() => console.log("form submitted")}>
+      <Form
+        onSubmit={() =>
+          console.log("form submitted, no real function here tho")
+        }
+      >
         {/* Merchant Name */}
         <FormGroup>
           <Input

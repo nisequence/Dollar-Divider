@@ -112,7 +112,7 @@ export default function RecentTransactions(props) {
         });
       } else {
         // setBudgets(null);
-        console.log("no budget data found");
+        // console.log("no budget data found");
       }
     } catch (err) {
       console.error(err);
@@ -179,10 +179,9 @@ export default function RecentTransactions(props) {
   }
   // ! End Inspired By Kate
 
-  
   //Todo Update Transaction Functionality for the Edit Menu
   const updateTransaction = async (transaction) => {
-  // const updateTransaction = async (id) => {
+    // const updateTransaction = async (id) => {
     const id = transaction._id;
     // console.log("transactionInfo", transaction)
     const desc = descRef.current.value;
@@ -348,7 +347,13 @@ export default function RecentTransactions(props) {
               {/* <ModalHeader toggle={toggleModal}>Edit Transaction</ModalHeader> */}
               <ModalBody>
                 <>
-                  <Form onSubmit={() => console.log("form submitted")}>
+                  <Form
+                    onSubmit={() =>
+                      console.log(
+                        "edit transaction submitted, why we console.log again?"
+                      )
+                    }
+                  >
                     {/* Name of Item */}
                     <FormGroup>
                       <Input
@@ -590,22 +595,22 @@ export default function RecentTransactions(props) {
   return (
     <>
       <div className="RecentTransactions">
-      <AddTransaction
-            token={props.token}
-            view={props.view}
-            getTransaction={props.getTransaction}
-            accounts={props.accounts}
-            getBudgets={props.getBudgets}
-            budgets={props.budgets}
-            getAccounts = {props.getAccounts}
-          />
+        <AddTransaction
+          token={props.token}
+          view={props.view}
+          getTransaction={props.getTransaction}
+          accounts={props.accounts}
+          getBudgets={props.getBudgets}
+          budgets={props.budgets}
+          getAccounts={props.getAccounts}
+        />
         <div id="recenttransactionsmonth">
           <Button id="monthLeftBtn" onClick={subtractMonth}>
             <LuCalendarMinus />
           </Button>
           <div id="rtMonthName">{months[currentMonth - 1]}</div>
           <Button id="monthRightBtn" onClick={addMonth}>
-          <LuCalendarPlus />
+            <LuCalendarPlus />
           </Button>
         </div>
         <Table>
@@ -619,9 +624,7 @@ export default function RecentTransactions(props) {
         Manual Entry
       </th> */}
               <th>Category</th>
-              <th>
-        Account
-      </th>
+              <th>Account</th>
               <th></th>
               {/* <th>
         Personal/Household

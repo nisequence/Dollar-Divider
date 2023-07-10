@@ -9,6 +9,7 @@ export default function Cards(props) {
   let filteredTransactions = props.transactions?.filter((eachTransaction) => {
     return eachTransaction.ownerID === userID;
   });
+  // console.log(props.info[each].name, filteredTransactions);
 
   let contribution = 0;
   for (let i = 0; i < filteredTransactions?.length; i++) {

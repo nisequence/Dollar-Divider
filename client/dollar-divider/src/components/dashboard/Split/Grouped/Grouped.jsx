@@ -3,6 +3,7 @@ import { Carousel, CarouselItem, CarouselControl, Button } from "reactstrap";
 import Cards from "./Cards/Cards";
 
 export default function Grouped(props) {
+  // console.log(props.transactions);
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
 
@@ -42,7 +43,7 @@ export default function Grouped(props) {
 
   useEffect(() => {
     if (props.token) {
-      console.log("I should get new cards");
+      // console.log("I should get new cards");
     }
   }, [props.token, props.cardInfo]);
 
@@ -54,7 +55,6 @@ export default function Grouped(props) {
               height: 200px;
             }`}
       </style>
-      {/* <Button onClick={props.reactivate}>Refresh</Button> */}
       <Carousel activeIndex={activeIndex} next={next} previous={previous}>
         {slides}
         <CarouselControl
