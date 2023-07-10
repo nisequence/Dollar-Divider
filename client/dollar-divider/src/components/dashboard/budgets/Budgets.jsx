@@ -74,7 +74,7 @@ export default function Budgets(props) {
   return (
     <>
       <CurrentBudgetStatus
-        getBudgets={props.getBudgets}
+        getBudgets={getBudgets}
         budgets={budgets}
         transactions={props.transactions}
         transaction={props.transaction}

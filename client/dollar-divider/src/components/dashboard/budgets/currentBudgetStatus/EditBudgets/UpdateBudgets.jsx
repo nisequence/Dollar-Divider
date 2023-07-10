@@ -17,10 +17,9 @@ import DeleteBudget from "./Each/DeleteBudget";
 export default function UpdateBudgets(props) {
   let budgetInfo = props.budget;
   let budgetID = budgetInfo._id;
-  let id=budgetID
+  let id = budgetID;
 
   // console.log(budgetID)
-
 
   const budgetCatRef = useRef(); // dropdown
   const budgetAmtRef = useRef();
@@ -41,11 +40,11 @@ export default function UpdateBudgets(props) {
 
     // Edit fetch
     let url = `http://localhost:4000/budget/edit/${id}`;
-    
+
     let newBudgetObj = JSON.stringify({
       category: budgetCat,
       amount: budgetAmt,
-    
+
       // budgetAmt: budgetAmt,
     });
 
@@ -65,13 +64,13 @@ export default function UpdateBudgets(props) {
 
       // If the server provides a success message
       if (data.message == "Successfully updated budget!") {
-      // if (data.message == "Budget has been updated successfully") {
-        props.getBudgets(props.view);
-         props.toggle();
+        // if (data.message == "Budget has been updated successfully") {
+        props.getBudgets();
+        props.toggle();
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
-    console.error(res.message);
-    // console.error("Error when editing budget");
+        console.error(res.message);
+        // console.error("Error when editing budget");
       }
     } catch (err) {
       console.error(err);
@@ -85,30 +84,31 @@ export default function UpdateBudgets(props) {
   // in the map create a <tr> w/<td> budget cat, amount, & edit and delete button
   // When you click edit(need an onclick that turn each <td> into an input, also change the edit button td to a new update button)
   // Click the update button, run the fetch and go back to dashboard
- 
+
   return (
     <div>
       <Form onSubmit={UpdateBudgets}>
         <ModalBody>
           <FormGroup>
             <Label>
-              Category 
+              Category
               <i> (Currently: {`${budgetInfo.budgetCat}`})</i>
-           </Label>
-              <Input
+            </Label>
+            <Input
               placeholder={budgetInfo.budgetCat}
               innerRef={budgetCatRef}
               autoComplete="off"
               type="Select"
-              required >
+              required
+            >
               {props.categoryOptions?.map((each) => {
-                  return (
-                    <option key={props.categoryOptions.indexOf(each)}>
-                      {each.budgetCat}
-                    </option>
-                  );
-                })} 
-                </Input>
+                return (
+                  <option key={props.categoryOptions.indexOf(each)}>
+                    {each.budgetCat}
+                  </option>
+                );
+              })}
+            </Input>
           </FormGroup>
           <FormGroup>
             <Label>
@@ -128,12 +128,10 @@ export default function UpdateBudgets(props) {
           <DeleteBudget
             token={props.token}
             getBudgets={props.getBudgets}
-
             //id={props.selected}
             budgetID={budgetID}
             // budgets={props.budgets}
             toggle={props.toggle}
-
           />
           <Button color="primary" id="submit" onClick={editBudget}>
             Submit Changes
