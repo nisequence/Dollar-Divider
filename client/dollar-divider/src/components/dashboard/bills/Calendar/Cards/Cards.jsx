@@ -4,6 +4,7 @@ import OpenCard from "./OpenCard/OpenCard";
 import MemberView from "./OpenCard/MemberView";
 
 export default function Cards(props) {
+  // console.log("cardsprops",props)
   let url;
   const [budgets, setBudgets] = useState([]);
   
@@ -62,7 +63,6 @@ export default function Cards(props) {
   } else {
     canEdit = false;
   }
-
   return (
     <>
       {props.bills?.map((each) => {
@@ -108,6 +108,9 @@ export default function Cards(props) {
                           getBills={props.getBills}
                           budgets={budgets}
                           view={props.view}
+                          getTransaction={props.getTransaction}
+                          getBudgets={props.getBudgets}
+                          getAccounts = {props.getAccounts}
                         />
                       ) : (
                         <MemberView
@@ -116,6 +119,9 @@ export default function Cards(props) {
                           getBills={props.getBills}
                           budgets={budgets}
                           view={props.view}
+                          getTransaction={props.getTransaction}
+                          getBudgets={props.getBudgets}
+                          getAccounts = {props.getAccounts}
                         />
                       )}
                     </Col>
