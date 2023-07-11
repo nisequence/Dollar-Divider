@@ -21,7 +21,7 @@ export default function MemberView(props) {
   const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(!modal);
-
+  console.log("memberviewprops", props)
   return (
     <>
       <Button className="btn" onClick={toggle}>
@@ -64,6 +64,9 @@ export default function MemberView(props) {
             value={billInfo.paid}
             toggle={toggle}
             view={props.view}
+            getBudgets={props.getBudgets}
+            getTransaction={props.getTransaction}
+            getAccounts = {props.getAccounts}
           />
         </ModalFooter>
       </Modal>
