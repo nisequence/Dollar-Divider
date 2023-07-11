@@ -9,6 +9,7 @@ import AccountsList from "./accounts/AccountsList";
 import Split from "./Split/Split";
 
 export default function Dashboard(props) {
+  // console.log('dashboardprops',props)
   let url;
   let acctName;
   let acctBalance;
@@ -134,7 +135,7 @@ export default function Dashboard(props) {
       getBudgets();
     }
   }, [token, props.view]);
-  
+
   //GetTransaction UseEffect
   useEffect(() => {
     if (token) {
@@ -220,7 +221,6 @@ export default function Dashboard(props) {
   // console.log("dashboardprops", props)
   // console.log("dashtransaction",transaction)
 
-
   return (
     <>
       <div className="DashBody" id="dashbody">
@@ -237,9 +237,12 @@ export default function Dashboard(props) {
           <Row>
             <Col className="bg-light border">
               <br></br>
-              <Bills 
-              view={props.view} 
-              token={token}
+              <Bills
+                view={props.view}
+                token={token}
+                getTransaction={getTransaction}
+                getAccounts = {getAccounts}
+                getBudgets={getBudgets}
               ></Bills>
             </Col>
             <Col className="bg-light border">
@@ -269,7 +272,7 @@ export default function Dashboard(props) {
                 transaction={transaction}
                 getTransaction={getTransaction}
                 getBudgets={getBudgets}
-                getAccounts = {getAccounts}
+                getAccounts={getAccounts}
               />
             </Col>
           </Row>
