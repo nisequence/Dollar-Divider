@@ -31,6 +31,7 @@ const monthGroup = [
 ];
 
 export default function Calendar(props) {
+  // console.log("calendarprops", props)
   const [prevTooltipOpen, setPrevTooltipOpen] = useState(false);
   const togglePrev = () => setPrevTooltipOpen(!prevTooltipOpen);
   const [nextTooltipOpen, setNextTooltipOpen] = useState(false);
@@ -115,6 +116,9 @@ export default function Calendar(props) {
           month={monthName}
           view={props.view}
           token={props.token}
+          getBudgets={props.getBudgets}
+          getTransaction={props.getTransaction}
+          getAccounts = {props.getAccounts}
         />
       </CarouselItem>
     );
