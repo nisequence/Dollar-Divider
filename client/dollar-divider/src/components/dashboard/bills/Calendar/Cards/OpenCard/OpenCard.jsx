@@ -19,6 +19,7 @@ import DeleteBill from "./DeleteBill";
 import MarkPaid from "./MarkPaid";
 
 export default function OpenCard(props) {
+  // console.log("opencardprops", props)
   // props.getBudgets();
   let billInfo = props.billInfo;
   let billID = billInfo._id;
@@ -116,7 +117,7 @@ export default function OpenCard(props) {
       console.error(err);
     }
   };
-
+  // console.log('opencardprops',props)
   return (
     <>
       <Button className="opencardBtn" onClick={toggle}>
@@ -241,6 +242,10 @@ export default function OpenCard(props) {
               value={billInfo.paid}
               toggle={toggle}
               view={props.view}
+              billInfo = {props.billInfo}
+              getBudgets={props.getBudgets}
+              getTransaction={props.getTransaction}
+              getAccounts = {props.getAccounts}
             />
             <Button color="primary" id="submit">
               <MdSave /> Save
