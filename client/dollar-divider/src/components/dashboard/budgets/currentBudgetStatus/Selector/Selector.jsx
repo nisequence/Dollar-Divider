@@ -57,6 +57,7 @@ export default function Selector(props) {
             <ModalHeader toggle={toggle}>Viewing {chosen} Budget</ModalHeader>
             <UpdateBudgets
               token={props.token}
+              toggleToolTip={toggleToolTip}
               toggle={toggle}
               view={props.view}
               getBudgets={props.getBudgets}

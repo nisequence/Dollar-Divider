@@ -9,7 +9,6 @@ import AccountsList from "./accounts/AccountsList";
 import Split from "./Split/Split";
 
 export default function Dashboard(props) {
-  // console.log('dashboardprops',props)
   let url;
   let acctName;
   let acctBalance;
@@ -243,6 +242,7 @@ export default function Dashboard(props) {
                 getTransaction={getTransaction}
                 getAccounts = {getAccounts}
                 getBudgets={getBudgets}
+                setTransaction = {setTransaction}
               ></Bills>
             </Col>
             <Col className="bg-light border">
@@ -273,6 +273,7 @@ export default function Dashboard(props) {
                 getTransaction={getTransaction}
                 getBudgets={getBudgets}
                 getAccounts={getAccounts}
+                setTransaction = {setTransaction}
               />
             </Col>
           </Row>

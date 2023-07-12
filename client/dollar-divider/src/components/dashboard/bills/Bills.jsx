@@ -49,6 +49,7 @@ export default function Bills(props) {
         getBudgets={props.getBudgets}
         getTransaction={props.getTransaction}
         getAccounts = {props.getAccounts}
+        setTransaction = {props.setTransaction}
       />
     </div>
   );

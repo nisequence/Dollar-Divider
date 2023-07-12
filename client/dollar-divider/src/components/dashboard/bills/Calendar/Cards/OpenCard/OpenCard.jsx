@@ -246,6 +246,7 @@ export default function OpenCard(props) {
               getBudgets={props.getBudgets}
               getTransaction={props.getTransaction}
               getAccounts = {props.getAccounts}
+              setTransaction = {props.setTransaction}
             />
             <Button color="primary" id="submit">
               <MdSave /> Save

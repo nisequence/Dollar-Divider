@@ -18,11 +18,10 @@ import { DayPicker } from "react-day-picker";
 import { GrEdit } from "react-icons/gr";
 import { v4 } from "uuid";
 import AddTransaction from "../addTransaction/AddTransaction";
-
+import DeleteTransaction from "./deleteTransaction/DeleteTransaction";
+import EditTransaction from "./editTransaction/EditTransaction";
 export default function RecentTransactions(props) {
-  // console.log("recenttransactionsprops", props);
   let base;
-  let transactionID;
   let month;
   let day;
   let tempColor;
@@ -66,8 +65,7 @@ export default function RecentTransactions(props) {
   const [selected, setSelected] = useState();
   const [currentMonth, setCurrentMonth] = useState(7);
 
-  // const [selected, setSelected] = React.useState();
-
+  // Set the type of transaction (income vs expense)
   if (state === true) {
     transactionType = "expense";
   } else {
@@ -81,6 +79,7 @@ export default function RecentTransactions(props) {
   useEffect(() => {
     if (props.token) {
       getBudgets();
+      // props.getBudgets();
     }
   }, [props.token, props.view]);
 
@@ -179,19 +178,24 @@ export default function RecentTransactions(props) {
   }
   // ! End Inspired By Kate
 
+
+  
+  
   
   //Todo Update Transaction Functionality for the Edit Menu
-  const updateTransaction = async (transaction) => {
+  const updateTransaction = async (id) => {
   // const updateTransaction = async (id) => {
-    const id = transaction._id;
-    // console.log("transactionInfo", transaction)
+    id = id;
     const desc = descRef.current.value;
     // if (descRef.current.value != null) {desc = descRef.current.value;} else {desc = transaction.amount}
     const amount = amountRef.current.value;
+    // if (!amountRef) {amount = transaction.amount}
     const category = categoryRef.current.value;
+    // if (!category) {category = transaction.category}
     const merchant = merchantRef.current.value;
+    // if (!merchant) {merchant = transaction.merchant}
     const finAccount = finAccountRef.current.value;
-
+    // if (!finAccount) {finAccount = transaction.finAccount}
     let url = `http://localhost:4000/transaction/edit/${id}`;
     // let url = `http://localhost:4000/transaction/edit/${id}`;
     const myHeaders = new Headers();
@@ -226,31 +230,9 @@ export default function RecentTransactions(props) {
     }
   };
 
-  // Delete Transaction Functionality for the Edit Menu
-  const deleteTransaction = async (id) => {
-    let url = `http://localhost:4000/transaction/delete/${id}`;
-    // alert(`deleteURL: ${url}`);
-    const myHeaders = new Headers();
-    myHeaders.append("Authorization", props.token);
-
-    let requestOptions = {
-      headers: myHeaders,
-      method: "DELETE",
-    };
-
-    try {
-      let response = await fetch(url, requestOptions);
-      let data = await response.json();
-      if (data.message === "Transaction was successfully deleted!") {
-        props.getTransaction();
-        // alert("deleted")
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   function mapMonth(curr) {
+// Maps through the Transactions sorted into Months Arrays to find the Current Month to Display
     transInfo[months[curr - 1]]?.map((transaction) => {
       // abbreviate month names for the table
       let monthArray = [];
@@ -306,9 +288,17 @@ export default function RecentTransactions(props) {
 
       //! PastedEditTransactionCode Ending
       // Return for the table rows
-      // console.log("transaction303",transaction)
+
+      // https://www.geeksforgeeks.org/how-to-use-handlechange-function-in-react-component/
+      // let [Name, setname] = useState('');
+
+      // const handleChange = (event) => {
+      //   setname(event.target.value);
+      // }
+
       return recentTransactions.push(
         <tr className={tempColor}>
+        {/* <tr key={transInfo[months[curr - 1]]?.indexOf(transaction)} className={tempColor}> */}
           <td>{month + transaction.day}</td>
           {/* <td>{transaction.desc}</td> */}
           <td>{displayNumber.toLocaleString("en-US")}</td>
@@ -352,7 +342,8 @@ export default function RecentTransactions(props) {
                     {/* Name of Item */}
                     <FormGroup>
                       <Input
-                        placeholder="Name of Item"
+                        placeholder={transaction.merchant}
+                        // placeholder="Name of Item"
                         innerRef={descRef}
                         autoComplete="off"
                         type="text"
@@ -362,20 +353,11 @@ export default function RecentTransactions(props) {
                     {/* Cost */}
                     <FormGroup>
                       <Input
-                        placeholder="Cost"
+                        placeholder={transaction.amount}
+                        // placeholder="Cost"
                         innerRef={amountRef}
                         autoComplete="off"
                         type="number"
-                        required
-                      />
-                    </FormGroup>
-                    {/* Merchant Name */}
-                    <FormGroup>
-                      <Input
-                        placeholder="Merchant"
-                        innerRef={merchantRef}
-                        autoComplete="off"
-                        type="text"
                         required
                       />
                     </FormGroup>
@@ -444,21 +426,41 @@ export default function RecentTransactions(props) {
                 </>
                 <ModalFooter>
                   {/* UpdateTransaction Button */}
-                  <Button
-                    onClick={() => updateTransaction(transaction)}
+                  {/* <EditTransaction
+                  
+                  // id = {transaction._id}
+                  // token  = {props.token}
+                  // getTransaction = {props.getTransaction}
+                  // month = {month}
+                  // day = {day}
+                  // desc = {descRef}
+                  // merchant = {merchantRef}
+                  // amount = {amountRef}
+                  // finAccount = {finAccountRef}
+                  // category = {categoryRef}
+                  // transactionType = {transactionType}
+                  // base = {base}
+                  /> */}
+                  {/* <Button
+                    onClick={() => updateTransaction(transaction._id)}
                     color="success"
                     type="submit"
                   >
                     Update
-                  </Button>
+                  </Button> */}
                   {/* Delete Transaction Button */}
-                  <Button
+                  <DeleteTransaction
+                  id = {transaction._id}
+                  token = {props.token}
+                  getTransaction={props.getTransaction}
+                  />
+                  {/* <Button
                     key={v4}
                     onClick={() => deleteTransaction(transaction._id)}
                     color="danger"
                   >
                     Delete
-                  </Button>
+                  </Button> */}
                 </ModalFooter>
               </ModalBody>
             </Modal>
@@ -471,7 +473,7 @@ export default function RecentTransactions(props) {
 
   // Start with sortedTransactions being the props.transaction
   let sortedTransactions = props.transaction;
-  // console.log("sorted",sortedTransactions)
+
   // Change sortedTransactions sorting All Transactions by day
   function sortByDay() {
     sortedTransactions.sort((a, b) => {
@@ -587,6 +589,7 @@ export default function RecentTransactions(props) {
   };
 
   mapMonth(currentMonth);
+
   return (
     <>
       <div className="RecentTransactions">
@@ -595,9 +598,11 @@ export default function RecentTransactions(props) {
             view={props.view}
             getTransaction={props.getTransaction}
             accounts={props.accounts}
+            // getBudgets={getBudgets}
             getBudgets={props.getBudgets}
             budgets={props.budgets}
             getAccounts = {props.getAccounts}
+            // sortedTransaction = {props.setTransaction}
           />
         <div id="recenttransactionsmonth">
           <Button id="monthLeftBtn" onClick={subtractMonth}>

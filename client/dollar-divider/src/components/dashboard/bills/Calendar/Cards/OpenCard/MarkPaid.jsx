@@ -4,7 +4,7 @@ import {
   BsFillEnvelopeCheckFill,
   BsFillEnvelopeExclamationFill,
 } from "react-icons/bs";
-
+import MarkUnpaid from "./MarkUnpaid";
 export default function MarkPaid(props) {
 // console.log("markpaidprops",props)
 
@@ -107,7 +107,7 @@ export default function MarkPaid(props) {
     } else {
       base = "household";
     }
-    console.log("I'm all about that base (mark paid):",props.billInfo.base)
+    // console.log("I'm all about that base (mark paid):",props.billInfo.base)
 
     let acctObj = JSON.stringify({
       month: month,
@@ -156,6 +156,12 @@ export default function MarkPaid(props) {
     props.toggle();
     }
 
+    // A hacky fix that works well enough for now.
+    // https://upmostly.com/tutorials/how-to-refresh-a-page-or-component-in-react
+    function refreshPage() {
+      window.location.reload(true);
+    }
+
   async function payBill() {
     let value;
     if (props.value == true) {
@@ -186,20 +192,62 @@ export default function MarkPaid(props) {
 
       //* If we get the right response from the server
       if (data.message === "Bill has been updated successfully") {
+        submitNewTransaction()
+        refreshPage()
         props.getBills(props.view);
         // props.toggle();
-        submitNewTransaction()
       }
     } catch (err) {
       console.error(err);
     }
   }
 
+  // const updateTransactions = async () => {
+  //   // console.log("view",props.view)
+  //   let viewValue = props.view;
+  //   let url;
+  //   if (viewValue === true) {
+  //     url = "http://localhost:4000/transaction/household";
+  //   } else {
+  //     url = "http://localhost:4000/transaction/mine";
+  //   }
+  //   // console.log("url",url)
+  //   const reqOptions = {
+  //     method: "GET",
+  //     headers: new Headers({
+  //       Authorization: props.token,
+  //     }),
+  //   };
+
+  //   try {
+  //     const res = await fetch(url, reqOptions);
+  //     const data = await res.json();
+
+  //     // If the server does not provide a failure message
+  //     if (data.message !== "No transactions found.") {
+  //       props.setTransaction(data.getAllTransactions);
+  //     } else {
+  //       props.setTransaction(null);
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
   if (props.value === true) {
     return (
-      <Button color="warning" onClick={payBill}>
-        <BsFillEnvelopeExclamationFill /> Mark Unpaid
-      </Button>
+      <MarkUnpaid 
+      token={props.token}
+      getBills={props.getBills}
+      id={props.billID}
+      value={props.billInfo.paid}
+      billInfo = {props.billInfo} // Added
+      toggle={props.toggle}
+      view={props.view}
+      getBudgets={props.getBudgets}
+      getTransaction={props.getTransaction}
+      getAccounts = {props.getAccounts}
+      />
     );
   } else {
     return (

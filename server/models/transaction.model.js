@@ -40,6 +40,10 @@ const TransactionSchema = new mongoose.Schema({
     ownerID: {
         type: String,
         required: true,
+    },
+    billID: {
+        type: String,
+        required: false
     }
 })
 

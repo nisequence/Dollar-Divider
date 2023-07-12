@@ -38,6 +38,7 @@ export default function AddBudget(props) {
             token={props.token}
             view={props.view}
             budgets={props.budgets}
+            toggle = {props.toggle}
           />
         </PopoverBody>
       </UncontrolledPopover>

@@ -36,7 +36,8 @@ export default function Transaction(props) {
 
   useEffect(() => {
     if (props.token) {
-      getTransaction();
+      props.getTransaction(); // this one updates the chart
+      getTransaction() // This one updates the transaction list
     }
   }, [props.token, props.view]);
 
@@ -48,10 +49,11 @@ export default function Transaction(props) {
         token={props.token}
         view={props.view}
         accounts={props.accounts}
-        getTransaction={getTransaction}
+        getTransaction={props.getTransaction}
         budgets={props.budgets}
         getAccounts = {props.getAccounts}
         getBudgets = {props.getBudgets}
+        // setTransaction = {props.setTransaction}
       />
     </>
   );

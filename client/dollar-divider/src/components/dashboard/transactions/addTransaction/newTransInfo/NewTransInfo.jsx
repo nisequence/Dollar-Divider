@@ -23,7 +23,6 @@ export default function NewTransInfo(props) {
   } else {
     transactionType = "income";
   }
-  console.log("transactionType", transactionType);
   // ! Inspired By Kate
   let month;
   if (selected) {
@@ -104,7 +103,7 @@ export default function NewTransInfo(props) {
     let tempBalance;
     // e.preventDefault(); 
     props.getAccounts();
-    console.log("props",props)
+    // console.log("props",props)
     // console.log(finAccountRef.current.value)
     props.accounts.map((a) => {
       if (a.name === finAccountRef.current.value) {
@@ -119,6 +118,7 @@ export default function NewTransInfo(props) {
     if (tempBalance < 0) {
       alert(`This will overdraw ${finAccountRef.current.value}`)
       url = `http://localhost:4000/finAccount/edit/${id}`;
+      // url = `http://localhost:4000/finAccount/edit/${id}`;
     transObj = JSON.stringify({
       balance: tempBalance,
     })
@@ -134,13 +134,11 @@ export default function NewTransInfo(props) {
       let headers = new Headers();
       headers.append("Content-Type", "application/json");
       headers.append("Authorization", props.token);
-  
       const reqOption = {
         headers: headers,
         body: transObj,
         method: "PATCH",
       };
-  
       try {
         const res = await fetch(url, reqOption);
         const data = await res.json();
@@ -176,6 +174,7 @@ const submitNewTransaction = async (e) => {
     base: base,
   });
 
+  // console.log("base here, base here(new transinfobase:",base)
   let headers = new Headers();
   headers.append("Content-Type", "application/json");
   headers.append("Authorization", props.token);
@@ -185,6 +184,7 @@ const submitNewTransaction = async (e) => {
     body: acctObj,
     method: "POST",
   };
+  // console.log("NewTransInforeqOption",reqOption)
 
   try {
     const res = await fetch(url, reqOption);
@@ -195,6 +195,7 @@ const submitNewTransaction = async (e) => {
       data.message === "Your household has a new transaction!"
     ) {
       submitTrans()
+      refreshPage()
       props.getTransaction();
       props.toggleModal();
       props.getAccounts();
@@ -208,6 +209,12 @@ const submitNewTransaction = async (e) => {
   }
   }
 
+      // A hacky fix that works well enough for now.
+    // https://upmostly.com/tutorials/how-to-refresh-a-page-or-component-in-react
+    function refreshPage() {
+      window.location.reload(true);
+      // window.location.reload(false);
+    }
   return (
     <Container>
       <Form id="addtransactionform" onSubmit={submitNewTransaction}>

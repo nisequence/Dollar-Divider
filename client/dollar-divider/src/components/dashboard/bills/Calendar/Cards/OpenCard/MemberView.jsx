@@ -62,11 +62,13 @@ export default function MemberView(props) {
             getBills={props.getBills}
             id={billID}
             value={billInfo.paid}
+            billInfo = {billInfo} // Added
             toggle={toggle}
             view={props.view}
             getBudgets={props.getBudgets}
             getTransaction={props.getTransaction}
             getAccounts = {props.getAccounts}
+            setTransaction = {props.setTransaction}
           />
         </ModalFooter>
       </Modal>

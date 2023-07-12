@@ -26,6 +26,7 @@ export default function NewInfo(props) {
         console.log(totalToDivide);
         console.log(props.view);
         sessionStorage.setItem("Total", totalToDivide);
+        props.toggle();
       };
       totalBudgets();
     }
@@ -66,7 +67,7 @@ export default function NewInfo(props) {
       ) {
         props.getBudgets();
         setHouseholdTotal();
-        
+        props.toggle();
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
         console.error("User is unauthorized.");

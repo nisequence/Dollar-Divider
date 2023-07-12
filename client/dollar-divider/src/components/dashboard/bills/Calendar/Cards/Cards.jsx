@@ -63,6 +63,7 @@ export default function Cards(props) {
   } else {
     canEdit = false;
   }
+  // console.log("props.billsin cards", props.bills)
   return (
     <>
       {props.bills?.map((each) => {
@@ -111,6 +112,7 @@ export default function Cards(props) {
                           getTransaction={props.getTransaction}
                           getBudgets={props.getBudgets}
                           getAccounts = {props.getAccounts}
+                          setTransaction = {props.setTransaction}
                         />
                       ) : (
                         <MemberView
@@ -122,6 +124,7 @@ export default function Cards(props) {
                           getTransaction={props.getTransaction}
                           getBudgets={props.getBudgets}
                           getAccounts = {props.getAccounts}
+                          setTransaction = {props.setTransaction}
                         />
                       )}
                     </Col>

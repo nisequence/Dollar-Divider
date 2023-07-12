@@ -119,6 +119,7 @@ export default function Calendar(props) {
           getBudgets={props.getBudgets}
           getTransaction={props.getTransaction}
           getAccounts = {props.getAccounts}
+          setTransaction = {props.setTransaction}
         />
       </CarouselItem>
     );

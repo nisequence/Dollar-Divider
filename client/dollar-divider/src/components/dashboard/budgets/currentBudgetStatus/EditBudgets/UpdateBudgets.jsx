@@ -66,7 +66,7 @@ export default function UpdateBudgets(props) {
       if (data.message == "Successfully updated budget!") {
         // if (data.message == "Budget has been updated successfully") {
         props.getBudgets();
-        props.toggle();
+        props.toggleTooltip();
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
         console.error(res.message);

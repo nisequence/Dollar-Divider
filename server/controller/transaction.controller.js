@@ -26,6 +26,7 @@ router.post("/add", async (req, res) => {
       type,
       category,
       base,
+      billID,
     } = req.body;
     const userID = req.user._id;
     let newAmount;
@@ -57,6 +58,7 @@ router.post("/add", async (req, res) => {
         type: type,
         category: category,
         base: req.user._id,
+        billID: req.body.billID,
       });
 
       const newTransaction = await transaction.save();
@@ -234,6 +236,7 @@ router.get("/find/:id", async (req, res) => {
     serverError(res, err);
   }
 });
+
 
 //? PATCH ROUTE "/edit/:id"
 //* Working on Postman MR
