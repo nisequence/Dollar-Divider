@@ -20,7 +20,7 @@ export default function DeleteBill(props) {
 
       //* If we get the right response from the server
       if (data.message === "Bill was successfully deleted!") {
-        props.getBills(props.view);
+        props.getBills();
         props.toggle();
       }
     } catch (err) {

@@ -5,7 +5,8 @@ export default function Bills(props) {
   // console.log("billsprops",props)
   let url;
   const [bills, setBills] = useState([]);
-  const getBills = async (viewValue) => {
+  const getBills = async () => {
+    let viewValue = props.view;
     if (viewValue === true) {
       url = "http://localhost:4000/bills/household";
     } else {
@@ -35,7 +36,7 @@ export default function Bills(props) {
 
   useEffect(() => {
     if (props.token) {
-      getBills(props.view);
+      getBills();
     }
   }, [props.token, props.view]);
 
@@ -48,8 +49,8 @@ export default function Bills(props) {
         getBills={getBills}
         getBudgets={props.getBudgets}
         getTransaction={props.getTransaction}
-        getAccounts = {props.getAccounts}
-        setTransaction = {props.setTransaction}
+        getAccounts={props.getAccounts}
+        setTransaction={props.setTransaction}
       />
     </div>
   );

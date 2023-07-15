@@ -6,76 +6,73 @@ import {
 } from "react-icons/bs";
 import MarkUnpaid from "./MarkUnpaid";
 export default function MarkPaid(props) {
-// console.log("markpaidprops",props)
+  // console.log("markpaidprops",props)
 
-// let id;
-// let balance = 0;
-// let transObj;
-// let url;
+  // let id;
+  // let balance = 0;
+  // let transObj;
+  // let url;
 
-// const submitTrans = async (e) => {
-//   let tempBalance;
-//   // e.preventDefault(); 
-//   props.getAccounts();
-//   console.log("props",props)
-//   // console.log(finAccountRef.current.value)
-//   props.accounts.map((a) => {
-//     if (a.name === finAccountRef.current.value) {
-//       id = a._id
-//       balance = a.balance;
-//     }
-//   })
-//   if (transactionType === "expense") {
-//     tempBalance = balance - Number(amountRef.current.value);
-//   } else {tempBalance = balance + Number(amountRef.current.value);}
-  
-//   if (tempBalance < 0) {
-//     alert(`This will overdraw ${finAccountRef.current.value}`)
-//     url = `http://localhost:4000/finAccount/edit/${id}`;
-//     url = `http://localhost:4000/finAccount/edit/${id}`;
-//   transObj = JSON.stringify({
-//     balance: tempBalance,
-//   })
-//   } else {
-//     url = `http://localhost:4000/finAccount/edit/${id}`;
-//     transObj = JSON.stringify({
-//       balance: tempBalance,
-//     })
-//   }
-  
-  
+  // const submitTrans = async (e) => {
+  //   let tempBalance;
+  //   // e.preventDefault();
+  //   props.getAccounts();
+  //   console.log("props",props)
+  //   // console.log(finAccountRef.current.value)
+  //   props.accounts.map((a) => {
+  //     if (a.name === finAccountRef.current.value) {
+  //       id = a._id
+  //       balance = a.balance;
+  //     }
+  //   })
+  //   if (transactionType === "expense") {
+  //     tempBalance = balance - Number(amountRef.current.value);
+  //   } else {tempBalance = balance + Number(amountRef.current.value);}
 
-//     let headers = new Headers();
-//     headers.append("Content-Type", "application/json");
-//     headers.append("Authorization", props.token);
+  //   if (tempBalance < 0) {
+  //     alert(`This will overdraw ${finAccountRef.current.value}`)
+  //     url = `http://localhost:4000/finAccount/edit/${id}`;
+  //     url = `http://localhost:4000/finAccount/edit/${id}`;
+  //   transObj = JSON.stringify({
+  //     balance: tempBalance,
+  //   })
+  //   } else {
+  //     url = `http://localhost:4000/finAccount/edit/${id}`;
+  //     transObj = JSON.stringify({
+  //       balance: tempBalance,
+  //     })
+  //   }
 
-//     const reqOption = {
-//       headers: headers,
-//       body: transObj,
-//       method: "PATCH",
-//     };
-//     console.log("NewTransInforeqOption",reqOption)
+  //     let headers = new Headers();
+  //     headers.append("Content-Type", "application/json");
+  //     headers.append("Authorization", props.token);
 
-//     try {
-//       const res = await fetch(url, reqOption);
-//       const data = await res.json();
-//       // If the server provides a success message
-//       if (
-//         data.message === `${finAccountRef.current.value} account has been updated successfully`
-//       ) {
-//         props.getTransaction();
-//       } else {
-//         // Do nothing, maybe build an error component later to tell the user to re-configure their item
-//         console.error("User is unauthorized.");
-//       }
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   };
+  //     const reqOption = {
+  //       headers: headers,
+  //       body: transObj,
+  //       method: "PATCH",
+  //     };
+  //     console.log("NewTransInforeqOption",reqOption)
 
+  //     try {
+  //       const res = await fetch(url, reqOption);
+  //       const data = await res.json();
+  //       // If the server provides a success message
+  //       if (
+  //         data.message === `${finAccountRef.current.value} account has been updated successfully`
+  //       ) {
+  //         props.getTransaction();
+  //       } else {
+  //         // Do nothing, maybe build an error component later to tell the user to re-configure their item
+  //         console.error("User is unauthorized.");
+  //       }
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
 
   const submitNewTransaction = async () => {
-  // const submitNewTransaction = async () => {
+    // const submitNewTransaction = async () => {
     // props.getTransaction()
     const url = "http://localhost:4000/transaction/add";
     // console.log("props.billInfo",props.billInfo)
@@ -90,14 +87,14 @@ export default function MarkPaid(props) {
     // type: "expense",
     // console.log("base", props.billInfo.base)
 
-    let amount = props.billInfo.amount
-    let month = props.billInfo.dueMonth
-    let day = props.billInfo.dueDay
-    let category = `${props.billInfo.category}`
-    let desc = props.billInfo.title
-    let merchant = props.billInfo.title
-    let finAccount = "checking" //Change this to ask for an account
-    let type = "expense"
+    let amount = props.billInfo.amount;
+    let month = props.billInfo.dueMonth;
+    let day = props.billInfo.dueDay;
+    let category = `${props.billInfo.category}`;
+    let desc = props.billInfo.title;
+    let merchant = props.billInfo.title;
+    let finAccount = "checking"; //Change this to ask for an account
+    let type = "expense";
     // let base = props.billInfo.base
     let base;
 
@@ -133,7 +130,7 @@ export default function MarkPaid(props) {
       body: acctObj,
       method: "POST",
     };
-    console.log('markpaidprops',props)
+    console.log("markpaidprops", props);
     try {
       const res = await fetch(url, reqOption);
       const data = await res.json();
@@ -154,13 +151,13 @@ export default function MarkPaid(props) {
     // props.getAccounts(); // Not needed to update graph // Also doesn't update transactions
     // props.getBudgets(); // Not needed to update graph // Also doesn't update transactions
     props.toggle();
-    }
+  };
 
-    // A hacky fix that works well enough for now.
-    // https://upmostly.com/tutorials/how-to-refresh-a-page-or-component-in-react
-    function refreshPage() {
-      window.location.reload(true);
-    }
+  // A hacky fix that works well enough for now.
+  // https://upmostly.com/tutorials/how-to-refresh-a-page-or-component-in-react
+  function refreshPage() {
+    window.location.reload(true);
+  }
 
   async function payBill() {
     let value;
@@ -192,9 +189,9 @@ export default function MarkPaid(props) {
 
       //* If we get the right response from the server
       if (data.message === "Bill has been updated successfully") {
-        submitNewTransaction()
-        refreshPage()
-        props.getBills(props.view);
+        submitNewTransaction();
+        // refreshPage();
+        props.getBills();
         // props.toggle();
       }
     } catch (err) {
@@ -236,17 +233,17 @@ export default function MarkPaid(props) {
 
   if (props.value === true) {
     return (
-      <MarkUnpaid 
-      token={props.token}
-      getBills={props.getBills}
-      id={props.billID}
-      value={props.billInfo.paid}
-      billInfo = {props.billInfo} // Added
-      toggle={props.toggle}
-      view={props.view}
-      getBudgets={props.getBudgets}
-      getTransaction={props.getTransaction}
-      getAccounts = {props.getAccounts}
+      <MarkUnpaid
+        token={props.token}
+        getBills={props.getBills}
+        id={props.billID}
+        value={props.billInfo.paid}
+        billInfo={props.billInfo} // Added
+        toggle={props.toggle}
+        view={props.view}
+        getBudgets={props.getBudgets}
+        getTransaction={props.getTransaction}
+        getAccounts={props.getAccounts}
       />
     );
   } else {

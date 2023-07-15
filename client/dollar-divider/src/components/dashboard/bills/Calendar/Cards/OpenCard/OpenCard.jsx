@@ -107,7 +107,7 @@ export default function OpenCard(props) {
 
       // If the server provides a success message
       if (data.message == "Bill has been updated successfully") {
-        props.getBills(props.view);
+        props.getBills();
         toggle();
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
@@ -121,7 +121,7 @@ export default function OpenCard(props) {
   return (
     <>
       <Button className="opencardBtn" onClick={toggle}>
-      {/* <Button id="opencardBtn" color="info" onClick={toggle}> */}
+        {/* <Button id="opencardBtn" color="info" onClick={toggle}> */}
         <BsFillEnvelopePaperFill />
       </Button>
       <Modal isOpen={modal} toggle={toggle} fade={false}>
@@ -242,11 +242,11 @@ export default function OpenCard(props) {
               value={billInfo.paid}
               toggle={toggle}
               view={props.view}
-              billInfo = {props.billInfo}
+              billInfo={props.billInfo}
               getBudgets={props.getBudgets}
               getTransaction={props.getTransaction}
-              getAccounts = {props.getAccounts}
-              setTransaction = {props.setTransaction}
+              getAccounts={props.getAccounts}
+              setTransaction={props.setTransaction}
             />
             <Button color="primary" id="submit">
               <MdSave /> Save

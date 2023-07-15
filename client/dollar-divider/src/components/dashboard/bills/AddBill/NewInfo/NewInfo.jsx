@@ -48,14 +48,14 @@ export default function NewInfo(props) {
     const category = categoryRef.current.value;
 
     let autoPay;
-    if (autoPayRef.current.value === "on") {
+    if (autoPayRef.current.value === "true") {
       autoPay = true;
     } else {
       autoPay = false;
     }
 
     let recurring;
-    if (recurringRef.current.value === "on") {
+    if (recurringRef.current.value === "true") {
       recurring = true;
     } else {
       recurring = false;
@@ -93,7 +93,7 @@ export default function NewInfo(props) {
         data.message === "You have created a new bill!" ||
         data.message === "Your household has a new bill!"
       ) {
-        props.getBills(props.view);
+        props.getBills();
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
         console.error("User is unauthorized.");

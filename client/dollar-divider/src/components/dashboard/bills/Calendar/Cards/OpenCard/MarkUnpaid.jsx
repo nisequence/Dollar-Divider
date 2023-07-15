@@ -3,10 +3,7 @@ import { Button } from "reactstrap";
 import { BsFillEnvelopeExclamationFill } from "react-icons/bs";
 
 export default function MarkUnpaid(props) {
-
-
   async function unpayBill() {
-
     let value;
     if (props.value == true) {
       value = false;
@@ -37,44 +34,44 @@ export default function MarkUnpaid(props) {
 
       //* If we get the right response from the server
       if (data.message === "Bill was successfully deleted!") {
-        props.getBills(props.view);
+        props.getBills();
         props.toggle();
-        unsubmitTransaction()
+        unsubmitTransaction();
       }
     } catch (err) {
       console.error(err);
     }
 
-    console.log("unpaybillclicked")
+    console.log("unpaybillclicked");
     // unsubmitTransaction()
   }
 
-    async function unsubmitTransaction() {
-        let url = `http://localhost:4000/transaction/delete/${props.billInfo._id}`;
-        console.log("props.billInfo._id", props.billInfo._id)
-        alert(`deleteURL: ${url}`);
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", props.token);
+  async function unsubmitTransaction() {
+    let url = `http://localhost:4000/transaction/delete/${props.billInfo._id}`;
+    console.log("props.billInfo._id", props.billInfo._id);
+    alert(`deleteURL: ${url}`);
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", props.token);
 
-        let requestOptions = {
-          headers: myHeaders,
-          method: "DELETE",
-        };
+    let requestOptions = {
+      headers: myHeaders,
+      method: "DELETE",
+    };
 
-        try {
-          let response = await fetch(url, requestOptions);
-          let data = await response.json();
-          if (data.message === "Transaction was successfully deleted!") {
-            props.getTransaction();
-            // alert("deleted")
-          }
-        } catch (error) {
-          console.error(error);
-        }
-        props.getTransaction()
-      };
+    try {
+      let response = await fetch(url, requestOptions);
+      let data = await response.json();
+      if (data.message === "Transaction was successfully deleted!") {
+        props.getTransaction();
+        // alert("deleted")
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    props.getTransaction();
+  }
 
-  console.log("billInfo",props.billInfo)
+  console.log("billInfo", props.billInfo);
   return (
     <>
       <Button color="warning" onClick={unpayBill}>
