@@ -37,7 +37,7 @@ export default function DeleteOwnProfile(props) {
         data.message ===
         "User was successfully removed from the household and deleted!"
       ) {
-        console.log("User Deleted, logging out.");
+        // console.log("User Deleted, logging out.");
         localStorage.removeItem("token"); // clears out local storage
         localStorage.clear();
         sessionStorage.clear();

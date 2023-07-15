@@ -84,7 +84,7 @@ router.post("/add", async (req, res) => {
       const transaction = new Transaction({
         ownerID: userID,
         merchant: merchant,
-        amount: amount,
+        amount: newAmount,
         type: type,
         category: category,
         month: month,

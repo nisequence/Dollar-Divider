@@ -42,7 +42,7 @@ export default function Login({ updateToken }) {
         alert(data.message);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
   return (

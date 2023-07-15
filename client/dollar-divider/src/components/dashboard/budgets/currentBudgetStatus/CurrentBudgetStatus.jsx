@@ -90,7 +90,7 @@ export default function CurrentBudgetStatus(props) {
     labels: [],
     datasets: [
       {
-        label: "Over/Under Budget",
+        label: "Remaining Budget Amount",
         data: [], // Dollar amounts for each category.
         backgroundColor: [],
       },
@@ -141,12 +141,12 @@ export default function CurrentBudgetStatus(props) {
             let budgetCategoryTotal = [item][0].budgetAmt;
             chartData.datasets[0].data.push(budgetCategoryTotal + amountSpent);
           } catch (err) {
-            console.log(err);
+            console.error(err);
           }
         });
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 

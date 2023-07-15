@@ -25,6 +25,7 @@ export default function Split(props) {
               token={props.token}
               view={props.view}
               transactions={props.transactions}
+              getTransactions={props.getTransactions}
             />
           </>
         );

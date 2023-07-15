@@ -101,120 +101,118 @@ export default function NewTransInfo(props) {
   let url;
   const submitTrans = async (e) => {
     let tempBalance;
-    // e.preventDefault(); 
+    // e.preventDefault();
     props.getAccounts();
-    // console.log("props",props)
+    // console.log("props", props);
     // console.log(finAccountRef.current.value)
     props.accounts.map((a) => {
       if (a.name === finAccountRef.current.value) {
-        id = a._id
+        id = a._id;
         balance = a.balance;
       }
-    })
+    });
     if (transactionType === "expense") {
       tempBalance = balance - Number(amountRef.current.value);
-    } else {tempBalance = balance + Number(amountRef.current.value);}
-    
+    } else {
+      tempBalance = balance + Number(amountRef.current.value);
+    }
+
     if (tempBalance < 0) {
-      alert(`This will overdraw ${finAccountRef.current.value}`)
+      alert(`This will overdraw ${finAccountRef.current.value}`);
       url = `http://localhost:4000/finAccount/edit/${id}`;
-      // url = `http://localhost:4000/finAccount/edit/${id}`;
-    transObj = JSON.stringify({
-      balance: tempBalance,
-    })
+      transObj = JSON.stringify({
+        balance: tempBalance,
+      });
     } else {
       url = `http://localhost:4000/finAccount/edit/${id}`;
       transObj = JSON.stringify({
         balance: tempBalance,
-      })
+      });
     }
-    
-    
 
-      let headers = new Headers();
-      headers.append("Content-Type", "application/json");
-      headers.append("Authorization", props.token);
-      const reqOption = {
-        headers: headers,
-        body: transObj,
-        method: "PATCH",
-      };
-      try {
-        const res = await fetch(url, reqOption);
-        const data = await res.json();
-        // If the server provides a success message
-        if (
-          data.message === `${finAccountRef.current.value} account has been updated successfully`
-        ) {
-          props.getTransaction();
-        } else {
-          // Do nothing, maybe build an error component later to tell the user to re-configure their item
-          console.error("User is unauthorized.");
-        }
-      } catch (err) {
-        console.error(err);
-      }
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("Authorization", props.token);
+
+    const reqOption = {
+      headers: headers,
+      body: transObj,
+      method: "PATCH",
     };
 
-
-const submitNewTransaction = async (e) => {
-  e.preventDefault();
-  props.getTransaction()
-  let url = "http://localhost:4000/transaction/add";
-
-  let acctObj = JSON.stringify({
-
-    month: month,
-    day: (day = Number(day)),
-    merchant: merchantRef.current.value,
-    amount: amountRef.current.value,
-    finAccount: finAccountRef.current.value,
-    category: categoryRef.current.value,
-    type: transactionType,
-    base: base,
-  });
-
-  // console.log("base here, base here(new transinfobase:",base)
-  let headers = new Headers();
-  headers.append("Content-Type", "application/json");
-  headers.append("Authorization", props.token);
-
-  const reqOption = {
-    headers: headers,
-    body: acctObj,
-    method: "POST",
+    try {
+      const res = await fetch(url, reqOption);
+      const data = await res.json();
+      // If the server provides a success message
+      if (
+        data.message ===
+        `${finAccountRef.current.value} account has been updated successfully`
+      ) {
+        props.getTransaction();
+      } else {
+        // Do nothing, maybe build an error component later to tell the user to re-configure their item
+        console.error("User is unauthorized.");
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
-  // console.log("NewTransInforeqOption",reqOption)
 
-  try {
-    const res = await fetch(url, reqOption);
-    const data = await res.json();
-    // If the server provides a success message
-    if (
-      data.message === "You have created a new transaction!" ||
-      data.message === "Your household has a new transaction!"
-    ) {
-      submitTrans()
-      refreshPage()
-      props.getTransaction();
-      props.toggleModal();
-      props.getAccounts();
-      props.getBudgets();
-    } else {
-      // Do nothing, maybe build an error component later to tell the user to re-configure their item
-      console.error("User is unauthorized.");
-    }
-  } catch (err) {
-    console.error(err);
-  }
-  }
+  const submitNewTransaction = async (e) => {
+    e.preventDefault();
+    props.getTransaction();
+    let url = "http://localhost:4000/transaction/add";
 
-      // A hacky fix that works well enough for now.
-    // https://upmostly.com/tutorials/how-to-refresh-a-page-or-component-in-react
-    function refreshPage() {
-      window.location.reload(true);
-      // window.location.reload(false);
+    let acctObj = JSON.stringify({
+      month: month,
+      day: (day = Number(day)),
+      merchant: merchantRef.current.value,
+      amount: amountRef.current.value,
+      finAccount: finAccountRef.current.value,
+      category: categoryRef.current.value,
+      type: transactionType,
+      base: base,
+    });
+
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("Authorization", props.token);
+
+    const reqOption = {
+      headers: headers,
+      body: acctObj,
+      method: "POST",
+    };
+
+    try {
+      const res = await fetch(url, reqOption);
+      const data = await res.json();
+      // If the server provides a success message
+      if (
+        data.message === "You have created a new transaction!" ||
+        data.message === "Your household has a new transaction!"
+      ) {
+        submitTrans();
+        //refreshPage()
+        props.getTransaction();
+        props.toggleModal();
+        props.getAccounts();
+        props.getBudgets();
+      } else {
+        // Do nothing, maybe build an error component later to tell the user to re-configure their item
+        console.error("User is unauthorized.");
+      }
+    } catch (err) {
+      console.error(err);
     }
+  };
+
+  // A hacky fix that works well enough for now.
+  // https://upmostly.com/tutorials/how-to-refresh-a-page-or-component-in-react
+  function refreshPage() {
+    window.location.reload(true);
+    // window.location.reload(false);
+  }
   return (
     <Container>
       <Form id="addtransactionform" onSubmit={submitNewTransaction}>

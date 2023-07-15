@@ -111,7 +111,7 @@ export default function RecentTransactions(props) {
         });
       } else {
         // setBudgets(null);
-        console.log("no budget data found");
+        // console.log("no budget data found");
       }
     } catch (err) {
       console.error(err);
@@ -178,13 +178,9 @@ export default function RecentTransactions(props) {
   }
   // ! End Inspired By Kate
 
-
-  
-  
-  
   //Todo Update Transaction Functionality for the Edit Menu
   const updateTransaction = async (id) => {
-  // const updateTransaction = async (id) => {
+    // const updateTransaction = async (id) => {
     id = id;
     const desc = descRef.current.value;
     // if (descRef.current.value != null) {desc = descRef.current.value;} else {desc = transaction.amount}
@@ -230,9 +226,8 @@ export default function RecentTransactions(props) {
     }
   };
 
-
   function mapMonth(curr) {
-// Maps through the Transactions sorted into Months Arrays to find the Current Month to Display
+    // Maps through the Transactions sorted into Months Arrays to find the Current Month to Display
     transInfo[months[curr - 1]]?.map((transaction) => {
       // abbreviate month names for the table
       let monthArray = [];
@@ -298,7 +293,7 @@ export default function RecentTransactions(props) {
 
       return recentTransactions.push(
         <tr className={tempColor}>
-        {/* <tr key={transInfo[months[curr - 1]]?.indexOf(transaction)} className={tempColor}> */}
+          {/* <tr key={transInfo[months[curr - 1]]?.indexOf(transaction)} className={tempColor}> */}
           <td>{month + transaction.day}</td>
           {/* <td>{transaction.desc}</td> */}
           <td>{displayNumber.toLocaleString("en-US")}</td>
@@ -338,7 +333,13 @@ export default function RecentTransactions(props) {
               {/* <ModalHeader toggle={toggleModal}>Edit Transaction</ModalHeader> */}
               <ModalBody>
                 <>
-                  <Form onSubmit={() => console.log("form submitted")}>
+                  <Form
+                    onSubmit={() =>
+                      console.log(
+                        "edit transaction submitted, why we console.log again?"
+                      )
+                    }
+                  >
                     {/* Name of Item */}
                     <FormGroup>
                       <Input
@@ -450,9 +451,9 @@ export default function RecentTransactions(props) {
                   </Button> */}
                   {/* Delete Transaction Button */}
                   <DeleteTransaction
-                  id = {transaction._id}
-                  token = {props.token}
-                  getTransaction={props.getTransaction}
+                    id={transaction._id}
+                    token={props.token}
+                    getTransaction={props.getTransaction}
                   />
                   {/* <Button
                     key={v4}
@@ -593,24 +594,22 @@ export default function RecentTransactions(props) {
   return (
     <>
       <div className="RecentTransactions">
-      <AddTransaction
-            token={props.token}
-            view={props.view}
-            getTransaction={props.getTransaction}
-            accounts={props.accounts}
-            // getBudgets={getBudgets}
-            getBudgets={props.getBudgets}
-            budgets={props.budgets}
-            getAccounts = {props.getAccounts}
-            // sortedTransaction = {props.setTransaction}
-          />
+        <AddTransaction
+          token={props.token}
+          view={props.view}
+          getTransaction={props.getTransaction}
+          accounts={props.accounts}
+          getBudgets={props.getBudgets}
+          budgets={props.budgets}
+          getAccounts={props.getAccounts}
+        />
         <div id="recenttransactionsmonth">
           <Button id="monthLeftBtn" onClick={subtractMonth}>
             <LuCalendarMinus />
           </Button>
           <div id="rtMonthName">{months[currentMonth - 1]}</div>
           <Button id="monthRightBtn" onClick={addMonth}>
-          <LuCalendarPlus />
+            <LuCalendarPlus />
           </Button>
         </div>
         <Table>
@@ -624,9 +623,7 @@ export default function RecentTransactions(props) {
         Manual Entry
       </th> */}
               <th>Category</th>
-              <th>
-        Account
-      </th>
+              <th>Account</th>
               <th></th>
               {/* <th>
         Personal/Household
