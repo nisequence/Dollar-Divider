@@ -63,7 +63,16 @@ export default function RecentTransactions(props) {
   const [modal, setModal] = useState(false);
   const [state, setState] = useState(true);
   const [selected, setSelected] = useState();
+  // let today = new Date();
+  // let thisMonth = today.getMonth() + 1;
+  // let thisCurrentDay = today.getDate();
+  // let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+  // let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
   const [currentMonth, setCurrentMonth] = useState(7);
+  // const [currentDay, setCurrentDay] = useState();
+  // setCurrentMonth(7)
+  // setCurrentMonth(thisMonth)
+  // setCurrentDay(thisCurrentDay)
 
   // Set the type of transaction (income vs expense)
   if (state === true) {
@@ -574,6 +583,9 @@ export default function RecentTransactions(props) {
   transInfo.October = octArray;
   transInfo.November = novArray;
   transInfo.December = decArray;
+
+  // console.log("sortedTransactions",sortedTransactions)
+  // console.log("transInfo:",transInfo)
 
   const addMonth = () => {
     if (currentMonth < 12) {

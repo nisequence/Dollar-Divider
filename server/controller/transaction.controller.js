@@ -19,6 +19,7 @@ router.post("/add", async (req, res) => {
     const {
       month,
       day,
+      year,
       // desc,
       merchant,
       amount,
@@ -51,6 +52,7 @@ router.post("/add", async (req, res) => {
         ownerID: userID,
         month: month,
         day: day,
+        year: year,
         // desc: desc,
         merchant: merchant,
         amount: newAmount,
@@ -89,6 +91,7 @@ router.post("/add", async (req, res) => {
         category: category,
         month: month,
         day: day,
+        year: year,
         // desc: desc,
         finAccount: req.user.firstName,
         //! We don't want to show bank info on household!
@@ -155,23 +158,24 @@ router.get("/mine", async (req, res) => {
 //? GET BY DATE ROUTE "/date/:date"
 //* Successful in postman
 
-router.get("/date/:month/:day", async (req, res) => {
-  try {
-    const { month, day } = req.params;
+// router.get("/date/:month/:day", async (req, res) => {
+//   try {
+//     const { month, day } = req.params;
 
-    const getDate = await Transaction.find({ month: month, day: day });
+//     const getDate = await Transaction.find({ month: month, day: day });
 
-    getDate.length > 0
-      ? res.status(200).json({
-          getDate,
-        })
-      : res.status(404).json({
-          message: "No transactions found for this date.",
-        });
-  } catch (err) {
-    serverError(res, err);
-  }
-});
+//     getDate.length > 0
+//       ? res.status(200).json({
+//           getDate,
+//         })
+//       : res.status(404).json({
+//           message: "No transactions found for this date.",
+//         });
+//   } catch (err) {
+//     serverError(res, err);
+//   }
+// });
+
 //? GET BY CATEGORY ROUTE "/category/:category"
 //* Successful on Postman
 
@@ -200,7 +204,7 @@ router.get("/household/:month", async (req, res) => {
     const { month } = req.params;
 
     const getTransactions = await Transaction.find(
-      { month: month, base: req.user.householdID }
+      { month: month, year: year, base: req.user.householdID }
     );
 
     getTransactions.length > 0
@@ -247,7 +251,7 @@ router.patch("/edit/:id", async (req, res) => {
     // pull value from parameter (id)
     const { id } = req.params;
 
-    const { month, day, desc, merchant, amount, category, type } = req.body;
+    const { month, day, year, desc, merchant, amount, category, type } = req.body;
     let newAmount;
     if (type == "expense") {
       newAmount = 0 - amount;
@@ -258,6 +262,7 @@ router.patch("/edit/:id", async (req, res) => {
     const info = {
       month: month,
       day: day,
+      year: year,
       desc: desc,
       merchant: merchant,
       amount: newAmount,
