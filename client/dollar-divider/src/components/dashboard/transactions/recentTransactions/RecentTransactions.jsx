@@ -103,7 +103,9 @@ export default function RecentTransactions(props) {
       // console.log("recenttransactionsdata",data)
       newArray.push(data);
       // If the server does not provide a failure message
-      if (data.message !== "No personal budgets found.") {
+      console.log("data.message:",data.message)
+      if (data.message !== "No personal budgets found." || data.message !== "No household budgets found.") {
+        console.log("budgets found in recent transactions")
         // setBudgets(data.allBudgets);
         // categoryOptions = [];
         data.allBudgets.map((item) => {
@@ -111,7 +113,7 @@ export default function RecentTransactions(props) {
         });
       } else {
         // setBudgets(null);
-        // console.log("no budget data found");
+        console.log("no budget data found");
       }
     } catch (err) {
       console.error(err);
