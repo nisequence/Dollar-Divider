@@ -90,7 +90,8 @@ router.post("/add", async (req, res) => {
         month: month,
         day: day,
         // desc: desc,
-        finAccount: finAccount,
+        finAccount: req.user.firstName,
+        //! We don't want to show bank info on household!
         base: req.user.householdID,
       });
 

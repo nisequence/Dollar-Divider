@@ -26,6 +26,10 @@ const BillSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    dueYear: {
+        type: Number,
+        required: true,
+    },
     recurring: {
         type: Boolean,
         required: true,
