@@ -285,13 +285,22 @@ router.patch("/pay/:id", async (req, res) => {
 
     if (findBill.recurring === true && paid == true) {
       //* If this bill is supposed to happen again, create a new one for the next month
+
+      let newYear;
+      if (updatedBill.dueMonth === "December") {
+        // If the bill we are paying and copying for the following month was dated for December, we should increase the year for the new bill!
+        newYear = updatedBill.dueYear + 1;
+      } else {
+        // If not, leave the year the same
+        newYear = updatedBill.dueYear;
+      }
       const newBill = new Bill({
         title: updatedBill.title,
         amount: updatedBill.amount,
         paid: false,
         dueMonth: nextMonth(updatedBill.dueMonth),
         dueDay: updatedBill.dueDay,
-        dueYear: updatedBill.dueYear,
+        dueYear: newYear,
         autoPay: updatedBill.autoPay,
         recurring: updatedBill.recurring,
         category: updatedBill.category,
