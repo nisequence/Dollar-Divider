@@ -63,12 +63,12 @@ export default function RecentTransactions(props) {
   const [modal, setModal] = useState(false);
   const [state, setState] = useState(true);
   const [selected, setSelected] = useState();
-  // let today = new Date();
-  // let thisMonth = today.getMonth() + 1;
+  let today = new Date();
+  let thisMonth = today.getMonth() + 1;
   // let thisCurrentDay = today.getDate();
   // let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
   // let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-  const [currentMonth, setCurrentMonth] = useState(7);
+  const [currentMonth, setCurrentMonth] = useState(thisMonth);
   // const [currentDay, setCurrentDay] = useState();
   // setCurrentMonth(7)
   // setCurrentMonth(thisMonth)
@@ -398,9 +398,7 @@ export default function RecentTransactions(props) {
                       >
                         {props.budgets?.map((each) => {
                           return (
-                            <>
-                              <option>{each.budgetCat}</option>
-                            </>
+                              <option key={props.budgets.indexOf(each)}>{each.budgetCat}</option>
                           );
                         })}
                       </Input>
@@ -426,9 +424,7 @@ export default function RecentTransactions(props) {
                       >
                         {props.accounts?.map((a) => {
                           return (
-                            <>
-                              <option> {a.name}</option>
-                            </>
+                              <option key={props.accounts.indexOf(a)}> {a.name}</option>
                           );
                         })}
                       </Input>
