@@ -36,7 +36,7 @@ if (tempTransactionInfo != props.transaction) {
   setTempTransactionInfo(props.transaction)
 }
 
-console.log("temptransinfo",tempTransactionInfo)
+// console.log("temptransinfo",tempTransactionInfo)
   // const [budgetStatus, setBudgetStatus] = useState();
 
   // useEffect (() => {
@@ -181,22 +181,22 @@ console.log("temptransinfo",tempTransactionInfo)
       }
       // useEffect (() => {
 
-      console.log("props",props)
-        console.log("tempChartData",tempChartData.datasets[0].data.toString())
-        console.log("chartData", chartData.datasets[0].data.toString())
+      // console.log("props",props)
+        // console.log("tempChartData",tempChartData.datasets[0].data.toString())
+        // console.log("chartData", chartData.datasets[0].data.toString())
         // if (tempChartData !== null) {
         if (tempChartData.datasets[0].data.toString() !== chartData.datasets[0].data.toString()) {
           if (props.budgets !== null) {
-        console.log("unequal")
-        console.log(props.budgets)
+        // console.log("unequal")
+        // console.log(props.budgets)
         setChartData(tempChartData)
       } else {
           console.log("null")
           setChartData ([0])
         // }
-        console.log("equal")
-        console.log("tempChartData",tempChartData) //! In household view, these are wrong when there is no household
-        console.log("chartData",chartData) //! In household view, these are wrong when there is no household
+        // console.log("equal")
+        // console.log("tempChartData",tempChartData) //! In household view, these are wrong when there is no household
+        // console.log("chartData",chartData) //! In household view, these are wrong when there is no household
       }
     
     }
