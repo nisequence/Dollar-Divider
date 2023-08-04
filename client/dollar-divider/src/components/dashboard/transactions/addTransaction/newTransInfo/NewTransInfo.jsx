@@ -25,7 +25,10 @@ export default function NewTransInfo(props) {
   }
   // ! Inspired By Kate
   let month;
+  let year;
+  console.log('selected',selected)
   if (selected) {
+    year = selected.toString().slice(11, 15);
     month = selected.toString().slice(4, 7);
     if (month === "Jan") {
       month = "January";
@@ -166,6 +169,7 @@ export default function NewTransInfo(props) {
     let acctObj = JSON.stringify({
       month: month,
       day: (day = Number(day)),
+      year: year,
       merchant: merchantRef.current.value,
       amount: amountRef.current.value,
       finAccount: finAccountRef.current.value,
@@ -271,9 +275,7 @@ export default function NewTransInfo(props) {
             </option>
             {props.accounts?.map((a) => {
               return (
-                <>
-                  <option> {a.name}</option>
-                </>
+                  <option key={props.accounts.indexOf(a)}> {a.name}</option>
               );
             })}
           </Input>
@@ -292,9 +294,7 @@ export default function NewTransInfo(props) {
             </option>
             {props.budgets?.map((each) => {
               return (
-                <>
-                  <option>{each.budgetCat}</option>
-                </>
+                  <option key={props.budgets.indexOf(each)}>{each.budgetCat}</option>
               );
             })}
           </Input>
