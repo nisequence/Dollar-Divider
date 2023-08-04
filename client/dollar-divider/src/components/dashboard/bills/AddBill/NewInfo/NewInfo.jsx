@@ -27,6 +27,7 @@ export default function NewInfo(props) {
   const amountRef = useRef();
   const monthRef = useRef();
   const dayRef = useRef();
+  const yearRef = useRef();
   const categoryRef = useRef();
   const autoPayRef = useRef();
   const recurringRef = useRef();
@@ -45,6 +46,7 @@ export default function NewInfo(props) {
     const amount = amountRef.current.value;
     const dueMonth = monthRef.current.value;
     const dueDay = dayRef.current.value;
+    const dueYear = yearRef.current.value;
     const category = categoryRef.current.value;
 
     let autoPay;
@@ -68,6 +70,7 @@ export default function NewInfo(props) {
       amount: amount,
       dueMonth: dueMonth,
       dueDay: dueDay,
+      dueYear: dueYear,
       autoPay: autoPay,
       recurring: recurring,
       category: category,
@@ -190,6 +193,15 @@ export default function NewInfo(props) {
               );
             })}
           </Input>
+        </FormGroup>
+        <FormGroup>
+          <Label input> Select Year</Label>
+          <Input
+            required
+            type="number"
+            autoComplete="off"
+            innerRef={yearRef}
+          ></Input>
         </FormGroup>
         <FormGroup check inline>
           <Input type="checkbox" innerRef={autoPayRef} />
