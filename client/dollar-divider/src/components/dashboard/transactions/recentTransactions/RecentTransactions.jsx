@@ -65,6 +65,7 @@ export default function RecentTransactions(props) {
   const [selected, setSelected] = useState();
   let today = new Date();
   let thisMonth = today.getMonth() + 1;
+  let thisYear = today.getFullYear();
   // let thisCurrentDay = today.getDate();
   // let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
   // let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -112,9 +113,12 @@ export default function RecentTransactions(props) {
       // console.log("recenttransactionsdata",data)
       newArray.push(data);
       // If the server does not provide a failure message
-      console.log("data.message:",data.message)
-      if (data.message !== "No personal budgets found." || data.message !== "No household budgets found.") {
-        console.log("budgets found in recent transactions")
+      console.log("data.message:", data.message);
+      if (
+        data.message !== "No personal budgets found." ||
+        data.message !== "No household budgets found."
+      ) {
+        console.log("budgets found in recent transactions");
         // setBudgets(data.allBudgets);
         // categoryOptions = [];
         data.allBudgets.map((item) => {
@@ -398,7 +402,9 @@ export default function RecentTransactions(props) {
                       >
                         {props.budgets?.map((each) => {
                           return (
-                              <option key={props.budgets.indexOf(each)}>{each.budgetCat}</option>
+                            <option key={props.budgets.indexOf(each)}>
+                              {each.budgetCat}
+                            </option>
                           );
                         })}
                       </Input>
@@ -424,7 +430,10 @@ export default function RecentTransactions(props) {
                       >
                         {props.accounts?.map((a) => {
                           return (
-                              <option key={props.accounts.indexOf(a)}> {a.name}</option>
+                            <option key={props.accounts.indexOf(a)}>
+                              {" "}
+                              {a.name}
+                            </option>
                           );
                         })}
                       </Input>
@@ -617,7 +626,9 @@ export default function RecentTransactions(props) {
           <Button id="monthLeftBtn" onClick={subtractMonth}>
             <LuCalendarMinus />
           </Button>
-          <div id="rtMonthName">{months[currentMonth - 1]}</div>
+          <div id="rtMonthName">
+            {months[currentMonth - 1]} {thisYear}
+          </div>
           <Button id="monthRightBtn" onClick={addMonth}>
             <LuCalendarPlus />
           </Button>
