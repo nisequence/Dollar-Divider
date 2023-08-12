@@ -9,14 +9,13 @@ import {
   Container,
   Row,
 } from "reactstrap";
-import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
 // import DatePicker from "../../datePicker/DayPicker";
 import "react-day-picker/dist/style.css";
 let transactionType;
 
 export default function NewTransInfo(props) {
-  const [selected, setSelected] = React.useState();
+  const [selected, setSelected] = useState();
   const [state, setState] = useState(true);
   if (state === true) {
     transactionType = "expense";
@@ -26,7 +25,7 @@ export default function NewTransInfo(props) {
   // ! Inspired By Kate
   let month;
   let year;
-  console.log('selected',selected)
+  // console.log("selected", selected);
   if (selected) {
     year = selected.toString().slice(11, 15);
     month = selected.toString().slice(4, 7);
@@ -80,8 +79,8 @@ export default function NewTransInfo(props) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   //* Use useRef to get values from each input
-  const monthRef = useRef();
-  const dayRef = useRef();
+  // const monthRef = useRef();
+  // const dayRef = useRef();
   const descRef = useRef();
   const merchantRef = useRef();
   const amountRef = useRef();
@@ -274,9 +273,7 @@ export default function NewTransInfo(props) {
               Select an account
             </option>
             {props.accounts?.map((a) => {
-              return (
-                  <option key={props.accounts.indexOf(a)}> {a.name}</option>
-              );
+              return <option key={props.accounts.indexOf(a)}> {a.name}</option>;
             })}
           </Input>
         </FormGroup>
@@ -294,7 +291,9 @@ export default function NewTransInfo(props) {
             </option>
             {props.budgets?.map((each) => {
               return (
-                  <option key={props.budgets.indexOf(each)}>{each.budgetCat}</option>
+                <option key={props.budgets.indexOf(each)}>
+                  {each.budgetCat}
+                </option>
               );
             })}
           </Input>

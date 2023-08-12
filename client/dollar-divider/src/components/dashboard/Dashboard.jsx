@@ -26,6 +26,7 @@ export default function Dashboard(props) {
 
   const getTransaction = async () => {
     let viewValue = props.view;
+    let url;
     if (viewValue === true) {
       url = "http://localhost:4000/transaction/household";
     } else {
@@ -47,7 +48,7 @@ export default function Dashboard(props) {
       // If the server does not provide a failure message
       if (data.message !== "No transactions found.") {
         setTransaction(data.getAllTransactions);
-        if (viewValue === true) {
+        if (url === "http://localhost:4000/transaction/household") {
           setSplitSpending(data.getAllTransactions);
         }
       } else {
