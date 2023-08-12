@@ -1,33 +1,82 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Form, FormGroup, Input, Button, Label, ModalFooter } from "reactstrap";
 import { BsFillEnvelopePlusFill } from "react-icons/bs";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
 
 export default function NewInfo(props) {
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const days = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24, 25, 26, 27, 28, 29, 30,
-  ];
+  const [selected, setSelected] = useState();
+  let month;
+  let year;
+  if (selected) {
+    year = selected.toString().slice(11, 15);
+    month = selected.toString().slice(4, 7);
+    if (month === "Jan") {
+      month = "January";
+    }
+    if (month === "Feb") {
+      month = "February";
+    }
+    if (month === "Mar") {
+      month = "March";
+    }
+    if (month === "Apr") {
+      month = "April";
+    }
+    if (month === "Jun") {
+      month = "June";
+    }
+    if (month === "Jul") {
+      month = "July";
+    }
+    if (month === "Aug") {
+      month = "August";
+    }
+    if (month === "Sep") {
+      month = "September";
+    }
+    if (month === "Oct") {
+      month = "October";
+    }
+    if (month === "Nov") {
+      month = "November";
+    }
+    if (month === "Dec") {
+      month = "December";
+    }
+    sessionStorage.setItem("billMonth:", month);
+  }
+  let day;
+  if (selected) {
+    day = parseInt(selected.toString().slice(8, 10));
+  }
+
+  // const months = [
+  //   "January",
+  //   "February",
+  //   "March",
+  //   "April",
+  //   "May",
+  //   "June",
+  //   "July",
+  //   "August",
+  //   "September",
+  //   "October",
+  //   "November",
+  //   "December",
+  // ];
+  // const days = [
+  //   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+  //   22, 23, 24, 25, 26, 27, 28, 29, 30,
+  // ];
+
   let categoryOptions = props.budgets;
   //* Use useRef to get values from each input
   const titleRef = useRef();
   const amountRef = useRef();
-  const monthRef = useRef();
-  const dayRef = useRef();
-  const yearRef = useRef();
+  // const monthRef = useRef();
+  // const dayRef = useRef();
+  // const yearRef = useRef();
   const categoryRef = useRef();
   const autoPayRef = useRef();
   const recurringRef = useRef();
@@ -44,9 +93,9 @@ export default function NewInfo(props) {
 
     const title = titleRef.current.value;
     const amount = amountRef.current.value;
-    const dueMonth = monthRef.current.value;
-    const dueDay = dayRef.current.value;
-    const dueYear = yearRef.current.value;
+    const dueMonth = month;
+    const dueDay = (day = Number(day));
+    const dueYear = year;
     const category = categoryRef.current.value;
 
     let autoPay;
@@ -152,7 +201,7 @@ export default function NewInfo(props) {
             required
           />
         </FormGroup>
-        <FormGroup>
+        {/* <FormGroup>
           <Label for="exampleSelectMulti">Month Due</Label>
           <Input
             id="exampleSelect2"
@@ -201,7 +250,16 @@ export default function NewInfo(props) {
             type="number"
             autoComplete="off"
             innerRef={yearRef}
-          ></Input>
+          ></Input> */}
+        {/* </FormGroup> */}
+        {/* Day Picker */}
+        <FormGroup>
+          <DayPicker
+            id="TransactionDayPicker"
+            mode="single"
+            selected={selected}
+            onSelect={setSelected}
+          />
         </FormGroup>
         <FormGroup check inline>
           <Input type="checkbox" innerRef={autoPayRef} />
