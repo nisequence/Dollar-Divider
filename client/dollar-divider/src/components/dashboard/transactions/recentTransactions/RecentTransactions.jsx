@@ -44,6 +44,7 @@ export default function RecentTransactions(props) {
     "December",
   ];
   const recentTransactions = [];
+  const updateAbleTransactions = [];
   const janArray = [];
   const febArray = [];
   const marchArray = [];
@@ -451,13 +452,12 @@ export default function RecentTransactions(props) {
                   // month = {month}
                   // day = {day}
                   // desc = {descRef}
-                  // merchant = {merchantRef}
                   // amount = {amountRef}
                   // finAccount = {finAccountRef}
                   // category = {categoryRef}
                   // transactionType = {transactionType}
                   // base = {base}
-                  /> */}
+                /> */}
                   {/* <Button
                     onClick={() => updateTransaction(transaction._id)}
                     color="success"
@@ -475,11 +475,12 @@ export default function RecentTransactions(props) {
                     key={v4}
                     onClick={() => deleteTransaction(transaction._id)}
                     color="danger"
-                  >
+                    >
                     Delete
                   </Button> */}
                 </ModalFooter>
               </ModalBody>
+              // merchant = {merchantRef}
             </Modal>
             {/* </UncontrolledPopover> */}
           </td>
