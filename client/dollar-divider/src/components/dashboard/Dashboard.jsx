@@ -148,6 +148,7 @@ export default function Dashboard(props) {
   useEffect(() => {
     if (token) {
       getAccounts();
+      getTransaction();
     }
   }, [token, props.view]);
 
