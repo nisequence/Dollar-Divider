@@ -198,9 +198,9 @@ export default function NewTransInfo(props) {
         submitTrans();
         //refreshPage()
         props.getTransaction();
-        props.toggleModal();
         props.getAccounts();
         props.getBudgets();
+        //! props.toggleModal();
       } else {
         // Do nothing, maybe build an error component later to tell the user to re-configure their item
         console.error("User is unauthorized.");

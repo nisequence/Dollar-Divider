@@ -73,7 +73,7 @@ export default function RecentTransactions(props) {
   // setCurrentMonth(7)
   // setCurrentMonth(thisMonth)
   // setCurrentDay(thisCurrentDay)
-
+  //! const [transactionsDisplay, setTransactionsDisplay] = useState(false);
   // Set the type of transaction (income vs expense)
   if (state === true) {
     transactionType = "expense";
@@ -109,12 +109,11 @@ export default function RecentTransactions(props) {
     try {
       const res = await fetch(url, reqOptions);
       const data = await res.json();
-      // console.log("recenttransactionsdata",data)
       newArray.push(data);
       // If the server does not provide a failure message
-      console.log("data.message:",data.message)
+      // console.log("data.message:",data.message)
       if (data.message !== "No personal budgets found." || data.message !== "No household budgets found.") {
-        console.log("budgets found in recent transactions")
+        // console.log("budgets found in recent transactions")
         // setBudgets(data.allBudgets);
         // categoryOptions = [];
         data.allBudgets.map((item) => {
@@ -599,7 +598,15 @@ export default function RecentTransactions(props) {
     }
   };
 
-  mapMonth(currentMonth);
+  // useEffect(() => {
+  //   if (transactionsDisplay === false) {
+  //     props.getTransaction();
+  //     mapMonth(currentMonth);
+  //     // mapMonth(8);
+  //     setTransactionsDisplay(true);
+  //     console.log("ding")
+  //   }
+  // })
 
   return (
     <>
